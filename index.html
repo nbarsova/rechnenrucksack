@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="EquationsGenerator">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Neucha" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+  <script src="angular.min.js"></script>
+  <script src="pdfmake.min.js"></script>
+  <script src="vfs_fonts.js"></script>
+  <script src="arithmetic.js"></script>
+  <script src="generator.js"></script>
+  <script src="main.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Equations generator</title>
+</head>
+<body ng-controller='EquationsGeneratorController as equationsGenerator'>
+  <header><h1>НАЙДИ КЛАД</h1></header>
+  <p>Для того, чтобы найти спрятанный пиратами клад, решай примеры и двигайся в нужном направлении по карте.  </p>
+  <div id="input" ng-show="equationsGenerator.equations.length===0">
+  <table><tr><td><div id="complexityChoice">
+  <h4>Сложность примеров</h4>
+    <input type="radio" ng-model="equationsGenerator.complexity" value="10"
+            ng-change="equationsGenerator.alterOps()">В пределах 10<br>
+    <input type="radio" ng-model="equationsGenerator.complexity" value="20">В пределах 20<br>
+    <input type="radio" ng-model="equationsGenerator.complexity" value="99">В пределах 100<br></div></td>
+  <td><h4>Арифметические операции</h4>
+  <div id="operationsChoice" ng-repeat="operation in equationsGenerator.operations">
+      <input type="checkbox"
+       value="{{operation.code}}" ng-model="operation.selected"
+       ng-disabled="((operation.code==='m')||(operation.code==='d'))&&(equationsGenerator.complexity<=10)"> {{operation.value}}</ng-show>
+    </div><br></td></tr></table>
+    <button ng-click="equationsGenerator.createEquations()">ПОЛУЧИТЬ КАРТУ</button>
+  </div>
+    <div id="output2" ng-show="equationsGenerator.equations.length!==0">
+      <table><tr><td>
+        <canvas id="treasureMapC" height="500" width="500"></canvas></td>
+    <td>
+    <div id="equationsList">
+      <ol>
+        <li ng-repeat="equation in equationsGenerator.equations">
+          {{ equation.strValue }}
+        </li>
+      </ol>
+  </div></td></tr></table>
+  <button ng-click="equationsGenerator.reset()">НАЗАД</button>
+  <button ng-click="equationsGenerator.print()">PDF</button>
+  </div>
+
+  <div id="errorMessage">
+    {{equationsGenerator.errorMessage}}
+  </div>
+
+
+</body>
+</html>

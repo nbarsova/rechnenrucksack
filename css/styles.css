@@ -1,0 +1,59 @@
+body{
+  font-family: 'PT Sans', sans-serif;
+}
+
+header {
+    background-color: #7cadef;
+    margin-top: -10px;
+    margin-left: -10px;
+
+}
+
+h1 {
+  font-family: 'Neucha', cursive;
+  font-size: 60px;
+  letter-spacing: 7px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding-top: 10px;
+}
+
+td {
+    padding: 15px;
+    vertical-align: top;
+}
+
+button
+{
+  font-size: 25px;
+  font-family: 'PT Sans', sans-serif;
+  font-weight: bold;
+  background-color: #7cadef;
+  border-radius: 10px;
+  border-width: 0px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#input
+{
+  margin-top: 0px;
+}
+
+#operationsChoice
+{
+  font-weight: bold;
+}
+
+
+#treasureMapC{
+    position: relative;
+}
+
+#grid{
+    width: 100%;
+    height: 100%;
+}
