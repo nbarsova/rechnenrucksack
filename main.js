@@ -71,11 +71,37 @@ function EquationsGeneratorController (EquationsGeneratorService)
     var canvas = document.getElementById("treasureMapC");
 
     var context = canvas.getContext("2d");
-    var gridPic       = new Image();
-    gridPic.src    = 'img/grid10.png';
-    gridPic.onload = function() {
-        context.drawImage(gridPic, 0, 0);
-      }
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+      //drawing a map grid
+      context.strokeStyle = '#555555';
+      context.lineWidth = 1;
+
+      for (var ik=20; ik<=500; ik+=20)
+        {
+          context.beginPath();
+          context.moveTo(ik,15);
+          context.lineTo(ik,505);
+          context.stroke();
+        }
+
+        for (var j=20; j<=500; j+=20)
+        {
+          context.beginPath();
+          context.moveTo(15, j);
+          context.lineTo(505, j);
+          context.stroke();
+        }
+
+        // a dot in the center
+
+        context.strokeStyle = '#000000';
+        context.lineWidth = 10;
+
+        context.beginPath();
+        context.moveTo(258, 258);
+        context.lineTo(262, 262);
+        context.stroke();
 
     var targetPics=[];
     targetPics[0] = new Image();
@@ -114,7 +140,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
   }
 
   equationsGenerator.print = function() {
-    var contentStr = "\n\n";
+    var contentStr = "\n";
     ;
 
     for (var j=0; j<equationsGenerator.equations.length; j++)
@@ -127,7 +153,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
     var docDefinition = {
       content:
       [
-        { text: 'Под каким камнем клад?\n\n', fontSize: 20},
+        { text: 'Под каким камнем клад?\n', fontSize: 20},
         { text: 'Для того, чтобы найти спрятанный пиратами клад, решай примеры и двигайся в нужном направлении по карте, начиная из центра. \n', fontSize: 15},
         {image: dataURL},
         { text: contentStr }

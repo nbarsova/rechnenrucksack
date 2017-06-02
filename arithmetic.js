@@ -4,7 +4,7 @@ function ArithmeticService() {
 
   service.buildEquationForNumber = function (number, operation, complexity)
       {
-          console.log("Building equation for step "+number + ", operation "+operation);
+//          console.log("Building equation for step "+number + ", operation "+operation);
           switch(operation)
               {
                   case 'a':
@@ -117,8 +117,11 @@ function ArithmeticService() {
 
       service.buildDivision = function (number, complexity)
       {
+        var x=1;
+        do {
         var x = Math.floor(Math.random() * (2, 10));
         var y = x * number;
+      } while (x<2);
         var resultString = y + " : " + x + " = __";
         return resultString;
       }
