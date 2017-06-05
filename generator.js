@@ -57,162 +57,129 @@ service.getCurrentTarget = function()
   return currentTarget;
 };
 
-service.createBetterEquations = function (selectedOps, complexity)
+service.createBetterEquations = function
+          (selectedOps, complexity, equationsAmount, fieldSize)
 {
-  
+
   console.log("Creating operations for complexity "+complexity);
   var pathObject = new TargetObject(0,0);
 
   steps = [];
 
-  for (var i=0; i<equationsAmount; i++)
+  for (var i=0; i<equationsAmount-4; i++)
   {
-  }
-
-    return steps;
-}
-
-
-service.createEquations = function (selectedOps, complexity)
-    {
-    console.log("Creating operations for complexity "+complexity);
-    var pathObject = new TargetObject(0,0);
-
-    steps = [];
-
-    for (var i=0; i<equationsAmount; i++)
+    var step=0;
+    var direction="";
+    if (i%2==0)
       {
-          var direction="";
-          var step=0;
-
-          var directions = ['направо', 'налево', 'вверх', 'вниз'];
-
-          if (i>(equationsAmount-2))
-          {
-            if (i%2==0)
-              {
-               step = buildCurrentStep(pathObject.x, currentTarget.x, (i===(equationsAmount-2)));
-
-                 if (Math.sign(step) === 1) {
-                     direction = "направо";
-                 } else {
-                     direction = "налево";
-                 }
-                pathObject.x +=step;
-
-              }
-              else {
-
-                  step = buildCurrentStep(pathObject.y,currentTarget.y, (i===(fieldSize-1)));
-                  if (Math.sign(step) === 1) {
-                         direction = "вверх";
-                     } else {
-                         direction = "вниз";
-                     }
-                  pathObject.y += step;
-              }
-          } else {
-            direction = directions[Math.floor(Math.random() * 4 )];
-            step = ((Math.floor((Math.random() * 10))+2));
-            switch (direction)
-            {
-              case 'направо': pathObject.x +=step;
-              case 'налево': pathObject.x -=step;
-              case "вверх": pathObject.y +=step;
-              case 'вниз': pathObject.y -=step;
-            }
-
-          }
-  /*        if (i%2==0)
-              {
-                do
-                {
-                   step = buildCurrentStep(pathObject.x, currentTarget.x, (i===(equationsAmount-2)));
-
-                   if (Math.sign(step) === 1) {
-                       direction = "направо";
-                   } else {
-                       direction = "налево";
-                   }
-                   console.log("New x is " +(Math.abs(pathObject.x)+Math.abs(step)));
-               } while ((Math.abs(pathObject.x)+Math.abs(step))>fieldSize);
-                 pathObject.x +=step;
-
-              }
-          else {
-            do
-            {
-              step = buildCurrentStep(pathObject.y,currentTarget.y, (i===(fieldSize-1)));
-              if (Math.sign(step) === 1) {
-                     direction = "вверх";
-                 } else {
-                     direction = "вниз";
-                 }
-                 console.log("New y is "+(Math.abs(pathObject.y)+Math.abs(step)));
-               } while ((Math.abs(pathObject.y)+Math.abs(step))>fieldSize);
-
-              pathObject.y += step;
-          }
-*/
-          var equation =
-          ArithmeticService.
-            buildEquationForNumber(Math.abs(step), selectedOps[i%selectedOps.length], complexity);
-          equation = equation + " шагов " + direction;
-
-          steps.push({strValue: equation});
-          console.log(equation);
-          console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+        step=service.createStep(pathObject.x, fieldSize);
+        if (Math.sign(step) === 1) {
+            direction = "направо";
+        } else {
+            direction = "налево";
+        }
+        pathObject.x +=step;
+      } else {
+        step=service.createStep(pathObject.y, fieldSize);
+        if (Math.sign(step) === 1) {
+               direction = "вверх";
+           } else {
+               direction = "вниз";
+           }
+           pathObject.y +=step;
       }
 
-  console.log("Reached end position: "+pathObject.x+ ", "+pathObject.y);
+      var equation =
+      ArithmeticService.
+        buildEquationForNumber(Math.abs(step), selectedOps[i%selectedOps.length], complexity);
+      equation = equation + " шагов " + direction;
+
+      steps.push({strValue: equation});
+      console.log(equation);
+      console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+
+  }
+
+  // need something for last four steps!
+
+  let deltaX = currentTarget.x - pathObject.x;
+  console.log("Delta x "+deltaX);
+  let deltaY = currentTarget.y - pathObject.y;
+  console.log("Delta y "+deltaY);
+
+  let preLastHorStep = Math.floor(Math.random() * (deltaX -1) - 1);
+  if (Math.sign(preLastHorStep) === 1) {
+      direction = "направо";
+  } else {
+      direction = "налево";
+  }
+  let preLastHorEquation = ArithmeticService.
+    buildEquationForNumber(Math.abs(preLastHorStep), selectedOps[(equationsAmount-3)%selectedOps.length], complexity);
+  preLastHorEquation = preLastHorEquation + " шагов " + direction;
+  steps.push({strValue: preLastHorEquation});
+  console.log(preLastHorEquation);
+  pathObject.x+=preLastHorStep;
+  console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+
+  let preLastVertStep = Math.floor(Math.random() * (deltaY -1) - 1);
+  if (Math.sign(preLastVertStep) === 1) {
+         direction = "вверх";
+     } else {
+         direction = "вниз";
+     }
+    let preLastVertEquation = ArithmeticService.
+    buildEquationForNumber(Math.abs(preLastVertStep), selectedOps[(equationsAmount-2)%selectedOps.length], complexity);
+  preLastVertEquation = preLastVertEquation + " шагов " + direction;
+  steps.push({strValue: preLastVertEquation});
+  console.log(preLastVertEquation);
+  pathObject.y+=preLastVertStep;
+  console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+
+  let lastHorStep = currentTarget.x - pathObject.x;
+  if (Math.sign(lastHorStep) === 1) {
+      direction = "направо";
+  } else {
+      direction = "налево";
+  }
+  let lastHorEquation = ArithmeticService.
+    buildEquationForNumber(Math.abs(lastHorStep), selectedOps[(equationsAmount-1)%selectedOps.length], complexity);
+   lastHorEquation = lastHorEquation + " шагов " + direction;
+  steps.push({strValue: lastHorEquation});
+  console.log(lastHorEquation);
+  pathObject.x+=lastHorStep;
+  console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+
+  let lastVertStep = currentTarget.y - pathObject.y;
+  if (Math.sign(preLastVertStep) === 1) {
+         direction = "вверх";
+     } else {
+         direction = "вниз";
+     }
+
+  let lastVertEquation = ArithmeticService.
+    buildEquationForNumber(Math.abs(lastVertStep), selectedOps[(equationsAmount)%selectedOps.length], complexity);
+  lastVertEquation = lastVertEquation + " шагов " + direction;
+  steps.push({strValue: lastVertEquation});
+  console.log(lastVertEquation);
+  pathObject.y+=lastVertStep;
+  console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+
   return steps;
 }
 
-var buildLastSteps = function (number1, number2, lastIteration)
-    {
-        console.log("Building step for: "+number1 +", " +number2+", "+lastIteration);
-        var step=0;
-        if (lastIteration)
-            {
-                step = number2 - number1;
-            }
-        else
-            {
-                if (number1>=number2-2)
-                {
-                  step= (-(Math.floor((Math.random() * 10))+2));
+service.createStep = function (number, limit)
+{
+  console.log("Creating step for number: "+number+ " limit: "+ limit);
+  var step=0;
+  do {
+    step = Math.floor(Math.random() * (2*limit)) - limit;
+    console.log("Step is "+step);
+    console.log("New position would be "+(step+number));
+  } while ((-(limit)>(step+number))&&((step+number)>limit));
+  return step;
+};
 
-                }
-                else
-                {
-                step= Math.floor((Math.random() * 10))+2;
-                }
-            }
-        console.log("step: "+ step);
-        return step;
-    };
 
-var buildCurrentStep = function (number1, number2, lastIteration)
-    {
-        console.log("Building step for: "+number1 +", " +number2+", "+lastIteration);
-        var step=0;
-        if (lastIteration)
-            {
-                step = number2 - number1;
-            }
-        else
-            {
-                if (number1>=number2-2)
-                {
-                  step= (-(Math.floor((Math.random() * 10))+2));
 
-                }
-                else
-                {
-                step= Math.floor((Math.random() * 10))+2;
-                }
-            }
-        console.log("step: "+ step);
-        return step;
-    };
+
 }

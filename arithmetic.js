@@ -28,7 +28,7 @@ function ArithmeticService() {
          do {
            var x = Math.floor(Math.random() * (1, number) + 1);
            var y = number - x;
-         } while (y===0);
+         } while (y<=0);
          var resultString = x + " + " + y + " = __";
          console.log(resultString);
          return resultString;

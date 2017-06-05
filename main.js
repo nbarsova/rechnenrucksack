@@ -63,8 +63,11 @@ function EquationsGeneratorController (EquationsGeneratorService)
 
     console.log("Lets create some equations for complexity "+equationsGenerator.complexity);
     equationsGenerator.equations = [];
-    equationsGenerator.equations = EquationsGeneratorService.createEquations(selectedOps, equationsGenerator.complexity);
-    }
+//    equationsGenerator.equations = EquationsGeneratorService.createEquations(selectedOps, equationsGenerator.complexity);
+    equationsGenerator.equations =
+      EquationsGeneratorService.createBetterEquations
+        (selectedOps, equationsGenerator.complexity, 10, 10);
+  }
 
     //working with a canvas
 
