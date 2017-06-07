@@ -1,10 +1,21 @@
+/*
+  Arithmetic service can generate equations for given numbers and operations,
+  based on complexity. It can work with zeroes and ones, but equations will
+  be dreary.
+  The operations are encoded as 'a' (addition), 's' (substraction),
+  'm' (multiplication), 'd' (division).
+  Complexity may be 10 for equations in range [0..10], 20 - range [0..20],
+  100 - range [0..100].
+  Numbers are natural numbers.
+*/
+
 function ArithmeticService() {
 
   var service = this;
 
   service.buildEquationForNumber = function (number, operation, complexity)
       {
-//          console.log("Building equation for step "+number + ", operation "+operation);
+          console.log("Building equation for step "+number + ", operation "+operation);
           switch(operation)
               {
                   case 'a':
@@ -25,10 +36,24 @@ function ArithmeticService() {
 
       service.buildAddition = function (number, complexity)
       {
+        console.log("Inside build addition");
+        var x;
+        var y;
+
+        if (number === 0)
+        {
+          x=0;
+          y=0;
+        } else if (number === 1)
+        {
+          x = 0;
+          y = 1;
+        } else {
          do {
-           var x = Math.floor(Math.random() * (1, number) + 1);
-           var y = number - x;
+           x = Math.floor(Math.random() * (number - 1) + 1);
+           y = number - x;
          } while (y<=0);
+       }
          var resultString = x + " + " + y + " = __";
          console.log(resultString);
          return resultString;
@@ -36,6 +61,8 @@ function ArithmeticService() {
 
       service.buildSubstraction = function (number, complexity)
       {
+        console.log("Inside build substraction");
+
         var x=0;
 
         switch (complexity)
@@ -64,9 +91,11 @@ function ArithmeticService() {
 
       service.buildMultiplication = function(number, complexity)
       {
-
+        console.log("Inside build multiplication");
         var x=0;
         var resultString = "";
+
+        
         switch (complexity)
         {
           case "20":
@@ -117,6 +146,7 @@ function ArithmeticService() {
 
       service.buildDivision = function (number, complexity)
       {
+        console.log("Inside build division");
         var x=1;
         do {
         var x = Math.floor(Math.random() * (2, 10));
