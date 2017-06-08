@@ -135,7 +135,7 @@ service.createBetterEquations = function
   if (Math.abs(deltaY)>1)
   {
      step = Math.floor(deltaY/2);
-     direction = service.setDirection(step, "horizontal");
+     direction = service.setDirection(step, "vertical");
   }
   else {
     step = Math.floor(fieldSize/4) * Math.sign(currentTarget.y)*(-1);

@@ -61,9 +61,10 @@ function EquationsGeneratorController (EquationsGeneratorService)
        equationsGenerator.targets.push({style: tstyle, pic: equationsGenerator.targetpics[i]} );
     }
 
-    console.log("Lets create some equations for complexity "+equationsGenerator.complexity);
+    // console.log("Lets create some equations for complexity "+equationsGenerator.complexity);
+
     equationsGenerator.equations = [];
-//    equationsGenerator.equations = EquationsGeneratorService.createEquations(selectedOps, equationsGenerator.complexity);
+
     equationsGenerator.equations =
       EquationsGeneratorService.createBetterEquations
         (selectedOps, equationsGenerator.complexity, 10, 10);
@@ -77,8 +78,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
     context.clearRect(0, 0, canvas.width, canvas.height);
 
       //drawing a map grid
-      
-      context.strokeStyle = '#555555';
+      context.strokeStyle = '#888888';
       context.lineWidth = 1;
 
       for (var ik=20; ik<=500; ik+=20)
@@ -122,6 +122,10 @@ function EquationsGeneratorController (EquationsGeneratorService)
 
   };
 
+  equationsGenerator.drawMap = function()
+  {
+
+  }
 
   equationsGenerator.reset = function() {
     console.log("Erasing!");

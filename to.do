@@ -1,6 +1,10 @@
 TODO:
 
-- cells as lines on canvas
+Notes from Vladik:
+- место под ответы надо крупнее
+- Номера примеров мешают восприятию
+
+- PDF library migration: landscape orientation on pdf, fonts, bigger spaces for answers,
 - German localization
 - Map as an island, stones with pics
 - Refactor equations generation into separate module, create constants
