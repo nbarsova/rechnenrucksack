@@ -77,6 +77,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
     context.clearRect(0, 0, canvas.width, canvas.height);
 
       //drawing a map grid
+      
       context.strokeStyle = '#555555';
       context.lineWidth = 1;
 
