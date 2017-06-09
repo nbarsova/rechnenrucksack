@@ -153,19 +153,42 @@ function EquationsGeneratorController (EquationsGeneratorService)
 
     for (var j=0; j<equationsGenerator.equations.length; j++)
     {
-      contentStr += (j+1)+". "+ equationsGenerator.equations[j].strValue+"\n";
+      contentStr += (j+1)+"). "+ equationsGenerator.equations[j].strValue+"\n\n";
     }
 
     var canvas = document.getElementById("treasureMapC");
     var dataURL = canvas.toDataURL();
     var docDefinition = {
-      content:
+    pageSize: 'A4',
+    pageOrientation: 'landscape',
+    content:
       [
-        { text: 'Под каким камнем клад?\n', fontSize: 20},
-        { text: 'Для того, чтобы найти спрятанный пиратами клад, решай примеры и двигайся в нужном направлении по карте, начиная из центра. \n', fontSize: 15},
-        {image: dataURL},
-        { text: contentStr }
-    ]
+        { text: 'Под каким камнем клад?\n\n',
+        style: 'header'
+        },
+        { text: 'Для того, чтобы найти спрятанный пиратами клад, решай примеры и двигайся в нужном направлении по карте, начиная из центра. \n'},
+
+        {
+			alignment: 'justify',
+			columns: [
+        { image: dataURL,
+          width: 400,
+  			  },
+				{ text: contentStr }
+			]
+		}
+  ],
+  styles: {
+		header: {
+			fontSize: 20,
+			bold: true
+		}
+	},
+  defaultStyle: {
+    fontSize: 16,
+		columnGap: 20,
+	}
+
     };
     pdfMake.createPdf(docDefinition).download('treasureMap.pdf');
   }

@@ -4,7 +4,11 @@ Notes from Vladik:
 - место под ответы надо крупнее
 - Номера примеров мешают восприятию
 
-- PDF library migration: landscape orientation on pdf, fonts, bigger spaces for answers,
+From Suse:
+- Имя и дату сверху листа
+- Умножение как точку или крестик
+
+- Шага/шагов
 - German localization
 - Map as an island, stones with pics
 - Refactor equations generation into separate module, create constants
