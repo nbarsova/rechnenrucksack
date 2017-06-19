@@ -9,17 +9,12 @@ From Suse:
 - Умножение как точку или крестик
 
 - Шага/шагов
+- answer key generation
 - German localization
 - Map as an island, stones with pics
 - Refactor equations generation into separate module, create constants
 
-- Visual presentations (with nice pics and selection)
-
-- Answer key for pdf version
-- Localization
-- Field size selection
-- Numbers complexity selection
-
+- Visual presentations selection
 
 * Interactive version
 * Secret code generator
