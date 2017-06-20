@@ -14,10 +14,10 @@ function EquationsGeneratorController (EquationsGeneratorService)
   var equationsGenerator = this;
   equationsGenerator.equations = [];
   equationsGenerator.operations = [
-    {code: "a", value: "+", selected: true},
-    {code: "s", value: "-", selected: true},
-    {code: "m", value: "*", selected: true},
-    {code: "d", value: ":", selected: true}
+    {code: "+", value: "+", selected: true},
+    {code: "-", value: "-", selected: true},
+    {code: "*", value: "*", selected: true},
+    {code: ":", value: ":", selected: true}
   ];
 
   equationsGenerator.targets = [];

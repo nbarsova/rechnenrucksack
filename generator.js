@@ -66,7 +66,6 @@ service.createBetterEquations = function
 
   steps = [];
 
-
   for (var i=0; i<equationsAmount-4; i++)
   {
     var step=0;
@@ -91,12 +90,14 @@ service.createBetterEquations = function
         direction = service.setDirection(step, "vertical");
         pathObject.y +=step;
       }
-
+      /*
       equation =
       ArithmeticService.
         buildEquationForNumber(Math.abs(step), selectedOps[i%selectedOps.length], complexity);
       equation = equation + " шагов " + direction;
+      */
 
+      equation =   ArithmeticService.buildUniqueEquation (Math.abs(step), selectedOps[i%selectedOps.length], complexity);
       steps.push({strValue: equation});
       console.log(equation);
       console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
@@ -120,7 +121,7 @@ service.createBetterEquations = function
 
   equation =
   ArithmeticService.
-    buildEquationForNumber(Math.abs(step),
+    buildUniqueEquation(Math.abs(step),
     selectedOps[(equationsAmount-4)%selectedOps.length], complexity);
   equation = equation + " шагов " + direction;
   pathObject.x+=step;
@@ -144,7 +145,7 @@ service.createBetterEquations = function
 
   equation =
   ArithmeticService.
-    buildEquationForNumber(Math.abs(step),
+    buildUniqueEquation(Math.abs(step),
     selectedOps[(equationsAmount-3)%selectedOps.length], complexity);
   equation = equation + " шагов " + direction;
   pathObject.y+=step;
@@ -156,7 +157,7 @@ service.createBetterEquations = function
   let lastHorStep = currentTarget.x - pathObject.x;
   direction=service.setDirection(lastHorStep, 'horizontal');
   let lastHorEquation = ArithmeticService.
-    buildEquationForNumber(Math.abs(lastHorStep),
+    buildUniqueEquation(Math.abs(lastHorStep),
     selectedOps[(equationsAmount-2)%selectedOps.length], complexity);
    lastHorEquation = lastHorEquation + " шагов " + direction;
   steps.push({strValue: lastHorEquation});
@@ -168,7 +169,7 @@ service.createBetterEquations = function
   let lastVertStep = currentTarget.y - pathObject.y;
   direction=service.setDirection(lastVertStep, 'vertical');
   let lastVertEquation = ArithmeticService.
-    buildEquationForNumber(Math.abs(lastVertStep),
+    buildUniqueEquation(Math.abs(lastVertStep),
     selectedOps[(equationsAmount-1)%selectedOps.length], complexity);
   lastVertEquation = lastVertEquation + " шагов " + direction;
   steps.push({strValue: lastVertEquation});
