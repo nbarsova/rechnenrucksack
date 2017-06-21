@@ -13,6 +13,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
 {
   var equationsGenerator = this;
   equationsGenerator.equations = [];
+  equationsGenerator.generationAllowed = true;
   equationsGenerator.operations = [
     {code: "+", value: "+", selected: true},
     {code: "-", value: "-", selected: true},
@@ -27,7 +28,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
 
   equationsGenerator.errorMessage="";
 
-  equationsGenerator.complexity="20";
+  equationsGenerator.complexity=25;
 
   equationsGenerator.createEquations = function ()
   {
@@ -122,28 +123,47 @@ function EquationsGeneratorController (EquationsGeneratorService)
 
   };
 
-  equationsGenerator.drawMap = function()
-  {
-
-  }
-
   equationsGenerator.reset = function() {
     console.log("Erasing!");
     equationsGenerator.equations = [];
     equationsGenerator.targets = [];
   }
 
-  equationsGenerator.alterOps = function()
+  equationsGenerator.alterComplexity = function()
   {
-    if (equationsGenerator.complexity<20)
+    EquationsGeneratorService.changeComplexity();
+
+    if (equationsGenerator.complexity<25)
     {
       for (var i = 0; i < equationsGenerator.operations.length; i++)
       {
-      if ((equationsGenerator.operations[i].code === 'm')||(equationsGenerator.operations[i].code === 'd'))
+      if ((equationsGenerator.operations[i].code === '*')||(equationsGenerator.operations[i].code === ':'))
         {
           equationsGenerator.operations[i].selected = false;
         }
       }
+    }
+  }
+
+  equationsGenerator.alterOperations = function()
+  {
+  var operationSelected = false;
+    for (var i = 0; i < equationsGenerator.operations.length; i++)
+    {
+      if (equationsGenerator.operations[i].selected)
+      {
+        operationSelected = true;
+      }
+    }
+
+    if (operationSelected === false)
+    {
+      equationsGenerator.generationAllowed=false;
+      equationsGenerator.errorMessage="Выберите арифметическую операцию";
+    } else
+    {
+      equationsGenerator.generationAllowed=true;
+      equationsGenerator.errorMessage="";
     }
   }
 

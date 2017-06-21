@@ -47,6 +47,10 @@ service.initTargets = function ()
    return targetObjects;
 };
 
+service.changeComplexity = function ()
+{
+  ArithmeticService.initEquations();
+}
 service.getTargetObjects = function ()
 {
   return targetObjects;
@@ -62,6 +66,8 @@ service.createBetterEquations = function
 {
 
   console.log("Creating operations for complexity "+complexity);
+//  ArithmeticService.initEquations();
+
   var pathObject = new TargetObject(0,0);
 
   steps = [];
@@ -93,11 +99,9 @@ service.createBetterEquations = function
       /*
       equation =
       ArithmeticService.
-        buildEquationForNumber(Math.abs(step), selectedOps[i%selectedOps.length], complexity);
-      equation = equation + " шагов " + direction;
-      */
-
+        buildEquationForNumber(Math.abs(step), selectedOps[i%selectedOps.length], complexity); */
       equation =   ArithmeticService.buildUniqueEquation (Math.abs(step), selectedOps[i%selectedOps.length], complexity);
+      equation = equation + " шагов " + direction;
       steps.push({strValue: equation});
       console.log(equation);
       console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
@@ -107,7 +111,7 @@ service.createBetterEquations = function
 
   // Предпоследний горизонтальный
   let deltaX = currentTarget.x - pathObject.x;
-  console.log("Delta x "+deltaX);
+//  console.log("Delta x "+deltaX);
 
   if (Math.abs(deltaX)>1)
   {
@@ -182,7 +186,7 @@ service.createBetterEquations = function
 
 service.createStep = function (number, limit)
 {
-  console.log("Creating step for number: "+number+ " limit: "+ limit);
+//  console.log("Creating step for number: "+number+ " limit: "+ limit);
   var step=0;
   step = Math.floor(Math.random() * (limit - 2) + 2);
   var signChange = Math.random();
@@ -196,7 +200,7 @@ service.createStep = function (number, limit)
 service.setDirection = function (number, axis)
 {
   let direction = "";
-  console.log("Setting direction for number "+number +" axis " + axis);
+//  console.log("Setting direction for number "+number +" axis " + axis);
   switch (axis)
   {
   case "vertical":
@@ -214,7 +218,7 @@ service.setDirection = function (number, axis)
       }
   break;
   }
-  console.log("Direction is "+ direction);
+//  console.log("Direction is "+ direction);
   return direction;
 
 };
