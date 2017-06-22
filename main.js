@@ -67,8 +67,9 @@ function EquationsGeneratorController (EquationsGeneratorService)
     equationsGenerator.equations = [];
 
     equationsGenerator.equations =
-      EquationsGeneratorService.createBetterEquations
+      EquationsGeneratorService.createEquations
         (selectedOps, equationsGenerator.complexity, 10, 10);
+        console.log(equationsGenerator.equations);
   }
 
     //working with a canvas

@@ -51,6 +51,7 @@ service.changeComplexity = function ()
 {
   ArithmeticService.initEquations();
 }
+
 service.getTargetObjects = function ()
 {
   return targetObjects;
@@ -61,16 +62,14 @@ service.getCurrentTarget = function()
   return currentTarget;
 };
 
-service.createBetterEquations = function
+service.createEquations = function
           (selectedOps, complexity, equationsAmount, fieldSize)
 {
-
-  console.log("Creating operations for complexity "+complexity);
-//  ArithmeticService.initEquations();
 
   var pathObject = new TargetObject(0,0);
 
   steps = [];
+  var limit = fieldSize;
 
   for (var i=0; i<equationsAmount-4; i++)
   {
@@ -78,9 +77,14 @@ service.createBetterEquations = function
     let direction="";
     var equation="";
 
+
     if (i%2==0)
       {
-        step=service.createStep(pathObject.x, fieldSize);
+        if (complexity>fieldSize)
+        {
+          limit=Math.max(Math.abs(fieldSize-pathObject.x), Math.abs(-fieldSize-pathObject.x));
+        }
+        step=service.createStep(selectedOps[i%selectedOps.length], limit);
         if (Math.abs(pathObject.x+step)>fieldSize)
         {
           step = -step;
@@ -88,7 +92,11 @@ service.createBetterEquations = function
         direction = service.setDirection(step, "horizontal");
         pathObject.x +=step;
       } else {
-        step=service.createStep(pathObject.y, fieldSize);
+        if (complexity>fieldSize)
+        {
+          limit=Math.max(Math.abs(fieldSize-pathObject.y), Math.abs(-fieldSize-pathObject.y));
+        }
+        step=service.createStep(selectedOps[i%selectedOps.length], limit);
         if (Math.abs(pathObject.y+step)>fieldSize)
         {
           step = -step;
@@ -96,13 +104,9 @@ service.createBetterEquations = function
         direction = service.setDirection(step, "vertical");
         pathObject.y +=step;
       }
-      /*
-      equation =
-      ArithmeticService.
-        buildEquationForNumber(Math.abs(step), selectedOps[i%selectedOps.length], complexity); */
       equation =   ArithmeticService.buildUniqueEquation (Math.abs(step), selectedOps[i%selectedOps.length], complexity);
       equation = equation + " шагов " + direction;
-      steps.push({strValue: equation});
+      steps.push({step: step, operation: selectedOps[i%selectedOps.length], strValue: equation});
       console.log(equation);
       console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
   }
@@ -129,7 +133,7 @@ service.createBetterEquations = function
     selectedOps[(equationsAmount-4)%selectedOps.length], complexity);
   equation = equation + " шагов " + direction;
   pathObject.x+=step;
-  steps.push({strValue: equation});
+  steps.push({step: step, operation: selectedOps[(equationsAmount-4)%selectedOps.length], strValue: equation});
   console.log(equation);
   console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
@@ -153,7 +157,7 @@ service.createBetterEquations = function
     selectedOps[(equationsAmount-3)%selectedOps.length], complexity);
   equation = equation + " шагов " + direction;
   pathObject.y+=step;
-  steps.push({strValue: equation});
+  steps.push({step: step, operation: selectedOps[(equationsAmount-4)%selectedOps.length], strValue: equation});
   console.log(equation);
   console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
@@ -164,7 +168,7 @@ service.createBetterEquations = function
     buildUniqueEquation(Math.abs(lastHorStep),
     selectedOps[(equationsAmount-2)%selectedOps.length], complexity);
    lastHorEquation = lastHorEquation + " шагов " + direction;
-  steps.push({strValue: lastHorEquation});
+  steps.push({step: step, operation: selectedOps[(equationsAmount-4)%selectedOps.length], strValue: lastHorEquation});
   console.log(lastHorEquation);
   pathObject.x+=lastHorStep;
   console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
@@ -176,7 +180,7 @@ service.createBetterEquations = function
     buildUniqueEquation(Math.abs(lastVertStep),
     selectedOps[(equationsAmount-1)%selectedOps.length], complexity);
   lastVertEquation = lastVertEquation + " шагов " + direction;
-  steps.push({strValue: lastVertEquation});
+  steps.push({step: step, operation: selectedOps[(equationsAmount-4)%selectedOps.length], strValue: lastVertEquation});
   console.log(lastVertEquation);
   pathObject.y+=lastVertStep;
   console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
@@ -184,11 +188,22 @@ service.createBetterEquations = function
   return steps;
 }
 
-service.createStep = function (number, limit)
+service.createStep = function (operation, limit)
 {
-//  console.log("Creating step for number: "+number+ " limit: "+ limit);
   var step=0;
-  step = Math.floor(Math.random() * (limit - 2) + 2);
+  var condition=true;
+  if (operation === '*')
+  {
+      do {
+        step = ArithmeticService.normalRandom(3, limit);
+      } while ( ArithmeticService.isPrime(step) || (!service.isUniqueStep(step,operation)));
+
+  }
+  else {
+    do {
+      step = ArithmeticService.normalRandom(3, limit);
+    } while (!service.isUniqueStep(step,operation));
+  }
   var signChange = Math.random();
   if (signChange<0.5)
   {
@@ -196,6 +211,19 @@ service.createStep = function (number, limit)
   }
   return step;
 };
+
+  service.isUniqueStep = function(step, operation)
+  {
+    var isUnique = true;
+    for (var j=0; j<steps.length; j++)
+    {
+      if ((Math.abs(steps[j].step)===step) && (steps[j].operation === operation))
+      {
+        return false;
+      }
+    }
+    return isUnique;
+  }
 
 service.setDirection = function (number, axis)
 {

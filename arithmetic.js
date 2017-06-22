@@ -58,42 +58,52 @@ function ArithmeticService() {
     service.createEquationsForNumber = function (number, operation, complexity)
     {
       var newEquations=[];
-      var start = 0;
-      if (number>2) start=1;
+
+      var adstart = 0;
+      if (number>2) adstart=1;
+
+      var multstart=1;
+      if ((!(service.isPrime(number)))&&(number>2))
+      {
+        multstart = 2;
+      }
+
+      var divstart=2;
+      if ((complexity<99)&&(number>12))
+      {
+        divstart=1;
+      }
+
       switch (operation)
       {
         case ('+'):
-          for (var kk=start; kk<=number; kk++)
+          for (var kk=adstart; kk<=number-adstart; kk++)
             {
               var newEquation = new Equation(kk,number-kk,'+',number);
-              // console.log("Adding equation "+newEquation.print());
               newEquations.push(newEquation);
             }
             return newEquations;
           case ('-'):
-            for (var ss=start; ss<complexity-number+1; ss++)
+            for (var ss=adstart; ss<complexity-number+1; ss++)
             {
               var newEquation = new Equation (number+ss, ss, '-', number);
-              console.log("Adding equation "+newEquation.print());
-              newEquations.push(newEquation);
+            newEquations.push(newEquation);
             }
             return newEquations;
           case ('*'):
-            for (mm=1; mm<number; mm++)
+            for (mm=multstart; mm<=number/multstart; mm++)
             {
               if ((number)%mm === 0)
               {
                 var newEquation = new Equation (mm, number/mm, '*', number);
-                // console.log("Adding equation "+newEquation.print());
                 newEquations.push(newEquation);
               }
             }
             return newEquations;
           case (':'):
-          for (var dd=1; dd*number<complexity; dd++)
+          for (var dd=divstart; dd*number<complexity; dd++)
           {
             var newEquation = new Equation (dd*number, dd, ':', number);
-            // console.log("Adding equation "+newEquation.print());
             newEquations.push(newEquation);
           }
           return newEquations;
@@ -102,7 +112,7 @@ function ArithmeticService() {
 
     service.buildUniqueEquation = function (number, operation, complexity)
     {
-      console.log("Building equation for step "+number + ", operation "+operation);
+      console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
 
       var equation;
       var numberExists = false;
@@ -113,24 +123,21 @@ function ArithmeticService() {
       {
         if (generatedEquations[k].number === number) {
           numberExists = true;
-          console.log("Found number "+number);
+          // console.log("Found number "+number);
           for (var kk=0; kk<generatedEquations[k].values.length; kk++)
           {
             if (generatedEquations[k].values[kk].operation === operation)
             {
-              console.log("Found operation "+operation + " for number "+number);
               operationFound = true;
               if (generatedEquations[k].values[kk].equations.length === 0)
               {
-                console.log("Equations list empty, reinitializing");
-                generatedEquations[k].values[kk].equations = service.createEquationsForNumber (generatedEquations[k].number, operation, complexity);
+              generatedEquations[k].values[kk].equations = service.createEquationsForNumber (generatedEquations[k].number, operation, complexity);
               }
             }
           }
 
           if (operationFound === false)
           {
-            console.log("Operation "+ operation+ " for number "+number+ " was not found, creating");
             generatedEquations[k].values.push({operation: operation, equations: service.createEquationsForNumber (generatedEquations[k].number, operation, complexity)});
           }
         }
@@ -166,9 +173,33 @@ function ArithmeticService() {
     return equation.print();
   }
 
+    /*
+    A function to generate random natural number in a range
+    */
     service.normalRandom = function (min, max)
     {
-      return Math.floor((Math.random() * max) + min);
+      return Math.floor((Math.random() * (max-min)) + min);
+    }
+
+    service.isPrime = function (number)
+    {
+      var isPrime = true;
+      if (number<=3)
+      {
+         isPrime = true;
+      } else if ((number%2 === 0)||(number%3 === 0))
+      {
+         isPrime = false;
+      } else {
+        for (var jj=5; jj*jj<number; jj=jj+6)
+        {
+          if ((number%jj===0)||(number%(jj+2)===0))
+          {
+             isPrime = false;
+          }
+        }
+      }
+      return isPrime;
     }
 
 }
