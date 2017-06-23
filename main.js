@@ -21,14 +21,16 @@ function EquationsGeneratorController (EquationsGeneratorService)
     {code: ":", value: ":", selected: true}
   ];
 
-  equationsGenerator.targets = [];
-
   // equationsGenerator.targetpics = ['blue.png', 'green.png', 'red.png', 'yellow.png'];
   equationsGenerator.targetpics = ['stones.png', 'stones.png', 'stones.png', 'stones.png'];
 
   equationsGenerator.errorMessage="";
 
   equationsGenerator.complexity=25;
+
+  equationsGenerator.equationsAmount=10;
+
+  equationsGenerator.fieldSize=10;
 
   equationsGenerator.createEquations = function ()
   {
@@ -38,7 +40,6 @@ function EquationsGeneratorController (EquationsGeneratorService)
     if (equationsGenerator.operations[i].selected)
       {
         selectedOps.push(equationsGenerator.operations[i].code);
-        console.log(equationsGenerator.operations[i].value);
       }
     }
 
@@ -48,27 +49,21 @@ function EquationsGeneratorController (EquationsGeneratorService)
       console.log(equationsGenerator.errorMessage);
     } else {
     equationsGenerator.errorMessage="";
-    var targetCoordinates = EquationsGeneratorService.initTargets();
-
-    for (var i=0; i<targetCoordinates.length; i++)
+    console.log("Field size "+equationsGenerator.fieldSize);
+    var targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
+    var mapStep = 20;
+    if (equationsGenerator.fieldSize==="5")
     {
-       var targetCoordinate = targetCoordinates[i];
-       console.log("Creating target: "+targetCoordinate.x+","+targetCoordinate.y+ ", pic: "+ equationsGenerator.targetpics[i]);
-
-       var leftOffset = targetCoordinate.x*20+250;
-       var topOffset=-targetCoordinate.y*20+250;
-
-       var tstyle = {position: 'absolute', top: topOffset, left: leftOffset};
-       equationsGenerator.targets.push({style: tstyle, pic: equationsGenerator.targetpics[i]} );
+      mapStep = 40;
     }
-
+    console.log("Step for map is "+mapStep);
     // console.log("Lets create some equations for complexity "+equationsGenerator.complexity);
 
     equationsGenerator.equations = [];
 
     equationsGenerator.equations =
       EquationsGeneratorService.createEquations
-        (selectedOps, equationsGenerator.complexity, 10, 10);
+        (selectedOps, equationsGenerator.complexity, equationsGenerator.equationsAmount, equationsGenerator.fieldSize);
         console.log(equationsGenerator.equations);
   }
 
@@ -83,7 +78,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
       context.strokeStyle = '#888888';
       context.lineWidth = 1;
 
-      for (var ik=20; ik<=500; ik+=20)
+      for (var ik=20; ik<=500; ik+=mapStep)
         {
           context.beginPath();
           context.moveTo(ik,15);
@@ -91,7 +86,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
           context.stroke();
         }
 
-        for (var j=20; j<=500; j+=20)
+        for (var j=20; j<=500; j+=mapStep)
         {
           context.beginPath();
           context.moveTo(15, j);
@@ -114,7 +109,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
     targetPics[0].src='img/'+equationsGenerator.targetpics[0];
     var i=0;
     targetPics[0].onload=function() {
-    context.drawImage(this,targetCoordinates[i].x*20+250,-targetCoordinates[i].y*20+250);
+    context.drawImage(this,targetCoordinates[i].x*mapStep+250,-targetCoordinates[i].y*mapStep+250);
     if (i<targetCoordinates.length)
       i++;
       targetPics[i]=new Image();
@@ -127,7 +122,6 @@ function EquationsGeneratorController (EquationsGeneratorService)
   equationsGenerator.reset = function() {
     console.log("Erasing!");
     equationsGenerator.equations = [];
-    equationsGenerator.targets = [];
   }
 
   equationsGenerator.alterComplexity = function()
@@ -187,7 +181,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
         { text: 'Под каким камнем клад?\n\n',
         style: 'header'
         },
-        { text: 'Для того, чтобы найти спрятанный пиратами клад, решай примеры и двигайся в нужном направлении по карте, начиная из центра. \n'},
+        { text: 'Пираты закопали клад под камнем, но под каким? Для того, чтобы найти нужный камень, реши примеры и двигайся в указанном направлении, начиная из центра. \n'},
 
         {
 			alignment: 'justify',

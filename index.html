@@ -14,22 +14,33 @@
   <title>Equations generator</title>
 </head>
 <body ng-controller='EquationsGeneratorController as equationsGenerator'>
-  <header><h1>НАЙДИ КЛАД</h1></header>
+  <header><h1>РЮКЗАК ЗАДАНИЙ</h1></header>
   <div style='padding:0px;margin:0px;' id="input" ng-show="equationsGenerator.equations.length===0">
-  <table><tr><td><div id="complexityChoice">
-  <h4>Сложность примеров</h4>
-    <input type="radio" ng-model="equationsGenerator.complexity" value="10"
-            ng-change="equationsGenerator.alterComplexity()">В пределах 10<br>
-    <input type="radio" ng-model="equationsGenerator.complexity" value="25"
-            ng-change="equationsGenerator.alterComplexity()">В пределах 25<br>
-    <input type="radio" ng-model="equationsGenerator.complexity" value="99"
-            ng-change="equationsGenerator.alterComplexity()">В пределах 100<br></div></td>
+  <div id="intro"><br>
+    Уважаемые родители и педагоги! С помощью "Рюкзака заданий" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.
+  </div>
+  <table><tr>
+    <td><div id="complexityChoice">
+      <h4>Сложность примеров</h4>
+        <input type="radio" ng-model="equationsGenerator.complexity" value="10"
+                ng-change="equationsGenerator.alterComplexity()">В пределах 10<br>
+        <input type="radio" ng-model="equationsGenerator.complexity" value="25"
+                ng-change="equationsGenerator.alterComplexity()">В пределах 25<br>
+        <input type="radio" ng-model="equationsGenerator.complexity" value="99"
+                ng-change="equationsGenerator.alterComplexity()">В пределах 100</div></td>
+
+        <td><div id="equationsAmountChoice"><h4>Количество примеров</h4>
+          <input type="radio" ng-model="equationsGenerator.equationsAmount" value="6">6<br>
+          <input type="radio" ng-model="equationsGenerator.equationsAmount" value="8">8<br>
+          <input type="radio"ng-model="equationsGenerator.equationsAmount" value="10">10
+        </div></td>
+
+
   <td><h4>Арифметические операции</h4>
   <div id="operationsChoice" ng-repeat="operation in equationsGenerator.operations">
-      <input type="checkbox"
+      <p ng-hide="((operation.code==='*')||(operation.code===':'))&&((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="checkbox"
        value="{{operation.code}}" ng-model="operation.selected"
-       ng-change="equationsGenerator.alterOperations()"
-       ng-disabled="((operation.code==='*')||(operation.code===':'))&&(equationsGenerator.complexity<=10)"> {{operation.value}}
+       ng-change="equationsGenerator.alterOperations()"> {{operation.value}} </p>
     </div><br></td></tr></table>
     <button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed">ПОЛУЧИТЬ КАРТУ</button>
   </div>
@@ -38,7 +49,7 @@
         <canvas id="treasureMapC" height="520" width="520"></canvas></td>
     <td>
     <div id="equationsList">
-      <p>Для того, чтобы найти спрятанный пиратами клад, решай примеры и двигайся в нужном направлении по карте.  </p>
+      <p>Пираты закопали клад под камнем, но под каким? Для того, чтобы найти нужный камень, реши примеры и двигайся в указанном направлении, начиная из центра.   </p>
       <ol>
         <li ng-repeat="equation in equationsGenerator.equations">
           {{ equation.strValue }}

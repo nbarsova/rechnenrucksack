@@ -2,10 +2,6 @@ function EquationsGeneratorService(ArithmeticService) {
 
   var service = this;
 
-  var fieldSize = 10;
-
-  var equationsAmount = 10;
-
   var steps = [];
 
   var targetObjects = [];
@@ -28,7 +24,7 @@ class TargetObject
         }
 }
 
-service.initTargets = function ()
+service.initTargets = function (fieldSize)
 {
   var myField = new PlayField (fieldSize);
 
@@ -107,7 +103,7 @@ service.createEquations = function
       equation =   ArithmeticService.buildUniqueEquation (Math.abs(step), selectedOps[i%selectedOps.length], complexity);
       equation = equation + " шагов " + direction;
       steps.push({step: step, operation: selectedOps[i%selectedOps.length], strValue: equation});
-      console.log(equation);
+      console.log(i+"). "+equation);
       console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
   }
 
@@ -115,7 +111,7 @@ service.createEquations = function
 
   // Предпоследний горизонтальный
   let deltaX = currentTarget.x - pathObject.x;
-//  console.log("Delta x "+deltaX);
+  console.log("Delta x "+deltaX);
 
   if (Math.abs(deltaX)>1)
   {
@@ -190,6 +186,7 @@ service.createEquations = function
 
 service.createStep = function (operation, limit)
 {
+  console.log("Creating step for operation "+operation + " limit is " +limit);
   var step=0;
   var condition=true;
   if (operation === '*')
@@ -202,6 +199,7 @@ service.createStep = function (operation, limit)
   else {
     do {
       step = ArithmeticService.normalRandom(3, limit);
+      console.log("Temporary step "+step);
     } while (!service.isUniqueStep(step,operation));
   }
   var signChange = Math.random();

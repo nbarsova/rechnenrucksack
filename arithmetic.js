@@ -62,6 +62,13 @@ function ArithmeticService() {
       var adstart = 0;
       if (number>2) adstart=1;
 
+      var subDim=0;
+      if (number===Number(complexity))
+      {
+        console.log("Reached 10!");
+        subDim=1;
+      }
+
       var multstart=1;
       if ((!(service.isPrime(number)))&&(number>2))
       {
@@ -84,10 +91,12 @@ function ArithmeticService() {
             }
             return newEquations;
           case ('-'):
-            for (var ss=adstart; ss<complexity-number+1; ss++)
+            console.log("sub dim="+subDim);
+            console.log(complexity-number+subDim);
+            for (var ss=1; ss<=complexity-number+subDim; ss++)
             {
-              var newEquation = new Equation (number+ss, ss, '-', number);
-            newEquations.push(newEquation);
+              var newEquation = new Equation (number+ss-subDim, ss-subDim, '-', number);
+              newEquations.push(newEquation);
             }
             return newEquations;
           case ('*'):
@@ -170,6 +179,7 @@ function ArithmeticService() {
          }
       }
     }
+    console.log(generatedEquations);
     return equation.print();
   }
 
@@ -202,4 +212,5 @@ function ArithmeticService() {
       return isPrime;
     }
 
+  
 }
