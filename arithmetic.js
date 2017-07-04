@@ -10,7 +10,8 @@
   Numbers are natural numbers.
 */
 
-function ArithmeticService() {
+ArithmeticService.$inject = ['$q'];
+function ArithmeticService($q) {
 
   var service = this;
 
@@ -46,17 +47,40 @@ function ArithmeticService() {
 
     }
 
-    // Maps for equations already used, to keep them as diverse as possible
+    // Map for equations already used, to keep them as diverse as possible
 
     var generatedEquations = [];
+    var equationsSet = [];
 
     service.initEquations = function ()
     {
       generatedEquations = [];
     }
 
+    service.createEquationSet = function(steps, operations, complexity)
+    {
+
+      var deferred = $q.defer();
+      equationsSet = [];
+      try {
+        for (var i=0; i<steps.length; i++)
+        {
+          equationsSet.push({step: steps[i], equation: service.buildUniqueEquation(steps[i], operations[i%operations.length], complexity)});
+        }
+
+        deferred.resolve(equationsSet);
+      }
+      catch (error)
+      {
+        deferred.reject(error);
+      }
+    return deferred.promise;
+
+    }
+
     service.createEquationsForNumber = function (number, operation, complexity)
     {
+
       var newEquations=[];
 
       var adstart = 0;
@@ -65,7 +89,6 @@ function ArithmeticService() {
       var subDim=0;
       if (number===Number(complexity))
       {
-        console.log("Reached 10!");
         subDim=1;
       }
 
@@ -91,8 +114,6 @@ function ArithmeticService() {
             }
             return newEquations;
           case ('-'):
-            console.log("sub dim="+subDim);
-            console.log(complexity-number+subDim);
             for (var ss=1; ss<=complexity-number+subDim; ss++)
             {
               var newEquation = new Equation (number+ss-subDim, ss-subDim, '-', number);
@@ -129,58 +150,56 @@ function ArithmeticService() {
       var equationsForOperation;
 
       for (var k=0; k<generatedEquations.length; k++)
-      {
-        if (generatedEquations[k].number === number) {
-          numberExists = true;
-          // console.log("Found number "+number);
-          for (var kk=0; kk<generatedEquations[k].values.length; kk++)
-          {
-            if (generatedEquations[k].values[kk].operation === operation)
+        {
+          if (generatedEquations[k].number === number) {
+            numberExists = true;
+            for (var kk=0; kk<generatedEquations[k].values.length; kk++)
             {
-              operationFound = true;
-              if (generatedEquations[k].values[kk].equations.length === 0)
+              if (generatedEquations[k].values[kk].operation === operation)
               {
-              generatedEquations[k].values[kk].equations = service.createEquationsForNumber (generatedEquations[k].number, operation, complexity);
+                operationFound = true;
+                if (generatedEquations[k].values[kk].equations.length === 0)
+                {
+                generatedEquations[k].values[kk].equations = service.createEquationsForNumber (generatedEquations[k].number, operation, complexity);
+                }
               }
             }
-          }
 
-          if (operationFound === false)
-          {
-            generatedEquations[k].values.push({operation: operation, equations: service.createEquationsForNumber (generatedEquations[k].number, operation, complexity)});
+            if (operationFound === false)
+            {
+              generatedEquations[k].values.push({operation: operation, equations: service.createEquationsForNumber (generatedEquations[k].number, operation, complexity)});
+            }
           }
         }
-      }
 
-      if (numberExists === false)
-      {
-         generatedEquations.push ({number: number, values: [{operation: operation, equations: service.createEquationsForNumber(number, operation, complexity)}]});
-      }
+        if (numberExists === false)
+        {
+           generatedEquations.push ({number: number, values: [{operation: operation, equations: service.createEquationsForNumber(number, operation, complexity)}]});
+        }
 
-      console.log(generatedEquations);
-
-      for (var n=0; n<generatedEquations.length; n++)
-      {
-        if (generatedEquations[n].number === number) {
-          //console.log("Looking up number "+ generatedEquations[n].number);
-          //console.log(generatedEquations[n].values);
-          for (var nn=0; nn<generatedEquations[n].values.length; nn++)
-          {
-            //console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
-            if (generatedEquations[n].values[nn].operation === operation)
+        for (var n=0; n<generatedEquations.length; n++)
+        {
+          if (generatedEquations[n].number === number) {
+            //console.log("Looking up number "+ generatedEquations[n].number);
+            //console.log(generatedEquations[n].values);
+            for (var nn=0; nn<generatedEquations[n].values.length; nn++)
             {
-              //console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
-              //console.log(generatedEquations[n].values[nn]);
-              var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
-              //console.log("Random number is "+randomNumber);
-              equation = generatedEquations[n].values[nn].equations[randomNumber];
-              generatedEquations[n].values[nn].equations.splice(randomNumber, 1);
-            }
-         }
+              //console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
+              if (generatedEquations[n].values[nn].operation === operation)
+              {
+                //console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
+                //console.log(generatedEquations[n].values[nn]);
+                var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
+                //console.log("Random number is "+randomNumber);
+                equation = generatedEquations[n].values[nn].equations[randomNumber];
+                generatedEquations[n].values[nn].equations.splice(randomNumber, 1);
+              }
+           }
+        }
       }
-    }
-    console.log(generatedEquations);
-    return equation.print();
+      // console.log(generatedEquations);
+        return equation.print();
+
   }
 
     /*
@@ -188,7 +207,7 @@ function ArithmeticService() {
     */
     service.normalRandom = function (min, max)
     {
-      return Math.floor((Math.random() * (max-min)) + min);
+      return Math.floor((Math.random() * (max-min+1)) + min);
     }
 
     service.isPrime = function (number)
@@ -212,5 +231,5 @@ function ArithmeticService() {
       return isPrime;
     }
 
-  
+
 }

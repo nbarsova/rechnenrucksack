@@ -6,10 +6,9 @@ angular.module ('EquationsGenerator', [])
 .service('EquationsGeneratorService', EquationsGeneratorService)
 .service('ArithmeticService', ArithmeticService);
 
-EquationsGeneratorController.$inject = ['EquationsGeneratorService'];
-EquationsGeneratorService.$inject = ['ArithmeticService'];
+EquationsGeneratorController.$inject = ['$q', 'EquationsGeneratorService'];
 
-function EquationsGeneratorController (EquationsGeneratorService)
+function EquationsGeneratorController ($q, EquationsGeneratorService)
 {
   var equationsGenerator = this;
   equationsGenerator.equations = [];
@@ -28,9 +27,10 @@ function EquationsGeneratorController (EquationsGeneratorService)
 
   equationsGenerator.complexity=25;
 
-  equationsGenerator.equationsAmount=10;
+  equationsGenerator.equationsAmount=6;
 
   equationsGenerator.fieldSize=10;
+  equationsGenerator.mapStep = 20;
 
   equationsGenerator.createEquations = function ()
   {
@@ -50,25 +50,39 @@ function EquationsGeneratorController (EquationsGeneratorService)
     } else {
     equationsGenerator.errorMessage="";
     console.log("Field size "+equationsGenerator.fieldSize);
+    console.log(targetCoordinates);
     var targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
-    var mapStep = 20;
+
     if (equationsGenerator.fieldSize==="5")
     {
-      mapStep = 40;
+      equationsGenerator.mapStep = 40;
     }
-    console.log("Step for map is "+mapStep);
-    // console.log("Lets create some equations for complexity "+equationsGenerator.complexity);
+
+    var justSteps = EquationsGeneratorService.createPathToCurrentTarget (equationsGenerator.complexity, equationsGenerator.equationsAmount, equationsGenerator.fieldSize);
 
     equationsGenerator.equations = [];
 
-    equationsGenerator.equations =
-      EquationsGeneratorService.createEquations
-        (selectedOps, equationsGenerator.complexity, equationsGenerator.equationsAmount, equationsGenerator.fieldSize);
-        console.log(equationsGenerator.equations);
-  }
+    var pr = EquationsGeneratorService.createEquationsFromPath(justSteps, equationsGenerator.complexity, selectedOps);
 
-    //working with a canvas
+    pr.then(function (result)
+    {
+      console.log("Inside then");
+      equationsGenerator.equations = result;
+      equationsGenerator.createCanvas(targetCoordinates);
+    },
+    function (errorResponse) {
+        console.log("Inside error response");
+        console.log(errorResponse);
+        console.log("Starting new generation");
+        equationsGenerator.createEquations();
+    });
 
+    }
+    };
+
+
+    equationsGenerator.createCanvas = function (targetCoordinates)
+    {
     var canvas = document.getElementById("treasureMapC");
 
     var context = canvas.getContext("2d");
@@ -78,7 +92,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
       context.strokeStyle = '#888888';
       context.lineWidth = 1;
 
-      for (var ik=20; ik<=500; ik+=mapStep)
+      for (var ik=20; ik<=500; ik+=equationsGenerator.mapStep)
         {
           context.beginPath();
           context.moveTo(ik,15);
@@ -86,7 +100,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
           context.stroke();
         }
 
-        for (var j=20; j<=500; j+=mapStep)
+        for (var j=20; j<=500; j+=equationsGenerator.mapStep)
         {
           context.beginPath();
           context.moveTo(15, j);
@@ -109,15 +123,15 @@ function EquationsGeneratorController (EquationsGeneratorService)
     targetPics[0].src='img/'+equationsGenerator.targetpics[0];
     var i=0;
     targetPics[0].onload=function() {
-    context.drawImage(this,targetCoordinates[i].x*mapStep+250,-targetCoordinates[i].y*mapStep+250);
+    context.drawImage(this,targetCoordinates[i].x*equationsGenerator.mapStep+250,-targetCoordinates[i].y*equationsGenerator.mapStep+250);
     if (i<targetCoordinates.length)
       i++;
       targetPics[i]=new Image();
       targetPics[i].src='img/'+equationsGenerator.targetpics[i];
       targetPics[i].onload=this.onload;
     };
-
   };
+
 
   equationsGenerator.reset = function() {
     console.log("Erasing!");
@@ -137,6 +151,7 @@ function EquationsGeneratorController (EquationsGeneratorService)
           equationsGenerator.operations[i].selected = false;
         }
       }
+      if (equationsGenerator.equationsAmount>8) equationsGenerator.equationsAmount=6;
     }
   }
 

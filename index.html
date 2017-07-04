@@ -21,18 +21,21 @@
   </div>
   <table><tr>
     <td><div id="complexityChoice">
-      <h4>Сложность примеров</h4>
+      <h4>Числа в примерах</h4>
         <input type="radio" ng-model="equationsGenerator.complexity" value="10"
                 ng-change="equationsGenerator.alterComplexity()">В пределах 10<br>
         <input type="radio" ng-model="equationsGenerator.complexity" value="25"
                 ng-change="equationsGenerator.alterComplexity()">В пределах 25<br>
         <input type="radio" ng-model="equationsGenerator.complexity" value="99"
                 ng-change="equationsGenerator.alterComplexity()">В пределах 100</div></td>
-
+      <td><div id="fieldSizeChoice"><h4>Размер поля</h4>
+        <input type="radio" ng-model="equationsGenerator.fieldSize" value="5">5 клеток<br>
+        <input type="radio" ng-model="equationsGenerator.fieldSize" value="10">10 клеток<br>
+      </div></td>
         <td><div id="equationsAmountChoice"><h4>Количество примеров</h4>
-          <input type="radio" ng-model="equationsGenerator.equationsAmount" value="6">6<br>
-          <input type="radio" ng-model="equationsGenerator.equationsAmount" value="8">8<br>
-          <input type="radio"ng-model="equationsGenerator.equationsAmount" value="10">10
+          <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="6">6</p>
+          <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="8">8</p>
+          <p ng-hide="((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="radio"ng-model="equationsGenerator.equationsAmount" value="10">10</p>
         </div></td>
 
 
