@@ -29,8 +29,8 @@
         <input type="radio" ng-model="equationsGenerator.complexity" value="99"
                 ng-change="equationsGenerator.alterComplexity()">В пределах 100</div></td>
       <td><div id="fieldSizeChoice"><h4>Размер поля</h4>
-        <input type="radio" ng-model="equationsGenerator.fieldSize" value="5">5 клеток<br>
-        <input type="radio" ng-model="equationsGenerator.fieldSize" value="10">10 клеток<br>
+        <input type="radio" ng-model="equationsGenerator.fieldSize" value="5" ng-change="equationsGenerator.alterComplexity()">5 клеток<br>
+        <input type="radio" ng-model="equationsGenerator.fieldSize" value="10" ng-change="equationsGenerator.alterComplexity()">10 клеток<br>
       </div></td>
         <td><div id="equationsAmountChoice"><h4>Количество примеров</h4>
           <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="6">6</p>

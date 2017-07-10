@@ -65,7 +65,12 @@ function ArithmeticService($q) {
       try {
         for (var i=0; i<steps.length; i++)
         {
+          if (steps[i]>Number(complexity))
+          {
+            deferred.reject("Step is more than complexity, need to regenerate steps");
+          } else {
           equationsSet.push({step: steps[i], equation: service.buildUniqueEquation(steps[i], operations[i%operations.length], complexity)});
+          }
         }
 
         deferred.resolve(equationsSet);

@@ -69,43 +69,6 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
 
   steps = [];
 
-  // first two steps in opposite direction from targetObject
-/*
-  if (Math.sign(currentTarget.x)===1)
-  {
-    direction="налево";
-  } else {
-    direction = "направо";
-  }
-
-  step = ArithmeticService.normalRandom(3, fieldSize);
-
-  steps.push({step:step, direction:direction});
-  console.log("Step is "+ step +" direction " +direction);
-
-  pathObject.x+=step*(-Math.sign(currentTarget.x));
-  console.log("Position is "+ pathObject.x + ", "+pathObject.y);
-
-  do {
-          if (Math.sign(currentTarget.y)===1)
-          {
-            direction="вниз";
-          } else {
-            direction = "вверх";
-          }
-
-        step = ArithmeticService.normalRandom(3, fieldSize);
-
-    } while (service.isTarget(pathObject.x, step*(-Math.sign(currentTarget.y))));
-
-  steps.push({step:step, direction:direction});
-  console.log("Step is "+ step +" direction " +direction);
-
-  pathObject.y+=step*(-Math.sign(currentTarget.y));
-  console.log("Position is "+ pathObject.x + ", "+pathObject.y);
-*/
-  // then in a cycle we create intermediate random steps
-
   for (var i=0; i<equationsAmount-4; i++)
   {
     if (i%2==0) // odd steps are horizontal
@@ -144,35 +107,22 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
 
   if (Math.abs(deltaX)<=4)
   {
-    if (complexity<=fieldSize)
+    if (Number(complexity)<=Number(fieldSize))
     {
       step=Math.sign(deltaX)*(complexity-1-Math.abs(deltaX));
     } else {
-      step=service.createUniqueStep(2,  Math.abs(deltaX)+Number(fieldSize), pathObject.x, fieldSize);
+      step=Math.abs(deltaX)+Number(fieldSize);
     }
   }
   else {
-    if (complexity<=fieldSize)
+    if (Number(complexity)<=Number(fieldSize))
     {
-      step=Math.sign(deltaX)*(Math.abs(deltaX)-complexity);
+      step=Math.sign(deltaX)*(Math.max(Math.floor((deltaX)/2), complexity));
     } else {
-      step=service.createUniqueStep(2,  Math.abs(deltaX)+Number(fieldSize), pathObject.x, fieldSize);
+      step=Math.sign(deltaX)*(Math.abs(deltaX)-3);
     }
   }
-  /*
-  if (Math.abs(deltaX)>complexity)
-  {
-    step = Math.floor(deltaX/2)-1;
-  } else {
-    if (Math.abs(deltaX)>4)
-    {
-      limit = Math.abs(deltaX)-1;
-    } else {
-      limit = Math.abs(deltaX)+Number(fieldSize);
-    }
-    step=service.createUniqueStep(2, limit, pathObject.x, fieldSize);
-  }
-  */
+
   direction=service.setDirection(step, 'horizontal');
   console.log("Step is "+ step +" direction " +direction);
 
@@ -184,19 +134,19 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
   console.log("Delta y "+deltaY);
   if (Math.abs(deltaY)<=4)
   {
-    if (complexity<=fieldSize)
+    if (Number(complexity)<=Number(fieldSize))
     {
       step=Math.sign(deltaY)*(complexity-1-Math.abs(deltaY));
     } else {
-      step=service.createUniqueStep(2,  Math.abs(deltaY)+Number(fieldSize), pathObject.x, fieldSize);
+      step=Math.abs(deltaY)+Number(fieldSize);
     }
   }
   else {
-    if (complexity<=fieldSize)
+    if (Number(complexity)<=Number(fieldSize))
     {
-      step=Math.sign(deltaY)*(Math.abs(deltaY)-complexity);
+      step=Math.sign(deltaY)*(Math.max(Math.floor((deltaY)/2), complexity));
     } else {
-      step=service.createUniqueStep(2,  Math.abs(deltaY)+Number(fieldSize), pathObject.x, fieldSize);
+      step=Math.sign(deltaY)*(Math.abs(deltaY)-3);
     }
   }
 

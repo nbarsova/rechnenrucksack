@@ -30,7 +30,6 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
   equationsGenerator.equationsAmount=6;
 
   equationsGenerator.fieldSize=10;
-  equationsGenerator.mapStep = 20;
 
   equationsGenerator.createEquations = function ()
   {
@@ -50,13 +49,9 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
     } else {
     equationsGenerator.errorMessage="";
     console.log("Field size "+equationsGenerator.fieldSize);
-    console.log(targetCoordinates);
-    var targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
+    console.log("complexity "+equationsGenerator.complexity);
 
-    if (equationsGenerator.fieldSize==="5")
-    {
-      equationsGenerator.mapStep = 40;
-    }
+    var targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
 
     var justSteps = EquationsGeneratorService.createPathToCurrentTarget (equationsGenerator.complexity, equationsGenerator.equationsAmount, equationsGenerator.fieldSize);
 
@@ -83,6 +78,16 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
 
     equationsGenerator.createCanvas = function (targetCoordinates)
     {
+      var mapStep=20;
+
+      if (Number(equationsGenerator.fieldSize)===5)
+      {
+        mapStep = 40;
+      } else if (Number(equationsGenerator.fieldSize)===10)
+      {
+        mapStep = 20;
+      }
+
     var canvas = document.getElementById("treasureMapC");
 
     var context = canvas.getContext("2d");
@@ -92,7 +97,7 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
       context.strokeStyle = '#888888';
       context.lineWidth = 1;
 
-      for (var ik=20; ik<=500; ik+=equationsGenerator.mapStep)
+      for (var ik=20; ik<=500; ik+=mapStep)
         {
           context.beginPath();
           context.moveTo(ik,15);
@@ -100,7 +105,7 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
           context.stroke();
         }
 
-        for (var j=20; j<=500; j+=equationsGenerator.mapStep)
+        for (var j=20; j<=500; j+=mapStep)
         {
           context.beginPath();
           context.moveTo(15, j);
@@ -123,7 +128,7 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
     targetPics[0].src='img/'+equationsGenerator.targetpics[0];
     var i=0;
     targetPics[0].onload=function() {
-    context.drawImage(this,targetCoordinates[i].x*equationsGenerator.mapStep+250,-targetCoordinates[i].y*equationsGenerator.mapStep+250);
+    context.drawImage(this,targetCoordinates[i].x*mapStep+250,-targetCoordinates[i].y*mapStep+250);
     if (i<targetCoordinates.length)
       i++;
       targetPics[i]=new Image();
@@ -142,7 +147,7 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
   {
     EquationsGeneratorService.changeComplexity();
 
-    if (equationsGenerator.complexity<25)
+    if ((equationsGenerator.complexity<25)||(equationsGenerator.fieldSize<10))
     {
       for (var i = 0; i < equationsGenerator.operations.length; i++)
       {
