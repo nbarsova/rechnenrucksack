@@ -59,22 +59,93 @@ function ArithmeticService($q) {
 
     service.createEquationSet = function(steps, operations, complexity)
     {
-
       var deferred = $q.defer();
       equationsSet = [];
+
+      var opTreshold = Math.floor(steps.length/operations.length)+1;
+      var adN=0;
+      var subN=0;
+      var multN=0;
+      var divN=0;
+      var tresholds=[];
+
+      for (var ii=0; ii<operations.length; ii++)
+      {
+        switch (operations[ii])
+          {
+            case ('+'):
+              adN=opTreshold;
+            case ('-'):
+              subN=opTreshold;
+            case ('*'):
+              multN=opTreshold;
+            case (':'):
+              divN=opTreshold;
+          }
+      }
+
+      tresholds.push({op: '+', treshold: adN});
+      tresholds.push({op: '-', treshold: subN});
+      tresholds.push({op: '*', treshold: multN});
+      tresholds.push({op: ':', treshold: divN});
+
       try {
-        for (var i=0; i<steps.length; i++)
+
+      for (var i=0; i<steps.length; i++)
         {
           if (steps[i]>Number(complexity))
           {
             deferred.reject("Step is more than complexity, need to regenerate steps");
           } else {
-          equationsSet.push({step: steps[i], equation: service.buildUniqueEquation(steps[i], operations[i%operations.length], complexity)});
+
+            var exclusions = [];
+
+          // если число простое - выкидываем умножение
+            if (service.isPrime(steps[i]))
+            {
+              exclusions.push('*');
+            }
+
+          // если число = границе сложности - выкидываем вычитание
+            if (steps[i]===complexity)
+            {
+              exclusions.push('-');
+            }
+
+          // если число < 4 - выкидываем сложение
+
+            if (steps[i]<4)
+            {
+              exclusions.push('+');
+            }
+
+          // если число >10, выкидываем деление
+
+            if (steps[i]>10)
+            {
+              exclusions.push(':');
+            }
+
+          var currentOp = service.selectOperation (operations, exclusions, tresholds);
+
+          equationsSet.push({step: steps[i], equation: service.buildUniqueEquation(steps[i], currentOp, complexity)});
+
+          //update tresholds
+          for (var j=0; j<tresholds.length; j++)
+          {
+            if ((tresholds[j].op===currentOp)&&(tresholds[j].treshold>0))
+            {
+              tresholds[j].treshold--;
+            }
           }
+        }
+
+
         }
 
         deferred.resolve(equationsSet);
       }
+
       catch (error)
       {
         deferred.reject(error);
@@ -83,66 +154,58 @@ function ArithmeticService($q) {
 
     }
 
-    service.createEquationsForNumber = function (number, operation, complexity)
+    service.selectOperation=function (operations, exclusions, tresholds)
     {
+      if (operations.length === 1) return operations[0]
+      else {
+        var selectedOp;
+        var maxTreshold=0;
 
-      var newEquations=[];
+        for (var i=0; i<operations.length; i++)
+        {
+          var op=operations[i];
+          var excluded = false;
 
-      var adstart = 0;
-      if (number>2) adstart=1;
+          for (var ii=0; ii<exclusions.length; ii++)
+          {
+            if (exclusions[ii]===op) excluded=true;
+          }
 
-      var subDim=0;
-      if (number===Number(complexity))
-      {
-        subDim=1;
-      }
-
-      var multstart=1;
-      if ((!(service.isPrime(number)))&&(number>2))
-      {
-        multstart = 2;
-      }
-
-      var divstart=2;
-      if ((complexity<99)&&(number>12))
-      {
-        divstart=1;
-      }
-
-      switch (operation)
-      {
-        case ('+'):
-          for (var kk=adstart; kk<=number-adstart; kk++)
+          if (!excluded)
+          {
+            for (var iii=0; iii<tresholds.length; iii++)
             {
-              var newEquation = new Equation(kk,number-kk,'+',number);
-              newEquations.push(newEquation);
-            }
-            return newEquations;
-          case ('-'):
-            for (var ss=1; ss<=complexity-number+subDim; ss++)
-            {
-              var newEquation = new Equation (number+ss-subDim, ss-subDim, '-', number);
-              newEquations.push(newEquation);
-            }
-            return newEquations;
-          case ('*'):
-            for (mm=multstart; mm<=number/multstart; mm++)
-            {
-              if ((number)%mm === 0)
-              {
-                var newEquation = new Equation (mm, number/mm, '*', number);
-                newEquations.push(newEquation);
+              if ((tresholds[iii].op===op)&&(tresholds[iii].treshold!==0)&&(maxTreshold<tresholds[iii].treshold))
+                  {
+                    maxTreshold = tresholds[iii].treshold;
+                    selectedOp = tresholds[iii].op;
+                  }
               }
             }
-            return newEquations;
-          case (':'):
-          for (var dd=divstart; dd*number<complexity; dd++)
-          {
-            var newEquation = new Equation (dd*number, dd, ':', number);
-            newEquations.push(newEquation);
           }
-          return newEquations;
+          if (selectedOp!==null)
+          {
+            return selectedOp;
+          } else {
+            return operations[normalRandom(0, operations.length)];
+          }
       }
+    }
+
+
+    service.createEquationsForNumber = function (number, operation, complexity)
+    {
+      switch (operation)
+        {
+          case ('+'):
+              return service.createAdditionEquations(number, complexity);
+          case ('-'):
+              return service.createSubstractionEquations(number, complexity);
+            case ('*'):
+              return service.createMultiplicationEquations(number, complexity);
+            case (':'):
+              return service.createDivisionEquations(number, complexity);
+        }
     }
 
     service.buildUniqueEquation = function (number, operation, complexity)
@@ -207,6 +270,78 @@ function ArithmeticService($q) {
 
   }
 
+  service.createAdditionEquations = function (number, complexity)
+  {
+    var newEquations=[];
+
+    var adstart = 0;
+    if (number>2) adstart=1;
+
+    for (var kk=adstart; kk<=number-adstart; kk++)
+      {
+        var newEquation = new Equation(kk,number-kk,'+',number);
+        newEquations.push(newEquation);
+      }
+      return newEquations;
+  }
+
+  service.createSubstractionEquations = function (number, complexity)
+  {
+    var newEquations=[];
+
+    var subDim=0;
+    if (number===Number(complexity))
+    {
+      subDim=1;
+    }
+
+    for (var ss=1; ss<=complexity-number+subDim; ss++)
+    {
+      var newEquation = new Equation (number+ss-subDim, ss-subDim, '-', number);
+      newEquations.push(newEquation);
+    }
+    return newEquations;
+  }
+
+  service.createMultiplicationEquations = function (number, complexity)
+  {
+    var newEquations=[];
+
+    var multstart=1;
+    if ((!(service.isPrime(number)))&&(number>2))
+    {
+      multstart = 2;
+    }
+
+    for (mm=multstart; mm<=number/multstart; mm++)
+    {
+      if ((number)%mm === 0)
+      {
+        var newEquation = new Equation (mm, number/mm, '*', number);
+        newEquations.push(newEquation);
+      }
+    }
+    return newEquations;
+  }
+
+  service.createDivisionEquations = function (number, complexity)
+  {
+    var newEquations=[];
+
+    var divstart=2;
+    if ((complexity<99)&&(number>12))
+    {
+      divstart=1;
+    }
+
+    for (var dd=divstart; (dd<10)&&(dd*number<complexity); dd++)
+    {
+      var newEquation = new Equation (dd*number, dd, ':', number);
+      newEquations.push(newEquation);
+    }
+    return newEquations;
+  }
+
     /*
     A function to generate random natural number in a range
     */
@@ -218,7 +353,7 @@ function ArithmeticService($q) {
     service.isPrime = function (number)
     {
       var isPrime = true;
-      if (number<=3)
+      if (Math.abs(number)<=3)
       {
          isPrime = true;
       } else if ((number%2 === 0)||(number%3 === 0))

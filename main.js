@@ -47,33 +47,37 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
       equationsGenerator.errorMessage="Выберите арифметическую операцию";
       console.log(equationsGenerator.errorMessage);
     } else {
-    equationsGenerator.errorMessage="";
-    console.log("Field size "+equationsGenerator.fieldSize);
-    console.log("complexity "+equationsGenerator.complexity);
 
-    var targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
+      equationsGenerator.errorMessage="";
+      console.log("Field size "+equationsGenerator.fieldSize);
+      console.log("complexity "+equationsGenerator.complexity);
 
-    var justSteps = EquationsGeneratorService.createPathToCurrentTarget (equationsGenerator.complexity, equationsGenerator.equationsAmount, equationsGenerator.fieldSize);
+      var targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
+      var options = {};
 
-    equationsGenerator.equations = [];
+      if ((selectedOps.length === 1)&&(selectedOps[0]==="*"))
+      {
+        options = {noPrimes: true}
+      }
+      var justSteps = EquationsGeneratorService.createPathToCurrentTarget (equationsGenerator.complexity, equationsGenerator.equationsAmount, equationsGenerator.fieldSize, options);
 
-    var pr = EquationsGeneratorService.createEquationsFromPath(justSteps, equationsGenerator.complexity, selectedOps);
+      equationsGenerator.equations = [];
 
-    pr.then(function (result)
-    {
-      console.log("Inside then");
-      equationsGenerator.equations = result;
-      equationsGenerator.createCanvas(targetCoordinates);
-    },
-    function (errorResponse) {
-        console.log("Inside error response");
-        console.log(errorResponse);
-        console.log("Starting new generation");
-        equationsGenerator.createEquations();
-    });
+      var pr = EquationsGeneratorService.createEquationsFromPath(justSteps, equationsGenerator.complexity, selectedOps);
 
-    }
-    };
+      pr.then(function (result)
+      {
+        equationsGenerator.equations = result;
+        equationsGenerator.createCanvas(targetCoordinates);
+      },
+      function (errorResponse) {
+          console.log(errorResponse);
+          console.log("Starting new generation");
+          equationsGenerator.createEquations();
+      });
+
+      }
+      };
 
 
     equationsGenerator.createCanvas = function (targetCoordinates)
@@ -158,7 +162,7 @@ function EquationsGeneratorController ($q, EquationsGeneratorService)
       }
       if (equationsGenerator.equationsAmount>8) equationsGenerator.equationsAmount=6;
     }
-  }
+}
 
   equationsGenerator.alterOperations = function()
   {
