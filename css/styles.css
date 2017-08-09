@@ -27,6 +27,8 @@ td {
     vertical-align: top;
 }
 
+
+
 button
 {
   font-size: 25px;
@@ -46,7 +48,7 @@ ol {
    counter-reset:  item;
   }
   li:before {
-   content: counter(item) '). '; 
+   content: counter(item) '). ';
    counter-increment: item;
   }
 
@@ -58,6 +60,114 @@ ol {
 #operationsChoice
 {
   font-weight: bold;
+}
+
+#complexityTable
+{
+  border: 2px solid black;
+}
+
+#complexityRange
+{
+  width: 100%;
+}
+
+.answer
+{
+  text-decoration: underline;
+  font-family: 'Indie Flower', cursive;
+  display: inline;
+  font-size: 30px;
+}
+
+input[type=range] {
+  height: 56px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 75%;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 22px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #CDCDCD;
+  border-radius: 22px;
+  border: 0px solid #010101;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #000031;
+  border: 0px solid #00001E;
+  height: 50px;
+  width: 50px;
+  border-radius: 30px;
+  background: #B8B8B8;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -14px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #CDCDCD;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 22px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #CDCDCD;
+  border-radius: 22px;
+  border: 0px solid #010101;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000031;
+  border: 0px solid #00001E;
+  height: 50px;
+  width: 50px;
+  border-radius: 30px;
+  background: #B8B8B8;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 22px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #CDCDCD;
+  border: 0px solid #010101;
+  border-radius: 44px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-fill-upper {
+  background: #CDCDCD;
+  border: 0px solid #010101;
+  border-radius: 44px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-thumb {
+  margin-top: 1px;
+  box-shadow: 0px 0px 0px #000031;
+  border: 0px solid #00001E;
+  height: 50px;
+  width: 50px;
+  border-radius: 30px;
+  background: #B8B8B8;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #CDCDCD;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #CDCDCD;
 }
 
 #buttons

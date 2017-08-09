@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Neucha" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
   <script src="angular.min.js"></script>
   <script src="pdfmake.min.js"></script>
   <script src="vfs_fonts.js"></script>
@@ -13,13 +14,16 @@
   <link rel="stylesheet" href="css/styles.css">
   <title>Equations generator</title>
 </head>
-<body ng-controller='EquationsGeneratorController as equationsGenerator'>
+<body ng-controller='EquationsGeneratorController as equationsGenerator' >
   <header><h1>РЮКЗАК ЗАДАНИЙ</h1></header>
   <div style='padding:0px;margin:0px;' id="input" ng-show="equationsGenerator.equations.length===0">
-  <div id="intro"><br>
-    Уважаемые родители и педагоги! С помощью "Рюкзака заданий" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.
+  <div id="intro" ng-init="equationsGenerator.initializeExample()"><br>
+    <table><tr><td width="500">Уважаемые родители и педагоги! С помощью "Рюкзака заданий" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.</td>
+      <td><canvas id="treasureMapExample" height="220" width="450" ></td></tr></table>
   </div>
-  <table><tr>
+  <table>  <tr><td><input type="range" id="complexityRange" ng-model="equationsGenerator.advancedComplexity.value" min="0" max="3" step="1" ng-change="equationsGenerator.advancedComplexityChange()"/><br>
+    </td></tr><tr><td>
+  <table id="complexityTable"><tr>
     <td><div id="complexityChoice">
       <h4>Числа в примерах</h4>
         <input type="radio" ng-model="equationsGenerator.complexity" value="10"
@@ -44,7 +48,9 @@
       <p ng-hide="((operation.code==='*')||(operation.code===':'))&&((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="checkbox"
        value="{{operation.code}}" ng-model="operation.selected"
        ng-change="equationsGenerator.alterOperations()"> {{operation.value}} </p>
-    </div><br></td></tr></table>
+    </div><br></td></tr></table></td></tr>
+</table>
+
     <button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed">ПОЛУЧИТЬ КАРТУ</button>
   </div>
     <div style='padding:0px;margin:0px;' id="output" ng-show="equationsGenerator.equations.length!==0">
