@@ -61,18 +61,18 @@ function SampleTreasureMapBuilder (scope, element, attrs, controller)
   context.stroke();
 
   context.font = "18px PT Sans";
-  context.fillText("Под каким камнем клад? ",220,80);
+  context.fillText("Под каким камнем клад? ",180,80);
   context.font = "14px PT Sans";
-  context.fillText("1 + 2 = _  шага налево ",220,110);
-  context.fillText("6 - 4 = _  шага вверх", 220,140);
+  context.fillText("1 + 2 = _  шага налево ",180,110);
+  context.fillText("6 - 4 = _  шага вверх", 180,140);
   context.font = "20px  Indie Flower";
   context.fillStyle = "blue";
-  context.fillText("3", 265, 110);
-  context.fillText("2", 265, 140);
+  context.fillText("3", 225, 110);
+  context.fillText("2", 225, 140);
 
   var border=new Image();
   border.src='img/map-border-horizontal-bg.png';
   border.onload=function() {
-    context.drawImage(this, 0, 0, 1000, 550);
+    context.drawImage(this, 0, 0, 800, 450);
   }
 }
