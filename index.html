@@ -10,8 +10,8 @@
   <script src="scripts/lib/vfs_fonts.js"></script>
   <script src="scripts/commons/arithmetic.js"></script>
   <script src="scripts/commons/pdfService.js"></script>
-  <script src="scripts/treasure/drawing.js"></script>
   <script src="scripts/treasure/sample.treasure.map.js"></script>
+  <script src="scripts/treasure/drawing.js"></script>
   <script src="scripts/treasure/generator.js"></script>
   <script src="scripts/treasure/map.controller.js"></script>
   <script src="scripts/main.js"></script>
@@ -20,43 +20,47 @@
   <title>Рюкзак заданий</title>
 </head>
 <body ng-controller='EquationsGeneratorController as equationsGenerator' >
-  <header><h1>РЮКЗАК ЗАДАНИЙ</h1></header>
+  <header><h1>РЮКЗАК ЗАДАНИЙ</h1> <div id="lang">Язык: <select ng-disabled="!equationsGenerator.translateOn" ng-model="equationsGenerator.selectedLanguage">
+    <option value="ru">Русский</option>
+    <option value="en">English</option>
+
+  <option value="ru">Deutsch</option></select></div></header>
   <div style='padding:0px;margin:0px;' id="input" ng-show="equationsGenerator.equations.length===0">
   <div id="intro"><br>
-    <table width="75%"><tr><td width="50%">Уважаемые родители и педагоги! С помощью "Рюкзака заданий" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.</td>
+    <table width="75%"><tr><td width="50%"><p translate>Уважаемые родители и педагоги! С помощью "Рюкзака заданий" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.</p></td>
       <td><sample-treasure-map></td></tr></table>
   </div>
 
   <table id="complexityTable" width="75%"><tr>
     <td><div id="complexityChoice">
-      <h4>Числа в примерах</h4>
+      <h4 translate>Числа в примерах</h4>
         <p><input type="radio" ng-model="equationsGenerator.complexity" value="10"
-                ng-change="equationsGenerator.alterComplexity()">В пределах 10</p>
+                ng-change="equationsGenerator.alterComplexity()"><translate>В пределах</translate> 10</p>
         <p><input type="radio" ng-model="equationsGenerator.complexity" value="25"
-                ng-change="equationsGenerator.alterComplexity()">В пределах 25</p>
+                ng-change="equationsGenerator.alterComplexity()"><translate>В пределах</translate> 25</p>
         <p><input type="radio" ng-model="equationsGenerator.complexity" value="99"
-                ng-change="equationsGenerator.alterComplexity()">В пределах 100</p></div></td>
-      <td><div id="fieldSizeChoice"><h4>Размер поля</h4>
-        <p><input type="radio" ng-model="equationsGenerator.fieldSize" value="5" ng-change="equationsGenerator.alterComplexity()">5 клеток</p>
-        <p><input type="radio" ng-model="equationsGenerator.fieldSize" value="10" ng-change="equationsGenerator.alterComplexity()">10 клеток</p>
+                ng-change="equationsGenerator.alterComplexity()"><translate>В пределах</translate> 100</p></div></td>
+      <td><div id="fieldSizeChoice"><h4 translate>Размер поля</h4>
+        <p><input type="radio" ng-model="equationsGenerator.fieldSize" value="5" ng-change="equationsGenerator.alterComplexity()">5 <translate>клеток</translate></p>
+        <p><input type="radio" ng-model="equationsGenerator.fieldSize" value="10" ng-change="equationsGenerator.alterComplexity()">10 <translate>клеток<translate></p>
       </div></td>
-        <td><div id="equationsAmountChoice"><h4>Количество примеров</h4>
+        <td><div id="equationsAmountChoice"><h4 translate>Количество примеров</h4>
           <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="6">6</p>
           <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="8">8</p>
           <p ng-hide="((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="radio"ng-model="equationsGenerator.equationsAmount" value="10">10</p>
         </div></td>
-  <td><h4>Арифметические операции</h4>
+  <td><h4 translate>Арифметические операции</h4>
   <div id="operationsChoice" ng-repeat="operation in equationsGenerator.operations">
       <p ng-hide="((operation.code==='*')||(operation.code===':'))&&((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="checkbox"
        value="{{operation.code}}" ng-model="operation.selected"
        ng-change="equationsGenerator.alterOperations()"> {{operation.value}} </p>
     </div></td></tr> <tr></table></td></tr>
-    <tr><td><br><button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed">ПОЛУЧИТЬ КАРТУ</button></table></div>
+    <tr><td><br><button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed"><translate>ПОЛУЧИТЬ КАРТУ</translate></button></table></div>
 
     <div style='padding:0px;margin:0px;' id="output" ng-show="equationsGenerator.equations.length!==0">
       <table><tr><td><canvas id="treasureMapC" height="550" width="1000"></canvas></td>
-        <td><div id="buttons"><button ng-click="equationsGenerator.print()">СОХРАНИТЬ PDF</button><br><br>
-    <button ng-click="equationsGenerator.reset()">НАЗАД</button></div></td></tr></table>
+        <td><div id="buttons"><button ng-click="equationsGenerator.print()"><translate>СОХРАНИТЬ</translate></button><br><br>
+    <button ng-click="equationsGenerator.reset()"><translate>НАЗАД</translate></button></div></td></tr></table>
 
   </div>
 

@@ -16,10 +16,24 @@ function PrintService() {
       content:
         [
           { image: dataURL,
-            width: 800
-          }
-        ]
+            width: 800,
+          },
+          /* TBD: make nice copyright
+          {
+            image: printService.createCopyright()
+          }*/
+      ]
     };
       pdfMake.createPdf(docDefinition).download('treasureMap.pdf');
+    }
+
+    printService.createCopyright= function()
+    {
+      var canv = document.createElement('canvas');
+      canv.id     = "cop";
+      canv.width  = 500;
+      var context = canv.getContext("2d");
+      context.fillText("(c) RECHNENRUCKSACK.COM ",180,80);
+      return canv.toDataURL();
     }
 }

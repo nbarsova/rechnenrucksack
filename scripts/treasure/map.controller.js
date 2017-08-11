@@ -20,6 +20,10 @@ function EquationsGeneratorController ($q, EquationsGeneratorService, PrintServi
 
   equationsGenerator.fieldSize=10;
 
+  equationsGenerator.selectedLanguage="ru";
+
+  equationsGenerator.translateOn = false;
+
   equationsGenerator.advancedComplexity= {value: 2,
                                           complexity: 25,
                                           equationsAmount: 8,

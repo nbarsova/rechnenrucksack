@@ -7,6 +7,7 @@ header {
     background-color: #7cadef;
     margin-top: -10px;
     margin-left: -10px;
+    margin-right: -10px;
     margin-bottom: 0px;
     padding-top: 20px;
 }
@@ -99,4 +100,22 @@ button
 #buttons
 {
   align-content: center;
+}
+
+#lang
+{
+  font-family: 'PT Sans', sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+
+  position:absolute;
+  right: 20px;
+  top:20px;
+}
+
+select {
+  font-family: 'PT Sans', sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #7cadef;
 }
