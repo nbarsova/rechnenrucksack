@@ -7,8 +7,17 @@ header {
     background-color: #7cadef;
     margin-top: -10px;
     margin-left: -10px;
+    margin-right: -10px;
     margin-bottom: 0px;
     padding-top: 20px;
+}
+
+footer
+ {
+    background-color: #7cadef;
+    margin-top: 20px;
+    margin-left: -10px;
+    margin-bottom: -10px;
 }
 
 h1 {
@@ -22,8 +31,30 @@ h1 {
   display: inline;
 }
 
+h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 0px;
+  margin-left: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+
+}
+
+h6 {
+  font-family: 'Neucha', cursive;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding-top: 10px;
+  display: inline;
+}
+
 td {
-    padding: 15px;
+    padding-top: 15px;
+    padding-right: 10px;
     vertical-align: top;
 }
 
@@ -41,15 +72,6 @@ button
   padding-bottom: 5px;
 }
 
-ol {
-   list-style-type: none;
-   counter-reset:  item;
-  }
-  li:before {
-   content: counter(item) '). '; 
-   counter-increment: item;
-  }
-
 #input
 {
   margin-top: 0px;
@@ -60,7 +82,40 @@ ol {
   font-weight: bold;
 }
 
+#complexityTable
+{
+  border: 2px solid black;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+#answer
+{
+  text-decoration: underline;
+  font-family: 'Indie Flower', cursive;
+  display: inline;
+  font-size: 30px;
+}
+
 #buttons
 {
   align-content: center;
+}
+
+#lang
+{
+  font-family: 'PT Sans', sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+
+  position:absolute;
+  right: 20px;
+  top:20px;
+}
+
+select {
+  font-family: 'PT Sans', sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #7cadef;
 }

@@ -1,25 +1,24 @@
 TODO:
 
-From Suse:
-- Имя и дату сверху листа
-- Умножение как точку или крестик
+- Advanced complexity control:
+   0 - no equations; steps: 4, 6, 8; fieldSize: 5 or 10
+   1 - equations with + and -; numbers up to 10; steps: 6, 8 or 10; fieldSize: 5 or 10
+   2 - equations with +, -, *, :; numbers up to 25; steps 6, 8, 10; fieldSize: 10
+   3 - equations with +,-,*,:; numbers up to 100; steps 8, 10, 12, fieldSize: 10.
 
-- размер поля может меняться 5 и 10
-- количество примеров может меняться 6, 10, 12 (хорошо бы в пдф сделать разного размера строки для
-  разного количества примеров)
+
 - вариант для самых маленьких без примеров, просто провести линии
 - вариант для нечитающих со стрелками
 - примеры на много действий со скобками
 - генерация ответа
 
-- Шага/шагов
-- answer key generation
+From Suse:
+- Имя и дату сверху листа
+- Умножение как точку или крестик
+
+
 - German localization
-- Map as an island, stones with pics
-- Refactor equations generation into separate module, create constants
 
 - Visual presentations selection
 
-* Interactive version
 * Secret code generator
-* Lesha's idea with dissapearing stone, if the child solved the equations wrong
