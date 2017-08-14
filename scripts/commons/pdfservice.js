@@ -11,7 +11,9 @@ function PrintService() {
       var dataURL = canvas.toDataURL();
       var docDefinition = {
       pageSize: 'A4',
+        
       // TBD: orientation settings here
+        
       pageOrientation: 'landscape',
       content:
         [
