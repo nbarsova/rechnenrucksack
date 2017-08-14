@@ -20,11 +20,8 @@
   <title>Рюкзак заданий</title>
 </head>
 <body ng-controller='EquationsGeneratorController as equationsGenerator' >
-  <header><h1>РЮКЗАК ЗАДАНИЙ</h1> <div id="lang">Язык: <select ng-disabled="!equationsGenerator.translateOn" ng-model="equationsGenerator.selectedLanguage">
-    <option value="ru">Русский</option>
-    <option value="en">English</option>
+  <header><h1>РЮКЗАК ЗАДАНИЙ</h1></header>
 
-  <option value="ru">Deutsch</option></select></div></header>
   <div style='padding:0px;margin:0px;' id="input" ng-show="equationsGenerator.equations.length===0">
   <div id="intro"><br>
     <table width="75%"><tr><td width="50%"><p translate>Уважаемые родители и педагоги! С помощью "Рюкзака заданий" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.</p></td>

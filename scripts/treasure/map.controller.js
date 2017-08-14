@@ -185,4 +185,9 @@ function EquationsGeneratorController ($q, EquationsGeneratorService, PrintServi
     PrintService.print(canvas);
   }
 
+  equationsGenerator.translate = function ()
+  {
+    
+  }
+
 }
