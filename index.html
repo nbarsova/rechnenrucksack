@@ -4,60 +4,60 @@
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Neucha" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-  <script src="angular.min.js"></script>
-  <script src="pdfmake.min.js"></script>
-  <script src="vfs_fonts.js"></script>
-  <script src="arithmetic.js"></script>
-  <script src="generator.js"></script>
-  <script src="main.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+  <script src="scripts/lib/angular.min.js"></script>
+  <script src="scripts/lib/pdfmake.min.js"></script>
+  <script src="scripts/lib/vfs_fonts.js"></script>
+  <script src="scripts/commons/arithmetic.js"></script>
+  <script src="scripts/commons/pdfService.js"></script>
+  <script src="scripts/treasure/sample.treasure.map.js"></script>
+  <script src="scripts/treasure/drawing.js"></script>
+  <script src="scripts/treasure/generator.js"></script>
+  <script src="scripts/treasure/map.controller.js"></script>
+  <script src="scripts/main.js"></script>
+
   <link rel="stylesheet" href="css/styles.css">
-  <title>Equations generator</title>
+  <title>Рюкзак заданий</title>
 </head>
-<body ng-controller='EquationsGeneratorController as equationsGenerator'>
+<body ng-controller='EquationsGeneratorController as equationsGenerator' >
   <header><h1>РЮКЗАК ЗАДАНИЙ</h1></header>
+
   <div style='padding:0px;margin:0px;' id="input" ng-show="equationsGenerator.equations.length===0">
   <div id="intro"><br>
-    Уважаемые родители и педагоги! С помощью "Рюкзака заданий" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.
+    <table width="75%"><tr><td width="50%"><p translate>Уважаемые родители и педагоги! С помощью "Рюкзака заданий" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.</p></td>
+      <td><sample-treasure-map></td></tr></table>
   </div>
-  <table><tr>
+
+  <table id="complexityTable" width="75%"><tr>
     <td><div id="complexityChoice">
-      <h4>Сложность примеров</h4>
-        <input type="radio" ng-model="equationsGenerator.complexity" value="10"
-                ng-change="equationsGenerator.alterComplexity()">В пределах 10<br>
-        <input type="radio" ng-model="equationsGenerator.complexity" value="25"
-                ng-change="equationsGenerator.alterComplexity()">В пределах 25<br>
-        <input type="radio" ng-model="equationsGenerator.complexity" value="99"
-                ng-change="equationsGenerator.alterComplexity()">В пределах 100</div></td>
-
-        <td><div id="equationsAmountChoice"><h4>Количество примеров</h4>
-          <input type="radio" ng-model="equationsGenerator.equationsAmount" value="6">6<br>
-          <input type="radio" ng-model="equationsGenerator.equationsAmount" value="8">8<br>
-          <input type="radio"ng-model="equationsGenerator.equationsAmount" value="10">10
+      <h4 translate>Числа в примерах</h4>
+        <p><input type="radio" ng-model="equationsGenerator.complexity" value="10"
+                ng-change="equationsGenerator.alterComplexity()"><translate>В пределах</translate> 10</p>
+        <p><input type="radio" ng-model="equationsGenerator.complexity" value="25"
+                ng-change="equationsGenerator.alterComplexity()"><translate>В пределах</translate> 25</p>
+        <p><input type="radio" ng-model="equationsGenerator.complexity" value="99"
+                ng-change="equationsGenerator.alterComplexity()"><translate>В пределах</translate> 100</p></div></td>
+      <td><div id="fieldSizeChoice"><h4 translate>Размер поля</h4>
+        <p><input type="radio" ng-model="equationsGenerator.fieldSize" value="5" ng-change="equationsGenerator.alterComplexity()">5 <translate>клеток</translate></p>
+        <p><input type="radio" ng-model="equationsGenerator.fieldSize" value="10" ng-change="equationsGenerator.alterComplexity()">10 <translate>клеток<translate></p>
+      </div></td>
+        <td><div id="equationsAmountChoice"><h4 translate>Количество примеров</h4>
+          <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="6">6</p>
+          <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="8">8</p>
+          <p ng-hide="((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="radio"ng-model="equationsGenerator.equationsAmount" value="10">10</p>
         </div></td>
-
-
-  <td><h4>Арифметические операции</h4>
+  <td><h4 translate>Арифметические операции</h4>
   <div id="operationsChoice" ng-repeat="operation in equationsGenerator.operations">
       <p ng-hide="((operation.code==='*')||(operation.code===':'))&&((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="checkbox"
        value="{{operation.code}}" ng-model="operation.selected"
        ng-change="equationsGenerator.alterOperations()"> {{operation.value}} </p>
-    </div><br></td></tr></table>
-    <button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed">ПОЛУЧИТЬ КАРТУ</button>
-  </div>
+    </div></td></tr> <tr></table></td></tr>
+    <tr><td><br><button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed"><translate>ПОЛУЧИТЬ КАРТУ</translate></button></table></div>
+
     <div style='padding:0px;margin:0px;' id="output" ng-show="equationsGenerator.equations.length!==0">
-      <table><tr><td>
-        <canvas id="treasureMapC" height="520" width="520"></canvas></td>
-    <td>
-    <div id="equationsList">
-      <p>Пираты закопали клад под камнем, но под каким? Для того, чтобы найти нужный камень, реши примеры и двигайся в указанном направлении, начиная из центра.   </p>
-      <ol>
-        <li ng-repeat="equation in equationsGenerator.equations">
-          {{ equation.strValue }}
-        </li>
-      </ol>
-  </div>
-  <div id="buttons"><button ng-click="equationsGenerator.print()">СОХРАНИТЬ PDF</button>
-    <button ng-click="equationsGenerator.reset()">НАЗАД</button></div></td></tr></table>
+      <table><tr><td><canvas id="treasureMapC" height="550" width="1000"></canvas></td>
+        <td><div id="buttons"><button ng-click="equationsGenerator.print()"><translate>СОХРАНИТЬ</translate></button><br><br>
+    <button ng-click="equationsGenerator.reset()"><translate>НАЗАД</translate></button></div></td></tr></table>
 
   </div>
 
@@ -65,6 +65,8 @@
     {{equationsGenerator.errorMessage}}
   </div>
 
-
+  <footer><h6>(c) Rechnenrucksack.com, 2017</h6> <br>
+    <h6> Наталья Барсова, концепция, разработка</h6><br>
+    <h6> Сузе Шеттль, графика</h6>
 </body>
 </html>
