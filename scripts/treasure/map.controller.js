@@ -1,6 +1,8 @@
-EquationsGeneratorController.$inject = ['$q', 'EquationsGeneratorService', 'PrintService', 'TreasureMapDrawingService'];
+EquationsGeneratorController.$inject =
+  ['$q', 'EquationsGeneratorService', 'PrintService', 'TreasureMapDrawingService', 'LanguageService'];
 
-function EquationsGeneratorController ($q, EquationsGeneratorService, PrintService, TreasureMapDrawingService)
+function EquationsGeneratorController
+    ($q, EquationsGeneratorService, PrintService, TreasureMapDrawingService, LanguageService)
 {
   var equationsGenerator = this;
   equationsGenerator.equations = [];
@@ -20,9 +22,9 @@ function EquationsGeneratorController ($q, EquationsGeneratorService, PrintServi
 
   equationsGenerator.fieldSize=10;
 
-  equationsGenerator.selectedLanguage="ru";
+  equationsGenerator.language="ru";
 
-  equationsGenerator.translateOn = false;
+  equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
 
   equationsGenerator.advancedComplexity= {value: 2,
                                           complexity: 25,
@@ -171,7 +173,7 @@ function EquationsGeneratorController ($q, EquationsGeneratorService, PrintServi
     if (operationSelected === false)
     {
       equationsGenerator.generationAllowed=false;
-      equationsGenerator.errorMessage="Выберите арифметическую операцию";
+      equationsGenerator.errorMessage=equationsGenerator.STRINGS.noOperationsMessage;
     } else
     {
       equationsGenerator.generationAllowed=true;
@@ -187,7 +189,9 @@ function EquationsGeneratorController ($q, EquationsGeneratorService, PrintServi
 
   equationsGenerator.translate = function ()
   {
-    
+    console.log("Language changed to "+equationsGenerator.language);
+    console.log(equationsGenerator.STRINGS.rechnenrucksack);
+    equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
   }
 
 }
