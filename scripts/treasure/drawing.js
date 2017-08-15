@@ -1,12 +1,11 @@
-TreasureMapDrawingService.$inject = [];
+TreasureMapDrawingService.$inject = ['LanguageService'];
 
-function TreasureMapDrawingService() {
+function TreasureMapDrawingService(LanguageService) {
 
   var drawingService = this;
 
-  drawingService.createCanvas = function (targetCoordinates, fieldSize, equations)
+  drawingService.createCanvas = function (targetCoordinates, fieldSize, equations, language)
   {
-    console.log(targetCoordinates);
     var mapStep=20;
 
     if (Number(fieldSize)===5)
@@ -91,8 +90,39 @@ function TreasureMapDrawingService() {
   for (var ii=0; ii<equations.length; ii++)
   {
     context.font = "18px PT Sans";
-    context.fillText((ii+1)+"). "+equations[ii].strValue,520,200+ii*30);
+    var axis="";
+    if (ii%2==0)
+    {
+      axis="horizontal";
+    } else {
+      axis="vertical";
+    }
+
+    context.fillText((ii+1)+"). "+equations[ii].equation+" "+LanguageService.getString(language, "steps")+" "+drawingService.setDirection(equations[ii].step, axis, language),520,200+ii*30);
   }
 };
 
+drawingService.setDirection = function (number, axis, language)
+{
+  let direction = "";
+  switch (axis)
+  {
+  case "vertical":
+      if (Math.sign(number) === 1) {
+          direction = LanguageService.getString(language, "dirUp");
+      } else {
+          direction = LanguageService.getString(language, "dirDown");
+      }
+    break;
+  case 'horizontal':
+    if (Math.sign(number) === 1) {
+          direction = LanguageService.getString(language, "dirRight");
+      } else {
+          direction = LanguageService.getString(language, "dirLeft");
+      }
+  break;
+  }
+  return direction;
+
+};
 }

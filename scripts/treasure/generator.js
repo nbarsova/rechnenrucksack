@@ -75,10 +75,7 @@ service.createPathToCurrentTarget
         {
           step=service.createUniqueStep(3, limit, pathObject.x, fieldSize);
         }
-          direction=service.setDirection(step, 'horizontal', language);
-          steps.push({step: Math.abs(step), direction:direction});
-          console.log("Step is "+ step +" direction " +direction);
-
+          steps.push(step);
           pathObject.x+=step;
       }
       else // even steps are vertical
@@ -95,11 +92,8 @@ service.createPathToCurrentTarget
           step=service.createUniqueStep(3, limit, pathObject.y, fieldSize);
         }
 
-        direction=service.setDirection(step, 'vertical', language);
-        steps.push({step: Math.abs(step), direction:direction});
-        console.log("Step is "+ step +" direction " +direction);
-
-          pathObject.y+=step;
+        steps.push(step);
+        pathObject.y+=step;
       }
       console.log("Position is "+ pathObject.x + ", "+pathObject.y);
   }
@@ -112,16 +106,13 @@ service.createPathToCurrentTarget
     if (Math.abs(deltaX)>3)
     {
        step = Math.floor(deltaX/2);
-       direction = service.setDirection(step, "horizontal", language);
     }
     else {
       step = ArithmeticService.normalRandom(3, Number(fieldSize)*2-3) * Math.sign(currentTarget.x)*(-1);
-      direction = service.setDirection(step, "horizontal", language);
     }
 
     pathObject.x+=step;
-
-    steps.push({step: Math.abs(step), direction: direction});
+    steps.push(step);
     console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // Предпоследний вертикальный
@@ -131,29 +122,24 @@ service.createPathToCurrentTarget
     if (Math.abs(deltaY)>3)
     {
        step = Math.floor(deltaY/2);
-       direction = service.setDirection(step, "vertical", language);
     }
     else {
       step = ArithmeticService.normalRandom(3, Number(fieldSize)*2-3) * Math.sign(currentTarget.y)*(-1);
-      direction = service.setDirection(step, "vertical", language);
     }
 
     pathObject.y+=step;
-    steps.push({step: Math.abs(step), direction: direction});
+    steps.push(step);
     console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // последний горизонтальный
     let lastHorStep = currentTarget.x - pathObject.x;
-    direction=service.setDirection(lastHorStep, 'horizontal', language);
-
-    steps.push({step: Math.abs(lastHorStep), direction: direction});
+    steps.push(lastHorStep);
     pathObject.x+=lastHorStep;
     console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // последний вертикальный
     let lastVertStep = currentTarget.y - pathObject.y;
-    direction=service.setDirection(lastVertStep, 'vertical', language);
-    steps.push({step: Math.abs(lastVertStep), direction: direction});
+    steps.push(lastVertStep);
 
     pathObject.y+=lastVertStep;
     console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
@@ -168,20 +154,23 @@ service.createEquationsFromPath = function (steps, complexity, language, operati
   var numberSteps=[];
   for (var i=0; i<steps.length; i++)
   {
-    numberSteps.push(steps[i].step)
+    numberSteps.push(Math.abs(steps[i]));
   }
   let equations=[];
   var promise = ArithmeticService.createEquationSet(numberSteps, operations, complexity);
 
   promise.then(function (result)
   {
-    equations = result;
-    var strSteps=[];
-    for (var j=0; j<equations.length; j++)
+    var stepArr=[];
+    console.log(result);
+    for (var j=0; j<result.length; j++)
     {
-      strSteps.push({strValue: equations[j].equation+" "+LanguageService.getString(language, "steps")+" "+steps[j].direction});
+      var step = steps[j]
+      var equation =result[j];
+      stepArr.push({equation: equation, step: step});
     }
-  deferred.resolve(strSteps);
+      deferred.resolve(stepArr)
+
   },
   function (errorResponse) {
       console.log(errorResponse);
@@ -256,30 +245,5 @@ service.createNonPrimeStep = function (lowerLimit, upperLimit, coordinate, field
     } while (ArithmeticService.isPrime(step));
     return step;
 }
-
-service.setDirection = function (number, axis, language)
-{
-  let direction = "";
-  switch (axis)
-  {
-  case "vertical":
-      if (Math.sign(number) === 1) {
-          direction = LanguageService.getString(language, "dirUp");
-      } else {
-          direction = LanguageService.getString(language, "dirDown");
-      }
-    break;
-  case 'horizontal':
-    if (Math.sign(number) === 1) {
-          direction = LanguageService.getString(language, "dirRight");
-      } else {
-          direction = LanguageService.getString(language, "dirLeft");
-      }
-  break;
-  }
-  return direction;
-
-};
-
 
 }

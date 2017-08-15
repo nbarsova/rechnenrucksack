@@ -7,7 +7,7 @@
   '*' - multiplication,  ':' - division.
   Complexity may be 10 for equations in range [0..10], 25 - range [0..25],
   100 - range [0..100].
-  Numbers are natural numbers.
+  Numbers are expected to be natural numbers.
 */
 
 ArithmeticService.$inject = ['$q'];
@@ -59,6 +59,7 @@ function ArithmeticService($q) {
 
     service.createEquationSet = function(steps, operations, complexity)
     {
+      console.log(steps);
       var deferred = $q.defer();
       equationsSet = [];
 
@@ -128,7 +129,7 @@ function ArithmeticService($q) {
 
           var currentOp = service.selectOperation (operations, exclusions, tresholds);
 
-          equationsSet.push({step: steps[i], equation: service.buildUniqueEquation(steps[i], currentOp, complexity)});
+          equationsSet.push(service.buildUniqueEquation(steps[i], currentOp, complexity));
 
           //update tresholds
           for (var j=0; j<tresholds.length; j++)
@@ -142,7 +143,7 @@ function ArithmeticService($q) {
 
 
         }
-
+        console.log(equationsSet);
         deferred.resolve(equationsSet);
       }
 

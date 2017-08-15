@@ -65,14 +65,18 @@ function EquationsGeneratorController
        options,
        equationsGenerator.language);
 
-      equationsGenerator.equations = [];
+       console.log(equationsGenerator.steps);
+       equationsGenerator.equations = [];
 
       var pr = EquationsGeneratorService.createEquationsFromPath(equationsGenerator.steps, equationsGenerator.complexity, equationsGenerator.language, selectedOps);
 
       pr.then(function (result)
       {
         equationsGenerator.equations = result;
-        TreasureMapDrawingService.createCanvas(equationsGenerator.targetCoordinates, equationsGenerator.fieldSize, equationsGenerator.equations);
+        TreasureMapDrawingService.createCanvas(equationsGenerator.targetCoordinates,
+                                               equationsGenerator.fieldSize,
+                                               equationsGenerator.equations,
+                                                equationsGenerator.language);
       },
       function (errorResponse) {
           console.log(errorResponse);
@@ -137,8 +141,11 @@ function EquationsGeneratorController
     equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
     if (equationsGenerator.steps.length>0)
     {
-      TreasureMapDrawingService.createCanvas(equationsGenerator.targetCoordinates, equationsGenerator.fieldSize, equationsGenerator.equations);
-    }
-  }
+      TreasureMapDrawingService.createCanvas(equationsGenerator.targetCoordinates,
+                                             equationsGenerator.fieldSize,
+                                             equationsGenerator.equations,
+                                             equationsGenerator.language);
+      }
+   }
 
 }
