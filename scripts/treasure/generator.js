@@ -1,14 +1,12 @@
-EquationsGeneratorService.$inject = ['$q', 'ArithmeticService'];
+EquationsGeneratorService.$inject = ['$q', 'ArithmeticService', 'LanguageService'];
 
-function EquationsGeneratorService($q, ArithmeticService) {
+function EquationsGeneratorService($q, ArithmeticService, LanguageService) {
 
   var service = this;
 
   var steps = [];
 
   var targetObjects = [];
-
-  var currentTarget;
 
 class PlayField
 {
@@ -38,10 +36,6 @@ service.initTargets = function (fieldSize)
                                    fieldSize - Math.floor((Math.random() * fieldSize)/3)),
                        new TargetObject(-fieldSize+Math.floor((Math.random() * fieldSize)/3),
                                     -fieldSize+Math.floor((Math.random() * fieldSize)/3))];
-
-
-   currentTarget = targetObjects[Math.floor((Math.random() * 10)/3)];
-   console.log("Current target: "+currentTarget.x+" ,"+currentTarget.y);
    return targetObjects;
 };
 
@@ -55,12 +49,8 @@ service.getTargetObjects = function ()
   return targetObjects;
 };
 
-service.getCurrentTarget = function()
-{
-  return currentTarget;
-};
-
-service.createPathToCurrentTarget = function (complexity, equationsAmount, fieldSize, options)
+service.createPathToCurrentTarget
+  = function (complexity, equationsAmount, fieldSize, currentTarget, options, language)
 {
   var pathObject = new TargetObject(0,0);
   var step=0;
@@ -85,7 +75,7 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
         {
           step=service.createUniqueStep(3, limit, pathObject.x, fieldSize);
         }
-          direction=service.setDirection(step, 'horizontal');
+          direction=service.setDirection(step, 'horizontal', language);
           steps.push({step: Math.abs(step), direction:direction});
           console.log("Step is "+ step +" direction " +direction);
 
@@ -105,7 +95,7 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
           step=service.createUniqueStep(3, limit, pathObject.y, fieldSize);
         }
 
-        direction=service.setDirection(step, 'vertical');
+        direction=service.setDirection(step, 'vertical', language);
         steps.push({step: Math.abs(step), direction:direction});
         console.log("Step is "+ step +" direction " +direction);
 
@@ -122,11 +112,11 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
     if (Math.abs(deltaX)>3)
     {
        step = Math.floor(deltaX/2);
-       direction = service.setDirection(step, "horizontal");
+       direction = service.setDirection(step, "horizontal", language);
     }
     else {
       step = ArithmeticService.normalRandom(3, Number(fieldSize)*2-3) * Math.sign(currentTarget.x)*(-1);
-      direction = service.setDirection(step, "horizontal");
+      direction = service.setDirection(step, "horizontal", language);
     }
 
     pathObject.x+=step;
@@ -141,11 +131,11 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
     if (Math.abs(deltaY)>3)
     {
        step = Math.floor(deltaY/2);
-       direction = service.setDirection(step, "vertical");
+       direction = service.setDirection(step, "vertical", language);
     }
     else {
       step = ArithmeticService.normalRandom(3, Number(fieldSize)*2-3) * Math.sign(currentTarget.y)*(-1);
-      direction = service.setDirection(step, "vertical");
+      direction = service.setDirection(step, "vertical", language);
     }
 
     pathObject.y+=step;
@@ -154,7 +144,7 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
 
     // последний горизонтальный
     let lastHorStep = currentTarget.x - pathObject.x;
-    direction=service.setDirection(lastHorStep, 'horizontal');
+    direction=service.setDirection(lastHorStep, 'horizontal', language);
 
     steps.push({step: Math.abs(lastHorStep), direction: direction});
     pathObject.x+=lastHorStep;
@@ -162,7 +152,7 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
 
     // последний вертикальный
     let lastVertStep = currentTarget.y - pathObject.y;
-    direction=service.setDirection(lastVertStep, 'vertical');
+    direction=service.setDirection(lastVertStep, 'vertical', language);
     steps.push({step: Math.abs(lastVertStep), direction: direction});
 
     pathObject.y+=lastVertStep;
@@ -171,7 +161,7 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
   return steps;
 }
 
-service.createEquationsFromPath = function (steps, complexity, operations)
+service.createEquationsFromPath = function (steps, complexity, language, operations)
 {
   var deferred = $q.defer();
 
@@ -189,7 +179,7 @@ service.createEquationsFromPath = function (steps, complexity, operations)
     var strSteps=[];
     for (var j=0; j<equations.length; j++)
     {
-      strSteps.push({strValue: equations[j].equation+" шагов "+steps[j].direction});
+      strSteps.push({strValue: equations[j].equation+" "+LanguageService.getString(language, "steps")+" "+steps[j].direction});
     }
   deferred.resolve(strSteps);
   },
@@ -267,23 +257,23 @@ service.createNonPrimeStep = function (lowerLimit, upperLimit, coordinate, field
     return step;
 }
 
-service.setDirection = function (number, axis)
+service.setDirection = function (number, axis, language)
 {
   let direction = "";
   switch (axis)
   {
   case "vertical":
       if (Math.sign(number) === 1) {
-          direction = "вверх";
+          direction = LanguageService.getString(language, "dirUp");
       } else {
-          direction = "вниз";
+          direction = LanguageService.getString(language, "dirDown");
       }
     break;
   case 'horizontal':
     if (Math.sign(number) === 1) {
-          direction = "направо";
+          direction = LanguageService.getString(language, "dirRight");
       } else {
-          direction = "налево";
+          direction = LanguageService.getString(language, "dirLeft");
       }
   break;
   }

@@ -5,91 +5,32 @@ function EquationsGeneratorController
     ($q, EquationsGeneratorService, PrintService, TreasureMapDrawingService, LanguageService)
 {
   var equationsGenerator = this;
-  equationsGenerator.equations = [];
-  equationsGenerator.generationAllowed = true;
+
+  // Complexity setting objects
+
   equationsGenerator.operations = [
     {code: "+", value: "+", selected: true},
     {code: "-", value: "-", selected: true},
     {code: "*", value: "*", selected: true},
     {code: ":", value: ":", selected: true}
   ];
-
-  equationsGenerator.errorMessage="";
-
   equationsGenerator.complexity=25;
-
   equationsGenerator.equationsAmount=6;
-
   equationsGenerator.fieldSize=10;
+  equationsGenerator.generationAllowed = true;
+
+  // Language related objects
 
   equationsGenerator.language="ru";
-
   equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
 
-  equationsGenerator.advancedComplexity= {value: 2,
-                                          complexity: 25,
-                                          equationsAmount: 8,
-                                          generateEquations: true,
-                                          fieldSize: 10 };
-  equationsGenerator.advancedComplexityChange = function ()
-  {
-    console.log("Changing complexity " +equationsGenerator.advancedComplexity.value);
+  // Objects to be generated for the map (language independent)
+  equationsGenerator.steps = []; // pure numbers - steps to the goal
+  equationsGenerator.targetCoordinates = []; // four random targets
+  equationsGenerator.equations = [];
+  equationsGenerator.currentTarget;
 
-    switch (equationsGenerator.advancedComplexity.value)
-    {
-      case ('0'):
-        equationsGenerator.advancedComplexity.complexity = 10;
-        equationsGenerator.complexity=10;
-        equationsGenerator.equationsAmount = 6;
-        equationsGenerator.advancedComplexity.equationsAmount = 6;
-        equationsGenerator.fieldSize=5;
-        equationsGenerator.advancedComplexity.fieldSize = 5;
-        equationsGenerator.advancedComplexity.generateEquations = false;
-        for (var i = 0; i < equationsGenerator.operations.length; i++)
-        {
-        if ((equationsGenerator.operations[i].code === '*')||(equationsGenerator.operations[i].code === ':'))
-          {
-            equationsGenerator.operations[i].selected = false;
-          }
-        }
-        break;
-    case ('1'):
-        equationsGenerator.advancedComplexity.complexity = 10;
-        equationsGenerator.complexity=10;
-        equationsGenerator.equationsAmount = 6;
-        equationsGenerator.advancedComplexity.equationsAmount = 6;
-        equationsGenerator.fieldSize=5;
-        equationsGenerator.advancedComplexity.fieldSize = 5;
-        equationsGenerator.advancedComplexity.generateEquations = true;
-        for (var i = 0; i < equationsGenerator.operations.length; i++)
-        {
-        if ((equationsGenerator.operations[i].code === '*')||(equationsGenerator.operations[i].code === ':'))
-          {
-            equationsGenerator.operations[i].selected = false;
-          }
-        }
-        break;
-    case ('2'):
-        equationsGenerator.advancedComplexity.complexity = 25;
-        equationsGenerator.complexity=25;
-        equationsGenerator.equationsAmount = 8;
-        equationsGenerator.advancedComplexity.equationsAmount = 8;
-        equationsGenerator.fieldSize=10;
-        equationsGenerator.advancedComplexity.fieldSize = 10;
-        equationsGenerator.advancedComplexity.generateEquations = true;
-
-    case ('3'):
-        equationsGenerator.advancedComplexity.complexity = 99;
-        equationsGenerator.complexity=99;
-        equationsGenerator.equationsAmount = 10;
-        equationsGenerator.advancedComplexity.equationsAmount = 10;
-        equationsGenerator.fieldSize=10;
-        equationsGenerator.advancedComplexity.fieldSize = 10;
-        equationsGenerator.advancedComplexity.generateEquations = true;
-      }
-  }
-
-  equationsGenerator.createEquations = function ()
+    equationsGenerator.createEquations = function ()
   {
     var selectedOps=[];
     for (var i = 0; i < equationsGenerator.operations.length; i++)
@@ -102,31 +43,36 @@ function EquationsGeneratorController
 
     if (selectedOps.length === 0)
     {
-      equationsGenerator.errorMessage="Выберите арифметическую операцию";
-      console.log(equationsGenerator.errorMessage);
+      equationsGenerator.errorMessage=equationsGenerator.STRINGS.noOperationsMessage;
     } else {
 
       equationsGenerator.errorMessage="";
-      console.log("Field size "+equationsGenerator.fieldSize);
-      console.log("complexity "+equationsGenerator.complexity);
 
-      var targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
+      equationsGenerator.targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
+      equationsGenerator.currentTarget =   equationsGenerator.targetCoordinates[Math.floor((Math.random() * 10)/3)];
+
       var options = {};
 
       if ((selectedOps.length === 1)&&(selectedOps[0]==="*"))
       {
         options = {noPrimes: true}
       }
-      var justSteps = EquationsGeneratorService.createPathToCurrentTarget (equationsGenerator.complexity, equationsGenerator.equationsAmount, equationsGenerator.fieldSize, options);
+      equationsGenerator.steps = EquationsGeneratorService.createPathToCurrentTarget
+      (equationsGenerator.complexity,
+       equationsGenerator.equationsAmount,
+       equationsGenerator.fieldSize,
+       equationsGenerator.currentTarget,
+       options,
+       equationsGenerator.language);
 
       equationsGenerator.equations = [];
 
-      var pr = EquationsGeneratorService.createEquationsFromPath(justSteps, equationsGenerator.complexity, selectedOps);
+      var pr = EquationsGeneratorService.createEquationsFromPath(equationsGenerator.steps, equationsGenerator.complexity, equationsGenerator.language, selectedOps);
 
       pr.then(function (result)
       {
         equationsGenerator.equations = result;
-        TreasureMapDrawingService.createCanvas(targetCoordinates, equationsGenerator.fieldSize, equationsGenerator.equations);
+        TreasureMapDrawingService.createCanvas(equationsGenerator.targetCoordinates, equationsGenerator.fieldSize, equationsGenerator.equations);
       },
       function (errorResponse) {
           console.log(errorResponse);
@@ -138,7 +84,6 @@ function EquationsGeneratorController
       };
 
   equationsGenerator.reset = function() {
-    console.log("Erasing!");
     equationsGenerator.equations = [];
   }
 
@@ -189,9 +134,11 @@ function EquationsGeneratorController
 
   equationsGenerator.translate = function ()
   {
-    console.log("Language changed to "+equationsGenerator.language);
-    console.log(equationsGenerator.STRINGS.rechnenrucksack);
     equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
+    if (equationsGenerator.steps.length>0)
+    {
+      TreasureMapDrawingService.createCanvas(equationsGenerator.targetCoordinates, equationsGenerator.fieldSize, equationsGenerator.equations);
+    }
   }
 
 }

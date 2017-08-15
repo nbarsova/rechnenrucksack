@@ -8,25 +8,15 @@ function PrintService() {
 
   printService.print = function(canvas) {
 
+    console.log("Printing");
+
       var dataURL = canvas.toDataURL();
-      var docDefinition = {
-      pageSize: 'A4',
 
-      // TBD: orientation settings here
+      var doc = new jsPDF({orientation: 'landscape'})
 
-      pageOrientation: 'landscape',
-      content:
-        [
-          { image: dataURL,
-            width: 800,
-          },
-          /* TBD: make nice copyright
-          {
-            image: printService.createCopyright()
-          }*/
-      ]
-    };
-      pdfMake.createPdf(docDefinition).download('treasureMap.pdf');
+      doc.addImage(dataURL, 'PNG', 15, 15);
+
+      window.open("data:application/pdf;base64, " + doc.output(), '_blank');
     }
 
     printService.createCopyright= function()
