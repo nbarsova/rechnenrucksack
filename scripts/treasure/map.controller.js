@@ -133,7 +133,7 @@ function EquationsGeneratorController
   equationsGenerator.print = function ()
   {
     var canvas = document.getElementById("treasureMapC");
-    PrintService.print(canvas);
+    PrintService.print(canvas, equationsGenerator.language);
   }
 
   equationsGenerator.translate = function ()

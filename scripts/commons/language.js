@@ -30,6 +30,7 @@ function LanguageService ()
         numberComplexity: "Числа в примерах",
         fieldSize: "Размер поля",
         equationsAmount: "Количество примеров",
+        cells: "клеток",
         operations: "Арифметические операции",
         getMap: "Получить карту",
         noOperationsMessage: "Выберите хотя бы одну арифметическую операцию",
@@ -41,7 +42,12 @@ function LanguageService ()
         dirRight: "направо",
         dirLeft: "налево",
         reset: "назад",
-        save: "сохранить"
+        save: "сохранить",
+        worksheetTitle: "Под каким камнем клад?",
+        worksheetDesc1: "Пираты закопали клад под камнем, но под каким?",
+        worksheetDesc2: "Для того, чтобы найти нужный камень, решай",
+        worksheetDesc3: "примеры и двигайся в указанном направлении. ",
+        worksheetDesc4: "Крестик указывает начало пути.  "
       }
     },
     {
@@ -52,6 +58,7 @@ function LanguageService ()
         numberComplexity: "Zahlen in Aufgaben",
         fieldSize: "Kartenmaße",
         equationsAmount: "Aufgabenzahl",
+        cells: "Zellen",
         operations: "Rechenoperationen",
         getMap: "Karte generieren",
         noOperationsMessage: "Wahlen Sie bitte am wenigsten eine Rechenoperation",
@@ -63,7 +70,12 @@ function LanguageService ()
         dirRight: "rechts",
         dirLeft: "links",
         reset: "zurück",
-        save: "speichern"
+        save: "speichern",
+        worksheetTitle: "Unter welchem Stein ist der Schatz versteckt?",
+        worksheetDesc1: "Die Piraten haben einen Schatz vergraben.",
+        worksheetDesc2: "Aber unter welchem Stein? Löse die Aufgaben, ",
+        worksheetDesc3: "laufe in die Richtung und finde heraus! ",
+        worksheetDesc4: "Das Kreuz zeigt wo fangst du an.  "
       }
     },
     {
@@ -73,6 +85,7 @@ function LanguageService ()
         generatorDescription: "Dear parents and teachers! With the help of \"Bag of tasks\" you can generate treasure map puzzles with arithmetic tasks of different complexity and save them as pdf for printing.",
         numberComplexity: "Numbers in tasks",
         fieldSize: "Field size",
+        cells: "squares",
         equationsAmount: "How many tasks? ",
         operations: "Arithmetic operations",
         getMap: "Get the map",
@@ -85,7 +98,12 @@ function LanguageService ()
         dirRight: "right",
         dirLeft: "left",
         reset: "back",
-        save: "save"
+        save: "save",
+        worksheetTitle: "Under which stone is the treasure?",
+        worksheetDesc1: "The pirates have buried their treasure!",
+        worksheetDesc2: "But under which stone? Solve the tasks",
+        worksheetDesc3: "to find out! ",
+        worksheetDesc4: "The cross shows where to start.  "
       }
     }
   ]

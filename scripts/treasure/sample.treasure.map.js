@@ -8,6 +8,7 @@ function SampleTreasureMap() {
 
 function SampleTreasureMapBuilder (scope, element, attrs, controller)
 {
+
   var canvas = document.getElementById("treasureMapExample");
 
   var context = canvas.getContext("2d");
@@ -61,7 +62,7 @@ function SampleTreasureMapBuilder (scope, element, attrs, controller)
   context.stroke();
 
   context.font = "18px PT Sans";
-  context.fillText("Под каким камнем клад? ",180,80);
+  context.fillText(LanguageService.getString(scope.equationsGenerator.language, "worksheetTitle"),180,80);
   context.font = "14px PT Sans";
   context.fillText("1 + 2 = _  шага налево ",180,110);
   context.fillText("6 - 4 = _  шага вверх", 180,140);

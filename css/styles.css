@@ -120,3 +120,9 @@ select {
   font-size: 18px;
   background-color: #7cadef;
 }
+
+select.icon-menu option {
+background-repeat:no-repeat;
+background-position:bottom left;
+padding-left:30px;
+}
