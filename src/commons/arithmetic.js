@@ -50,7 +50,6 @@ function ArithmeticService($q) {
     // Map for equations already used, to keep them as diverse as possible
 
     var generatedEquations = [];
-    var equationsSet = [];
 
     service.initEquations = function ()
     {
@@ -59,9 +58,24 @@ function ArithmeticService($q) {
 
     service.createEquationSet = function(steps, operations, complexity)
     {
+      try {
+      if (steps.length<=0)
+      {
+        throw new Error ("Incorrect input, number list empty");
+      }
+
+      if (operations.length<=0)
+      {
+        throw new Error ("Incorrect input, operation list empty");
+      }
+
+      if (isNaN(complexity))
+      {
+        throw new Error ("Incorrect input, complexity is not a number");
+      }
       console.log(steps);
       var deferred = $q.defer();
-      equationsSet = [];
+      var equationsSet = [];
 
       var opTreshold = Math.floor(steps.length/operations.length)+1;
       var adN=0;
@@ -89,8 +103,6 @@ function ArithmeticService($q) {
       tresholds.push({op: '-', treshold: subN});
       tresholds.push({op: '*', treshold: multN});
       tresholds.push({op: ':', treshold: divN});
-
-      try {
 
       for (var i=0; i<steps.length; i++)
         {
@@ -344,16 +356,33 @@ function ArithmeticService($q) {
   }
 
     /*
-    A function to generate random natural number in a range
+    A function to generate random natural number in a range.
+    Negative input acceptable.
     */
     service.normalRandom = function (min, max)
     {
+      if (min>max)
+      {
+        throw new Error ("Incorrect input, first argument should be greater than the second");
+      }
+
+      if (isNaN(min)||isNaN(max))
+      {
+        throw new Error ("Input must be numeric");
+      }
       return Math.floor((Math.random() * (max-min+1)) + min);
     }
+
+    /* Check if a number is prime, for negatives and zeroes, returns error */
 
     service.isPrime = function (number)
     {
       var isPrime = true;
+
+      if (number <=0 )
+      {
+        throw new Error ("Incorrect input!");
+      }
       if (Math.abs(number)<=3)
       {
          isPrime = true;

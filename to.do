@@ -1,4 +1,6 @@
 TODO:
+- Arithmetic module unit tests
+- Answer generation
 
 - Sample on first page
 

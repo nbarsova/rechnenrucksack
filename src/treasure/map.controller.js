@@ -146,6 +146,11 @@ function EquationsGeneratorController
                                              equationsGenerator.equations,
                                              equationsGenerator.language);
       }
+
+     if (equationsGenerator.errorMessage!=="")
+      {
+        equationsGenerator.errorMessage = equationsGenerator.STRINGS.noOperationsMessage;
+      }
    }
 
 }
