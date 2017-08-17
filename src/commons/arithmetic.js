@@ -268,8 +268,8 @@ function ArithmeticService($q) {
               //console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
               if (generatedEquations[n].values[nn].operation === operation)
               {
-                //console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
-                //console.log(generatedEquations[n].values[nn]);
+                console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
+                console.log(generatedEquations[n].values[nn]);
                 var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
                 //console.log("Random number is "+randomNumber);
                 equation = generatedEquations[n].values[nn].equations[randomNumber];
@@ -363,7 +363,7 @@ function ArithmeticService($q) {
     {
       if (min>max)
       {
-        throw new Error ("Incorrect input, first argument should be greater than the second");
+        throw new Error ("Incorrect input, first argument "+min+" should be greater than the second " +max);
       }
 
       if (isNaN(min)||isNaN(max))
@@ -373,16 +373,12 @@ function ArithmeticService($q) {
       return Math.floor((Math.random() * (max-min+1)) + min);
     }
 
-    /* Check if a number is prime, for negatives and zeroes, returns error */
+    /* Check if an absolute value of a number is prime */
 
     service.isPrime = function (number)
     {
       var isPrime = true;
 
-      if (number <=0 )
-      {
-        throw new Error ("Incorrect input!");
-      }
       if (Math.abs(number)<=3)
       {
          isPrime = true;

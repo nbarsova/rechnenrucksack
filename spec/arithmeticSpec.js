@@ -19,14 +19,6 @@ describe("ArithmeticServiceSpec", function() {
     expect(result).toBe(true);
   });
 
-  it("0 is not natural, isPrime throws error", function() {
-    expect (function () { arithmetic.isPrime(0); }).toThrow();
-  });
-
-  it("-5 is negative, isPrime throws error", function() {
-    expect (function () { arithmetic.isPrime(-5); }).toThrow();
-  });
-
  // Testing random generatedEquations
 
   it ("random generation, in bounds [0, 10]", function () {

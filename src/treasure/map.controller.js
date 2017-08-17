@@ -8,16 +8,19 @@ function EquationsGeneratorController
 
   // Complexity setting objects
 
-  equationsGenerator.operations = [
-    {code: "+", value: "+", selected: true},
-    {code: "-", value: "-", selected: true},
-    {code: "*", value: "*", selected: true},
-    {code: ":", value: ":", selected: true}
-  ];
-  equationsGenerator.complexity=25;
-  equationsGenerator.equationsAmount=6;
-  equationsGenerator.fieldSize=10;
-  equationsGenerator.generationAllowed = true;
+  equationsGenerator.easyComplexity = 1;
+
+  equationsGenerator.advancedComplexity={
+    complexity:10,
+    equationsAmount:6,
+    fieldSize:5,
+    operations: [
+    {code: "+", value: "+", selected: true, available:true},
+    {code: "-", value: "-", selected: true, available:true},
+    {code: "*", value: "*", selected: false, available:true},
+    {code: ":", value: ":", selected: false, available:true}
+  ]};
+
   equationsGenerator.generationOptions =
   {
     pageOrientation: 'landscape',
@@ -25,7 +28,7 @@ function EquationsGeneratorController
     nameDate: false
   };
 
-  equationsGenerator.easyComplexity = 1; 
+  equationsGenerator.generationAllowed = true;
 
   // Language related objects
   equationsGenerator.language="ru";
@@ -37,25 +40,116 @@ function EquationsGeneratorController
   equationsGenerator.equations = [];
   equationsGenerator.currentTarget;
 
+  equationsGenerator.changeComplexity = function ()
+  {
+    EquationsGeneratorService.changeComplexity();
+
+    switch (equationsGenerator.easyComplexity)
+    {
+      case ('1'): // easy, addition and substraction 0-10
+        equationsGenerator.advancedComplexity.complexity=10;
+        equationsGenerator.advancedComplexity.equationsAmount=6;
+        equationsGenerator.advancedComplexity.fieldSize=5;
+        for (var i=0; i<equationsGenerator.advancedComplexity.operations.length; i++)
+        {
+          if ((equationsGenerator.advancedComplexity.operations[i].value==="*") ||
+            (equationsGenerator.advancedComplexity.operations[i].value===":"))
+              {
+                equationsGenerator.advancedComplexity.operations[i].selected = false;
+              }
+
+          if ((equationsGenerator.advancedComplexity.operations[i].value==="+") ||
+            (equationsGenerator.advancedComplexity.operations[i].value==="-"))
+              {
+                equationsGenerator.advancedComplexity.operations[i].selected = true;
+            }
+        }
+        break;
+
+      case ('2'):
+        equationsGenerator.advancedComplexity.complexity=25;
+        equationsGenerator.advancedComplexity.equationsAmount=8;
+        equationsGenerator.advancedComplexity.fieldSize=10;
+        for (var i=0; i<equationsGenerator.advancedComplexity.operations.length; i++)
+        {
+          if ((equationsGenerator.advancedComplexity.operations[i].value==="*") ||
+            (equationsGenerator.advancedComplexity.operations[i].value===":"))
+              {
+                equationsGenerator.advancedComplexity.operations[i].selected = false;
+              }
+
+          if ((equationsGenerator.advancedComplexity.operations[i].value==="+") ||
+            (equationsGenerator.advancedComplexity.operations[i].value==="-"))
+              {
+                equationsGenerator.advancedComplexity.operations[i].selected = true;
+              }
+        }
+        break;
+
+      case ('3'):
+        equationsGenerator.advancedComplexity.complexity=25;
+        equationsGenerator.advancedComplexity.equationsAmount=10;
+        equationsGenerator.advancedComplexity.fieldSize=10;
+        for (var i=0; i<equationsGenerator.advancedComplexity.operations.length; i++)
+        {
+           equationsGenerator.advancedComplexity.operations[i].selected = true;
+        }
+        break;
+
+      case ('100'):
+        if (Number(equationsGenerator.advancedComplexity.complexity)===10)
+        {
+          equationsGenerator.advancedComplexity.fieldSize=5;
+          for (var i=0; i<equationsGenerator.advancedComplexity.operations.length; i++)
+          {
+            if ((equationsGenerator.advancedComplexity.operations[i].value==="*") ||
+              (equationsGenerator.advancedComplexity.operations[i].value===":"))
+                {
+                  equationsGenerator.advancedComplexity.operations[i].available = false;
+                  equationsGenerator.advancedComplexity.operations[i].selected = false;
+                }
+          }
+
+        }
+        if (Number(equationsGenerator.advancedComplexity.complexity)===25)
+        {
+          equationsGenerator.advancedComplexity.fieldSize=10;
+          for (var i=0; i<equationsGenerator.advancedComplexity.operations.length; i++)
+          {
+            if ((equationsGenerator.advancedComplexity.operations[i].value==="*") ||
+              (equationsGenerator.advancedComplexity.operations[i].value===":"))
+                {
+                  equationsGenerator.advancedComplexity.operations[i].available = true;
+                  }
+          }
+      }
+      equationsGenerator.alterOperations();
+        break;
+    }
+
+  }
+
     equationsGenerator.createEquations = function ()
   {
+    console.log(equationsGenerator.advancedComplexity.operations);
     var selectedOps=[];
-    for (var i = 0; i < equationsGenerator.operations.length; i++)
+    for (var i = 0; i < equationsGenerator.advancedComplexity.operations.length; i++)
     {
-    if (equationsGenerator.operations[i].selected)
+    if (equationsGenerator.advancedComplexity.operations[i].selected)
       {
-        selectedOps.push(equationsGenerator.operations[i].code);
+        selectedOps.push(equationsGenerator.advancedComplexity.operations[i].code);
       }
     }
 
     if (selectedOps.length === 0)
     {
       equationsGenerator.errorMessage=equationsGenerator.STRINGS.noOperationsMessage;
+      equationsGenerator.generationAllowed = false;
     } else {
 
       equationsGenerator.errorMessage="";
-
-      equationsGenerator.targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.fieldSize);
+      equationsGenerator.generationAllowed = true;
+      equationsGenerator.targetCoordinates = EquationsGeneratorService.initTargets(equationsGenerator.advancedComplexity.fieldSize);
       equationsGenerator.currentTarget =   equationsGenerator.targetCoordinates[Math.floor((Math.random() * 10)/3)];
 
       var options = {};
@@ -65,9 +159,9 @@ function EquationsGeneratorController
         options = {noPrimes: true}
       }
       equationsGenerator.steps = EquationsGeneratorService.createPathToCurrentTarget
-      (equationsGenerator.complexity,
-       equationsGenerator.equationsAmount,
-       equationsGenerator.fieldSize,
+      (equationsGenerator.advancedComplexity.complexity,
+       equationsGenerator.advancedComplexity.equationsAmount,
+       equationsGenerator.advancedComplexity.fieldSize,
        equationsGenerator.currentTarget,
        options,
        equationsGenerator.language);
@@ -75,13 +169,13 @@ function EquationsGeneratorController
        console.log(equationsGenerator.steps);
        equationsGenerator.equations = [];
 
-      var pr = EquationsGeneratorService.createEquationsFromPath(equationsGenerator.steps, equationsGenerator.complexity, equationsGenerator.language, selectedOps);
+      var pr = EquationsGeneratorService.createEquationsFromPath(equationsGenerator.steps, equationsGenerator.advancedComplexity.complexity, equationsGenerator.language, selectedOps);
 
       pr.then(function (result)
       {
         equationsGenerator.equations = result;
         TreasureMapDrawingService.createCanvas(equationsGenerator.targetCoordinates,
-                                               equationsGenerator.fieldSize,
+                                               equationsGenerator.advancedComplexity.fieldSize,
                                                equationsGenerator.equations,
                                                 equationsGenerator.language);
       },
@@ -98,29 +192,12 @@ function EquationsGeneratorController
     equationsGenerator.equations = [];
   }
 
-  equationsGenerator.alterComplexity = function()
-  {
-    EquationsGeneratorService.changeComplexity();
-
-    if ((equationsGenerator.complexity<25)||(equationsGenerator.fieldSize<10))
-    {
-      for (var i = 0; i < equationsGenerator.operations.length; i++)
-      {
-      if ((equationsGenerator.operations[i].code === '*')||(equationsGenerator.operations[i].code === ':'))
-        {
-          equationsGenerator.operations[i].selected = false;
-        }
-      }
-      if (equationsGenerator.equationsAmount>8) equationsGenerator.equationsAmount=6;
-    }
-}
-
   equationsGenerator.alterOperations = function()
   {
   var operationSelected = false;
-    for (var i = 0; i < equationsGenerator.operations.length; i++)
+    for (var i = 0; i < equationsGenerator.advancedComplexity.operations.length; i++)
     {
-      if (equationsGenerator.operations[i].selected)
+      if (equationsGenerator.advancedComplexity.operations[i].selected)
       {
         operationSelected = true;
       }
@@ -149,7 +226,7 @@ function EquationsGeneratorController
     if (equationsGenerator.steps.length>0)
     {
       TreasureMapDrawingService.createCanvas(equationsGenerator.targetCoordinates,
-                                             equationsGenerator.fieldSize,
+                                             equationsGenerator.advancedComplexity.fieldSize,
                                              equationsGenerator.equations,
                                              equationsGenerator.language);
       }

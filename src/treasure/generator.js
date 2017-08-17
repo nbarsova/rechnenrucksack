@@ -55,25 +55,29 @@ service.createPathToCurrentTarget
   var pathObject = new TargetObject(0,0);
   var step=0;
   var direction="";
-  var limit = fieldSize;
 
   steps = [];
 
   for (var i=0; i<equationsAmount-4; i++)
   {
+    var upperLimit = fieldSize;
+    var lowerLimit = 3;
+
     if (i%2==0) // odd steps are horizontal
       {
         if (Number(complexity)>Number(fieldSize))
         {
-            limit=Math.max(Math.abs(fieldSize-pathObject.x)-1, Math.abs(-fieldSize-pathObject.x)-1);
+            upperLimit=Math.max(Math.abs(fieldSize-pathObject.x)-1, Math.abs(-fieldSize-pathObject.x)-1);
+            if (upperLimit>fieldSize) lowerLimit = fieldSize;
+            console.log("Limit is "+upperLimit);
         }
 
         if (options.noPrimes === true)
         {
-          step = service.createNonPrimeStep (3, limit, pathObject.x, fieldSize);
+          step = service.createNonPrimeStep (lowerLimit, upperLimit, pathObject.x, fieldSize);
         } else
         {
-          step=service.createUniqueStep(3, limit, pathObject.x, fieldSize);
+          step=service.createUniqueStep(lowerLimit, upperLimit, pathObject.x, fieldSize);
         }
           steps.push(step);
           pathObject.x+=step;
@@ -82,14 +86,16 @@ service.createPathToCurrentTarget
       {
         if (complexity>fieldSize)
         {
-            limit=Math.max(Math.abs(fieldSize-pathObject.y)-1, Math.abs(-fieldSize-pathObject.y)-1);
+            upperLimit=Math.max(Math.abs(fieldSize-pathObject.y)-1, Math.abs(-fieldSize-pathObject.y)-1);
+            if (upperLimit>fieldSize) lowerLimit = fieldSize;
+            console.log("Limit is "+upperLimit);
         }
         if (options.noPrimes === true)
         {
-          step = service.createNonPrimeStep (3, limit, pathObject.y, fieldSize);
+          step = service.createNonPrimeStep (lowerLimit, upperLimit, pathObject.y, fieldSize);
         } else
         {
-          step=service.createUniqueStep(3, limit, pathObject.y, fieldSize);
+          step=service.createUniqueStep(lowerLimit, upperLimit, pathObject.y, fieldSize);
         }
 
         steps.push(step);
@@ -108,7 +114,7 @@ service.createPathToCurrentTarget
        step = Math.floor(deltaX/2);
     }
     else {
-      step = ArithmeticService.normalRandom(3, Number(fieldSize)*2-3) * Math.sign(currentTarget.x)*(-1);
+      step = ArithmeticService.normalRandom(fieldSize, Number(fieldSize)*2-3) * Math.sign(currentTarget.x)*(-1);
     }
 
     pathObject.x+=step;
@@ -124,7 +130,7 @@ service.createPathToCurrentTarget
        step = Math.floor(deltaY/2);
     }
     else {
-      step = ArithmeticService.normalRandom(3, Number(fieldSize)*2-3) * Math.sign(currentTarget.y)*(-1);
+      step = ArithmeticService.normalRandom(fieldSize, Number(fieldSize)*2-3) * Math.sign(currentTarget.y)*(-1);
     }
 
     pathObject.y+=step;

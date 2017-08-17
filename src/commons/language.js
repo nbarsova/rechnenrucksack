@@ -57,9 +57,11 @@ function LanguageService ()
         easyComplexity: "Выбор сложности заданий",
         easyComplexityTrivial: "Тривиальные",
         easyComplexityEasy: "Простые",
+        easyComplexityEasyTooltip: "Сложение и вычитание в пределах 10",
         easyComplexityMedium: "Средние",
-        easyComplexityHard: "Продвинутые",
-        easyComplexityVeryHard: "Сложные",
+        easyComplexityMediumTooltip: "Сложение и вычитание с переходом через 10",
+        easyComplexityHard: "Сложные",
+        easyComplexityHardTooltip: "Сложение, вычитание, таблица умножения до 25",
         advancedComplexity: "Расширенные настройки сложности"
       }
     },
@@ -98,10 +100,12 @@ function LanguageService ()
         easyComplexity: "Komplexitätwahl",
         easyComplexityTrivial: "Trivial",
         easyComplexityEasy: "Einfach",
+        easyComplexityEasyTooltip: "Addition und Substraction bis 10",
         easyComplexityMedium: "Mittel",
-        easyComplexityHard: "Fortgeschritten",
-        easyComplexityVeryHard: "Schwer",
-        advancedComplexity: "erweiterte Komplexitäteinstellungen"
+        easyComplexityMediumTooltip: "Addition und Substraction bis 25",
+        easyComplexityHard: "Schwer",
+        easyComplexityHardTooltip: "Addition und Substraction, Multiplikation und Division bis 25",
+        advancedComplexity: "Erweiterte Komplexitäteinstellungen"
       }
     },
     {
@@ -139,9 +143,11 @@ function LanguageService ()
         easyComplexity: "Complexity choice",
         easyComplexityTrivial: "Trivial",
         easyComplexityEasy: "Easy",
+        easyComplexityEasyTooltip: "Addition and substraction up to 10",
         easyComplexityMedium: "Average",
-        easyComplexityHard: "Harder",
-        easyComplexityVeryHard: "Hardest",
+        easyComplexityMediumTooltip: "Addition and substraction up to 25",
+        easyComplexityHard: "Hard",
+        easyComplexityHardTooltip: "Addition and substraction, multiplication table up to 25",
         advancedComplexity: "Advanced Complexity Settings"
       }
     }
