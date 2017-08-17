@@ -6,7 +6,7 @@ function PrintService(LanguageService) {
 
   var printService = this;
 
-  printService.print = function(canvas, language) {
+  printService.print = function(canvas, language, options) {
 
     console.log("Printing");
 

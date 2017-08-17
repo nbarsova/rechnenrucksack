@@ -42,6 +42,16 @@ h4 {
 
 }
 
+h5 {
+  font-family: 'PT Sans', cursive;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding-top: 10px;
+  display: inline;
+}
+
 h6 {
   font-family: 'Neucha', cursive;
   font-size: 18px;
@@ -88,6 +98,17 @@ button
   border: 2px solid black;
   margin-top: 0;
   padding-top: 0;
+  font-size:16px;
+}
+
+#printSettings
+{
+  font-size:16px;
+}
+
+#advancedComplexity
+{
+  margin-top: 20px;
 }
 
 #answer

@@ -47,7 +47,20 @@ function LanguageService ()
         worksheetDesc1: "Пираты закопали клад под камнем, но под каким?",
         worksheetDesc2: "Для того, чтобы найти нужный камень, решай",
         worksheetDesc3: "примеры и двигайся в указанном направлении. ",
-        worksheetDesc4: "Крестик указывает начало пути.  "
+        worksheetDesc4: "Крестик указывает начало пути.  ",
+        settings: "Настройки печати",
+        pageOrientationDesc: "Ориентация страницы",
+        pageOrientationLandscape: "Горизонтальная",
+        pageOrientationPortrait: "Вертикальная",
+        answerGeneration: "Генерировать ответ",
+        nameDate: "Место для имени и даты",
+        easyComplexity: "Выбор сложности заданий",
+        easyComplexityTrivial: "Тривиальные",
+        easyComplexityEasy: "Простые",
+        easyComplexityMedium: "Средние",
+        easyComplexityHard: "Продвинутые",
+        easyComplexityVeryHard: "Сложные",
+        advancedComplexity: "Расширенные настройки сложности"
       }
     },
     {
@@ -75,7 +88,20 @@ function LanguageService ()
         worksheetDesc1: "Die Piraten haben einen Schatz vergraben.",
         worksheetDesc2: "Aber unter welchem Stein? Löse die Aufgaben, ",
         worksheetDesc3: "laufe in die Richtung und finde heraus! ",
-        worksheetDesc4: "Das Kreuz zeigt wo fangst du an.  "
+        worksheetDesc4: "Das Kreuz zeigt wo fangst du an.  ",
+        settings: "Ausdrückeinstellungen",
+        pageOrientationDesc: "Seitenausrichtung",
+        pageOrientationLandscape: "Horizontal",
+        pageOrientationPortrait: "Vertikal",
+        answerGeneration: "Antwortblatt",
+        nameDate: "Name und Datum",
+        easyComplexity: "Komplexitätwahl",
+        easyComplexityTrivial: "Trivial",
+        easyComplexityEasy: "Einfach",
+        easyComplexityMedium: "Mittel",
+        easyComplexityHard: "Fortgeschritten",
+        easyComplexityVeryHard: "Schwer",
+        advancedComplexity: "erweiterte Komplexitäteinstellungen"
       }
     },
     {
@@ -103,7 +129,20 @@ function LanguageService ()
         worksheetDesc1: "The pirates have buried their treasure!",
         worksheetDesc2: "But under which stone? Solve the tasks",
         worksheetDesc3: "to find out! ",
-        worksheetDesc4: "The cross shows where to start.  "
+        worksheetDesc4: "The cross shows where to start.  ",
+        settings: "Print settings",
+        pageOrientationDesc: "Page orientation",
+        pageOrientationLandscape: "Horizontal",
+        pageOrientationPortrait: "Vertical",
+        answerGeneration: "Answer page",
+        nameDate: "Name and date",
+        easyComplexity: "Complexity choice",
+        easyComplexityTrivial: "Trivial",
+        easyComplexityEasy: "Easy",
+        easyComplexityMedium: "Average",
+        easyComplexityHard: "Harder",
+        easyComplexityVeryHard: "Hardest",
+        advancedComplexity: "Advanced Complexity Settings"
       }
     }
   ]

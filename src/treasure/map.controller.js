@@ -18,9 +18,16 @@ function EquationsGeneratorController
   equationsGenerator.equationsAmount=6;
   equationsGenerator.fieldSize=10;
   equationsGenerator.generationAllowed = true;
+  equationsGenerator.generationOptions =
+  {
+    pageOrientation: 'landscape',
+    answerGeneration: true,
+    nameDate: false
+  };
+
+  equationsGenerator.easyComplexity = 1; 
 
   // Language related objects
-
   equationsGenerator.language="ru";
   equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
 

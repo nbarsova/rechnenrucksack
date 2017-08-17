@@ -24,42 +24,65 @@
 </head>
 <body ng-controller='EquationsGeneratorController as equationsGenerator' >
   <header><h1>{{equationsGenerator.STRINGS.rechnenrucksack}}</h1></header>
-   <div><select id="lang" name="lang" class="icon-menu" ng-model="equationsGenerator.language" ng-change="equationsGenerator.translate()">
+   <div><select id="lang" name="lang" class="icon-menu"
+     ng-model="equationsGenerator.language"
+     ng-change="equationsGenerator.translate()">
     <option value="ru">Русский </option>
     <option value="en">English </option>
     <option value="de">Deutsch </option>
   </select></div>
-  <div style='padding:0px;margin:0px;' id="input" ng-show="equationsGenerator.equations.length===0">
+
+  <div id="input" ng-show="equationsGenerator.equations.length===0">
   <p>{{equationsGenerator.STRINGS.generatorDescription}}</p>
-  <table id="complexityTable" width="75%"><tr>
-    <td><div id="complexityChoice">
-      <h4>{{equationsGenerator.STRINGS.numberComplexity}}</h4>
+  <div id="easyComplexity"><h4>{{equationsGenerator.STRINGS.easyComplexity}}</h4><br>
+  <input type="radio"
+                ng-model="equationsGenerator.easyComplexity" value="1"
+                ng-change="">
+                {{equationsGenerator.STRINGS.easyComplexityEasy}}
+     <input type="radio"
+                ng-model="equationsGenerator.easyComplexity" value="2"
+                ng-change="">
+                {{equationsGenerator.STRINGS.easyComplexityMedium}}
+      <input type="radio"
+                ng-model="equationsGenerator.easyComplexity" value="3"
+                ng-change="">
+                {{equationsGenerator.STRINGS.easyComplexityVeryHard}}
+      <input type="radio" ng-model="equationsGenerator.easyComplexity" value="100"
+      ng-change="">{{equationsGenerator.STRINGS.advancedComplexity}}</div>
+  <div id="advancedComplexity" ng-show="equationsGenerator.easyComplexity==='100'">
+  <table id="complexityTable"><tr>
+    <td><h5>{{equationsGenerator.STRINGS.numberComplexity}}</h5>
         <p><input type="radio" ng-model="equationsGenerator.complexity" value="10"
                 ng-change="equationsGenerator.alterComplexity()">0-10</p>
         <p><input type="radio" ng-model="equationsGenerator.complexity" value="25"
                 ng-change="equationsGenerator.alterComplexity()">0-25</p>
         <p><input type="radio" ng-model="equationsGenerator.complexity" value="99"
-                ng-change="equationsGenerator.alterComplexity()">0-100</p></div></td>
-      <td><div id="fieldSizeChoice"><h4>{{equationsGenerator.STRINGS.fieldSize}}</h4>
+                ng-change="equationsGenerator.alterComplexity()">0-100</p></td>
+      <td><div id="fieldSizeChoice"><h5>{{equationsGenerator.STRINGS.fieldSize}}</h5>
         <p><input type="radio" ng-model="equationsGenerator.fieldSize" value="5" ng-change="equationsGenerator.alterComplexity()">5 {{equationsGenerator.STRINGS.cells}}</p>
         <p><input type="radio" ng-model="equationsGenerator.fieldSize" value="10" ng-change="equationsGenerator.alterComplexity()">10 {{equationsGenerator.STRINGS.cells}}</p>
       </div></td>
-        <td><div id="equationsAmountChoice"><h4>{{equationsGenerator.STRINGS.equationsAmount}}</h4>
+        <td><div id="equationsAmountChoice"><h5>{{equationsGenerator.STRINGS.equationsAmount}}</h5>
           <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="6">6</p>
           <p><input type="radio" ng-model="equationsGenerator.equationsAmount" value="8">8</p>
           <p ng-hide="((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="radio"ng-model="equationsGenerator.equationsAmount" value="10">10</p>
         </div></td>
-  <td><h4>{{equationsGenerator.STRINGS.operations}}</h4>
+  <td><h5>{{equationsGenerator.STRINGS.operations}}</h5>
   <div id="operationsChoice" ng-repeat="operation in equationsGenerator.operations">
       <p ng-hide="((operation.code==='*')||(operation.code===':'))&&((equationsGenerator.complexity<=10)||(equationsGenerator.fieldSize<10))"><input type="checkbox"
        value="{{operation.code}}" ng-model="operation.selected"
        ng-change="equationsGenerator.alterOperations()"> {{operation.value}} </p>
-    </div></td></tr> <tr></table></td></tr>
-    <tr><td><br><button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed">{{equationsGenerator.STRINGS.getMap}}</button></table></div>
+    </div></td></tr> <tr></table></td></tr></div>
+    <tr><td colspan="4"><div id="printSettings" width="100%"><br><h4>{{equationsGenerator.STRINGS.settings}}</h4>
+      <p><h5>{{equationsGenerator.STRINGS.pageOrientationDesc}}: </h5></p>
+      <p><input type="radio" ng-model="equationsGenerator.generationOptions.pageOrientation" value="landscape">{{equationsGenerator.STRINGS.pageOrientationLandscape}} <input type="radio" ng-model="equationsGenerator.generationOptions.pageOrientation" value="portrait">{{equationsGenerator.STRINGS.pageOrientationPortrait}}</p>
+      <p><input type="checkbox" ng-model="equationsGenerator.generationOptions.answerGeneration" > {{equationsGenerator.STRINGS.answerGeneration}}</p>
+      <p><input type="checkbox" ng-model="equationsGenerator.generationOptions.nameDate" > {{equationsGenerator.STRINGS.nameDate}}</p></div></td></tr>
+    <tr><td><br><button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed">{{equationsGenerator.STRINGS.getMap}}</button></td></tr></table></div>
 
     <div style='padding:0px;margin:0px;' id="output" ng-show="equationsGenerator.equations.length!==0">
       <table><tr><td><canvas id="treasureMapC" height="550" width="1000"></canvas></td>
-        <td><div id="buttons"><button ng-click="equationsGenerator.print()"><translate>{{equationsGenerator.STRINGS.save}}</translate></button><br><br>
+        <td><div id="buttons"><button ng-click="equationsGenerator.print()">{{equationsGenerator.STRINGS.save}}</button><br><br>
     <button ng-click="equationsGenerator.reset()">{{equationsGenerator.STRINGS.reset}}</button></div></td></tr></table>
 
   </div>
