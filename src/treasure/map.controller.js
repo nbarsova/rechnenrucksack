@@ -39,6 +39,7 @@ function EquationsGeneratorController
   equationsGenerator.targetCoordinates = []; // four random targets
   equationsGenerator.equations = [];
   equationsGenerator.currentTarget;
+  equationsGenerator.errorMessage="";
 
   equationsGenerator.changeComplexity = function ()
   {
@@ -230,7 +231,7 @@ function EquationsGeneratorController
                                              equationsGenerator.equations,
                                              equationsGenerator.language);
       }
-
+    console.log(equationsGenerator.errorMessage);
      if (equationsGenerator.errorMessage!=="")
       {
         equationsGenerator.errorMessage = equationsGenerator.STRINGS.noOperationsMessage;
