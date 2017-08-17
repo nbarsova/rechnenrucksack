@@ -1,14 +1,12 @@
-EquationsGeneratorService.$inject = ['$q', 'ArithmeticService'];
+EquationsGeneratorService.$inject = ['$q', 'ArithmeticService', 'LanguageService'];
 
-function EquationsGeneratorService($q, ArithmeticService) {
+function EquationsGeneratorService($q, ArithmeticService, LanguageService) {
 
   var service = this;
 
   var steps = [];
 
   var targetObjects = [];
-
-  var currentTarget;
 
 class PlayField
 {
@@ -38,10 +36,6 @@ service.initTargets = function (fieldSize)
                                    fieldSize - Math.floor((Math.random() * fieldSize)/3)),
                        new TargetObject(-fieldSize+Math.floor((Math.random() * fieldSize)/3),
                                     -fieldSize+Math.floor((Math.random() * fieldSize)/3))];
-
-
-   currentTarget = targetObjects[Math.floor((Math.random() * 10)/3)];
-   console.log("Current target: "+currentTarget.x+" ,"+currentTarget.y);
    return targetObjects;
 };
 
@@ -55,61 +49,57 @@ service.getTargetObjects = function ()
   return targetObjects;
 };
 
-service.getCurrentTarget = function()
-{
-  return currentTarget;
-};
-
-service.createPathToCurrentTarget = function (complexity, equationsAmount, fieldSize, options)
+service.createPathToCurrentTarget
+  = function (complexity, equationsAmount, fieldSize, currentTarget, options, language)
 {
   var pathObject = new TargetObject(0,0);
   var step=0;
   var direction="";
-  var limit = fieldSize;
 
   steps = [];
 
   for (var i=0; i<equationsAmount-4; i++)
   {
+    var upperLimit = fieldSize;
+    var lowerLimit = 3;
+
     if (i%2==0) // odd steps are horizontal
       {
         if (Number(complexity)>Number(fieldSize))
         {
-            limit=Math.max(Math.abs(fieldSize-pathObject.x)-1, Math.abs(-fieldSize-pathObject.x)-1);
+            upperLimit=Math.max(Math.abs(fieldSize-pathObject.x)-1, Math.abs(-fieldSize-pathObject.x)-1);
+            if (upperLimit>fieldSize) lowerLimit = fieldSize;
+            console.log("Limit is "+upperLimit);
         }
 
         if (options.noPrimes === true)
         {
-          step = service.createNonPrimeStep (3, limit, pathObject.x, fieldSize);
+          step = service.createNonPrimeStep (lowerLimit, upperLimit, pathObject.x, fieldSize);
         } else
         {
-          step=service.createUniqueStep(3, limit, pathObject.x, fieldSize);
+          step=service.createUniqueStep(lowerLimit, upperLimit, pathObject.x, fieldSize);
         }
-          direction=service.setDirection(step, 'horizontal');
-          steps.push({step: Math.abs(step), direction:direction});
-          console.log("Step is "+ step +" direction " +direction);
-
+          steps.push(step);
           pathObject.x+=step;
       }
       else // even steps are vertical
       {
         if (complexity>fieldSize)
         {
-            limit=Math.max(Math.abs(fieldSize-pathObject.y)-1, Math.abs(-fieldSize-pathObject.y)-1);
+            upperLimit=Math.max(Math.abs(fieldSize-pathObject.y)-1, Math.abs(-fieldSize-pathObject.y)-1);
+            if (upperLimit>fieldSize) lowerLimit = fieldSize;
+            console.log("Limit is "+upperLimit);
         }
         if (options.noPrimes === true)
         {
-          step = service.createNonPrimeStep (3, limit, pathObject.y, fieldSize);
+          step = service.createNonPrimeStep (lowerLimit, upperLimit, pathObject.y, fieldSize);
         } else
         {
-          step=service.createUniqueStep(3, limit, pathObject.y, fieldSize);
+          step=service.createUniqueStep(lowerLimit, upperLimit, pathObject.y, fieldSize);
         }
 
-        direction=service.setDirection(step, 'vertical');
-        steps.push({step: Math.abs(step), direction:direction});
-        console.log("Step is "+ step +" direction " +direction);
-
-          pathObject.y+=step;
+        steps.push(step);
+        pathObject.y+=step;
       }
       console.log("Position is "+ pathObject.x + ", "+pathObject.y);
   }
@@ -122,16 +112,13 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
     if (Math.abs(deltaX)>3)
     {
        step = Math.floor(deltaX/2);
-       direction = service.setDirection(step, "horizontal");
     }
     else {
-      step = ArithmeticService.normalRandom(3, Number(fieldSize)*2-3) * Math.sign(currentTarget.x)*(-1);
-      direction = service.setDirection(step, "horizontal");
+      step = ArithmeticService.normalRandom(fieldSize, Number(fieldSize)*2-3) * Math.sign(currentTarget.x)*(-1);
     }
 
     pathObject.x+=step;
-
-    steps.push({step: Math.abs(step), direction: direction});
+    steps.push(step);
     console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // Предпоследний вертикальный
@@ -141,29 +128,24 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
     if (Math.abs(deltaY)>3)
     {
        step = Math.floor(deltaY/2);
-       direction = service.setDirection(step, "vertical");
     }
     else {
-      step = ArithmeticService.normalRandom(3, Number(fieldSize)*2-3) * Math.sign(currentTarget.y)*(-1);
-      direction = service.setDirection(step, "vertical");
+      step = ArithmeticService.normalRandom(fieldSize, Number(fieldSize)*2-3) * Math.sign(currentTarget.y)*(-1);
     }
 
     pathObject.y+=step;
-    steps.push({step: Math.abs(step), direction: direction});
+    steps.push(step);
     console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // последний горизонтальный
     let lastHorStep = currentTarget.x - pathObject.x;
-    direction=service.setDirection(lastHorStep, 'horizontal');
-
-    steps.push({step: Math.abs(lastHorStep), direction: direction});
+    steps.push(lastHorStep);
     pathObject.x+=lastHorStep;
     console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // последний вертикальный
     let lastVertStep = currentTarget.y - pathObject.y;
-    direction=service.setDirection(lastVertStep, 'vertical');
-    steps.push({step: Math.abs(lastVertStep), direction: direction});
+    steps.push(lastVertStep);
 
     pathObject.y+=lastVertStep;
     console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
@@ -171,27 +153,30 @@ service.createPathToCurrentTarget = function (complexity, equationsAmount, field
   return steps;
 }
 
-service.createEquationsFromPath = function (steps, complexity, operations)
+service.createEquationsFromPath = function (steps, complexity, language, operations)
 {
   var deferred = $q.defer();
 
   var numberSteps=[];
   for (var i=0; i<steps.length; i++)
   {
-    numberSteps.push(steps[i].step)
+    numberSteps.push(Math.abs(steps[i]));
   }
   let equations=[];
   var promise = ArithmeticService.createEquationSet(numberSteps, operations, complexity);
 
   promise.then(function (result)
   {
-    equations = result;
-    var strSteps=[];
-    for (var j=0; j<equations.length; j++)
+    var stepArr=[];
+    console.log(result);
+    for (var j=0; j<result.length; j++)
     {
-      strSteps.push({strValue: equations[j].equation+" шагов "+steps[j].direction});
+      var step = steps[j]
+      var equation =result[j];
+      stepArr.push({equation: equation, step: step});
     }
-  deferred.resolve(strSteps);
+      deferred.resolve(stepArr)
+
   },
   function (errorResponse) {
       console.log(errorResponse);
@@ -266,30 +251,5 @@ service.createNonPrimeStep = function (lowerLimit, upperLimit, coordinate, field
     } while (ArithmeticService.isPrime(step));
     return step;
 }
-
-service.setDirection = function (number, axis)
-{
-  let direction = "";
-  switch (axis)
-  {
-  case "vertical":
-      if (Math.sign(number) === 1) {
-          direction = "вверх";
-      } else {
-          direction = "вниз";
-      }
-    break;
-  case 'horizontal':
-    if (Math.sign(number) === 1) {
-          direction = "направо";
-      } else {
-          direction = "налево";
-      }
-  break;
-  }
-  return direction;
-
-};
-
 
 }

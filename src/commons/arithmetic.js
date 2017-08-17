@@ -7,7 +7,7 @@
   '*' - multiplication,  ':' - division.
   Complexity may be 10 for equations in range [0..10], 25 - range [0..25],
   100 - range [0..100].
-  Numbers are natural numbers.
+  Numbers are expected to be natural numbers.
 */
 
 ArithmeticService.$inject = ['$q'];
@@ -50,7 +50,6 @@ function ArithmeticService($q) {
     // Map for equations already used, to keep them as diverse as possible
 
     var generatedEquations = [];
-    var equationsSet = [];
 
     service.initEquations = function ()
     {
@@ -59,8 +58,24 @@ function ArithmeticService($q) {
 
     service.createEquationSet = function(steps, operations, complexity)
     {
+      try {
+      if (steps.length<=0)
+      {
+        throw new Error ("Incorrect input, number list empty");
+      }
+
+      if (operations.length<=0)
+      {
+        throw new Error ("Incorrect input, operation list empty");
+      }
+
+      if (isNaN(complexity))
+      {
+        throw new Error ("Incorrect input, complexity is not a number");
+      }
+      console.log(steps);
       var deferred = $q.defer();
-      equationsSet = [];
+      var equationsSet = [];
 
       var opTreshold = Math.floor(steps.length/operations.length)+1;
       var adN=0;
@@ -88,8 +103,6 @@ function ArithmeticService($q) {
       tresholds.push({op: '-', treshold: subN});
       tresholds.push({op: '*', treshold: multN});
       tresholds.push({op: ':', treshold: divN});
-
-      try {
 
       for (var i=0; i<steps.length; i++)
         {
@@ -128,7 +141,7 @@ function ArithmeticService($q) {
 
           var currentOp = service.selectOperation (operations, exclusions, tresholds);
 
-          equationsSet.push({step: steps[i], equation: service.buildUniqueEquation(steps[i], currentOp, complexity)});
+          equationsSet.push(service.buildUniqueEquation(steps[i], currentOp, complexity));
 
           //update tresholds
           for (var j=0; j<tresholds.length; j++)
@@ -142,7 +155,7 @@ function ArithmeticService($q) {
 
 
         }
-
+        console.log(equationsSet);
         deferred.resolve(equationsSet);
       }
 
@@ -255,8 +268,8 @@ function ArithmeticService($q) {
               //console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
               if (generatedEquations[n].values[nn].operation === operation)
               {
-                //console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
-                //console.log(generatedEquations[n].values[nn]);
+                console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
+                console.log(generatedEquations[n].values[nn]);
                 var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
                 //console.log("Random number is "+randomNumber);
                 equation = generatedEquations[n].values[nn].equations[randomNumber];
@@ -343,16 +356,29 @@ function ArithmeticService($q) {
   }
 
     /*
-    A function to generate random natural number in a range
+    A function to generate random natural number in a range.
+    Negative input acceptable.
     */
     service.normalRandom = function (min, max)
     {
+      if (min>max)
+      {
+        throw new Error ("Incorrect input, first argument "+min+" should be greater than the second " +max);
+      }
+
+      if (isNaN(min)||isNaN(max))
+      {
+        throw new Error ("Input must be numeric");
+      }
       return Math.floor((Math.random() * (max-min+1)) + min);
     }
+
+    /* Check if an absolute value of a number is prime */
 
     service.isPrime = function (number)
     {
       var isPrime = true;
+
       if (Math.abs(number)<=3)
       {
          isPrime = true;

@@ -1,11 +1,8 @@
 TODO:
+- Arithmetic module unit tests
+- Answer generation
 
-- Advanced complexity control:
-   0 - no equations; steps: 4, 6, 8; fieldSize: 5 or 10
-   1 - equations with + and -; numbers up to 10; steps: 6, 8 or 10; fieldSize: 5 or 10
-   2 - equations with +, -, *, :; numbers up to 25; steps 6, 8, 10; fieldSize: 10
-   3 - equations with +,-,*,:; numbers up to 100; steps 8, 10, 12, fieldSize: 10.
-
+- Sample on first page
 
 - вариант для самых маленьких без примеров, просто провести линии
 - вариант для нечитающих со стрелками
@@ -16,9 +13,11 @@ From Suse:
 - Имя и дату сверху листа
 - Умножение как точку или крестик
 
-
-- German localization
-
 - Visual presentations selection
 
 * Secret code generator
+
+Идеи:
+- Генератор простых шифров
+- Лабиринты с выбором право-лево
+- Поиск спрятанных слов
