@@ -69,7 +69,7 @@ function LanguageService ()
       language: "de",
       phrases:
         {rechnenrucksack: "RECHNENRUCKSACK",
-        generatorDescription: "Liebe Eltern und Lehrer! Mit \"Rechnenrucksack\" ihr könnt Rechnenaufgaben unterschiedlicher Komplexität als Schatzsuchenkarten generieren und speichern in pdf Format für Ausdrück.",
+        generatorDescription: "Liebe Eltern und Lehrer! Mit \"Rechnenrucksack\" ihr könnt Rechnenaufgaben unterschiedlicher Komplexität als Schatzsuchenkarten generieren und in pdf Format für Ausdrück speichern.",
         numberComplexity: "Zahlen in Aufgaben",
         fieldSize: "Kartenmaße",
         equationsAmount: "Aufgabenzahl",
@@ -112,7 +112,7 @@ function LanguageService ()
       language: "en",
       phrases:
         {rechnenrucksack: "BAG OF TASKS",
-        generatorDescription: "Dear parents and teachers! With the help of \"Bag of tasks\" you can generate treasure map puzzles with arithmetic tasks of different complexity and save them as pdf for printing.",
+        generatorDescription: "Dear parents and teachers! With the help of \"Bag of tasks\" you can generate treasure map puzzles with arithmetic tasks of various complexity and save them as pdf for printing.",
         numberComplexity: "Numbers in tasks",
         fieldSize: "Field size",
         cells: "squares",
