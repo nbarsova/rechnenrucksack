@@ -25,7 +25,7 @@
 </head>
 <body ng-controller='EquationsGeneratorController as equationsGenerator' >
   <header><h1>{{equationsGenerator.STRINGS.rechnenrucksack}}</h1></header>
-   <div><select id="lang" name="lang" class="icon-menu"
+   <div  id="lang"><img id="globe" src="img/globe.png" width="30"><select name="lang" class="icon-menu"
      ng-model="equationsGenerator.language"
      ng-change="equationsGenerator.translate()">
     <option value="ru">Русский </option>

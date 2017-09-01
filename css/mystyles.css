@@ -129,10 +129,16 @@ button
   font-family: 'PT Sans', sans-serif;
   font-weight: bold;
   font-size: 18px;
-
   position:absolute;
   right: 20px;
-  top:20px;
+  top: 20px;
+}
+
+img
+{
+  display: inline-block;
+  padding-right: 10px;
+  vertical-align: middle;
 }
 
 select {
