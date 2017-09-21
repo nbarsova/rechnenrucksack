@@ -65,6 +65,8 @@ function EquationsGeneratorController
                 equationsGenerator.advancedComplexity.operations[i].selected = true;
             }
         }
+        equationsGenerator.generationAllowed=true;
+        equationsGenerator.errorMessage="";
         break;
 
       case ('2'):
@@ -85,6 +87,8 @@ function EquationsGeneratorController
                 equationsGenerator.advancedComplexity.operations[i].selected = true;
               }
         }
+        equationsGenerator.generationAllowed=true;
+        equationsGenerator.errorMessage="";
         break;
 
       case ('3'):
@@ -95,6 +99,8 @@ function EquationsGeneratorController
         {
            equationsGenerator.advancedComplexity.operations[i].selected = true;
         }
+        equationsGenerator.generationAllowed=true;
+        equationsGenerator.errorMessage="";
         break;
 
       case ('100'):

@@ -43,7 +43,7 @@ function PrintService(LanguageService) {
           context.font = 'normal 36px Neucha';
           context.fillStyle = '#888888';
           context.textBaseline="middle";
-          context.fillText("(c) RECHNENRUCKSACK.COM ",180,80);
+          context.fillText("(c) RECHNENRUCKSACK.COM ",200,90);
           return canv.toDataURL();
         }
 }

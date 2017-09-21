@@ -69,10 +69,10 @@ function LanguageService ()
       language: "de",
       phrases:
         {rechnenrucksack: "RECHNENRUCKSACK",
-        generatorDescription: "Liebe Eltern und Lehrer! Mit \"Rechnenrucksack\" ihr könnt Rechnenaufgaben unterschiedlicher Komplexität als Schatzsuchenkarten generieren und in pdf Format für Ausdrück speichern.",
-        numberComplexity: "Zahlen in Aufgaben",
+        generatorDescription: "Liebe Eltern und Lehrer! Mit \"Rechnenrucksack\" könnt ihr Rechenaufgaben unterschiedlicher Komplexität als Schatzsuchekarten generieren und in pdf Format zum Ausdrucken speichern.",
+        numberComplexity: "Zahlenbereich",
         fieldSize: "Kartenmaße",
-        equationsAmount: "Aufgabenzahl",
+        equationsAmount: "Aufgabenanzahl",
         cells: "Zellen",
         operations: "Rechenoperationen",
         getMap: "Karte generieren",
@@ -80,8 +80,8 @@ function LanguageService ()
         copyrightAuthor: "Natalia Barsova, Konzept, Entwicklung",
         copyrightGraphic: "Suse Schöttle, Graphik",
         steps: "Schritte",
-        dirUp: "oben",
-        dirDown: "unten",
+        dirUp: "nach oben",
+        dirDown: "nach unten",
         dirRight: "rechts",
         dirLeft: "links",
         reset: "zurück",
@@ -89,8 +89,8 @@ function LanguageService ()
         worksheetTitle: "Unter welchem Stein ist der Schatz versteckt?",
         worksheetDesc1: "Die Piraten haben einen Schatz vergraben.",
         worksheetDesc2: "Aber unter welchem Stein? Löse die Aufgaben, ",
-        worksheetDesc3: "laufe in die Richtung und finde heraus! ",
-        worksheetDesc4: "Das Kreuz zeigt wo fangst du an.  ",
+        worksheetDesc3: "laufe in die Richtung und finde die Lösung heraus. ",
+        worksheetDesc4: "Das Kreuz zeigt wo du anfangen musst.  ",
         settings: "Ausdrückeinstellungen",
         pageOrientationDesc: "Seitenausrichtung",
         pageOrientationLandscape: "Horizontal",
@@ -105,7 +105,7 @@ function LanguageService ()
         easyComplexityMediumTooltip: "Addition und Substraction bis 25",
         easyComplexityHard: "Schwer",
         easyComplexityHardTooltip: "Addition und Substraction, Multiplikation und Division bis 25",
-        advancedComplexity: "Erweiterte Komplexitäteinstellungen"
+        advancedComplexity: "Erweiterte Komplexitätseinstellungen"
       }
     },
     {

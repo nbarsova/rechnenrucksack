@@ -28,7 +28,7 @@ function TreasureMapDrawingService(LanguageService) {
     var border=new Image();
     border.src='img/map-border-horizontal-bg.png';
     border.onload=function() {
-      context.drawImage(this, 0, 0, 1000, 550);
+      context.drawImage(this, 0, 0, 1010, 550);
     }
 
     var compass=new Image();
