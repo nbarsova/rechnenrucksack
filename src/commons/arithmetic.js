@@ -34,7 +34,7 @@ function ArithmeticService($q) {
 
       print ()
       {
-        return (this.number1+" "+ this.operation+" "+this.number2+" = __")
+        return (this.number1+" "+ this.operation+" "+this.number2);
       }
 
       equals (newEquation)

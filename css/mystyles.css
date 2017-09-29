@@ -111,14 +111,6 @@ button
   margin-top: 20px;
 }
 
-#answer
-{
-  text-decoration: underline;
-  font-family: 'Indie Flower', cursive;
-  display: inline;
-  font-size: 30px;
-}
-
 #buttons
 {
   align-content: center;
