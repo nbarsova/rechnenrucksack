@@ -228,8 +228,6 @@ function EquationsGeneratorController
                                                'landscape',
                                                 equationsGenerator.language);
         promm.then(function (result) {
-          console.log("Student page promise returned");
-          console.log(result);
           equationsGenerator.studentPage = result;
           HTMLService.renderCanvas(equationsGenerator.studentPage);
         }, function (errorResponse) {

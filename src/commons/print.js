@@ -26,14 +26,13 @@ function PrintService(LanguageService, PrintServiceConstants) {
 
       if (teacherContent)
       {
-        console.log(teacherContent);
         doc.addPage();
         doc.addImage(createTitle(language), 'PNG',  PrintServiceConstants.titleX, PrintServiceConstants.titleY);
         var teacherDataURL = teacherContent.toDataURL();
         doc.addImage(teacherDataURL, 'PNG', PrintServiceConstants.studentContentX, PrintServiceConstants.studentContentY);
         doc.addImage(createCopyright(), 'PNG', PrintServiceConstants.copyrightX, PrintServiceConstants.copyrightY);
       }
-
+      console.log("Printing page ready");
       doc.save("treasure.pdf");
     }
 

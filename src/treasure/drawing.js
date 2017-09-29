@@ -279,20 +279,31 @@ drawingService.createTeacherPage = function (targetCoordinates,
         context.lineTo(248+startX, 232+startY);
         context.stroke();
 
+        /* this is an elaborate way to draw all the target pics one by one
+         * but may come in useful if target pics will be all different
     var targetPics=[];
-    // this is an elaborate way to draw all the target pics one by one
-    // but may come in useful if target pics will be all different
+
     targetPics[0] = new Image();
     targetPics[0].src='img/stones.png';
     var i=0;
     targetPics[0].onload=function() {
-    context.drawImage(this,targetCoordinates[i].x*mapStep+startX+230,-targetCoordinates[i].y*mapStep+startY+230);
-    if (i<targetCoordinates.length)
-      i++;
-      targetPics[i]=new Image();
-      targetPics[i].src='img/stones.png';
-      targetPics[i].onload=this.onload;
-    };
+      context.drawImage(this,targetCoordinates[i].x*mapStep+startX+230,-targetCoordinates[i].y*mapStep+startY+230);
+      if (i<targetCoordinates.length)
+        i++;
+        targetPics[i]=new Image();
+        targetPics[i].src='img/stones.png';
+        targetPics[i].onload=this.onload;
+      }; */
+
+      var stonePic = new Image();
+      stonePic.src = 'img/stones.png';
+      stonePic.onload=function ()
+      {
+        for (var i=0; i<targetCoordinates.length; i++)
+        {
+          context.drawImage(this,targetCoordinates[i].x*mapStep+startX+230,-targetCoordinates[i].y*mapStep+startY+230);
+        }
+      }
   }
 
   /**

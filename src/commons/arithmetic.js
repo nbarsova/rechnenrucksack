@@ -1,14 +1,17 @@
-/*
-  Arithmetic service can generate a set of unique equations for given numbers and
-  operations, based on complexity. It can work with zeroes and ones, but equations
-  will be dreary.
 
-  The operations are encoded as '+'' - addition, '-' - substraction,
-  '*' - multiplication,  ':' - division.
-  Complexity may be 10 for equations in range [0..10], 25 - range [0..25],
-  100 - range [0..100].
-  Numbers are expected to be natural numbers.
-*/
+/**
+  * Arithmetic service can generate a set of unique equations for given numbers and
+  * operations, based on complexity. It can work with zeroes and ones, but equations
+  * will be dreary.
+
+  * The operations are encoded as '+'' - addition, '-' - substraction,
+  * '*' - multiplication,  ':' - division.
+  * Complexity may be 10 for equations in range [0..10], 25 - range [0..25],
+  * 100 - range [0..100].
+  * Numbers are expected to be natural numbers.
+  *
+  * @param $q promises service
+**/
 
 ArithmeticService.$inject = ['$q'];
 function ArithmeticService($q) {
