@@ -32,7 +32,7 @@ function PrintService(LanguageService, PrintServiceConstants) {
         doc.addImage(teacherDataURL, 'PNG', PrintServiceConstants.studentContentX, PrintServiceConstants.studentContentY);
         doc.addImage(createCopyright(), 'PNG', PrintServiceConstants.copyrightX, PrintServiceConstants.copyrightY);
       }
-      console.log("Printing page ready");
+//      console.log("Printing page ready");
       doc.save("treasure.pdf");
     }
 

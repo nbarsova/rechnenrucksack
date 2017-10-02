@@ -76,7 +76,7 @@ function ArithmeticService($q) {
       {
         throw new Error ("Incorrect input, complexity is not a number");
       }
-      console.log(steps);
+  //    console.log(steps);
       var deferred = $q.defer();
       var equationsSet = [];
 
@@ -158,7 +158,7 @@ function ArithmeticService($q) {
 
 
         }
-        console.log(equationsSet);
+  //      console.log(equationsSet);
         deferred.resolve(equationsSet);
       }
 
@@ -226,7 +226,7 @@ function ArithmeticService($q) {
 
     service.buildUniqueEquation = function (number, operation, complexity)
     {
-      console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
+  //    console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
 
       var equation;
       var numberExists = false;
@@ -271,8 +271,8 @@ function ArithmeticService($q) {
               //console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
               if (generatedEquations[n].values[nn].operation === operation)
               {
-                console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
-                console.log(generatedEquations[n].values[nn]);
+  //              console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
+  //              console.log(generatedEquations[n].values[nn]);
                 var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
                 //console.log("Random number is "+randomNumber);
                 equation = generatedEquations[n].values[nn].equations[randomNumber];

@@ -214,7 +214,7 @@ function EquationsGeneratorController
        options,
        equationsGenerator.language);
 
-       console.log(equationsGenerator.steps);
+    //   console.log(equationsGenerator.steps);
        equationsGenerator.equations = [];
 
       var pr = EquationsGeneratorService.createEquationsFromPath(equationsGenerator.steps, equationsGenerator.advancedComplexity.complexity, equationsGenerator.language, selectedOps);
@@ -287,8 +287,8 @@ function EquationsGeneratorController
 
   equationsGenerator.translate = function ()
   {
-    equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
-    document.title = equationsGenerator.STRINGS.rechnenrucksack;
+//    equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
+//    document.title = equationsGenerator.STRINGS.rechnenrucksack;
     if (equationsGenerator.steps.length>0)
     {
       var promise = TreasureMapDrawingService.createStudentPage(equationsGenerator.targetCoordinates,
