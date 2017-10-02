@@ -287,8 +287,9 @@ function EquationsGeneratorController
 
   equationsGenerator.translate = function ()
   {
-//    equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
+    equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
 //    document.title = equationsGenerator.STRINGS.rechnenrucksack;
+
     if (equationsGenerator.steps.length>0)
     {
       var promise = TreasureMapDrawingService.createStudentPage(equationsGenerator.targetCoordinates,
