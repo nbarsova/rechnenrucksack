@@ -1,14 +1,17 @@
-/*
-  Arithmetic service can generate a set of unique equations for given numbers and
-  operations, based on complexity. It can work with zeroes and ones, but equations
-  will be dreary.
 
-  The operations are encoded as '+'' - addition, '-' - substraction,
-  '*' - multiplication,  ':' - division.
-  Complexity may be 10 for equations in range [0..10], 25 - range [0..25],
-  100 - range [0..100].
-  Numbers are expected to be natural numbers.
-*/
+/**
+  * Arithmetic service can generate a set of unique equations for given numbers and
+  * operations, based on complexity. It can work with zeroes and ones, but equations
+  * will be dreary.
+
+  * The operations are encoded as '+'' - addition, '-' - substraction,
+  * '*' - multiplication,  ':' - division.
+  * Complexity may be 10 for equations in range [0..10], 25 - range [0..25],
+  * 100 - range [0..100].
+  * Numbers are expected to be natural numbers.
+  *
+  * @param $q promises service
+**/
 
 ArithmeticService.$inject = ['$q'];
 function ArithmeticService($q) {
@@ -34,7 +37,7 @@ function ArithmeticService($q) {
 
       print ()
       {
-        return (this.number1+" "+ this.operation+" "+this.number2+" = __")
+        return (this.number1+" "+ this.operation+" "+this.number2);
       }
 
       equals (newEquation)
@@ -73,7 +76,7 @@ function ArithmeticService($q) {
       {
         throw new Error ("Incorrect input, complexity is not a number");
       }
-      console.log(steps);
+  //    console.log(steps);
       var deferred = $q.defer();
       var equationsSet = [];
 
@@ -155,7 +158,7 @@ function ArithmeticService($q) {
 
 
         }
-        console.log(equationsSet);
+  //      console.log(equationsSet);
         deferred.resolve(equationsSet);
       }
 
@@ -223,7 +226,7 @@ function ArithmeticService($q) {
 
     service.buildUniqueEquation = function (number, operation, complexity)
     {
-      console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
+  //    console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
 
       var equation;
       var numberExists = false;
@@ -268,8 +271,8 @@ function ArithmeticService($q) {
               //console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
               if (generatedEquations[n].values[nn].operation === operation)
               {
-                console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
-                console.log(generatedEquations[n].values[nn]);
+  //              console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
+  //              console.log(generatedEquations[n].values[nn]);
                 var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
                 //console.log("Random number is "+randomNumber);
                 equation = generatedEquations[n].values[nn].equations[randomNumber];

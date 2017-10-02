@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'PT Sans';
+  src: url('fonts/PT_Sans/PT_Sans-Web-Regular.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: 'Neucha';
+  src: url('fonts/Neucha/Neucha.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: 'Courgette';
+  src: url('fonts/Courgette/Courgette-Regular.ttf')  format('truetype');
+}
+
 body{
   font-family: 'PT Sans', sans-serif;
   margin-top: 0px;
@@ -109,14 +124,6 @@ button
 #advancedComplexity
 {
   margin-top: 20px;
-}
-
-#answer
-{
-  text-decoration: underline;
-  font-family: 'Indie Flower', cursive;
-  display: inline;
-  font-size: 30px;
 }
 
 #buttons

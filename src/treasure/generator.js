@@ -69,7 +69,7 @@ service.createPathToCurrentTarget
         {
             upperLimit=Math.max(Math.abs(fieldSize-pathObject.x)-1, Math.abs(-fieldSize-pathObject.x)-1);
             if (upperLimit>fieldSize) lowerLimit = fieldSize;
-            console.log("Limit is "+upperLimit);
+//            console.log("Limit is "+upperLimit);
         }
 
         if (options.noPrimes === true)
@@ -88,7 +88,7 @@ service.createPathToCurrentTarget
         {
             upperLimit=Math.max(Math.abs(fieldSize-pathObject.y)-1, Math.abs(-fieldSize-pathObject.y)-1);
             if (upperLimit>fieldSize) lowerLimit = fieldSize;
-            console.log("Limit is "+upperLimit);
+//            console.log("Limit is "+upperLimit);
         }
         if (options.noPrimes === true)
         {
@@ -100,14 +100,14 @@ service.createPathToCurrentTarget
 
         steps.push(step);
         pathObject.y+=step;
-      }
-      console.log("Position is "+ pathObject.x + ", "+pathObject.y);
+     }
+//      console.log("Position is "+ pathObject.x + ", "+pathObject.y);
   }
 
   // two steps before last, we need to get close to target, but not too close
 
     let deltaX = currentTarget.x - pathObject.x;
-    console.log("Delta x "+deltaX);
+//    console.log("Delta x "+deltaX);
 
     if (Math.abs(deltaX)>3)
     {
@@ -119,11 +119,11 @@ service.createPathToCurrentTarget
 
     pathObject.x+=step;
     steps.push(step);
-    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+//    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // Предпоследний вертикальный
     let deltaY = currentTarget.y - pathObject.y;
-    console.log("Delta y "+deltaY);
+//    console.log("Delta y "+deltaY);
 
     if (Math.abs(deltaY)>3)
     {
@@ -135,21 +135,21 @@ service.createPathToCurrentTarget
 
     pathObject.y+=step;
     steps.push(step);
-    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+//    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // последний горизонтальный
     let lastHorStep = currentTarget.x - pathObject.x;
     steps.push(lastHorStep);
     pathObject.x+=lastHorStep;
-    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+//    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // последний вертикальный
     let lastVertStep = currentTarget.y - pathObject.y;
     steps.push(lastVertStep);
 
     pathObject.y+=lastVertStep;
-    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
-    console.log(steps);
+//    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
+//    console.log(steps);
   return steps;
 }
 
@@ -168,7 +168,7 @@ service.createEquationsFromPath = function (steps, complexity, language, operati
   promise.then(function (result)
   {
     var stepArr=[];
-    console.log(result);
+//    console.log(result);
     for (var j=0; j<result.length; j++)
     {
       var step = steps[j]
@@ -213,7 +213,7 @@ service.isUniqueNumberStep = function (number)
 
 service.createUniqueStep = function (lowerLimit, upperLimit, coordinate, fieldSize)
 {
-  console.log("Creating step for limit [" +lowerLimit+" ,"+ upperLimit+ "], coordinate "+coordinate);
+//  console.log("Creating step for limit [" +lowerLimit+" ,"+ upperLimit+ "], coordinate "+coordinate);
   var step=0;
   var condition=true;
   do {
@@ -234,7 +234,7 @@ service.createUniqueStep = function (lowerLimit, upperLimit, coordinate, fieldSi
 
 service.createNonPrimeStep = function (lowerLimit, upperLimit, coordinate, fieldSize)
 {
-  console.log("Creating step for limit [" +lowerLimit+" ,"+ upperLimit+ "], coordinate "+coordinate);
+//  console.log("Creating step for limit [" +lowerLimit+" ,"+ upperLimit+ "], coordinate "+coordinate);
   var step=0;
   var condition=true;
   do {

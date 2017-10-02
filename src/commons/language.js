@@ -62,7 +62,15 @@ function LanguageService ()
         easyComplexityMediumTooltip: "Сложение и вычитание с переходом через 10",
         easyComplexityHard: "Сложные",
         easyComplexityHardTooltip: "Сложение, вычитание, таблица умножения до 25",
-        advancedComplexity: "Расширенные настройки сложности"
+        advancedComplexity: "Расширенные настройки сложности",
+        studentName: "Имя",
+        workDate: "Дата",
+        treasureLocation: "Сокровище под камнем",
+        upperRight: "справа сверху",
+        upperLeft: "слева сверху",
+        lowerRight: "справа снизу",
+        lowerLeft: "слева снизу",
+        answer: "Ответ"
       }
     },
     {
@@ -86,12 +94,12 @@ function LanguageService ()
         dirLeft: "links",
         reset: "zurück",
         save: "speichern",
-        worksheetTitle: "Unter welchem Stein ist der Schatz versteckt?",
+        worksheetTitle: "Unter welchem Stein liegt der Schatz?",
         worksheetDesc1: "Die Piraten haben einen Schatz vergraben.",
         worksheetDesc2: "Aber unter welchem Stein? Löse die Aufgaben, ",
         worksheetDesc3: "laufe in die Richtung und finde die Lösung heraus. ",
         worksheetDesc4: "Das Kreuz zeigt wo du anfangen musst.  ",
-        settings: "Ausdrückeinstellungen",
+        settings: "Ausdruckeinstellungen",
         pageOrientationDesc: "Seitenausrichtung",
         pageOrientationLandscape: "Horizontal",
         pageOrientationPortrait: "Vertikal",
@@ -105,7 +113,15 @@ function LanguageService ()
         easyComplexityMediumTooltip: "Addition und Substraction bis 25",
         easyComplexityHard: "Schwer",
         easyComplexityHardTooltip: "Addition und Substraction, Multiplikation und Division bis 25",
-        advancedComplexity: "Erweiterte Komplexitätseinstellungen"
+        advancedComplexity: "Erweiterte Komplexitätseinstellungen",
+        studentName: "Name",
+        workDate: "Datum",
+        treasureLocation: "Der Schats liegt",
+        upperRight: "oben rechts",
+        upperLeft: "oben links",
+        lowerRight: "unten rechts",
+        lowerLeft: "unten links",
+        answer: "Antwort"
       }
     },
     {
@@ -148,7 +164,15 @@ function LanguageService ()
         easyComplexityMediumTooltip: "Addition and substraction up to 25",
         easyComplexityHard: "Hard",
         easyComplexityHardTooltip: "Addition and substraction, multiplication table up to 25",
-        advancedComplexity: "Advanced Complexity Settings"
+        advancedComplexity: "Advanced Complexity Settings",
+        studentName: "Name",
+        workDate: "Date",
+        treasureLocation: "The treasure is hidden under",
+        upperRight: "upper right stone",
+        upperLeft: "upper left stone",
+        lowerRight: "lower right stone",
+        lowerLeft: "lower left stone",
+        answer: "Answer"
       }
     }
   ]

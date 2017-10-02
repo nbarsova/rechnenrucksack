@@ -6,8 +6,9 @@ angular.module ('EquationsGenerator', [])
 .service('LanguageService', LanguageService)
 .service('EquationsGeneratorService', EquationsGeneratorService)
 .service('ArithmeticService', ArithmeticService)
+.service('HTMLService', HTMLService)
 .service('TreasureMapDrawingService', TreasureMapDrawingService)
 .service('PrintService', PrintService)
-.directive('sampleTreasureMap', SampleTreasureMap);
+.constant('PrintServiceConstants', PrintServiceConstants);
 
 })();
