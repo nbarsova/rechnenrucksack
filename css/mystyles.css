@@ -33,6 +33,7 @@ footer
     margin-top: 20px;
     margin-left: -10px;
     margin-bottom: -10px;
+    margin-right: -10px;
 }
 
 h1 {
@@ -139,6 +140,27 @@ button
   position:absolute;
   right: 20px;
   top: 20px;
+}
+
+#navigator
+{
+  background-color: #a4c7f4;
+  width: 105%;
+  margin-left: -10px;
+  margin-right: -35px;
+  margin-bottom: 0px;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.navItem
+{
+  font-family: 'Neucha', cursive;
+  font-size: 25px;
+  font-weight: bold;
+  color: black;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 img

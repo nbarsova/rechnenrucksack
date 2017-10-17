@@ -1,0 +1,57 @@
+
+  <div id="input" ng-show="equationsGenerator.equations.length===0">
+  <p>{{equationsGenerator.STRINGS.generatorDescription}}</p>
+  <div id="easyComplexity"><h4>{{equationsGenerator.STRINGS.easyComplexity}}</h4><br>
+  <input type="radio"
+                ng-model="equationsGenerator.easyComplexity" value="1"
+                ng-change="equationsGenerator.changeComplexity()">
+                {{equationsGenerator.STRINGS.easyComplexityEasy}}
+              <div class="tooltip" ng-mouseover="">?
+              <p class="tooltiptext">{{equationsGenerator.STRINGS.easyComplexityEasyTooltip}}</p></div>
+     <input type="radio"
+                ng-model="equationsGenerator.easyComplexity" value="2"
+                ng-change="equationsGenerator.changeComplexity()">
+                {{equationsGenerator.STRINGS.easyComplexityMedium}}
+                <div class="tooltip" ng-mouseover="">?
+                <p class="tooltiptext">{{equationsGenerator.STRINGS.easyComplexityMediumTooltip}}</p></div>
+      <input type="radio"
+                ng-model="equationsGenerator.easyComplexity" value="3"
+                ng-change="equationsGenerator.changeComplexity()"> {{equationsGenerator.STRINGS.easyComplexityHard}} <div class="tooltip" ng-mouseover="">?
+                <p class="tooltiptext">{{equationsGenerator.STRINGS.easyComplexityHardTooltip}}</p></div>
+
+      <input type="radio" ng-model="equationsGenerator.easyComplexity" value="100"
+      ng-change="equationsGenerator.changeComplexity()">{{equationsGenerator.STRINGS.advancedComplexity}}</div>
+  <div id="advancedComplexity" ng-show="equationsGenerator.easyComplexity==='100'">
+  <table id="complexityTable"><tr>
+    <td><h5>{{equationsGenerator.STRINGS.numberComplexity}}</h5>
+        <p><input type="radio" ng-model="equationsGenerator.advancedComplexity.complexity" ng-change="equationsGenerator.changeComplexity()" value="10">0-10</p>
+        <p><input type="radio" ng-model="equationsGenerator.advancedComplexity.complexity" ng-change="equationsGenerator.changeComplexity()" value="25">0-25</p></td>
+        <td><div id="equationsAmountChoice"><h5>{{equationsGenerator.STRINGS.equationsAmount}}</h5>
+          <p><input type="radio" ng-model="equationsGenerator.advancedComplexity.equationsAmount" value="6">6</p>
+          <p><input type="radio" ng-model="equationsGenerator.advancedComplexity.equationsAmount" value="8">8</p>
+          <p><input type="radio"ng-model="equationsGenerator.advancedComplexity.equationsAmount" value="10">10</p>
+        </div></td>
+  <td><h5>{{equationsGenerator.STRINGS.operations}}</h5>
+  <div id="operationsChoice" ng-repeat="operation in equationsGenerator.advancedComplexity.operations">
+      <p ng-show="operation.available"><input type="checkbox" ng-change="equationsGenerator.alterOperations()"
+       value="{{operation.code}}" ng-model="operation.selected" > {{operation.value}} </p>
+    </div></td></tr> <tr></table></td></tr></div>
+    <tr><td colspan="4"></td></tr>
+    <tr><td><br><button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed">{{equationsGenerator.STRINGS.getMap}}</button></td></tr></table></div>
+
+    <div style='padding:0px;margin:0px;' id="output" ng-show="equationsGenerator.equations.length!==0">
+      <table><tr><td><div id="treasureMapC"></div></td>
+        <td><div id="printSettings" width="100%"><br><h4>{{equationsGenerator.STRINGS.settings}}</h4>
+          <div id="pageOrientationSettings" ng-show="false"><p><h5>{{equationsGenerator.STRINGS.pageOrientationDesc}}: </h5></p>
+          <p><input type="radio" ng-model="equationsGenerator.generationOptions.pageOrientation" value="landscape">{{equationsGenerator.STRINGS.pageOrientationLandscape}} <input type="radio" ng-model="equationsGenerator.generationOptions.pageOrientation" value="portrait">{{equationsGenerator.STRINGS.pageOrientationPortrait}}</p></div>
+          <p><input type="checkbox" ng-model="equationsGenerator.generationOptions.answerGeneration" > {{equationsGenerator.STRINGS.answerGeneration}}</p>
+          <p><input type="checkbox" ng-model="equationsGenerator.generationOptions.nameDate" > {{equationsGenerator.STRINGS.nameDate}}</p></div>
+          <div id="buttons"><button ng-click="equationsGenerator.print()">{{equationsGenerator.STRINGS.save}}</button><br><br>
+    <button ng-click="equationsGenerator.reset()">{{equationsGenerator.STRINGS.reset}}</button></div>
+    </td></tr></table>
+
+  </div>
+
+  <div id="errorMessage">
+    {{equationsGenerator.errorMessage}}
+  </div>
