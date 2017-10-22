@@ -1,6 +1,7 @@
 (function () {
 'use strict';
 
+// The best application ever
 angular.module ('EquationsGenerator', [])
 .controller ('EquationsGeneratorController', EquationsGeneratorController)
 .service('LanguageService', LanguageService)
