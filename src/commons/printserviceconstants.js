@@ -1,3 +1,9 @@
+(function () {
+"use strict";
+
+angular.module('RechnenRucksack')
+  .constant('PrintServiceConstants', PrintServiceConstants);
+
 var PrintServiceConstants =
 {
   titleX: 10,
@@ -10,3 +16,4 @@ var PrintServiceConstants =
   copyrightY: 160
 
 };
+})();

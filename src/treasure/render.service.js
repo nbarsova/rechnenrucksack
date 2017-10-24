@@ -1,3 +1,9 @@
+(function () {
+"use strict";
+
+angular.module('RechnenRucksack')
+  .service('HTMLService', HTMLService);
+
 HTMLService.$inject = [];
 
 function HTMLService ()
@@ -13,3 +19,4 @@ function HTMLService ()
     div.appendChild(canvas);
   }
 };
+})();

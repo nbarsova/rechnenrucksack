@@ -1,6 +1,8 @@
 SecretCodeGeneratorService.$inject = ['$q', 'ArithmeticService', 'LanguageService'];
 
 function SecretCodeGeneratorService($q, ArithmeticService, LanguageService) {
+
+  var secretCodeGenerator = this;
 }
 
 /*

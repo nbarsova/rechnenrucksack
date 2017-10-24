@@ -1,4 +1,10 @@
-EquationsGeneratorController.$inject =
+(function () {
+"use strict";
+
+angular.module('RechnenRucksack')
+  .controller('TreasureMapController', TreasureMapController);
+
+TreasureMapController.$inject =
   ['$q',
   'EquationsGeneratorService',
   'PrintService',
@@ -6,7 +12,7 @@ EquationsGeneratorController.$inject =
   'LanguageService',
   'HTMLService'];
 
-function EquationsGeneratorController
+function TreasureMapController
     ($q,
       EquationsGeneratorService,
       PrintService,
@@ -49,7 +55,7 @@ function EquationsGeneratorController
 
   // Language related objects
   equationsGenerator.language="ru";
-  equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
+  equationsGenerator.STRINGS = LanguageService.currentStrings;
 
   // canvas objects for pdf generationOptions
 
@@ -314,3 +320,4 @@ function EquationsGeneratorController
    }
 
 }
+})();

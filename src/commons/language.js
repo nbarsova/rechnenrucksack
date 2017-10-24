@@ -1,25 +1,14 @@
+(function () {
+"use strict";
+
+angular.module('RechnenRucksack')
+  .service('LanguageService', LanguageService);
+
 LanguageService.$inject = [];
 
 function LanguageService ()
 {
   var languageService=this;
-
-  languageService.findDictionary = function (language)
-  {
-    for (var i=0; i<dictionaries.length; i++)
-    {
-      if (language === dictionaries[i].language)
-      {
-        return dictionaries[i].phrases;
-      }
-    }
-  }
-
-  languageService.getString = function (language, key)
-  {
-    var dict = languageService.findDictionary(language);
-    return dict[key];
-  }
 
   var dictionaries = [
     {
@@ -177,7 +166,27 @@ function LanguageService ()
     }
   ]
 
+  languageService.findDictionary = function (language)
+  {
+    for (var i=0; i<dictionaries.length; i++)
+    {
+      if (language === dictionaries[i].language)
+      {
+        return dictionaries[i].phrases;
+      }
+    }
+  }
 
+  languageService.language="ru";
+  languageService.currentStrings = languageService.findDictionary(languageService.language);
 
-
+  languageService.getString = function (language, key)
+  {
+    var dict = languageService.findDictionary(language);
+    return dict[key];
+  }
 }
+
+
+
+})();

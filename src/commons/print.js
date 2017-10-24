@@ -1,3 +1,9 @@
+(function () {
+"use strict";
+
+angular.module('RechnenRucksack')
+  .service('PrintService', PrintService);
+
 PrintService.$inject = ['LanguageService','PrintServiceConstants'];
 
 // Print service print function takes HTML canvas as an input and converts it to pdf page
@@ -77,3 +83,4 @@ function PrintService(LanguageService, PrintServiceConstants) {
           return canv.toDataURL();
         }
 }
+})();

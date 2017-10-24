@@ -1,3 +1,9 @@
+(function () {
+"use strict";
+
+angular.module('RechnenRucksack')
+  .service('EquationsGeneratorService', EquationsGeneratorService);
+
 EquationsGeneratorService.$inject = ['$q', 'ArithmeticService', 'LanguageService'];
 
 function EquationsGeneratorService($q, ArithmeticService, LanguageService) {
@@ -253,3 +259,4 @@ service.createNonPrimeStep = function (lowerLimit, upperLimit, coordinate, field
 }
 
 }
+})();

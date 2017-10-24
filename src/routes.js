@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 
-angular.module('RechnenRucksack')
+angular.module('RechnenRucksack', ['ui.router'])
 .config(RoutesConfig);
 
 RoutesConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -23,12 +23,12 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
   .state('treasureMap', {
     url: '/treasuremap',
     templateUrl: 'src/treasure/templates/treasuremap.html',
-    controller: 'EquationsGeneratorController as equationsGenerator'
+    controller: 'TreasureMapController as mapController'
   })
 
   .state('secretCode', {
     url: '/secretcode',
-    templateUrl: 'src/treasure/templates/secretcode.html'
+    templateUrl: 'src/secretcode/templates/secretcode.html'
     //controller: 'SecretCodeController as secretCode'
   });
 }

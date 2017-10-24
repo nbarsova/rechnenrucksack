@@ -1,4 +1,8 @@
+(function () {
+"use strict";
 
+angular.module('RechnenRucksack')
+  .service('ArithmeticService', ArithmeticService);
 /**
   * Arithmetic service can generate a set of unique equations for given numbers and
   * operations, based on complexity. It can work with zeroes and ones, but equations
@@ -329,7 +333,7 @@ function ArithmeticService($q) {
       multstart = 2;
     }
 
-    for (mm=multstart; mm<=number/multstart; mm++)
+    for (var mm=multstart; mm<=number/multstart; mm++)
     {
       if ((number)%mm === 0)
       {
@@ -402,3 +406,4 @@ function ArithmeticService($q) {
 
 
 }
+})();

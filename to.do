@@ -1,5 +1,6 @@
 Secret code branch plan:
 - move language settings to the core module
+- project structure!!!!
 
 TODO:
 

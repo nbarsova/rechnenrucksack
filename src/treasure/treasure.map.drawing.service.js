@@ -1,3 +1,10 @@
+(function () {
+"use strict";
+
+angular.module('RechnenRucksack')
+  .service('TreasureMapDrawingService', TreasureMapDrawingService);
+
+
 TreasureMapDrawingService.$inject = ['LanguageService', '$q'];
 
 /**
@@ -337,3 +344,4 @@ drawingService.createTeacherPage = function (targetCoordinates,
 
   };
 }
+})();
