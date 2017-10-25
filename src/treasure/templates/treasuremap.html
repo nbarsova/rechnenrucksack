@@ -1,52 +1,52 @@
   <div id="input" ng-show="mapController.equations.length===0">
-  <p>{{mapController.STRINGS.generatorDescription}}</p>
-  <div id="easyComplexity"><h4>{{mapController.STRINGS.easyComplexity}}</h4><br>
+  <p>{{'generatorDescription' | translate }}</p>
+  <div id="easyComplexity"><h4>{{'easyComplexity' | translate}}</h4><br>
   <input type="radio"
                 ng-model="mapController.easyComplexity" value="1"
                 ng-change="mapController.changeComplexity()">
-                {{mapController.STRINGS.easyComplexityEasy}}
+                {{'easyComplexityEasy' | translate}}
               <div class="tooltip" ng-mouseover="">?
-              <p class="tooltiptext">{{mapController.STRINGS.easyComplexityEasyTooltip}}</p></div>
+              <p class="tooltiptext">{{'easyComplexityEasyTooltip' | translate}}</p></div>
      <input type="radio"
                 ng-model="mapController.easyComplexity" value="2"
                 ng-change="mapController.changeComplexity()">
-                {{mapController.STRINGS.easyComplexityMedium}}
+                {{'easyComplexityMedium' | translate}}
                 <div class="tooltip" ng-mouseover="">?
-                <p class="tooltiptext">{{mapController.STRINGS.easyComplexityMediumTooltip}}</p></div>
+                <p class="tooltiptext">{{'easyComplexityMediumTooltip' | translate}}</p></div>
       <input type="radio"
                 ng-model="mapController.easyComplexity" value="3"
-                ng-change="mapController.changeComplexity()"> {{mapController.STRINGS.easyComplexityHard}} <div class="tooltip" ng-mouseover="">?
-                <p class="tooltiptext">{{mapController.STRINGS.easyComplexityHardTooltip}}</p></div>
+                ng-change="mapController.changeComplexity()"> {{'easyComplexityHard' | translate}} <div class="tooltip" ng-mouseover="">?
+                <p class="tooltiptext">{{'easyComplexityHardTooltip' | translate}}</p></div>
 
       <input type="radio" ng-model="mapController.easyComplexity" value="100"
-      ng-change="mapController.changeComplexity()">{{mapController.STRINGS.advancedComplexity}}</div>
+      ng-change="mapController.changeComplexity()">{{'advancedComplexity' | translate}}</div>
   <div id="advancedComplexity" ng-show="mapController.easyComplexity==='100'">
   <table id="complexityTable"><tr>
-    <td><h5>{{mapController.STRINGS.numberComplexity}}</h5>
+    <td><h5>{{'numberComplexity' | translate}}</h5>
         <p><input type="radio" ng-model="mapController.advancedComplexity.complexity" ng-change="mapController.changeComplexity()" value="10">0-10</p>
         <p><input type="radio" ng-model="mapController.advancedComplexity.complexity" ng-change="mapController.changeComplexity()" value="25">0-25</p></td>
-        <td><div id="equationsAmountChoice"><h5>{{mapController.STRINGS.equationsAmount}}</h5>
+        <td><div id="equationsAmountChoice"><h5>{{'equationsAmount' | translate}}</h5>
           <p><input type="radio" ng-model="mapController.advancedComplexity.equationsAmount" value="6">6</p>
           <p><input type="radio" ng-model="mapController.advancedComplexity.equationsAmount" value="8">8</p>
           <p><input type="radio"ng-model="mapController.advancedComplexity.equationsAmount" value="10">10</p>
         </div></td>
-  <td><h5>{{mapController.STRINGS.operations}}</h5>
+  <td><h5>{{'operations' | translate}}</h5>
   <div id="operationsChoice" ng-repeat="operation in mapController.advancedComplexity.operations">
       <p ng-show="operation.available"><input type="checkbox" ng-change="mapController.alterOperations()"
-       value="{{operation.code}}" ng-model="operation.selected" > {{operation.value}} </p>
+       value="{{operation.code}}" ng-model="operation.selected" > {{'operation.value' | translate}} </p>
     </div></td></tr> <tr></table></td></tr></div>
     <tr><td colspan="4"></td></tr>
-    <tr><td><br><button ng-click="mapController.createEquations()" ng-disabled="!mapController.generationAllowed">{{mapController.STRINGS.getMap}}</button></td></tr></table></div>
+    <tr><td><br><button ng-click="mapController.createEquations()" ng-disabled="!mapController.generationAllowed">{{'getMap' | translate}}</button></td></tr></table></div>
 
     <div style='padding:0px;margin:0px;' id="output" ng-show="mapController.equations.length!==0">
       <table><tr><td><div id="treasureMapC"></div></td>
-        <td><div id="printSettings" width="100%"><br><h4>{{mapController.STRINGS.settings}}</h4>
-          <div id="pageOrientationSettings" ng-show="false"><p><h5>{{mapController.STRINGS.pageOrientationDesc}}: </h5></p>
-          <p><input type="radio" ng-model="mapController.generationOptions.pageOrientation" value="landscape">{{mapController.STRINGS.pageOrientationLandscape}} <input type="radio" ng-model="mapController.generationOptions.pageOrientation" value="portrait">{{mapController.STRINGS.pageOrientationPortrait}}</p></div>
-          <p><input type="checkbox" ng-model="mapController.generationOptions.answerGeneration" > {{mapController.STRINGS.answerGeneration}}</p>
-          <p><input type="checkbox" ng-model="mapController.generationOptions.nameDate" > {{mapController.STRINGS.nameDate}}</p></div>
-          <div id="buttons"><button ng-click="mapController.print()">{{mapController.STRINGS.save}}</button><br><br>
-    <button ng-click="mapController.reset()">{{mapController.STRINGS.reset}}</button></div>
+        <td><div id="printSettings" width="100%"><br><h4>{{'settings' | translate}}</h4>
+          <div id="pageOrientationSettings" ng-show="false"><p><h5>{{'pageOrientationDesc' | translate}}: </h5></p>
+          <p><input type="radio" ng-model="mapController.generationOptions.pageOrientation" value="landscape">{{'pageOrientationLandscape' | translate}} <input type="radio" ng-model="mapController.generationOptions.pageOrientation" value="portrait">{{'pageOrientationPortrait' | translate}}</p></div>
+          <p><input type="checkbox" ng-model="mapController.generationOptions.answerGeneration" > {{'answerGeneration' | translate}}</p>
+          <p><input type="checkbox" ng-model="mapController.generationOptions.nameDate" > {{'nameDate' | translate}}</p></div>
+          <div id="buttons"><button ng-click="mapController.print()">{{'save' | translate}}</button><br><br>
+    <button ng-click="mapController.reset()">{{'reset' | translate}}</button></div>
     </td></tr></table>
 
   </div>

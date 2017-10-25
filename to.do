@@ -1,6 +1,7 @@
-Secret code branch plan:
-- move language settings to the core module
-- project structure!!!!
+Project organization
+- all dependencies as scripts
+
+- preferred language from the locale!
 
 TODO:
 

@@ -1,8 +1,8 @@
 (function () {
 'use strict';
 
-angular.module('RechnenRucksack', ['ui.router'])
-.config(RoutesConfig);
+
+angular.module('RechnenRucksack').config(RoutesConfig);
 
 RoutesConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 function RoutesConfig($stateProvider, $urlRouterProvider) {
@@ -28,8 +28,8 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
 
   .state('secretCode', {
     url: '/secretcode',
-    templateUrl: 'src/secretcode/templates/secretcode.html'
-    //controller: 'SecretCodeController as secretCode'
+    templateUrl: 'src/secretcode/templates/secretcode.html',
+    controller: 'SecretCodeGeneratorController as secretCodeController'
   });
 }
 

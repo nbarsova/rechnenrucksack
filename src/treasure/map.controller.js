@@ -5,7 +5,7 @@ angular.module('RechnenRucksack')
   .controller('TreasureMapController', TreasureMapController);
 
 TreasureMapController.$inject =
-  ['$q',
+  ['$q', '$translate',
   'EquationsGeneratorService',
   'PrintService',
   'TreasureMapDrawingService',
@@ -13,7 +13,7 @@ TreasureMapController.$inject =
   'HTMLService'];
 
 function TreasureMapController
-    ($q,
+    ($q, $translate,
       EquationsGeneratorService,
       PrintService,
       TreasureMapDrawingService,

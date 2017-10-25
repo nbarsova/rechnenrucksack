@@ -9,6 +9,7 @@ LanguageService.$inject = [];
 function LanguageService ()
 {
   var languageService=this;
+  var currentLanguage="ru";
 
   var dictionaries = [
     {
@@ -166,25 +167,23 @@ function LanguageService ()
     }
   ]
 
-  languageService.findDictionary = function (language)
+  languageService.translate = function ()
   {
+    console.log("Translating");
     for (var i=0; i<dictionaries.length; i++)
     {
       if (language === dictionaries[i].language)
       {
-        return dictionaries[i].phrases;
+        languageService.currentStrings = dictionaries[i].phrases;
       }
     }
   }
 
-  languageService.language="ru";
-  languageService.currentStrings = languageService.findDictionary(languageService.language);
-
-  languageService.getString = function (language, key)
+   languageService.getString = function (key)
   {
-    var dict = languageService.findDictionary(language);
-    return dict[key];
+    return languageService.currentStrings[key];
   }
+
 }
 
 

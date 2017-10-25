@@ -5,7 +5,7 @@ angular.module('RechnenRucksack')
   .service('TreasureMapDrawingService', TreasureMapDrawingService);
 
 
-TreasureMapDrawingService.$inject = ['LanguageService', '$q'];
+TreasureMapDrawingService.$inject = ['$q', '$translate'];
 
 /**
  * Drawing service creates canvases with treasure maps and teacher answers
@@ -13,7 +13,7 @@ TreasureMapDrawingService.$inject = ['LanguageService', '$q'];
  * @param $q promises service
  */
 
-function TreasureMapDrawingService(LanguageService, $q) {
+function TreasureMapDrawingService($q, $translate) {
 
   var drawingService = this;
 
@@ -72,12 +72,8 @@ function TreasureMapDrawingService(LanguageService, $q) {
     border.src='img/map-border-horizontal.png';
 
     border.onload=function() {
+
         context.drawImage(this, 0, 0, canvas.width, canvas.height);
-        context.font = "20px PT Sans";
-        context.fillText(LanguageService.getString(language, "worksheetDesc1"),520,80);
-        context.fillText(LanguageService.getString(language, "worksheetDesc2"),520,110);
-        context.fillText(LanguageService.getString(language, "worksheetDesc3"), 520,140);
-        context.fillText(LanguageService.getString(language, "worksheetDesc4"),520,170);
 
         for (var ii=0; ii<equations.length; ii++)
         {
@@ -90,14 +86,25 @@ function TreasureMapDrawingService(LanguageService, $q) {
             axis="vertical";
           }
 
-          context.fillText((ii+1)+"). "+equations[ii].equation+" = __ "+LanguageService.getString(language, "steps")+" "+drawingService.setDirection(equations[ii].step, axis, language)+"\n",520,200+ii*30);
+          context.fillText((ii+1)+"). "+equations[ii].equation+" = __ "+$translate("steps")+" "+drawingService.setDirection(equations[ii].step, axis, language)+"\n",520,200+ii*30);
         }
         var compass=new Image();
         compass.src='img/compass.png';
         compass.onload=function() {
         context.drawImage(this, 850, 380, 100, 120);
         }
-        deferred.resolve(canvas);
+
+        var description = $translate("worksheetDesc").then(function (worksheetDesc) {
+          var descriptionArr = drawingService.breakString(worksheetDesc);
+          for (var j=0;j<descriptionArr.length;j++)
+          {
+            context.font = "20px PT Sans";
+            context.fillText(descriptionArr[j],520,80+j*30);
+          }
+          deferred.resolve(canvas);
+        })
+
+
     }
       return deferred.promise;
 };
@@ -327,21 +334,77 @@ drawingService.createTeacherPage = function (targetCoordinates,
     {
     case "vertical":
         if (Math.sign(number) === 1) {
-            direction = LanguageService.getString(language, "dirUp");
+            $translate("dirUp").then(function (dirUp) {
+              direction = dirUp;
+              console.log (direction);
+              return direction;
+            });
         } else {
-            direction = LanguageService.getString(language, "dirDown");
+          $translate("dirDown").then(function (dirDown) {
+            direction = dirDown;
+            console.log (direction);
+            return direction;
+          });
         }
       break;
     case 'horizontal':
       if (Math.sign(number) === 1) {
-            direction = LanguageService.getString(language, "dirRight");
+        $translate("dirRight").then(function (dirRight) {
+          direction = dirRight;
+          console.log (direction);
+          return direction;
+        });
         } else {
-            direction = LanguageService.getString(language, "dirLeft");
+          $translate("dirLeft").then(function (dirLeft) {
+            direction = dirLeft;
+            console.log (direction);
+            return direction;
+          });
         }
     break;
     }
-    return direction;
-
   };
+
+  drawingService.breakAnyString = function (myStr, treshold)
+  {
+    var strings = [];
+
+      while (myStr.length>0)
+      {
+        var spaceValue = treshold;
+        var pushed = false;
+
+        while (!pushed)
+        {
+          if ((spaceValue>0)&&(spaceValue<myStr.length))
+          {
+            var char = myStr.charAt(spaceValue);
+            if (char === ' ')
+            {
+              var substr = myStr.substr(0,spaceValue);
+              strings.push(substr);
+              myStr = myStr.slice(spaceValue+1, myStr.length);
+              pushed = true;
+            } else {
+              spaceValue--;
+            }
+         }
+          else {
+            var substr = myStr.substr(0,treshold);
+            strings.push(substr);
+            myStr = myStr.slice(treshold, myStr.length);
+            pushed = true;
+        }
+        }
+      }
+    console.log(strings);
+    return strings;
+  }
+
+  drawingService.breakString = function (myStr)
+  {
+    var strings = myStr.split("\n");
+    return strings;
+  }
 }
 })();

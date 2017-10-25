@@ -13,6 +13,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
   <script src="src/lib/angular.min.js"></script>
   <script src="src/lib/angular-ui-router.js"></script>
+  <script src="src/lib/bower-angular-translate-2.15.2/angular-translate.js"></script>
 
   <!-- Routing -->
   <script src="src/rechnenrucksack.js"></script>
@@ -27,13 +28,12 @@
   <script src="src/treasure/treasure.map.drawing.service.js"></script>
 
   <!-- Treasure map -->
-  <script src="src/treasure/generator.js"></script>
+  <script src="src/treasure/map.generator.js"></script>
   <script src="src/treasure/map.controller.js"></script>
 
   <!--Secret code -->
-  <script src="src/secretcode/secret.code.generator.js"></script>
-
-
+  <script src="src/secretcode/secretcode.generator.js"></script>
+  <script src="src/secretcode/secretcode.controller.js"></script>
 
   <title>RECHNENRUCKSACK</title>
 
@@ -49,24 +49,19 @@
 
   <title>RECHNENRUCKSACK</title> </head>
 
-<body >
-  <header><h1>РЮКЗАК ЗАДАНИЙ</h1>
-   <div  id="lang"><img id="globe" src="img/globe.png" width="30"><select name="lang" class="icon-menu"
-     ng-model="RechnenRucksack.language"
-     ng-change="alert('Translate!')">
-    <option value="ru">Русский </option>
-    <option value="en">English </option>
-    <option value="de">Deutsch </option>
-  </select></div></header>
+<body ng-controller="MainController as main">
+  <header><h1>{{'rechnenrucksack' | translate }}</h1>
+   <div  id="lang"><img id="globe" src="img/globe.png" width="30">
+     <select ng-options="language | translate for language in main.languages" ng-model="main.language" ng-change="main.updateLanguage()">
+     </select></div></header>
   <div id="navigator">
-    <a  ui-sref="treasureMap" class="navItem">Поиск сокровища</a>
-    <a  ui-sref="secretCode" class="navItem">Секретный шифр</a></div>
-
+    <a  ui-sref="treasureMap" class="navItem">{{ 'treasureMap' | translate }}</a>
+    <a  ui-sref="secretCode" class="navItem">{{ 'secretCode' | translate }}</a></div>
   <ui-view></ui-view>
 
   <footer><h6>(c) Rechnenrucksack.com, 2017</h6> <br>
         <h6><a href="mailto:rechnenrucksak@gmail.com">rechnenrucksak@gmail.com</a></h6> <br>
-        <h6> {{RechnenRucksack.STRINGS.copyrightAuthor}}</h6><br>
-        <h6> {{RechnenRucksack.STRINGS.copyrightGraphic}}</h6>
+        <h6> {{'copyrightAuthor' | translate }}</h6><br>
+        <h6> {{'copyrightGraphic' | translate}}</h6>
 </body>
 </html>

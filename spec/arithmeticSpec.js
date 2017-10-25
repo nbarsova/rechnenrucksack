@@ -2,7 +2,7 @@ describe("ArithmeticServiceSpec", function() {
   var arithmetic;
 
   beforeEach(function () {
-    module('EquationsGenerator');
+    module('RechnenRucksack');
     inject(function ($injector) {
       arithmetic = $injector.get('ArithmeticService');
     });
