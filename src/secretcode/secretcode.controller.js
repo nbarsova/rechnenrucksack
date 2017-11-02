@@ -21,6 +21,8 @@ function SecretCodeGeneratorController($q, $translate,
   secretCodeController.symbolsCount=0;
   secretCodeController.symbolsCountMessage="";
 
+  secretCodeController.complexity=10;
+
   secretCodeController.countSymbols = function ()
   {
     secretCodeController.symbolsCount = SecretCodeGeneratorService.countSymbols(secretCodeController.messageStr);

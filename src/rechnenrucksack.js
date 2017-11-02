@@ -14,10 +14,12 @@ angular.module('RechnenRucksack')
     $translate.use(ctrl.language);
   };
 })
+
 angular.module('RechnenRucksack')
   .config(function($translateProvider) {
     $translateProvider.translations('en', {
       rechnenrucksack: "BAG OF TASKS",
+      rechnenrucksackDescription: "RechnenRucksack is a free printable teaching aid generator for parents and teachers.",
       treasureMap: "Treasure Map",
       secretCode: "Secret Code",
       generatorDescription: "Dear parents and teachers! With the help of \"Bag of tasks\" you can generate treasure map puzzles with arithmetic tasks of various complexity and save them as pdf for printing.",
@@ -67,10 +69,12 @@ angular.module('RechnenRucksack')
       ru: "Russian",
       secretCodeDesc: "Enter any message, and rechnenrucksack will generate equations for each letter in it and a key sheet to complete the message. Digits and punctuation marks stay intact! Rechnenrucksack doesn't check your secret message spelling and grammar!",
       enterMessage: "Enter the message to be coded!",
-      symbolsInStringMessage: "Number of different letters in the message you entered is"
+      symbolsInStringMessage: "Number of different letters in the message you entered is",
+      availableComplexity: "Possible complexity of equations"
   })
   .translations('de', {
     rechnenrucksack: "RECHNENRUCKSACK",
+    rechnenrucksackDescription: "RechnenRucksack is a free printable teaching aid generator for parents and teachers.",
     treasureMap: "Schatzsuche",
     secretCode: "Geheim Code",
     generatorDescription: "Liebe Eltern und Lehrer! Mit \"Rechnenrucksack\" könnt ihr Rechenaufgaben unterschiedlicher Komplexität als Schatzsuchekarten generieren und in pdf Format zum Ausdrucken speichern.",
@@ -120,11 +124,13 @@ angular.module('RechnenRucksack')
     ru: "Russisch",
     secretCodeDesc: "Enter any message, and rechnenrucksack will generate equations for each letter in it and a key sheet to complete the message. Digits and punctuation marks stay intact! Rechnenrucksack doesn't check your secret message spelling and grammar!",
     enterMessage: "Enter the message to be coded!",
-    symbolsInStringMessage: "Number of different letters in the message you entered is"
+    symbolsInStringMessage: "Number of different letters in the message you entered is",
+    availableComplexity: "Possible complexity of equations"
 }
 )
 .translations('ru', {
 rechnenrucksack: "РЮКЗАК ЗАДАНИЙ",
+rechnenrucksackDescription: "С помощью Рюкзака Заданий вы можете генерировать задания для распечатки по арифметике.",
 treasureMap: "Поиск сокровищ",
 secretCode: "Секретный шифр",
 generatorDescription: "Уважаемые родители и педагоги! С помощью \"Рюкзака заданий\" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.",
@@ -174,7 +180,8 @@ de: "Немецкий",
 ru: "Русский",
 secretCodeDesc: "Введите любую строчку, генератор создаст примеры для каждой буквы в нем, и ключ, в котором буквы можно будет восстановить по результату. Знаки препинания и цифры остаются без изменения. Генератор не умеет проверять исходный текст на ошибки!",
 enterMessage: "Введите секретное сообщение: ",
-symbolsInStringMessage: "Количество различных букв в вашей строке"
+symbolsInStringMessage: "Количество различных букв в вашей строке",
+availableComplexity: "Возможная сложность примеров"
 });
 
   $translateProvider.preferredLanguage('ru');

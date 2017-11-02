@@ -16,7 +16,7 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
   // Home page
   .state('home', {
     url: '/',
-    templateUrl: 'src/treasure/templates/home.html'
+    templateUrl: 'home.html'
   })
 
   // Premade list page
