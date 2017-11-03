@@ -4,7 +4,6 @@
 angular.module('RechnenRucksack')
   .service('TreasureMapDrawingService', TreasureMapDrawingService);
 
-
 TreasureMapDrawingService.$inject = ['$q', '$translate'];
 
 /**
@@ -27,6 +26,15 @@ function TreasureMapDrawingService($q, $translate) {
    * @return promise of treasure map
    */
 
+   drawingService.requestTranslation = function (translationKey)
+   {
+     console.log($translate.$uses);
+     var trPromise = $translate(translationKey).then(function (result) {
+     drawingService.translationsObject[translationKey] = result;
+     });
+     return trPromise;
+   }
+
    drawingService.createStudentPage = function (targetCoordinates,
                                               fieldSize,
                                               equations,
@@ -36,40 +44,14 @@ function TreasureMapDrawingService($q, $translate) {
     var canvas = document.createElement('canvas');
     canvas.id  = "treasureMapCanvas";
     var translationPromises = [];
+    translationPromises.push(drawingService.requestTranslation("dirRight"));
+    translationPromises.push(drawingService.requestTranslation("dirLeft"));
+    translationPromises.push(drawingService.requestTranslation("dirUp"));
+    translationPromises.push(drawingService.requestTranslation("dirDown"));
+    translationPromises.push(drawingService.requestTranslation("steps"));
+    translationPromises.push(drawingService.requestTranslation("worksheetDesc"));
 
-
-    var dirRightPromise = $translate("dirRight").then(function (dirRight) {
-      drawingService.translationsObject.dirRight= dirRight;
-    });
-
-    translationPromises.push(dirRightPromise);
-
-    var dirLeftPromise = $translate("dirLeft").then(function (dirLeft) {
-      drawingService.translationsObject.dirLeft= dirLeft;
-    });
-
-    translationPromises.push(dirLeftPromise);
-
-    var dirUpPromise = $translate("dirUp").then(function (dirUp) {
-      drawingService.translationsObject.dirUp= dirUp;
-    });
-
-    translationPromises.push(dirUpPromise);
-
-    var dirDownPromise = $translate("dirDown").then(function (dirDown) {
-      drawingService.translationsObject.dirDown= dirDown;
-    });
-
-    translationPromises.push(dirDownPromise);
-
-    var stepsPromise = $translate("steps").then(function (steps) {
-      drawingService.translationsObject.steps= steps;
-    });
-
-    translationPromises.push(stepsPromise);
-    console.log(drawingService.translationsObject);
-
-    Promise.all(translationPromises).then(function (result){
+    Promise.all(translationPromises).then(function (result) {
       console.log(drawingService.translationsObject);
     switch (pageOrientation)
     {
@@ -106,45 +88,41 @@ function TreasureMapDrawingService($q, $translate) {
     drawingService.drawGrid (canvas, targetCoordinates,
                                                 fieldSize, 20, 20);
 
+    var descriptionArr = drawingService.breakString(drawingService.translationsObject.worksheetDesc);
+    for (var j=0;j<descriptionArr.length;j++)
+      {
+        context.font = "20px PT Sans";
+        context.fillText(descriptionArr[j],520,80+j*30);
+      }
+
     var border=new Image();
 
     border.src='img/map-border-horizontal.png';
 
     border.onload=function() {
 
-        context.drawImage(this, 0, 0, canvas.width, canvas.height);
+    context.drawImage(this, 0, 0, canvas.width, canvas.height);
 
-        for (var ii=0; ii<equations.length; ii++)
+    for (var ii=0; ii<equations.length; ii++)
+    {
+        context.font = "20px PT Sans";
+        var axis="";
+        if (ii%2==0)
         {
-          context.font = "20px PT Sans";
-          var axis="";
-          if (ii%2==0)
-          {
-            axis="horizontal";
-          } else {
-            axis="vertical";
-          }
-
-          context.fillText((ii+1)+"). "+equations[ii].equation+" = __ "+drawingService.translationsObject.steps+" "+drawingService.setDirection(equations[ii].step, axis)+"\n",520,200+ii*30);
-        }
-        var compass=new Image();
-        compass.src='img/compass.png';
-        compass.onload=function() {
-        context.drawImage(this, 850, 380, 100, 120);
+          axis="horizontal";
+        } else {
+          axis="vertical";
         }
 
-        var description = $translate("worksheetDesc").then(function (worksheetDesc) {
-          var descriptionArr = drawingService.breakString(worksheetDesc);
-          for (var j=0;j<descriptionArr.length;j++)
-          {
-            context.font = "20px PT Sans";
-            context.fillText(descriptionArr[j],520,80+j*30);
-          }
-          deferred.resolve(canvas);
-        })
-
-
+        context.fillText((ii+1)+"). "+equations[ii].equation+" = __ "+drawingService.translationsObject.steps+" "+drawingService.setDirection(equations[ii].step, axis)+"\n",520,200+ii*30);
     }
+    var compass=new Image();
+    compass.src='img/compass.png';
+    compass.onload=function() {
+      context.drawImage(this, 850, 380, 100, 120);
+    }
+    deferred.resolve(canvas);
+      }
       return deferred.promise;
 };
 
@@ -161,49 +139,10 @@ function TreasureMapDrawingService($q, $translate) {
  */
 drawingService.createPortraitLayout = function (canvas, targetCoordinates, fieldSize, equations)
 {
+  // TBD
   var deferred = $q.defer();
-
-  canvas.width=550;
-  canvas.height=1000;
-
-  var context = canvas.getContext("2d");
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  drawingService.drawGrid (canvas, targetCoordinates, fieldSize,30,30);
-
-    var border=new Image();
-
-    border.src='img/map-border-vertical.png';
-
-      border.onload=function() {
-        context.drawImage(this, 0, 0, canvas.width, canvas.height);
-
-        context.font = "20px PT Sans";
-        context.fillText(LanguageService.getString(language, "worksheetDesc1"),50,540);
-        context.fillText(LanguageService.getString(language, "worksheetDesc2"),50,570);
-        context.fillText(LanguageService.getString(language, "worksheetDesc3"), 50,600);
-        context.fillText(LanguageService.getString(language, "worksheetDesc4"),50,630);
-        for (var ii=0; ii<equations.length; ii++)
-        {
-          context.font = "20px PT Sans";
-          var axis="";
-          if (ii%2==0)
-          {
-            axis="horizontal";
-          } else {
-            axis="vertical";
-          }
-
-          context.fillText((ii+1)+"). "+equations[ii].equation+" "+LanguageService.getString(language, "steps")+" "+drawingService.setDirection(equations[ii].step, axis, language)+"\n",100,670+ii*30);
-        }
-        var compass=new Image();
-        compass.src='img/compass.png';
-        compass.onload=function() {
-          context.drawImage(this, 850, 380, 100, 120);
-        }
-
-        deferred.resolve(canvas);
-    }
-    return deferred.promise;
+  deferred.resolve(canvas);
+  return deferred.promise;
 };
 
 /**
@@ -224,7 +163,16 @@ drawingService.createTeacherPage = function (targetCoordinates,
     var deferred = $q.defer();
 
     var translationPromises = [];
-    
+    var translationPromises = [];
+    translationPromises.push(drawingService.requestTranslation("answer"));
+    translationPromises.push(drawingService.requestTranslation("treasureLocation"));
+    translationPromises.push(drawingService.requestTranslation("upperRight"));
+    translationPromises.push(drawingService.requestTranslation("lowerRight"));
+    translationPromises.push(drawingService.requestTranslation("upperLeft"));
+    translationPromises.push(drawingService.requestTranslation("lowerLeft"));
+
+    Promise.all(translationPromises).then(function (result) {
+      console.log(drawingService.translationsObject);
     var canv = document.createElement('canvas');
     canv.id     = "teacherPage";
     canv.width  = 1000;
@@ -252,28 +200,29 @@ drawingService.createTeacherPage = function (targetCoordinates,
     }
 
     context.font = 'bold 20px PT Sans';
-    context.fillText(LanguageService.getString(language, "answer")+": ", 10, 75+steps.length*25);
+    context.fillText(drawingService.translationsObject.answer+": ", 10, 75+steps.length*25);
     context.font = 'normal 20px PT Sans';
     if ((currentTarget.x>0)&&(currentTarget.y>0))
     {
-      context.fillText(LanguageService.getString(language, "treasureLocation")+" "+LanguageService.getString(language, "upperRight")+".", LanguageService.getString(language, "answer").length*12+10, 75+steps.length*25);
+      context.fillText(drawingService.translationsObject.treasureLocation+" "+drawingService.translationsObject.upperRight+".", drawingService.translationsObject.answer.length*12+10, 75+steps.length*25);
     }
 
     if ((currentTarget.x>0)&&(currentTarget.y<0))
     {
-      context.fillText(LanguageService.getString(language, "treasureLocation")+" "+LanguageService.getString(language, "lowerRight")+".", LanguageService.getString(language, "answer").length*12+10, 75+steps.length*25);
+      context.fillText(drawingService.translationsObject.treasureLocation+" "+drawingService.translationsObject.lowerRight+".", drawingService.translationsObject.answer.length*12+10, 75+steps.length*25);
     }
 
     if ((currentTarget.x<0)&&(currentTarget.y>0))
     {
-      context.fillText(LanguageService.getString(language, "treasureLocation")+" "+LanguageService.getString(language, "upperLeft")+".", LanguageService.getString(language, "answer").length*12+10, 75+steps.length*25);
+      context.fillText(drawingService.translationsObject.treasureLocation+" "+drawingService.translationsObject.upperLeft+".", drawingService.translationsObject.answer.length*12+10, 75+steps.length*25);
     }
 
     if ((currentTarget.x<0)&&(currentTarget.y<0))
     {
-      context.fillText(LanguageService.getString(language, "treasureLocation")+" "+LanguageService.getString(language, "lowerLeft")+".", LanguageService.getString(language, "answer").length*12+10, 75+steps.length*25);
+      context.fillText(drawingService.translationsObject.treasureLocation+" "+drawingService.translationsObject.lowerLeft+".", drawingService.translationsObject.answer.length*12+10, 75+steps.length*25);
     }
     deferred.resolve(canv);
+  });
     return deferred.promise;
   }
 

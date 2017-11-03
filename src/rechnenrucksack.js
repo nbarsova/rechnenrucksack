@@ -11,6 +11,7 @@ angular.module('RechnenRucksack')
   ctrl.language = 'ru';
   ctrl.languages = ['ru', 'de', 'en'];
   ctrl.updateLanguage = function() {
+    console.log('translation started');
     $translate.use(ctrl.language);
   };
 })

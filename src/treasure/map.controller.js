@@ -9,16 +9,14 @@ TreasureMapController.$inject =
   'EquationsGeneratorService',
   'PrintService',
   'TreasureMapDrawingService',
-  'LanguageService',
-  'HTMLService'];
+  'HTMLService','$rootScope'];
 
 function TreasureMapController
     ($q, $translate,
       EquationsGeneratorService,
       PrintService,
       TreasureMapDrawingService,
-      LanguageService,
-      HTMLService)
+      HTMLService, $rootScope)
 {
   var equationsGenerator = this;
 
@@ -55,12 +53,28 @@ function TreasureMapController
 
   // Language related objects
   equationsGenerator.language="ru";
-  equationsGenerator.STRINGS = LanguageService.currentStrings;
 
   // canvas objects for pdf generationOptions
 
   equationsGenerator.studentPage;
   equationsGenerator.teacherPage;
+
+
+  $rootScope.$on ('$translateChangeEnd', function (event, data)
+  {
+
+    var promise = TreasureMapDrawingService.createStudentPage(equationsGenerator.targetCoordinates,
+                                             equationsGenerator.advancedComplexity.fieldSize,
+                                             equationsGenerator.equations,
+                                             'landscape');
+    promise.then (function (result)
+        {
+          HTMLService.renderCanvas(result);
+        }, function (error)
+        {
+          console.log(error);
+        });
+  });
 
   // complexity is changed on the complexity control
   // May be removed to the separate component. TBD.
@@ -290,6 +304,8 @@ function TreasureMapController
          console.log(errorResponse);
      });
    }
+
+
 
   equationsGenerator.translate = function ()
   {

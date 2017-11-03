@@ -1,14 +1,13 @@
 (function () {
 "use strict";
 
+
 angular.module('RechnenRucksack')
   .service('PrintService', PrintService);
 
-PrintService.$inject = ['LanguageService','PrintServiceConstants'];
-
 // Print service print function takes HTML canvas as an input and converts it to pdf page
 
-function PrintService(LanguageService, PrintServiceConstants) {
+function PrintService() {
 
   var printService = this;
 
@@ -22,21 +21,21 @@ function PrintService(LanguageService, PrintServiceConstants) {
 
       var doc = new jsPDF({orientation: orientation});
 
-      doc.addImage(createTitle(language), 'PNG',  PrintServiceConstants.titleX, PrintServiceConstants.titleY);
+      doc.addImage(createTitle(language), 'PNG',  10, 5);
       if (nameDate)
       {
-        doc.addImage(createNameDate(language), 'PNG', PrintServiceConstants.nameDateX, PrintServiceConstants.nameDateY)
+        doc.addImage(createNameDate(language), 'PNG', 240, 5)
       }
-      doc.addImage(studentDataURL, 'PNG', PrintServiceConstants.studentContentX, PrintServiceConstants.studentContentY);
-      doc.addImage(createCopyright(), 'PNG', PrintServiceConstants.copyrightX, PrintServiceConstants.copyrightY);
+      doc.addImage(studentDataURL, 'PNG', 10, 30);
+      doc.addImage(createCopyright(), 'PNG', 130, 160);
 
       if (teacherContent)
       {
         doc.addPage();
-        doc.addImage(createTitle(language), 'PNG',  PrintServiceConstants.titleX, PrintServiceConstants.titleY);
+        doc.addImage(createTitle(language), 'PNG',  10, 5);
         var teacherDataURL = teacherContent.toDataURL();
-        doc.addImage(teacherDataURL, 'PNG', PrintServiceConstants.studentContentX, PrintServiceConstants.studentContentY);
-        doc.addImage(createCopyright(), 'PNG', PrintServiceConstants.copyrightX, PrintServiceConstants.copyrightY);
+        doc.addImage(teacherDataURL, 'PNG', 10, 30);
+        doc.addImage(createCopyright(), 'PNG', 130, 160);
       }
 //      console.log("Printing page ready");
       doc.save("treasure.pdf");
@@ -51,7 +50,7 @@ function PrintService(LanguageService, PrintServiceConstants) {
        var context = canv.getContext("2d");
        context.font = 'normal 55px Neucha';
        context.textBaseline="top";
-       context.fillText(LanguageService.getString(language, "worksheetTitle"),0,0);
+       //context.fillText(LanguageService.getString(language, "worksheetTitle"),0,0);
        return canv.toDataURL();
      }
 
@@ -65,8 +64,8 @@ function PrintService(LanguageService, PrintServiceConstants) {
        context.font = 'normal 20px Neucha';
        context.textBaseline="top";
        context.textAlight="right";
-       context.fillText(LanguageService.getString(language, "studentName")+": _____________",0,0);
-       context.fillText(LanguageService.getString(language, "workDate")+": ____________",0,40);
+       //context.fillText(LanguageService.getString(language, "studentName")+": _____________",0,0);
+       //context.fillText(LanguageService.getString(language, "workDate")+": ____________",0,40);
        return canv.toDataURL();
      }
 

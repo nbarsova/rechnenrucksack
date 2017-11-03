@@ -4,9 +4,9 @@
 angular.module('RechnenRucksack')
   .service('EquationsGeneratorService', EquationsGeneratorService);
 
-EquationsGeneratorService.$inject = ['$q', 'ArithmeticService', 'LanguageService'];
+EquationsGeneratorService.$inject = ['$q', 'ArithmeticService'];
 
-function EquationsGeneratorService($q, ArithmeticService, LanguageService) {
+function EquationsGeneratorService($q, ArithmeticService) {
 
   var service = this;
 
