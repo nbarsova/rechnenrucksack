@@ -7,41 +7,52 @@ angular.module('RechnenRucksack')
 
 // Print service print function takes HTML canvas as an input and converts it to pdf page
 
-function PrintService() {
+PrintService.$inject = ['StringUtilService'];
+
+function PrintService(StringUtilService) {
 
   var printService = this;
 
   printService.print = function(studentContent,
                                 teacherContent,
-                                language,
                                 orientation,
                                 nameDate) {
 
-      var studentDataURL = studentContent.toDataURL();
 
-      var doc = new jsPDF({orientation: orientation});
-
-      doc.addImage(createTitle(language), 'PNG',  10, 5);
+      var translationPromises = [];
+      translationPromises.push(StringUtilService.requestTranslation("worksheetTitle"));
       if (nameDate)
       {
-        doc.addImage(createNameDate(language), 'PNG', 240, 5)
+        translationPromises.push(StringUtilService.requestTranslation("studentName"));
+        translationPromises.push(StringUtilService.requestTranslation("workDate"));
       }
-      doc.addImage(studentDataURL, 'PNG', 10, 30);
-      doc.addImage(createCopyright(), 'PNG', 130, 160);
 
-      if (teacherContent)
-      {
-        doc.addPage();
-        doc.addImage(createTitle(language), 'PNG',  10, 5);
-        var teacherDataURL = teacherContent.toDataURL();
-        doc.addImage(teacherDataURL, 'PNG', 10, 30);
+      Promise.all(translationPromises).then(function (result) {
+        var studentDataURL = studentContent.toDataURL();
+
+        var doc = new jsPDF({orientation: orientation});
+
+        doc.addImage(createTitle(), 'PNG',  10, 5);
+        if (nameDate)
+        {
+          doc.addImage(createNameDate(), 'PNG', 240, 5)
+        }
+        doc.addImage(studentDataURL, 'PNG', 10, 30);
         doc.addImage(createCopyright(), 'PNG', 130, 160);
-      }
-//      console.log("Printing page ready");
-      doc.save("treasure.pdf");
+
+        if (teacherContent)
+        {
+          doc.addPage();
+          doc.addImage(createTitle(), 'PNG',  10, 5);
+          var teacherDataURL = teacherContent.toDataURL();
+          doc.addImage(teacherDataURL, 'PNG', 10, 30);
+          doc.addImage(createCopyright(), 'PNG', 130, 160);
+        }
+        doc.save("treasure.pdf");
+      });
     }
 
-     function createTitle(language)
+     function createTitle()
      {
        var canv = document.createElement('canvas');
        canv.id     = "title";
@@ -50,11 +61,11 @@ function PrintService() {
        var context = canv.getContext("2d");
        context.font = 'normal 55px Neucha';
        context.textBaseline="top";
-       //context.fillText(LanguageService.getString(language, "worksheetTitle"),0,0);
+       context.fillText(StringUtilService.translationsObject.worksheetTitle,0,0);
        return canv.toDataURL();
      }
 
-     function createNameDate(language)
+     function createNameDate()
      {
        var canv = document.createElement('canvas');
        canv.id     = "nameDate";
@@ -64,8 +75,8 @@ function PrintService() {
        context.font = 'normal 20px Neucha';
        context.textBaseline="top";
        context.textAlight="right";
-       //context.fillText(LanguageService.getString(language, "studentName")+": _____________",0,0);
-       //context.fillText(LanguageService.getString(language, "workDate")+": ____________",0,40);
+       context.fillText(StringUtilService.translationsObject.studentName+": _____________",0,0);
+       context.fillText(StringUtilService.translationsObject.workDate+": ____________",0,40);
        return canv.toDataURL();
      }
 

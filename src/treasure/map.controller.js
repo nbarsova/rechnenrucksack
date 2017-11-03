@@ -274,8 +274,7 @@ function TreasureMapController
     var prr = TreasureMapDrawingService.createStudentPage(equationsGenerator.targetCoordinates,
                                            equationsGenerator.advancedComplexity.fieldSize,
                                            equationsGenerator.equations,
-                                           equationsGenerator.generationOptions.pageOrientation,
-                                           equationsGenerator.language);
+                                           equationsGenerator.generationOptions.pageOrientation);
 
      prr.then(function(result)
      {
@@ -286,17 +285,22 @@ function TreasureMapController
                                                 equationsGenerator.equations,
                                                 equationsGenerator.steps,
                                                 equationsGenerator.currentTarget,
-                                                equationsGenerator.generationOptions.pageOrientation,
-                                                equationsGenerator.language);
+                                                equationsGenerator.generationOptions.pageOrientation);
 
           prromise.then(function(result) {
           equationsGenerator.teacherPage = result;
-          PrintService.print(equationsGenerator.studentPage, equationsGenerator.teacherPage, equationsGenerator.language, equationsGenerator.generationOptions.pageOrientation, equationsGenerator.generationOptions.nameDate);
+          PrintService.print(equationsGenerator.studentPage,
+                             equationsGenerator.teacherPage,
+                             equationsGenerator.generationOptions.pageOrientation,
+                             equationsGenerator.generationOptions.nameDate);
         }, function (errorResponse) {
             console.log(errorResponse);
         });
       } else {
-        PrintService.print(equationsGenerator.studentPage, null, equationsGenerator.language, equationsGenerator.generationOptions.pageOrientation, equationsGenerator.generationOptions.nameDate);
+        PrintService.print(equationsGenerator.studentPage,
+                          null,
+                          equationsGenerator.generationOptions.pageOrientation,
+                          equationsGenerator.generationOptions.nameDate);
       }
 
        },
@@ -304,36 +308,5 @@ function TreasureMapController
          console.log(errorResponse);
      });
    }
-
-
-
-  equationsGenerator.translate = function ()
-  {
-    equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
-//    document.title = equationsGenerator.STRINGS.rechnenrucksack;
-
-    if (equationsGenerator.steps.length>0)
-    {
-      var promise = TreasureMapDrawingService.createStudentPage(equationsGenerator.targetCoordinates,
-                                             equationsGenerator.advancedComplexity.fieldSize,
-                                             equationsGenerator.equations,
-                                             'landscape',
-                                             equationsGenerator.language);
-
-      promise.then (function (result)
-        {
-          HTMLService.renderCanvas(result);
-        }, function (error)
-        {
-          console.log(error);
-        });
-
-      }
-   if (equationsGenerator.errorMessage!=="")
-      {
-        equationsGenerator.errorMessage = equationsGenerator.STRINGS.noOperationsMessage;
-      }
-   }
-
 }
 })();
