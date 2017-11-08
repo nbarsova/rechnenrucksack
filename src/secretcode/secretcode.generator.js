@@ -10,27 +10,120 @@ SecretCodeGeneratorService.$inject = ['$q', 'ArithmeticService', '$translate'];
 function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
 
   var secretCodeGenerator = this;
+  secretCodeGenerator.messageSymbols = [];
+  secretCodeGenerator.letterCodes = [];
+  secretCodeGenerator.equations = [];
 
   secretCodeGenerator.countSymbols = function (messageStr)
   {
-    var symbols=[];
+    secretCodeGenerator.messageSymbols=[];
     for (var i=0; i<messageStr.length; i++)
     {
       var symbol = messageStr.charAt(i);
-      var isLetter=(symbol.toUpperCase() != symbol.toLowerCase())
-      if (isLetter&&(symbols.indexOf(symbol.toUpperCase())===-1)&&(symbols.indexOf(symbol.toLowerCase())===-1)) {
-        symbols.push(symbol);
+
+      if (secretCodeGenerator.isLetter(symbol)&&(secretCodeGenerator.messageSymbols.indexOf(symbol.toUpperCase())===-1)&&(secretCodeGenerator.messageSymbols.indexOf(symbol.toLowerCase())===-1)) {
+        secretCodeGenerator.messageSymbols.push(symbol);
       }
     }
-    return symbols.length;
+    return secretCodeGenerator.messageSymbols.length;
   }
+
+  secretCodeGenerator.assignCodes = function(messageStr, complexity)
+  {
+    secretCodeGenerator.letterCodes = [];
+    var treshold = (secretCodeGenerator.messageSymbols.length === complexity) ? secretCodeGenerator.messageSymbols.length-1 : secretCodeGenerator.messageSymbols.length;
+    for (var i=0; i<treshold; i++)
+    {
+      var code;
+      do {
+        code = ArithmeticService.normalRandom(1, complexity);
+      } while (!secretCodeGenerator.isUniqueCode(code));
+
+      secretCodeGenerator.letterCodes.push({letter: secretCodeGenerator.messageSymbols[i], code: code});
+    }
+
+    if (secretCodeGenerator.messageSymbols.length === complexity)
+    {
+      secretCodeGenerator.letterCodes.push({letter: secretCodeGenerator.messageSymbols[secretCodeGenerator.messageSymbols.length-1], code:0});
+    }
+
+    return secretCodeGenerator.letterCodes;
+  }
+
+  secretCodeGenerator.assignEquationsToString = function (messageStr, complexity)
+  {
+    var deferred = $q.defer();
+    var steps=[];
+    for (var i=0; i<messageStr.length; i++)
+    {
+      var symbol = messageStr.charAt(i);
+      if (secretCodeGenerator.isLetter(symbol)) {
+        steps.push(secretCodeGenerator.findCodeForLetter(symbol));
+      }
+    }
+    console.log(steps);
+    var selectedOps = ['+','-'];
+    if (complexity>10)
+    {
+      selectedOps.push('*');
+      selectedOps.push(':');
+    }
+    ArithmeticService.initEquations();
+    var promise = ArithmeticService.createEquationSet(steps, selectedOps, complexity);
+    promise.then(function (result) {
+      secretCodeGenerator.equations=[];
+      var j=0;
+      var k=0;
+      while (j<messageStr.length)
+      {
+        var symbol = messageStr.charAt(j);
+        if (secretCodeGenerator.isLetter(symbol)) {
+          secretCodeGenerator.equations.push(result[k]);
+          j++;
+          k++;
+        } else {
+          secretCodeGenerator.equations.push(symbol);
+          j++;
+        }
+      }
+      console.log(secretCodeGenerator.equations);
+      deferred.resolve(secretCodeGenerator.equations);
+    }, function (error) {
+      console.log(error);
+    });
+    return deferred.promise;
+  }
+
+  secretCodeGenerator.isUniqueCode = function (code)
+  {
+    for (var i=0; i<secretCodeGenerator.letterCodes.length; i++)
+    {
+      if (secretCodeGenerator.letterCodes[i].code === code)
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  secretCodeGenerator.findCodeForLetter = function (letter)
+  {
+    for (var i=0; i<secretCodeGenerator.letterCodes.length; i++)
+    {
+      if (secretCodeGenerator.letterCodes[i].letter === letter)
+      {
+        return secretCodeGenerator.letterCodes[i].code;
+      }
+    }
+    console.log("Letter code for "+ letter + " not found. Very wrong!");
+  }
+
+  secretCodeGenerator.isLetter= function (symbol)
+  {
+    return (symbol.toUpperCase() != symbol.toLowerCase());
+  }
+
 }
 
-/*
-компонента для ввода слов: анализирует на лету вводимую строку, считает, сколько
-в ней различных символов, выдает снизу диапазон сложности заданий
-каждому символу присваивается случайное число в диапазоне
-для этих чисел генерируются примеры
-*/
 
 })();
