@@ -50,7 +50,7 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
     return secretCodeGenerator.letterCodes;
   }
 
-  secretCodeGenerator.assignEquationsToString = function (messageStr, complexity)
+  secretCodeGenerator.assignEquationsToString = function (messageStr, complexity, selectedOps)
   {
     var deferred = $q.defer();
     var steps=[];
@@ -62,12 +62,7 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
       }
     }
     console.log(steps);
-    var selectedOps = ['+','-'];
-    if (complexity>10)
-    {
-      selectedOps.push('*');
-      selectedOps.push(':');
-    }
+    
     ArithmeticService.initEquations();
     var promise = ArithmeticService.createEquationSet(steps, selectedOps, complexity);
     promise.then(function (result) {
