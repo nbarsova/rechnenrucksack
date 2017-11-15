@@ -114,7 +114,7 @@ angular.module('RechnenRucksack')
     advancedComplexity: "Erweiterte Komplexitätseinstellungen",
     studentName: "Name",
     workDate: "Datum",
-    treasureLocation: "Der Schats liegt",
+    treasureLocation: "Der Schatz liegt",
     upperRight: "oben rechts",
     upperLeft: "oben links",
     lowerRight: "unten rechts",
