@@ -66,6 +66,7 @@ function SecretCodeGeneratorController($q, $translate,
       secretCodeController.equations = result;
     }, function (error) {
       console.log(error);
+      secretCodeController.createLetterCodes();
     });
   }
 

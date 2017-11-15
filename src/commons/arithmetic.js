@@ -268,19 +268,28 @@ function ArithmeticService($q) {
         for (var n=0; n<generatedEquations.length; n++)
         {
           if (generatedEquations[n].number === number) {
-            //console.log("Looking up number "+ generatedEquations[n].number);
-            //console.log(generatedEquations[n].values);
+            // console.log("Looking up number "+ generatedEquations[n].number);
+            // console.log(generatedEquations[n].values);
             for (var nn=0; nn<generatedEquations[n].values.length; nn++)
             {
-              //console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
+              // console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
               if (generatedEquations[n].values[nn].operation === operation)
               {
-  //              console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
-  //              console.log(generatedEquations[n].values[nn]);
+                // console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
+
+                if (generatedEquations[n].values[nn].equations.length===0)
+                {
+                  // console.log("We need to generate some new equations");
+                  generatedEquations[n].values[nn].equations=service.createEquationsForNumber(number, operation, complexity);
+                }
+
+                // console.log(generatedEquations[n].values[nn]);
+
                 var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
                 //console.log("Random number is "+randomNumber);
                 equation = generatedEquations[n].values[nn].equations[randomNumber];
                 generatedEquations[n].values[nn].equations.splice(randomNumber, 1);
+
               }
            }
         }
@@ -346,15 +355,19 @@ function ArithmeticService($q) {
 
   service.createDivisionEquations = function (number, complexity)
   {
+//    console.log("Creating division equations for number "+number +" complexity "+complexity);
     var newEquations=[];
 
-    var divstart=2;
-    if ((complexity<99)&&(number>12))
+    var divstart=1;
+
+    if (2*number<=complexity)
     {
-      divstart=1;
+      divstart=2;
     }
 
-    for (var dd=divstart; (dd<10)&&(dd*number<complexity); dd++)
+//    console.log("Division start ="+divstart);
+
+    for (var dd=divstart; (dd<10)&&(dd*number<=complexity); dd++)
     {
       var newEquation = new Equation (dd*number, dd, ':', number);
       newEquations.push(newEquation);

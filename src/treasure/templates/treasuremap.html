@@ -32,7 +32,7 @@
         </div></td>
   <td><h5>{{'operations' | translate}}</h5>
   <div id="operationsChoice" ng-repeat="operation in mapController.advancedComplexity.operations">
-      <p ng-show="operation.available"><input type="checkbox" ng-change="mapController.alterOperations()"
+      <p><input type="checkbox" ng-change="mapController.alterOperations()"
        value="{{operation.code}}" ng-model="operation.selected" > {{operation.value}} </p>
     </div></td></tr> <tr></table></td></tr></div>
     <tr><td colspan="4"></td></tr>

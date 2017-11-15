@@ -13,6 +13,7 @@ angular.module('RechnenRucksack')
   stringsUtilService.requestTranslation = function (translationKey)
     {
       var trPromise = $translate(translationKey).then(function (result) {
+      //console.log(result);
       stringsUtilService.translationsObject[translationKey] = result;
       });
       return trPromise;

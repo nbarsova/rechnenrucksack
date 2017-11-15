@@ -158,6 +158,7 @@ drawingService.createTeacherPage = function (targetCoordinates,
 
     var translationPromises = [];
     var translationPromises = [];
+    
     translationPromises.push(StringUtilService.requestTranslation("answer"));
     translationPromises.push(StringUtilService.requestTranslation("treasureLocation"));
     translationPromises.push(StringUtilService.requestTranslation("upperRight"));

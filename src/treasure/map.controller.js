@@ -9,14 +9,14 @@ TreasureMapController.$inject =
   'EquationsGeneratorService',
   'PrintService',
   'TreasureMapDrawingService',
-  'HTMLService','$rootScope'];
+  'HTMLService','$rootScope', 'StringUtilService'];
 
 function TreasureMapController
     ($q, $translate,
       EquationsGeneratorService,
       PrintService,
       TreasureMapDrawingService,
-      HTMLService, $rootScope)
+      HTMLService, $rootScope, StringUtilService)
 {
   var equationsGenerator = this;
 
@@ -69,6 +69,7 @@ function TreasureMapController
                                              'landscape');
     promise.then (function (result)
         {
+          equationsGenerator.alterOperations();
           HTMLService.renderCanvas(result);
         }, function (error)
         {
@@ -187,7 +188,15 @@ function TreasureMapController
     if (operationSelected === false)
     {
       equationsGenerator.generationAllowed=false;
-      equationsGenerator.errorMessage=equationsGenerator.STRINGS.noOperationsMessage;
+
+      var pr = StringUtilService.requestTranslation("noOperationsMessage");
+      pr.then(function(result)
+      {
+        equationsGenerator.errorMessage=StringUtilService.translationsObject.noOperationsMessage;
+      }, function (error){
+        console.log(error);
+      });
+
     } else
     {
       equationsGenerator.generationAllowed=true;
@@ -210,8 +219,14 @@ function TreasureMapController
 
     if (selectedOps.length === 0)
     {
-      equationsGenerator.errorMessage=equationsGenerator.STRINGS.noOperationsMessage;
-      equationsGenerator.generationAllowed = false;
+        StringUtilService.requestTranslation("noOperationsMessage").then(function(result)
+        {
+          equationsGenerator.errorMessage=StringUtilService.translationsObject.noOperationsMessage;
+
+        }, function (error){
+          console.log(error);
+        });
+        equationsGenerator.generationAllowed = false;
     } else {
 
       equationsGenerator.errorMessage="";

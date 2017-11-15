@@ -62,7 +62,7 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
       }
     }
     console.log(steps);
-    
+
     ArithmeticService.initEquations();
     var promise = ArithmeticService.createEquationSet(steps, selectedOps, complexity);
     promise.then(function (result) {
@@ -81,7 +81,7 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
           j++;
         }
       }
-      console.log(secretCodeGenerator.equations);
+//      console.log(secretCodeGenerator.equations);
       deferred.resolve(secretCodeGenerator.equations);
     }, function (error) {
       console.log(error);
