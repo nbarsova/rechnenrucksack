@@ -24,14 +24,16 @@
   <script src="src/commons/arithmetic.js"></script>
   <script src="src/commons/strings.js"></script>
   <script src="src/commons/print.js"></script>
-  <script src="src/treasure/render.service.js"></script>
-  <script src="src/treasure/treasure.map.drawing.service.js"></script>
+  <script src="src/commons/render.js"></script>
+
 
   <!-- Treasure map -->
+  <script src="src/treasure/map.renderer.js"></script>
   <script src="src/treasure/map.generator.js"></script>
   <script src="src/treasure/map.controller.js"></script>
 
   <!--Secret code -->
+  <script src="src/secretcode/secretcode.renderer.js"></script>
   <script src="src/secretcode/secretcode.generator.js"></script>
   <script src="src/secretcode/secretcode.controller.js"></script>
 
@@ -51,7 +53,7 @@
 
 <body ng-controller="MainController as main">
   <header><a ui-sref="home" class="pageHeader">{{'rechnenrucksack' | translate }}</a>
-   <div  id="lang"><img id="globe" src="img/globe.png" width="30">
+   <div id="lang"><img id="globe" src="img/globe.png" width="30">
      <select ng-options="language | translate for language in main.languages" ng-model="main.language" ng-change="main.updateLanguage()">
      </select></div></header>
   <div id="navigator">
@@ -60,8 +62,6 @@
   <ui-view></ui-view>
 
   <footer><h6>(c) Rechnenrucksack.com, 2017</h6> <br>
-        <h6><a href="mailto:rechnenrucksak@gmail.com">rechnenrucksak@gmail.com</a></h6> <br>
-        <h6> {{'copyrightAuthor' | translate }}</h6><br>
-        <h6> {{'copyrightGraphic' | translate}}</h6>
+        <h6><a href="mailto:rechnenrucksak@gmail.com">rechnenrucksak@gmail.com</a></h6>
 </body>
 </html>

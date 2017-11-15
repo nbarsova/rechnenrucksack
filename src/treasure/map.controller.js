@@ -70,7 +70,7 @@ function TreasureMapController
     promise.then (function (result)
         {
           equationsGenerator.alterOperations();
-          HTMLService.renderCanvas(result);
+          HTMLService.renderCanvas(result, "treasureMapC");
         }, function (error)
         {
           console.log(error);
@@ -264,7 +264,7 @@ function TreasureMapController
                                                 equationsGenerator.language);
         promm.then(function (result) {
           equationsGenerator.studentPage = result;
-          HTMLService.renderCanvas(equationsGenerator.studentPage);
+          HTMLService.renderCanvas(equationsGenerator.studentPage, "treasureMapC");
         }, function (errorResponse) {
           console.log("Student page promise not returned");
           console.log(errorResponse);

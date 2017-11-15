@@ -109,6 +109,12 @@ button
   font-weight: bold;
 }
 
+#errorMessage
+{
+  color:red;
+  font-weight: bold;
+}
+
 #complexityTable
 {
   border: 2px solid black;
@@ -140,6 +146,15 @@ button
   position:absolute;
   right: 20px;
   top: 20px;
+}
+
+.secretCodeInput
+{
+    width: 430px;
+    padding: 4px;
+    box-sizing: border-box;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
 }
 
 #navigator

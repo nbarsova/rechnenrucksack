@@ -8,7 +8,7 @@ angular.module('RechnenRucksack')
 {
   var ctrl = this;
 
-  ctrl.language = 'ru';
+  ctrl.language = 'en';
   ctrl.languages = ['ru', 'de', 'en'];
   ctrl.updateLanguage = function() {
     console.log('translation started');
@@ -68,10 +68,12 @@ angular.module('RechnenRucksack')
       en: "English",
       de: "German",
       ru: "Russian",
-      secretCodeDesc: "Enter any message, and rechnenrucksack will generate equations for each letter in it and a key sheet to complete the message. Digits and punctuation marks stay intact! Rechnenrucksack doesn't check your secret message spelling and grammar!",
-      enterMessage: "Enter the message to be coded!",
-      symbolsInStringMessage: "Number of different letters in the message you entered is",
-      availableComplexity: "Possible complexity of equations"
+      secretCodeDesc: "Enter any message, and press the button to generate equations for each letter in it and a key sheet to complete the message. Digits and punctuation marks stay intact! Rechnenrucksack doesn't check your secret message spelling and grammar!",
+      enterMessage: "Enter the message to be encoded",
+      symbolsInStringMessage: "Number of different letters",
+      availableComplexity: "Possible complexity of equations",
+      messageLength: "Secret message length",
+      secretMessageTooLong: "Secret message must not be longer than 50 symbols"
   })
   .translations('de', {
     rechnenrucksack: "RECHNENRUCKSACK",
@@ -124,9 +126,11 @@ angular.module('RechnenRucksack')
     de: "Deutsch",
     ru: "Russisch",
     secretCodeDesc: "Enter any message, and rechnenrucksack will generate equations for each letter in it and a key sheet to complete the message. Digits and punctuation marks stay intact! Rechnenrucksack doesn't check your secret message spelling and grammar!",
-    enterMessage: "Enter the message to be coded!",
-    symbolsInStringMessage: "Number of different letters in the message you entered is",
-    availableComplexity: "Possible complexity of equations"
+    enterMessage: "Enter the message to be encoded",
+    symbolsInStringMessage: "Number of different letters",
+    availableComplexity: "Possible complexity of equations",
+    messageLength: "Secret message length",
+    secretMessageTooLong: "Secret message must not be longer than 50 symbols"
 }
 )
 .translations('ru', {
@@ -180,12 +184,14 @@ en: "Английский",
 de: "Немецкий",
 ru: "Русский",
 secretCodeDesc: "Введите любую строчку, генератор создаст примеры для каждой буквы в нем, и ключ, в котором буквы можно будет восстановить по результату. Знаки препинания и цифры остаются без изменения. Генератор не умеет проверять исходный текст на ошибки!",
-enterMessage: "Введите секретное сообщение: ",
+enterMessage: "Введите секретное сообщение",
 symbolsInStringMessage: "Количество различных букв в вашей строке",
-availableComplexity: "Возможная сложность примеров"
+availableComplexity: "Возможная сложность примеров",
+  messageLength: "Длина секретного сообщения",
+    secretMessageTooLong: "Секретное сообщение не должно быть длиннее 50 символов"
 });
 
-  $translateProvider.preferredLanguage('ru');
+  $translateProvider.preferredLanguage('en');
 });
 
 })();

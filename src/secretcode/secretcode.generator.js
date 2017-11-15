@@ -16,6 +16,7 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
 
   secretCodeGenerator.countSymbols = function (messageStr)
   {
+//    console.log(messageStr);
     secretCodeGenerator.messageSymbols=[];
     for (var i=0; i<messageStr.length; i++)
     {
