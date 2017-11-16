@@ -70,7 +70,7 @@ angular.module('RechnenRucksack')
       ru: "Russian",
       secretCodeDesc: "Enter any message, and press the button to generate equations for each letter in it and a key sheet to complete the message. Digits and punctuation marks stay intact! Rechnenrucksack doesn't check your secret message spelling and grammar!",
       enterMessage: "Enter the message to be encoded",
-      symbolsInStringMessage: "Number of different letters",
+      symbolsInStringMessage: "Different symbols",
       availableComplexity: "Possible complexity of equations",
       messageLength: "Secret message length",
       secretMessageTooLong: "Secret message must not be longer than 50 symbols"

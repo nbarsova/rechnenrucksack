@@ -125,7 +125,11 @@ function SecretCodeGeneratorController($q, $translate,
     });
   }
 
-
+  secretCodeController.reset = function ()
+  {
+    secretCodeController.equations=[];
+    secretCodeController.letterCodes=[];
+  }
 }
 
 })();
