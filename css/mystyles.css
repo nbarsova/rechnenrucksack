@@ -155,11 +155,12 @@ button
 
 .secretCodeInput
 {
-    width: 430px;
+    width: 450px;
     padding: 4px;
     box-sizing: border-box;
     font-family: 'PT Sans', sans-serif;
     font-size: 18px;
+    text-transform:uppercase;
 }
 
 #navigator

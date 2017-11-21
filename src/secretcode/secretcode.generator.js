@@ -5,9 +5,15 @@ angular.module('RechnenRucksack')
   .service('SecretCodeGeneratorService', SecretCodeGeneratorService);
 
 
-SecretCodeGeneratorService.$inject = ['$q', 'ArithmeticService', '$translate'];
+SecretCodeGeneratorService.$inject = ['$q',
+                                      'ArithmeticService',
+                                      '$translate',
+                                      'StringUtilService'];
 
-function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
+function SecretCodeGeneratorService($q,
+                                    ArithmeticService,
+                                    $translate,
+                                    StringUtilService) {
 
   var secretCodeGenerator = this;
   secretCodeGenerator.messageSymbols = [];
@@ -22,7 +28,7 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
     {
       var symbol = messageStr.charAt(i);
 
-      if (secretCodeGenerator.isLetter(symbol)&&(secretCodeGenerator.messageSymbols.indexOf(symbol.toUpperCase())===-1)&&(secretCodeGenerator.messageSymbols.indexOf(symbol.toLowerCase())===-1)) {
+      if (StringUtilService.isLetter(symbol)&&(secretCodeGenerator.messageSymbols.indexOf(symbol.toUpperCase())===-1)&&(secretCodeGenerator.messageSymbols.indexOf(symbol.toLowerCase())===-1)) {
         secretCodeGenerator.messageSymbols.push(symbol);
       }
     }
@@ -58,7 +64,8 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
     for (var i=0; i<messageStr.length; i++)
     {
       var symbol = messageStr.charAt(i);
-      if (secretCodeGenerator.isLetter(symbol)) {
+      if (StringUtilService
+        .isLetter(symbol)) {
         steps.push(secretCodeGenerator.findCodeForLetter(symbol));
       }
     }
@@ -73,7 +80,7 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
       while (j<messageStr.length)
       {
         var symbol = messageStr.charAt(j);
-        if (secretCodeGenerator.isLetter(symbol)) {
+        if (StringUtilService.isLetter(symbol)) {
           secretCodeGenerator.equations.push(result[k]);
           j++;
           k++;
@@ -114,10 +121,7 @@ function SecretCodeGeneratorService($q, ArithmeticService, $translate) {
     console.log("Letter code for "+ letter + " not found. Very wrong!");
   }
 
-  secretCodeGenerator.isLetter= function (symbol)
-  {
-    return (symbol.toUpperCase() != symbol.toLowerCase());
-  }
+
 
 }
 

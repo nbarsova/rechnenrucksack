@@ -9,13 +9,14 @@ SecretCodeGeneratorController.$inject =
   'ArithmeticService',
   'SecretCodeGeneratorService',
   'SecretCodeRendererService',
-  'HTMLService'];
+  'HTMLService', 'PrintService'];
 
 function SecretCodeGeneratorController($q, $translate,
                                         ArithmeticService,
                                         SecretCodeGeneratorService,
                                         SecretCodeRendererService,
-                                        HTMLService)
+                                        HTMLService,
+                                        PrintService)
 {
 
   var secretCodeController = this;
@@ -44,6 +45,7 @@ function SecretCodeGeneratorController($q, $translate,
 
   secretCodeController.checkMessage = function ()
   {
+
     if (secretCodeController.messageStr.length>50)
     {
       var errorPr = $translate("secretMessageTooLong").then(function (result) {
@@ -54,6 +56,7 @@ function SecretCodeGeneratorController($q, $translate,
       secretCodeController.errorMessage="";
       secretCodeController.generationEnabled=true;
       //TODO: enable settings
+      secretCodeController.messageStr = secretCodeController.messageStr.toUpperCase();
     secretCodeController.symbolsCount = SecretCodeGeneratorService.countSymbols(secretCodeController.messageStr);
 
     if (secretCodeController.symbolsCount>10)
@@ -129,6 +132,19 @@ function SecretCodeGeneratorController($q, $translate,
   {
     secretCodeController.equations=[];
     secretCodeController.letterCodes=[];
+  }
+
+  secretCodeController.print = function()
+  {
+    var canvasPromise = SecretCodeRendererService.createCanvas(secretCodeController.messageStr, secretCodeController.equations, secretCodeController.letterCodes);
+    canvasPromise.then(function (result) {
+      PrintService.print(result,
+                         null,
+                         'landscape',
+                         false);
+  }, function (error) {
+    console.log(error);
+  });
   }
 }
 

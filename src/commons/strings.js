@@ -61,5 +61,10 @@ angular.module('RechnenRucksack')
       return strings;
     }
 
+    stringsUtilService.isLetter= function (symbol)
+    {
+      return (symbol.toUpperCase() != symbol.toLowerCase());
+    }
+
   }
   })();
