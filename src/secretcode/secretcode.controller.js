@@ -9,14 +9,14 @@ SecretCodeGeneratorController.$inject =
   'ArithmeticService',
   'SecretCodeGeneratorService',
   'SecretCodeRendererService',
-  'HTMLService', 'PrintService'];
+  'HTMLService', 'PrintService', '$rootScope'];
 
 function SecretCodeGeneratorController($q, $translate,
                                         ArithmeticService,
                                         SecretCodeGeneratorService,
                                         SecretCodeRendererService,
                                         HTMLService,
-                                        PrintService)
+                                        PrintService, $rootScope)
 {
 
   var secretCodeController = this;
@@ -138,7 +138,8 @@ function SecretCodeGeneratorController($q, $translate,
   {
     var canvasPromise = SecretCodeRendererService.createCanvas(secretCodeController.messageStr, secretCodeController.equations, secretCodeController.letterCodes);
     canvasPromise.then(function (result) {
-      PrintService.print(result,
+    PrintService.print("secretCodeTitle",
+                        result,
                          null,
                          'landscape',
                          false);
@@ -146,6 +147,16 @@ function SecretCodeGeneratorController($q, $translate,
     console.log(error);
   });
   }
+
+  $rootScope.$on ('$translateChangeEnd', function (event, data)
+  {
+    var canvasPromise = SecretCodeRendererService.createCanvas(secretCodeController.messageStr, secretCodeController.equations, secretCodeController.letterCodes);
+        canvasPromise.then(function (result) {
+            HTMLService.renderCanvas(result, "secretCodeC");
+        }, function (error) {
+        console.log(error);
+        });
+  });
 }
 
 })();

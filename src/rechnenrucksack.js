@@ -73,7 +73,10 @@ angular.module('RechnenRucksack')
       symbolsInStringMessage: "Different symbols",
       availableComplexity: "Possible complexity of equations",
       messageLength: "Secret message length",
-      secretMessageTooLong: "Secret message must not be longer than 50 symbols"
+      secretMessageTooLong: "Secret message must not be longer than 50 symbols",
+      equationsToSolve: "Solve the equations and find the results in the key to get each letter of secret message!",
+      codeKey: "Letter code key",
+      secretCodeTitle: "Solve the secret code!"
   })
   .translations('de', {
     rechnenrucksack: "RECHNENRUCKSACK",
@@ -130,7 +133,10 @@ angular.module('RechnenRucksack')
     symbolsInStringMessage: "Number of different letters",
     availableComplexity: "Possible complexity of equations",
     messageLength: "Secret message length",
-    secretMessageTooLong: "Secret message must not be longer than 50 symbols"
+    secretMessageTooLong: "Secret message must not be longer than 50 symbols",
+    equationsToSolve: "Solve the equations and find the results in the key to get each letter of secret message!",
+    codeKey: "Letter code key",
+      secretCodeTitle: "Solve the secret code!"
 }
 )
 .translations('ru', {
@@ -187,8 +193,11 @@ secretCodeDesc: "Введите любую строчку, генератор с
 enterMessage: "Введите секретное сообщение",
 symbolsInStringMessage: "Количество различных букв",
 availableComplexity: "Возможная сложность примеров",
-  messageLength: "Длина секретного сообщения",
-    secretMessageTooLong: "Секретное сообщение не должно быть длиннее 50 символов"
+messageLength: "Длина секретного сообщения",
+secretMessageTooLong: "Секретное сообщение не должно быть длиннее 50 символов",
+equationsToSolve: "Реши примеры и подставь нужную букву по ключу",
+codeKey: "Ключ",
+secretCodeTitle: "Разгадай секретный шифр!"
 });
 
   $translateProvider.preferredLanguage('en');

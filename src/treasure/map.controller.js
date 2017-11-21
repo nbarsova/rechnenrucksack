@@ -304,7 +304,8 @@ function TreasureMapController
 
           prromise.then(function(result) {
           equationsGenerator.teacherPage = result;
-          PrintService.print(equationsGenerator.studentPage,
+          PrintService.print("worksheetTitle",
+            equationsGenerator.studentPage,
                              equationsGenerator.teacherPage,
                              equationsGenerator.generationOptions.pageOrientation,
                              equationsGenerator.generationOptions.nameDate);
@@ -312,7 +313,8 @@ function TreasureMapController
             console.log(errorResponse);
         });
       } else {
-        PrintService.print(equationsGenerator.studentPage,
+        PrintService.print("worksheetTitle",
+          equationsGenerator.studentPage,
                           null,
                           equationsGenerator.generationOptions.pageOrientation,
                           equationsGenerator.generationOptions.nameDate);

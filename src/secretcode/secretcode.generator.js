@@ -69,8 +69,7 @@ function SecretCodeGeneratorService($q,
         steps.push(secretCodeGenerator.findCodeForLetter(symbol));
       }
     }
-    console.log(steps);
-
+    
     ArithmeticService.initEquations();
     var promise = ArithmeticService.createEquationSet(steps, selectedOps, complexity);
     promise.then(function (result) {
