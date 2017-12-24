@@ -308,7 +308,7 @@ function TreasureMapController
             equationsGenerator.studentPage,
                              equationsGenerator.teacherPage,
                              equationsGenerator.generationOptions.pageOrientation,
-                             equationsGenerator.generationOptions.nameDate);
+                             equationsGenerator.generationOptions.nameDate, "treasure");
         }, function (errorResponse) {
             console.log(errorResponse);
         });
@@ -317,7 +317,8 @@ function TreasureMapController
           equationsGenerator.studentPage,
                           null,
                           equationsGenerator.generationOptions.pageOrientation,
-                          equationsGenerator.generationOptions.nameDate);
+                          equationsGenerator.generationOptions.nameDate,
+                          "treasure");
       }
 
        },

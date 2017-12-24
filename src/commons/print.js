@@ -17,7 +17,8 @@ function PrintService(StringUtilService) {
                                 studentContent,
                                 teacherContent,
                                 orientation,
-                                nameDate) {
+                                nameDate,
+                                fileName) {
 
 
       var translationPromises = [];
@@ -51,7 +52,7 @@ function PrintService(StringUtilService) {
           doc.addImage(teacherDataURL, 'PNG', 10, 30);
           doc.addImage(createCopyright(), 'PNG', 130, 160);
         }
-        doc.save("treasure.pdf");
+        doc.save(fileName+".pdf");
       });
     }
 

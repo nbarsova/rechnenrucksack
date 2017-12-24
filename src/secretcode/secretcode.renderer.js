@@ -4,9 +4,12 @@
 angular.module('RechnenRucksack')
   .service('SecretCodeRendererService',SecretCodeRendererService);
 
-SecretCodeRendererService.$inject = ['$q', '$translate','StringUtilService'];
+SecretCodeRendererService.$inject = ['$q',
+'$translate',
+'StringUtilService',
+'ArithmeticService'];
 
-function SecretCodeRendererService($q, $translate, StringUtilService) {
+function SecretCodeRendererService($q, $translate, StringUtilService, ArithmeticService) {
 
   var rendererService = this;
 
@@ -24,15 +27,13 @@ function SecretCodeRendererService($q, $translate, StringUtilService) {
       canvas.id  = "secretCodeCanvas";
       canvas.width=600;
       var splitMessage = StringUtilService.breakAnyString(messageStr, 10);
-      canvas.height=150+(splitMessage.length+Math.ceil(codes.length/7))*50;
+      canvas.height=150+(splitMessage.length+Math.ceil(codes.length/7))*62;
       console.log("height = "+canvas.height);
       var context = canvas.getContext("2d");
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       context.font = "bold 25px PT Sans";
       context.fillText(StringUtilService.translationsObject.equationsToSolve,5,20);
-
-
 
       var pos=0; // сквозной счетчик по строке
 
@@ -45,12 +46,12 @@ function SecretCodeRendererService($q, $translate, StringUtilService) {
         {
             if ((messageStr[pos]!==' '))
             {
-              rendererService.createSecretCodeLetter(canvas, messageStr[pos], equations[pos], 5+j*60, 40+70*i);
+              rendererService.createSecretCodeLetter(canvas, messageStr[pos], equations[pos], 5+j*60, 40+80*i);
               j++;
             } else {
               if ((j!==0)&&(j!==curStrLength-1))
               {
-                rendererService.createSecretCodeLetter(canvas, messageStr[pos], equations[pos], 5+j*60, 40+70*i);
+                rendererService.createSecretCodeLetter(canvas, messageStr[pos], equations[pos], 5+j*60, 40+80*i);
                 j++;
               }
             }
@@ -60,14 +61,19 @@ function SecretCodeRendererService($q, $translate, StringUtilService) {
       }
 
       context.font = "bold 25px PT Sans";
-      context.fillText(StringUtilService.translationsObject.codeKey,5,90+65*i);
+      context.fillText(StringUtilService.translationsObject.codeKey,5,90+80*i);
 
-        for (var k=0; k<codes.length; k++)
+        let counter = 0;
+        while (codes.length>0)
         {
+          let randomNum = ArithmeticService.normalRandom(0, codes.length-1);
+          let code = codes[randomNum];
           context.font = "20px PT Sans";
-          context.fillText(codes[k].letter+" = "+ codes[k].code,
-                                          5+(k%7)*80,
-                                          90+30*(Math.ceil((k+1)/7))+65*i);
+          context.fillText(code.code+" = "+ code.letter,
+                                          5+(counter%7)*80,
+                                          90+30*(Math.ceil((counter+1)/7))+80*i);
+          codes.splice(randomNum, 1);
+          counter++;
         }
 
       deferred.resolve(canvas);
@@ -88,12 +94,15 @@ function SecretCodeRendererService($q, $translate, StringUtilService) {
       context.lineWidth = 1;
 
       context.beginPath();
-      context.moveTo(x,y+30);
-      context.lineTo(x+50,y+30);
+      context.moveTo(x,y);
+      context.lineTo(x,y+50);
+      context.lineTo(x+50,y+50);
+      context.lineTo(x+50,y);
+      context.lineTo(x, y);
       context.stroke();
 
-      context.font = "14px PT Sans";
-      context.fillText(equation, x+5, y+50);
+      context.font = "16px PT Sans";
+      context.fillText(equation, x+7, y+70);
     } else {
       context.font = "32px PT Sans";
       context.fillText(symbol, x+20, y+20);

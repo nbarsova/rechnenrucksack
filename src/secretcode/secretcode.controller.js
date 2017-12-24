@@ -141,8 +141,9 @@ function SecretCodeGeneratorController($q, $translate,
     PrintService.print("secretCodeTitle",
                         result,
                          null,
-                         'landscape',
-                         false);
+                         'portrait',
+                         false,
+                         secretCodeController.messageStr);
   }, function (error) {
     console.log(error);
   });
