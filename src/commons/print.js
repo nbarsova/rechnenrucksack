@@ -42,7 +42,21 @@ function PrintService(StringUtilService) {
           doc.addImage(createNameDate(), 'PNG', 240, 5)
         }
         doc.addImage(studentDataURL, 'PNG', 10, 30);
-        doc.addImage(createCopyright(), 'PNG', 130, 160);
+
+        // copyright coordinates based on orientation of the page
+
+        let copyrightX=0;
+        let copyrightY=0;
+        switch (orientation)
+        {
+          case ('landscape'):
+           copyrightX=0;
+           copyrightY=10;
+          case ('portrait'):
+           copyrightX=5;
+           copyrightY=270;
+        }
+        doc.addImage(createCopyright(orientation), 'PNG', copyrightX,copyrightY);
 
         if (teacherContent)
         {
@@ -50,7 +64,7 @@ function PrintService(StringUtilService) {
           doc.addImage(createTitle(StringUtilService.translationsObject[taskTitle]), 'PNG',  10, 5);
           var teacherDataURL = teacherContent.toDataURL();
           doc.addImage(teacherDataURL, 'PNG', 10, 30);
-          doc.addImage(createCopyright(), 'PNG', 130, 160);
+          doc.addImage(createCopyright(), 'PNG', copyrightX,copyrightY);
         }
         doc.save(fileName+".pdf");
       });
@@ -93,7 +107,8 @@ function PrintService(StringUtilService) {
           context.font = 'normal 36px Neucha';
           context.fillStyle = '#888888';
           context.textBaseline="middle";
-          context.fillText("(c) RECHNENRUCKSACK.COM ",200,90);
+
+          context.fillText("(c) RECHNENRUCKSACK.COM ",0,40);
           return canv.toDataURL();
         }
 }

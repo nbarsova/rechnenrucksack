@@ -64,15 +64,18 @@ function SecretCodeRendererService($q, $translate, StringUtilService, Arithmetic
       context.fillText(StringUtilService.translationsObject.codeKey,5,90+80*i);
 
         let counter = 0;
-        while (codes.length>0)
+
+        let displayCodes = codes.slice();
+
+        while (displayCodes.length>0)
         {
-          let randomNum = ArithmeticService.normalRandom(0, codes.length-1);
+          let randomNum = ArithmeticService.normalRandom(0, displayCodes.length-1);
           let code = codes[randomNum];
           context.font = "20px PT Sans";
           context.fillText(code.code+" = "+ code.letter,
                                           5+(counter%7)*80,
                                           90+30*(Math.ceil((counter+1)/7))+80*i);
-          codes.splice(randomNum, 1);
+          displayCodes.splice(randomNum, 1);
           counter++;
         }
 
@@ -104,8 +107,8 @@ function SecretCodeRendererService($q, $translate, StringUtilService, Arithmetic
       context.font = "16px PT Sans";
       context.fillText(equation, x+7, y+70);
     } else {
-      context.font = "32px PT Sans";
-      context.fillText(symbol, x+20, y+20);
+      context.font = "36px PT Sans";
+      context.fillText(symbol, x+10, y+40);
     }
   }
 
