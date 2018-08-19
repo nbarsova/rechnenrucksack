@@ -25,14 +25,14 @@ function SecretCodeRendererService($q, $translate, StringUtilService, Arithmetic
     Promise.all(translationPromises).then(function (result) {
       var canvas = document.createElement('canvas');
       canvas.id  = "secretCodeCanvas";
-      canvas.width=600;
+      canvas.width=750;
       var splitMessage = StringUtilService.breakAnyString(messageStr, 10);
       canvas.height=150+(splitMessage.length+Math.ceil(codes.length/7))*62;
       console.log("height = "+canvas.height);
       var context = canvas.getContext("2d");
       context.clearRect(0, 0, canvas.width, canvas.height);
 
-      context.font = "bold 25px PT Sans";
+      context.font = "18px PT Sans";
       context.fillText(StringUtilService.translationsObject.equationsToSolve,5,20);
 
       var pos=0; // сквозной счетчик по строке
@@ -69,8 +69,10 @@ function SecretCodeRendererService($q, $translate, StringUtilService, Arithmetic
 
         while (displayCodes.length>0)
         {
+          console.log(displayCodes.length + " letters to displayed");
           let randomNum = ArithmeticService.normalRandom(0, displayCodes.length-1);
-          let code = codes[randomNum];
+          console.log("Taking "+randomNum + "th letter to display");
+          let code = displayCodes[randomNum];
           context.font = "20px PT Sans";
           context.fillText(code.code+" = "+ code.letter,
                                           5+(counter%7)*80,

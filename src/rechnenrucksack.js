@@ -10,6 +10,7 @@ angular.module('RechnenRucksack')
 
   ctrl.language = 'en';
   ctrl.languages = ['ru', 'de', 'en'];
+
   ctrl.updateLanguage = function() {
     console.log('translation started');
     $translate.use(ctrl.language);
@@ -23,7 +24,7 @@ angular.module('RechnenRucksack')
       rechnenrucksackDescription: "RechnenRucksack is a free printable teaching aid generator for parents and teachers.",
       treasureMap: "Treasure Map",
       secretCode: "Secret Code",
-      generatorDescription: "Dear parents and teachers! With the help of \"Bag of tasks\" you can generate treasure map puzzles with arithmetic tasks of various complexity and save them as pdf for printing.",
+      generatorDescription: "To generate a treasure map with arithmetic tasks, choose the complexity of arithmetic equations and press \"GET THE MAP\". Then on the left you shall see preview, which you can save for printing.",
       numberComplexity: "Numbers in tasks",
       fieldSize: "Field size",
       cells: "squares",
@@ -38,8 +39,8 @@ angular.module('RechnenRucksack')
       dirDown: "down",
       dirRight: "right",
       dirLeft: "left",
-      reset: "back",
-      save: "save",
+      reset: "refresh",
+      save: "save pdf",
       worksheetTitle: "Under which stone is the treasure?",
       worksheetDesc: "The pirates have buried their treasure!\nBut under which stone?\nSolve the tasks to find out!\nThe cross shows where to start.  ",
       settings: "Print settings",
@@ -56,7 +57,7 @@ angular.module('RechnenRucksack')
       easyComplexityMediumTooltip: "Addition and substraction up to 25",
       easyComplexityHard: "Hard",
       easyComplexityHardTooltip: "Addition and substraction, multiplication table up to 25",
-      advancedComplexity: "Advanced Complexity Settings",
+      advancedComplexity: "Advanced settings",
       studentName: "Name",
       workDate: "Date",
       treasureLocation: "The treasure is hidden under",
@@ -72,15 +73,16 @@ angular.module('RechnenRucksack')
       enterMessage: "Enter the message to be encoded",
       symbolsInStringMessage: "Different symbols",
       availableComplexity: "Possible complexity of equations",
-      messageLength: "Secret message length",
+      messageLength: "Message length",
       secretMessageTooLong: "Secret message must not be longer than 50 symbols",
-      equationsToSolve: "Solve the equations and find the results in the key to get each letter of secret message!",
+      equationsToSolve: "Solve the equations and find the results in the key \nto read each letter of the secret message!",
       codeKey: "Letter code key",
-      secretCodeTitle: "Solve the secret code!"
+      secretCodeTitle: "Solve the secret code!",
+      initialSecretMessage: "SHE SELLS SEASHELLS BY THE SEASHORE"
   })
   .translations('de', {
     rechnenrucksack: "RECHNENRUCKSACK",
-    rechnenrucksackDescription: "RechnenRucksack is a free printable teaching aid generator for parents and teachers.",
+    rechnenrucksackDescription: "Mit \"Rechnenrucksack\" könnt ihr Rechenaufgaben Arbeitsblätter generieren und in pdf Format zum Ausdrucken speichern.",
     treasureMap: "Schatzsuche",
     secretCode: "Geheim Code",
     generatorDescription: "Liebe Eltern und Lehrer! Mit \"Rechnenrucksack\" könnt ihr Rechenaufgaben unterschiedlicher Komplexität als Schatzsuchekarten generieren und in pdf Format zum Ausdrucken speichern.",
@@ -98,8 +100,8 @@ angular.module('RechnenRucksack')
     dirDown: "nach unten",
     dirRight: "rechts",
     dirLeft: "links",
-    reset: "zurück",
-    save: "speichern",
+    reset: "aktualisieren",
+    save: "pdf speichern",
     worksheetTitle: "Unter welchem Stein liegt der Schatz?",
     worksheetDesc: "Die Piraten haben einen Schatz vergraben.\nAber unter welchem Stein?Löse die Aufgaben,\nlaufe in die Richtung und finde die Lösung heraus.\nDas Kreuz zeigt wo du anfangen musst.  ",
     settings: "Ausdruckeinstellungen",
@@ -128,23 +130,24 @@ angular.module('RechnenRucksack')
     en: "Englisch",
     de: "Deutsch",
     ru: "Russisch",
-    secretCodeDesc: "Enter any message, and rechnenrucksack will generate equations for each letter in it and a key sheet to complete the message. Digits and punctuation marks stay intact! Rechnenrucksack doesn't check your secret message spelling and grammar!",
-    enterMessage: "Enter the message to be encoded",
-    symbolsInStringMessage: "Number of different letters",
-    availableComplexity: "Possible complexity of equations",
-    messageLength: "Secret message length",
-    secretMessageTooLong: "Secret message must not be longer than 50 symbols",
-    equationsToSolve: "Solve the equations and find the results in the key to get each letter of secret message!",
-    codeKey: "Letter code key",
-      secretCodeTitle: "Solve the secret code!"
+    secretCodeDesc: "Tragen Sie eine Nachricht ein, und Rechnenrucksack generiert Aufgaben für jeden Buchstaben und ein Schlüssel, um die Geheimcode zu lösen. Ziffern und Satzzeichen bleiben erhalten! Rechnersrucksack überprüft nicht die Rechtschreibung und Grammatik!",
+    enterMessage: "Tragen Sie eine Nachricht ein, um Geheimcode zu generieren",
+    symbolsInStringMessage: "Buchstabenanzahl",
+    availableComplexity: "Komplexitätwahl",
+    messageLength: "Nachricht Länge",
+    secretMessageTooLong: "Geheime Nachricht darf nicht länger als 50 Symbole sein",
+    equationsToSolve: "Löse die Aufgaben und finde die Ergebnisse im Schlüssel, \num die Nachricht zu raten!",
+    codeKey: "Schlüssel",
+      secretCodeTitle: "Löse den geheimen Code!",
+      initialSecretMessage: "Fischers Fritz fischt frische Fische"
 }
 )
 .translations('ru', {
 rechnenrucksack: "РЮКЗАК ЗАДАНИЙ",
-rechnenrucksackDescription: "С помощью Рюкзака Заданий вы можете генерировать задания для распечатки по арифметике.",
+rechnenrucksackDescription: "Уважаемые родители и педагоги! С помощью \"Рюкзака заданий\" вы можете генерировать задания по арифметике различной сложности и сохранять их в формате pdf для распечатки.",
 treasureMap: "Поиск сокровищ",
 secretCode: "Секретный шифр",
-generatorDescription: "Уважаемые родители и педагоги! С помощью \"Рюкзака заданий\" вы можете генерировать задания по арифметике различной сложности в виде карты поиска клада и сохранять их в формате pdf для распечатки.",
+generatorDescription: "",
 numberComplexity: "Числа в примерах",
 fieldSize: "Размер поля",
 equationsAmount: "Количество примеров",
@@ -159,8 +162,8 @@ dirUp: "вверх",
 dirDown: "вниз",
 dirRight: "направо",
 dirLeft: "налево",
-reset: "назад",
-save: "сохранить",
+reset: "обновить",
+save: "сохранить pdf",
 worksheetTitle: "Под каким камнем клад?",
 worksheetDesc: "Пираты закопали клад под камнем, но под каким?\nДля того, чтобы найти нужный камень, решай\nпримеры и двигайся в указанном направлении.\nКрестик указывает начало пути.  ",
 settings: "Настройки печати",
@@ -169,7 +172,7 @@ pageOrientationLandscape: "Горизонтальная",
 pageOrientationPortrait: "Вертикальная",
 answerGeneration: "Генерировать ответ",
 nameDate: "Место для имени и даты",
-easyComplexity: "Выбор сложности заданий",
+easyComplexity: "Сложность заданий",
 easyComplexityTrivial: "Тривиальные",
 easyComplexityEasy: "Простые",
 easyComplexityEasyTooltip: "Сложение и вычитание в пределах 10",
@@ -191,13 +194,14 @@ de: "Немецкий",
 ru: "Русский",
 secretCodeDesc: "Введите любую строчку, генератор создаст примеры для каждой буквы в нем, и ключ, в котором буквы можно будет восстановить по результату. Знаки препинания и цифры остаются без изменения. Генератор не умеет проверять исходный текст на ошибки!",
 enterMessage: "Введите секретное сообщение",
-symbolsInStringMessage: "Количество различных букв",
+symbolsInStringMessage: "Разных букв",
 availableComplexity: "Возможная сложность примеров",
-messageLength: "Длина секретного сообщения",
+messageLength: "Длина сообщения",
 secretMessageTooLong: "Секретное сообщение не должно быть длиннее 50 символов",
-equationsToSolve: "Реши примеры и подставь нужную букву по ключу",
+equationsToSolve: "Чтобы прочитать секретное сообщение, реши примеры и подставь нужную букву по ключу",
 codeKey: "Ключ",
-secretCodeTitle: "Разгадай секретный шифр!"
+secretCodeTitle: "Разгадай секретный шифр!",
+initialSecretMessage: "шла саша по шоссе и сосала сушку"
 });
 
   $translateProvider.preferredLanguage('en');

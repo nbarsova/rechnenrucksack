@@ -9,14 +9,16 @@ SecretCodeGeneratorController.$inject =
   'ArithmeticService',
   'SecretCodeGeneratorService',
   'SecretCodeRendererService',
-  'HTMLService', 'PrintService', '$rootScope'];
+  'HTMLService', 'PrintService', '$rootScope',
+  'StringUtilService'];
 
 function SecretCodeGeneratorController($q, $translate,
                                         ArithmeticService,
                                         SecretCodeGeneratorService,
                                         SecretCodeRendererService,
                                         HTMLService,
-                                        PrintService, $rootScope)
+                                        PrintService, $rootScope,
+                                         StringUtilService)
 {
 
   var secretCodeController = this;
@@ -42,6 +44,20 @@ function SecretCodeGeneratorController($q, $translate,
 ];
 
   secretCodeController.generationEnabled=false;
+
+
+secretCodeController.initialCode = function () {
+  console.log("We are now in the locale: "+$translate.use());
+  StringUtilService.requestTranslation("initialSecretMessage").then(function(result) {
+    secretCodeController.messageStr = StringUtilService.translationsObject.initialSecretMessage;
+    secretCodeController.checkMessage();
+    secretCodeController.createLetterCodes();
+  })
+}
+
+    $rootScope.$on('$translateChangeSuccess', function(event, current, previous) {
+        secretCodeController.initialCode();
+    });
 
   secretCodeController.checkMessage = function ()
   {
@@ -141,7 +157,7 @@ function SecretCodeGeneratorController($q, $translate,
     PrintService.print("secretCodeTitle",
                         result,
                          null,
-                         'portrait',
+                         'landscape',
                          false,
                          secretCodeController.messageStr);
   }, function (error) {

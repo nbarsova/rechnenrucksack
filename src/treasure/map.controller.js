@@ -48,7 +48,7 @@ function TreasureMapController
   {
     pageOrientation: 'landscape',
     answerGeneration: true,
-    nameDate: false
+    nameDate: true
   };
 
   // Language related objects

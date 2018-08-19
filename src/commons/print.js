@@ -34,8 +34,6 @@ function PrintService(StringUtilService) {
         var studentDataURL = studentContent.toDataURL();
 
         var doc = new jsPDF({orientation: orientation});
-        console.log(taskTitle);
-        console.log(StringUtilService.translationsObject);
         doc.addImage(createTitle(StringUtilService.translationsObject[taskTitle]), 'PNG',  10, 5);
         if (nameDate)
         {
@@ -50,11 +48,13 @@ function PrintService(StringUtilService) {
         switch (orientation)
         {
           case ('landscape'):
-           copyrightX=0;
-           copyrightY=10;
+           copyrightX=190;
+           copyrightY=190;
+           break;
           case ('portrait'):
            copyrightX=5;
            copyrightY=270;
+           break;
         }
         doc.addImage(createCopyright(orientation), 'PNG', copyrightX,copyrightY);
 
