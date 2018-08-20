@@ -57,8 +57,8 @@
      <select ng-options="language | translate for language in main.languages" ng-model="main.language" ng-change="main.updateLanguage()">
      </select></div></header>
   <div id="navigator">
-    <a  ui-sref="treasureMap" class="navItem">{{ 'treasureMap' | translate }}</a>
-    <a  ui-sref="secretCode" class="navItem">{{ 'secretCode' | translate }}</a></div>
+    <a ui-sref="treasureMap" class="navItem">{{ 'treasureMap' | translate }}</a>
+    <a ui-sref="secretCode" class="navItem">{{ 'secretCode' | translate }}</a></div>
   <ui-view></ui-view>
 
   <footer><h6>(c) Rechnenrucksack.com, 2017</h6> <br>

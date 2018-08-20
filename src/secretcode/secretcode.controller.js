@@ -45,10 +45,16 @@ function SecretCodeGeneratorController($q, $translate,
 
   secretCodeController.generationEnabled=false;
 
+  secretCodeController.generationOptions =
+  {
+    pageOrientation: 'landscape',
+    answerGeneration: true,
+    nameDate: true
+  }
+
 
 secretCodeController.initialCode = function () {
-  console.log("We are now in the locale: "+$translate.use());
-  StringUtilService.requestTranslation("initialSecretMessage").then(function(result) {
+    StringUtilService.requestTranslation("initialSecretMessage").then(function(result) {
     secretCodeController.messageStr = StringUtilService.translationsObject.initialSecretMessage;
     secretCodeController.checkMessage();
     secretCodeController.createLetterCodes();
@@ -152,14 +158,30 @@ secretCodeController.initialCode = function () {
 
   secretCodeController.print = function()
   {
-    var canvasPromise = SecretCodeRendererService.createCanvas(secretCodeController.messageStr, secretCodeController.equations, secretCodeController.letterCodes);
+    var canvasPromise = SecretCodeRendererService.createCanvas(secretCodeController.messageStr, secretCodeController.equations, secretCodeController.letterCodes, false);
     canvasPromise.then(function (result) {
-    PrintService.print("secretCodeTitle",
+     console.log("Received student result");
+      if (secretCodeController.generationOptions.answerGeneration) {
+        var teacherCanvasPromise = SecretCodeRendererService.createCanvas(secretCodeController.messageStr, secretCodeController.equations, secretCodeController.letterCodes, true);
+        teacherCanvasPromise.then(function(teacherResult) {
+          console.log("Received teacher result");
+          PrintService.print("secretCodeTitle",
+                              result,
+                               teacherResult,
+                               secretCodeController.generationOptions.pageOrientation,
+                               secretCodeController.generationOptions.nameDate,
+                               secretCodeController.messageStr);
+        }, function (error) {
+          console.log(error);
+        });
+      } else {
+          PrintService.print("secretCodeTitle",
                         result,
                          null,
-                         'landscape',
-                         false,
+                         secretCodeController.generationOptions.pageOrientation,
+                         secretCodeController.generationOptions.nameDate,
                          secretCodeController.messageStr);
+                       }
   }, function (error) {
     console.log(error);
   });

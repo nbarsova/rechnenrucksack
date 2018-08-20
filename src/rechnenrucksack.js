@@ -34,7 +34,7 @@ angular.module('RechnenRucksack')
   .config(function($translateProvider) {
     $translateProvider.translations('en', {
       rechnenrucksack: "BAG OF TASKS",
-      rechnenrucksackDescription: "RechnenRucksack is a free printable teaching aid generator for parents and teachers.",
+      rechnenrucksackDescription: "Generate arithmetics teaching aids and save them as pdfs for printing",
       treasureMap: "Treasure Map",
       secretCode: "Secret Code",
       generatorDescription: "To generate a treasure map with arithmetic tasks, choose the complexity of arithmetic equations and press \"GET THE MAP\". Then on the left you shall see preview, which you can save for printing.",

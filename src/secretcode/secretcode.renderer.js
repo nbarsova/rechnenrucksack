@@ -13,7 +13,7 @@ function SecretCodeRendererService($q, $translate, StringUtilService, Arithmetic
 
   var rendererService = this;
 
-   rendererService.createCanvas = function (messageStr, equations, codes)
+   rendererService.createCanvas = function (messageStr, equations, codes, answers)
   {
 
     var deferred = $q.defer();
@@ -46,12 +46,12 @@ function SecretCodeRendererService($q, $translate, StringUtilService, Arithmetic
         {
             if ((messageStr[pos]!==' '))
             {
-              rendererService.createSecretCodeLetter(canvas, messageStr[pos], equations[pos], 5+j*60, 40+80*i);
+              rendererService.createSecretCodeLetter(canvas, messageStr[pos], equations[pos], 5+j*60, 40+80*i, answers);
               j++;
             } else {
               if ((j!==0)&&(j!==curStrLength-1))
               {
-                rendererService.createSecretCodeLetter(canvas, messageStr[pos], equations[pos], 5+j*60, 40+80*i);
+                rendererService.createSecretCodeLetter(canvas, messageStr[pos], equations[pos], 5+j*60, 40+80*i, answers);
                 j++;
               }
             }
@@ -90,7 +90,7 @@ function SecretCodeRendererService($q, $translate, StringUtilService, Arithmetic
   return deferred.promise;
   }
 
-  rendererService.createSecretCodeLetter = function (canvas, symbol, equation, x, y)
+  rendererService.createSecretCodeLetter = function (canvas, symbol, equation, x, y, answers)
   {
     var context = canvas.getContext("2d");
 //    console.log("Rendering "+symbol);
@@ -108,10 +108,16 @@ function SecretCodeRendererService($q, $translate, StringUtilService, Arithmetic
 
       context.font = "16px PT Sans";
       context.fillText(equation, x+7, y+70);
+      if (answers) {
+        context.font = "italic 36px Courgette";
+        context.fillText(symbol, x+10, y+40);
+      }
     } else {
       context.font = "36px PT Sans";
       context.fillText(symbol, x+10, y+40);
     }
+
+
   }
 
 }
