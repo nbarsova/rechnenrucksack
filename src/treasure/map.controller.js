@@ -1,18 +1,22 @@
-EquationsGeneratorController.$inject =
-  ['$q',
+(function () {
+"use strict";
+
+angular.module('RechnenRucksack')
+  .controller('TreasureMapController', TreasureMapController);
+
+TreasureMapController.$inject =
+  ['$q', '$translate',
   'EquationsGeneratorService',
   'PrintService',
   'TreasureMapDrawingService',
-  'LanguageService',
-  'HTMLService'];
+  'HTMLService','$rootScope', 'StringUtilService'];
 
-function EquationsGeneratorController
-    ($q,
+function TreasureMapController
+    ($q, $translate,
       EquationsGeneratorService,
       PrintService,
       TreasureMapDrawingService,
-      LanguageService,
-      HTMLService)
+      HTMLService, $rootScope, StringUtilService)
 {
   var equationsGenerator = this;
 
@@ -44,17 +48,34 @@ function EquationsGeneratorController
   {
     pageOrientation: 'landscape',
     answerGeneration: true,
-    nameDate: false
+    nameDate: true
   };
 
   // Language related objects
   equationsGenerator.language="ru";
-  equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
 
   // canvas objects for pdf generationOptions
 
   equationsGenerator.studentPage;
   equationsGenerator.teacherPage;
+
+
+  $rootScope.$on ('$translateChangeEnd', function (event, data)
+  {
+
+    var promise = TreasureMapDrawingService.createStudentPage(equationsGenerator.targetCoordinates,
+                                             equationsGenerator.advancedComplexity.fieldSize,
+                                             equationsGenerator.equations,
+                                             'landscape');
+    promise.then (function (result)
+        {
+          equationsGenerator.alterOperations();
+          HTMLService.renderCanvas(result, "treasureMapC");
+        }, function (error)
+        {
+          console.log(error);
+        });
+  });
 
   // complexity is changed on the complexity control
   // May be removed to the separate component. TBD.
@@ -167,7 +188,15 @@ function EquationsGeneratorController
     if (operationSelected === false)
     {
       equationsGenerator.generationAllowed=false;
-      equationsGenerator.errorMessage=equationsGenerator.STRINGS.noOperationsMessage;
+
+      var pr = StringUtilService.requestTranslation("noOperationsMessage");
+      pr.then(function(result)
+      {
+        equationsGenerator.errorMessage=StringUtilService.translationsObject.noOperationsMessage;
+      }, function (error){
+        console.log(error);
+      });
+
     } else
     {
       equationsGenerator.generationAllowed=true;
@@ -190,8 +219,14 @@ function EquationsGeneratorController
 
     if (selectedOps.length === 0)
     {
-      equationsGenerator.errorMessage=equationsGenerator.STRINGS.noOperationsMessage;
-      equationsGenerator.generationAllowed = false;
+        StringUtilService.requestTranslation("noOperationsMessage").then(function(result)
+        {
+          equationsGenerator.errorMessage=StringUtilService.translationsObject.noOperationsMessage;
+
+        }, function (error){
+          console.log(error);
+        });
+        equationsGenerator.generationAllowed = false;
     } else {
 
       equationsGenerator.errorMessage="";
@@ -229,7 +264,7 @@ function EquationsGeneratorController
                                                 equationsGenerator.language);
         promm.then(function (result) {
           equationsGenerator.studentPage = result;
-          HTMLService.renderCanvas(equationsGenerator.studentPage);
+          HTMLService.renderCanvas(equationsGenerator.studentPage, "treasureMapC");
         }, function (errorResponse) {
           console.log("Student page promise not returned");
           console.log(errorResponse);
@@ -254,8 +289,7 @@ function EquationsGeneratorController
     var prr = TreasureMapDrawingService.createStudentPage(equationsGenerator.targetCoordinates,
                                            equationsGenerator.advancedComplexity.fieldSize,
                                            equationsGenerator.equations,
-                                           equationsGenerator.generationOptions.pageOrientation,
-                                           equationsGenerator.language);
+                                           equationsGenerator.generationOptions.pageOrientation);
 
      prr.then(function(result)
      {
@@ -266,17 +300,25 @@ function EquationsGeneratorController
                                                 equationsGenerator.equations,
                                                 equationsGenerator.steps,
                                                 equationsGenerator.currentTarget,
-                                                equationsGenerator.generationOptions.pageOrientation,
-                                                equationsGenerator.language);
+                                                equationsGenerator.generationOptions.pageOrientation);
 
           prromise.then(function(result) {
           equationsGenerator.teacherPage = result;
-          PrintService.print(equationsGenerator.studentPage, equationsGenerator.teacherPage, equationsGenerator.language, equationsGenerator.generationOptions.pageOrientation, equationsGenerator.generationOptions.nameDate);
+          PrintService.print("worksheetTitle",
+            equationsGenerator.studentPage,
+                             equationsGenerator.teacherPage,
+                             equationsGenerator.generationOptions.pageOrientation,
+                             equationsGenerator.generationOptions.nameDate, "treasure");
         }, function (errorResponse) {
             console.log(errorResponse);
         });
       } else {
-        PrintService.print(equationsGenerator.studentPage, null, equationsGenerator.language, equationsGenerator.generationOptions.pageOrientation, equationsGenerator.generationOptions.nameDate);
+        PrintService.print("worksheetTitle",
+          equationsGenerator.studentPage,
+                          null,
+                          equationsGenerator.generationOptions.pageOrientation,
+                          equationsGenerator.generationOptions.nameDate,
+                          "treasure");
       }
 
        },
@@ -284,33 +326,5 @@ function EquationsGeneratorController
          console.log(errorResponse);
      });
    }
-
-  equationsGenerator.translate = function ()
-  {
-    equationsGenerator.STRINGS = LanguageService.findDictionary(equationsGenerator.language);
-//    document.title = equationsGenerator.STRINGS.rechnenrucksack;
-
-    if (equationsGenerator.steps.length>0)
-    {
-      var promise = TreasureMapDrawingService.createStudentPage(equationsGenerator.targetCoordinates,
-                                             equationsGenerator.advancedComplexity.fieldSize,
-                                             equationsGenerator.equations,
-                                             'landscape',
-                                             equationsGenerator.language);
-
-      promise.then (function (result)
-        {
-          HTMLService.renderCanvas(result);
-        }, function (error)
-        {
-          console.log(error);
-        });
-
-      }
-   if (equationsGenerator.errorMessage!=="")
-      {
-        equationsGenerator.errorMessage = equationsGenerator.STRINGS.noOperationsMessage;
-      }
-   }
-
 }
+})();

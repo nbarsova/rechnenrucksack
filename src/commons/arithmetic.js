@@ -1,4 +1,8 @@
+(function () {
+"use strict";
 
+angular.module('RechnenRucksack')
+  .service('ArithmeticService', ArithmeticService);
 /**
   * Arithmetic service can generate a set of unique equations for given numbers and
   * operations, based on complexity. It can work with zeroes and ones, but equations
@@ -143,6 +147,7 @@ function ArithmeticService($q) {
             }
 
           var currentOp = service.selectOperation (operations, exclusions, tresholds);
+          console.log("The step is "+steps[i]+ " operation is "+ currentOp);
 
           equationsSet.push(service.buildUniqueEquation(steps[i], currentOp, complexity));
 
@@ -199,12 +204,14 @@ function ArithmeticService($q) {
               }
             }
           }
-          if (selectedOp!==null)
+          if (typeof (selectedOp) ==='undefined')
           {
-            return selectedOp;
-          } else {
-            return operations[normalRandom(0, operations.length)];
+            let randomNum = this.normalRandom(0, operations.length-1);
+            console.log("Random number "+ randomNum);
+            selectedOp = operations[randomNum];
           }
+          console.log(selectedOp);
+          return selectedOp;
       }
     }
 
@@ -226,7 +233,7 @@ function ArithmeticService($q) {
 
     service.buildUniqueEquation = function (number, operation, complexity)
     {
-  //    console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
+      console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
 
       var equation;
       var numberExists = false;
@@ -264,24 +271,35 @@ function ArithmeticService($q) {
         for (var n=0; n<generatedEquations.length; n++)
         {
           if (generatedEquations[n].number === number) {
-            //console.log("Looking up number "+ generatedEquations[n].number);
-            //console.log(generatedEquations[n].values);
+            // console.log("Looking up number "+ generatedEquations[n].number);
+            // console.log(generatedEquations[n].values);
             for (var nn=0; nn<generatedEquations[n].values.length; nn++)
             {
-              //console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
+               // console.log("The value is ");
+               // console.log(generatedEquations[n].values[nn]);
+               // console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
               if (generatedEquations[n].values[nn].operation === operation)
               {
-  //              console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
-  //              console.log(generatedEquations[n].values[nn]);
+                 // console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
+
+                if (generatedEquations[n].values[nn].equations.length===0)
+                {
+                   // console.log("We need to generate some new equations");
+                  generatedEquations[n].values[nn].equations=service.createEquationsForNumber(number, operation, complexity);
+                }
+
+                 console.log(generatedEquations[n].values[nn]);
+
                 var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
                 //console.log("Random number is "+randomNumber);
                 equation = generatedEquations[n].values[nn].equations[randomNumber];
                 generatedEquations[n].values[nn].equations.splice(randomNumber, 1);
+
               }
            }
         }
       }
-      // console.log(generatedEquations);
+       console.log(generatedEquations);
         return equation.print();
 
   }
@@ -329,7 +347,7 @@ function ArithmeticService($q) {
       multstart = 2;
     }
 
-    for (mm=multstart; mm<=number/multstart; mm++)
+    for (var mm=multstart; mm<=number/multstart; mm++)
     {
       if ((number)%mm === 0)
       {
@@ -342,15 +360,19 @@ function ArithmeticService($q) {
 
   service.createDivisionEquations = function (number, complexity)
   {
+//    console.log("Creating division equations for number "+number +" complexity "+complexity);
     var newEquations=[];
 
-    var divstart=2;
-    if ((complexity<99)&&(number>12))
+    var divstart=1;
+
+    if (2*number<=complexity)
     {
-      divstart=1;
+      divstart=2;
     }
 
-    for (var dd=divstart; (dd<10)&&(dd*number<complexity); dd++)
+//    console.log("Division start ="+divstart);
+
+    for (var dd=divstart; (dd<10)&&(dd*number<=complexity); dd++)
     {
       var newEquation = new Equation (dd*number, dd, ':', number);
       newEquations.push(newEquation);
@@ -402,3 +424,4 @@ function ArithmeticService($q) {
 
 
 }
+})();

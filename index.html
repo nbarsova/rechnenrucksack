@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="EquationsGenerator">
+<html ng-app="RechnenRucksack">
 <head>
   <meta charset="utf-8">
   <META NAME="description" CONTENT="Printable task generator for primary school aged children.
@@ -9,19 +9,33 @@
   <meta property="og:site_name" content="Rechnenrucksack"/>
   <link rel="stylesheet" href="css/mystyles.css">
 
+  <!-- Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+
   <script src="src/lib/angular.min.js"></script>
+  <script src="src/lib/angular-ui-router.js"></script>
+  <script src="src/lib/bower-angular-translate-2.15.2/angular-translate.js"></script>
 
-  <script src="src/commons/language.js"></script>
+  <!-- Routing -->
+  <script src="src/rechnenrucksack.js"></script>
+  <script src="src/routes.js"></script>
+
+  <!-- Common modules -->
   <script src="src/commons/arithmetic.js"></script>
-  <script src="src/commons/printserviceconstants.js"></script>
+  <script src="src/commons/strings.js"></script>
   <script src="src/commons/print.js"></script>
+  <script src="src/commons/render.js"></script>
 
-  <script src="src/treasure/render.service.js"></script>
-  <script src="src/treasure/drawing.js"></script>
-  <script src="src/treasure/generator.js"></script>
+
+  <!-- Treasure map -->
+  <script src="src/treasure/map.renderer.js"></script>
+  <script src="src/treasure/map.generator.js"></script>
   <script src="src/treasure/map.controller.js"></script>
-  <script src="src/main.js"></script>
+
+  <!--Secret code -->
+  <script src="src/secretcode/secretcode.renderer.js"></script>
+  <script src="src/secretcode/secretcode.generator.js"></script>
+  <script src="src/secretcode/secretcode.controller.js"></script>
 
   <title>RECHNENRUCKSACK</title>
 
@@ -37,76 +51,17 @@
 
   <title>RECHNENRUCKSACK</title> </head>
 
-<body ng-controller='EquationsGeneratorController as equationsGenerator' >
-  <header><h1>{{equationsGenerator.STRINGS.rechnenrucksack}}</h1></header>
-   <div  id="lang"><img id="globe" src="img/globe.png" width="30"><select name="lang" class="icon-menu"
-     ng-model="equationsGenerator.language"
-     ng-change="equationsGenerator.translate()">
-    <option value="ru">Русский </option>
-    <option value="en">English </option>
-    <option value="de">Deutsch </option>
-  </select></div>
-
-  <div id="input" ng-show="equationsGenerator.equations.length===0">
-  <p>{{equationsGenerator.STRINGS.generatorDescription}}</p>
-  <div id="easyComplexity"><h4>{{equationsGenerator.STRINGS.easyComplexity}}</h4><br>
-  <input type="radio"
-                ng-model="equationsGenerator.easyComplexity" value="1"
-                ng-change="equationsGenerator.changeComplexity()">
-                {{equationsGenerator.STRINGS.easyComplexityEasy}}
-              <div class="tooltip" ng-mouseover="">?
-              <p class="tooltiptext">{{equationsGenerator.STRINGS.easyComplexityEasyTooltip}}</p></div>
-     <input type="radio"
-                ng-model="equationsGenerator.easyComplexity" value="2"
-                ng-change="equationsGenerator.changeComplexity()">
-                {{equationsGenerator.STRINGS.easyComplexityMedium}}
-                <div class="tooltip" ng-mouseover="">?
-                <p class="tooltiptext">{{equationsGenerator.STRINGS.easyComplexityMediumTooltip}}</p></div>
-      <input type="radio"
-                ng-model="equationsGenerator.easyComplexity" value="3"
-                ng-change="equationsGenerator.changeComplexity()"> {{equationsGenerator.STRINGS.easyComplexityHard}} <div class="tooltip" ng-mouseover="">?
-                <p class="tooltiptext">{{equationsGenerator.STRINGS.easyComplexityHardTooltip}}</p></div>
-
-      <input type="radio" ng-model="equationsGenerator.easyComplexity" value="100"
-      ng-change="equationsGenerator.changeComplexity()">{{equationsGenerator.STRINGS.advancedComplexity}}</div>
-  <div id="advancedComplexity" ng-show="equationsGenerator.easyComplexity==='100'">
-  <table id="complexityTable"><tr>
-    <td><h5>{{equationsGenerator.STRINGS.numberComplexity}}</h5>
-        <p><input type="radio" ng-model="equationsGenerator.advancedComplexity.complexity" ng-change="equationsGenerator.changeComplexity()" value="10">0-10</p>
-        <p><input type="radio" ng-model="equationsGenerator.advancedComplexity.complexity" ng-change="equationsGenerator.changeComplexity()" value="25">0-25</p></td>
-        <td><div id="equationsAmountChoice"><h5>{{equationsGenerator.STRINGS.equationsAmount}}</h5>
-          <p><input type="radio" ng-model="equationsGenerator.advancedComplexity.equationsAmount" value="6">6</p>
-          <p><input type="radio" ng-model="equationsGenerator.advancedComplexity.equationsAmount" value="8">8</p>
-          <p><input type="radio"ng-model="equationsGenerator.advancedComplexity.equationsAmount" value="10">10</p>
-        </div></td>
-  <td><h5>{{equationsGenerator.STRINGS.operations}}</h5>
-  <div id="operationsChoice" ng-repeat="operation in equationsGenerator.advancedComplexity.operations">
-      <p ng-show="operation.available"><input type="checkbox" ng-change="equationsGenerator.alterOperations()"
-       value="{{operation.code}}" ng-model="operation.selected" > {{operation.value}} </p>
-    </div></td></tr> <tr></table></td></tr></div>
-    <tr><td colspan="4"></td></tr>
-    <tr><td><br><button ng-click="equationsGenerator.createEquations()" ng-disabled="!equationsGenerator.generationAllowed">{{equationsGenerator.STRINGS.getMap}}</button></td></tr></table></div>
-
-    <div style='padding:0px;margin:0px;' id="output" ng-show="equationsGenerator.equations.length!==0">
-      <table><tr><td><div id="treasureMapC"></div></td>
-        <td><div id="printSettings" width="100%"><br><h4>{{equationsGenerator.STRINGS.settings}}</h4>
-          <div id="pageOrientationSettings" ng-show="false"><p><h5>{{equationsGenerator.STRINGS.pageOrientationDesc}}: </h5></p>
-          <p><input type="radio" ng-model="equationsGenerator.generationOptions.pageOrientation" value="landscape">{{equationsGenerator.STRINGS.pageOrientationLandscape}} <input type="radio" ng-model="equationsGenerator.generationOptions.pageOrientation" value="portrait">{{equationsGenerator.STRINGS.pageOrientationPortrait}}</p></div>
-          <p><input type="checkbox" ng-model="equationsGenerator.generationOptions.answerGeneration" > {{equationsGenerator.STRINGS.answerGeneration}}</p>
-          <p><input type="checkbox" ng-model="equationsGenerator.generationOptions.nameDate" > {{equationsGenerator.STRINGS.nameDate}}</p></div>
-          <div id="buttons"><button ng-click="equationsGenerator.print()">{{equationsGenerator.STRINGS.save}}</button><br><br>
-    <button ng-click="equationsGenerator.reset()">{{equationsGenerator.STRINGS.reset}}</button></div>
-    </td></tr></table>
-
-  </div>
-
-  <div id="errorMessage">
-    {{equationsGenerator.errorMessage}}
-  </div>
+<body ng-controller="MainController as main"  ng-init="main.findLanguage()">
+  <header><a ui-sref="home" class="pageHeader">{{'rechnenrucksack' | translate }}</a>
+   <div id="lang"><img id="globe" src="img/globe.png" width="30">
+     <select ng-options="language | translate for language in main.languages" ng-model="main.language" ng-change="main.updateLanguage()">
+     </select></div></header>
+  <div id="navigator">
+    <a ui-sref="treasureMap" class="navItem">{{ 'treasureMap' | translate }}</a>
+    <a ui-sref="secretCode" class="navItem">{{ 'secretCode' | translate }}</a></div>
+  <ui-view></ui-view>
 
   <footer><h6>(c) Rechnenrucksack.com, 2017</h6> <br>
-        <h6><a href="mailto:rechnenrucksak@gmail.com">rechnenrucksak@gmail.com</a></h6> <br>
-        <h6> {{equationsGenerator.STRINGS.copyrightAuthor}}</h6><br>
-        <h6> {{equationsGenerator.STRINGS.copyrightGraphic}}</h6>
+        <h6><a href="mailto:rechnenrucksak@gmail.com">rechnenrucksak@gmail.com</a></h6>
 </body>
 </html>
