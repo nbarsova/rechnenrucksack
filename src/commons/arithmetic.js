@@ -147,7 +147,7 @@ function ArithmeticService($q) {
             }
 
           var currentOp = service.selectOperation (operations, exclusions, tresholds);
-          console.log("The step is "+steps[i]+ " operation is "+ currentOp);
+          //console.log("The step is "+steps[i]+ " operation is "+ currentOp);
 
           equationsSet.push(service.buildUniqueEquation(steps[i], currentOp, complexity));
 
@@ -207,10 +207,10 @@ function ArithmeticService($q) {
           if (typeof (selectedOp) ==='undefined')
           {
             let randomNum = this.normalRandom(0, operations.length-1);
-            console.log("Random number "+ randomNum);
+            //console.log("Random number "+ randomNum);
             selectedOp = operations[randomNum];
           }
-          console.log(selectedOp);
+          //console.log(selectedOp);
           return selectedOp;
       }
     }
@@ -233,7 +233,7 @@ function ArithmeticService($q) {
 
     service.buildUniqueEquation = function (number, operation, complexity)
     {
-      console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
+      // console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
 
       var equation;
       var numberExists = false;
@@ -288,7 +288,7 @@ function ArithmeticService($q) {
                   generatedEquations[n].values[nn].equations=service.createEquationsForNumber(number, operation, complexity);
                 }
 
-                 console.log(generatedEquations[n].values[nn]);
+                 //console.log(generatedEquations[n].values[nn]);
 
                 var randomNumber = service.normalRandom(0, generatedEquations[n].values[nn].equations.length-1);
                 //console.log("Random number is "+randomNumber);
@@ -299,7 +299,7 @@ function ArithmeticService($q) {
            }
         }
       }
-       console.log(generatedEquations);
+       //console.log(generatedEquations);
         return equation.print();
 
   }
