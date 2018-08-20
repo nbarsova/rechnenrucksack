@@ -15,6 +15,19 @@ angular.module('RechnenRucksack')
     console.log('translation started');
     $translate.use(ctrl.language);
   };
+
+  ctrl.findLanguage = function() {
+    var language = navigator.language;
+    console.log("Browser language "+language);
+    if (language === 'ru-RU') {
+      ctrl.language = 'ru';
+    } else if (language==='de') {
+      ctrl.language='de';
+    }
+
+    $translate.use(ctrl.language);
+
+  }
 })
 
 angular.module('RechnenRucksack')
@@ -144,7 +157,7 @@ angular.module('RechnenRucksack')
 )
 .translations('ru', {
 rechnenrucksack: "РЮКЗАК ЗАДАНИЙ",
-rechnenrucksackDescription: "Уважаемые родители и педагоги! С помощью \"Рюкзака заданий\" вы можете генерировать задания по арифметике различной сложности и сохранять их в формате pdf для распечатки.",
+rechnenrucksackDescription: "С помощью \"Рюкзака заданий\" вы можете генерировать задания по арифметике различной сложности и сохранять их в формате pdf для распечатки.",
 treasureMap: "Поиск сокровищ",
 secretCode: "Секретный шифр",
 generatorDescription: "",

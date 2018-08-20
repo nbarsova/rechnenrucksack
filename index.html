@@ -51,7 +51,7 @@
 
   <title>RECHNENRUCKSACK</title> </head>
 
-<body ng-controller="MainController as main">
+<body ng-controller="MainController as main"  ng-init="main.findLanguage()">
   <header><a ui-sref="home" class="pageHeader">{{'rechnenrucksack' | translate }}</a>
    <div id="lang"><img id="globe" src="img/globe.png" width="30">
      <select ng-options="language | translate for language in main.languages" ng-model="main.language" ng-change="main.updateLanguage()">
