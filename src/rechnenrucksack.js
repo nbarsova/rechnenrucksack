@@ -18,7 +18,7 @@ angular.module('RechnenRucksack')
 
   ctrl.findLanguage = function() {
     var language = navigator.language;
-    console.log("Browser language "+language);
+    // console.log("Browser language "+language);
     if (language === 'ru-RU') {
       ctrl.language = 'ru';
     } else if (language==='de') {
