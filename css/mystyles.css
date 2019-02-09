@@ -217,6 +217,7 @@ button
   color: black;
   padding-left: 10px;
   padding-right: 10px;
+  cursor: pointer;
 }
 
 .link
