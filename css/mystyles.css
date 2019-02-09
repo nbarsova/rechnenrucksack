@@ -229,8 +229,8 @@ button
 
 .mouseLink
 {
-  cursor: 'pointer';
-border: 2px solid black;
+  cursor: pointer;
+  border: 2px solid black;
 }
 
 .linkText
