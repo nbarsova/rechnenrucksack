@@ -1,38 +1,100 @@
-.App {
-  text-align: center;
+.app {
+  height: 100vh;
+  width: 100vw;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@font-face {
+  font-family: 'PT Sans';
+  src: url('fonts/PT_Sans/PT_Sans-Web-Regular.ttf')  format('truetype');
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@font-face {
+  font-family: 'Neucha';
+  src: url('fonts/Neucha/Neucha.ttf')  format('truetype');
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+@font-face {
+  font-family: 'Courgette';
+  src: url('fonts/Courgette/Courgette-Regular.ttf')  format('truetype');
+}
+
+body{
+  font-family: 'PT Sans', sans-serif;
+  margin: 0px;
+}
+
+header {
+  background-color: #7cadef;
+  padding: 10px;
+  font-size: 10vh;
+  font-family: "Neucha";
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.languages {
+  font-size: 3vh;
+  display: flex;
+  flex-direction: row;
+  letter-spacing: 2px;
+}
+
+.language {
+  margin-right: 10px;
+  font-weight: normal;
+}
+
+.selectedLanguage {
+  composes: language;
+  font-weight: bold;
+}
+
+.puzzles {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.puzzle {
+  padding: 10px;
+  font-family: "Neucha";
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  cursor: pointer;
+  margin: 10px;
+  width: 30vh;
 }
 
-.App-link {
-  color: #61dafb;
+.puzzleBar {
+  background-color: #a4c7f4;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.thumbnail {
+  height: 30vh;
+}
+
+.puzzleName {
+  background-color: #7cadef;
+  padding: 10px;
+  font-size: 3vh;
+  width: 100%;
+  font-weight: bold;
+}
+
+.puzzleNameBar {
+  background-color:  #a4c7f4;
+  padding: 5px;
+  font-size: 3vh;
+  font-weight: bold;
+  cursor: pointer;
 }
