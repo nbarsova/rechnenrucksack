@@ -1,4 +1,4 @@
-export enum Operations {
+export enum Operation {
     ADD= '+',
     SUB= '-',
     MULT='*',

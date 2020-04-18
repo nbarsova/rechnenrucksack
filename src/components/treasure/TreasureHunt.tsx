@@ -4,39 +4,74 @@ import {EquationsAmount} from "../complexity/EquationsAmount";
 import {OperationsSelector} from "../complexity/OperationsSelector";
 import "./TreasureHunt.css";
 import {createCanvas} from "./createCanvasUtil";
-import {Operations} from "../../util/Operations";
-import {initTargets} from "./MapGenerator";
+import {Operation} from "../../util/Operation";
+import {createPathToCurrentTarget, initTargets} from "./MapGenerator";
+import {createEquationSet} from "../../util/arithmetic";
+import {useIntl} from 'react-intl';
+import {StepEquation} from "./StepEquation";
 
 export function TreasureHunt() {
     const numberRanges = [10, 25];
     const equationsAmounts = [6, 8, 10];
-    const allOps = [Operations.ADD, Operations.SUB, Operations.MULT, Operations.DIV];
+    const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
     let [numberRange, setNumberRange] = useState(numberRanges[0]);
     let [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
-    let [selectedOps, setSelectedOps] = useState(["+", "-"]);
-    // let [targets, setTargets] = useState([]);
+    let [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
+    const intl = useIntl();
+    const translations = {
+        steps: intl.formatMessage({id: 'steps'}),
+        dirUp: intl.formatMessage({id: 'dirUp'}),
+        dirDown: intl.formatMessage({id: 'dirDown'}),
+        dirLeft: intl.formatMessage({id: 'dirLeft'}),
+        dirRight: intl.formatMessage({id: 'dirRight'}),
+        title: intl.formatMessage({id: "worksheetTitle"}),
+        description: intl.formatMessage({id: "worksheetDesc"}),
+    }
 
     let solutionCanvas: HTMLCanvasElement;
     let context: CanvasRenderingContext2D;
 
     useEffect(() => {
         // console.log(numberRange, equationsAmount, selectedOps);
-        const fieldSize = (numberRange === 10) ? 5: 10;
+        const fieldSize = (numberRange === 10) ? 5 : 10;
 
         const targets = initTargets(fieldSize);
-        createCanvas(context, canvasWidth, canvasHeight, numberRange, targets);
+        const currentTarget = targets[Math.floor((Math.random() * 10) / 3)];
+        let options = {};
+        if ((selectedOps.length === 1) && (selectedOps[0] === "*")) {
+            options = {noPrimes: true}
+        }
+
+        const steps = createPathToCurrentTarget(numberRange,
+            equationsAmount, fieldSize, currentTarget, options);
+        const absSteps = [];
+        for (let i=0; i<steps.length; i++)
+        {
+            absSteps.push(Math.abs(steps[i]));
+        }
+        const equations = createEquationSet(absSteps, selectedOps, numberRange);
+        let equationSteps: Array<StepEquation> = [];
+
+        for (let ii=0; ii<steps.length; ii++) {
+            equationSteps.push({
+                equation: equations[ii],
+                step: steps[ii]
+            });
+        }
+        console.log(currentTarget, equationSteps);
+        createCanvas(context, canvasWidth, canvasHeight, numberRange, targets, equationSteps, translations);
     });
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const orientation = viewportWidth > viewportHeight ? 'landscape' : 'portrait';
+    // const orientation = viewportWidth > viewportHeight ? 'landscape' : 'portrait';
 
-    const canvasDivWidth = viewportWidth - 300;
+    const canvasDivWidth = viewportWidth - 300; // magic nums from css
     const canvasDivHeight = viewportHeight - 220;
 
-    const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth/2);
-    const canvasWidth = canvasHeight*2;
+    const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
+    const canvasWidth = canvasHeight * 2;
 
     function setCanvasRef(el: HTMLCanvasElement) {
         if (el) {
@@ -56,13 +91,13 @@ export function TreasureHunt() {
             <EquationsAmount equationsAmounts={equationsAmounts}
                              onChange={(amount: number) => setEquationsAmount(amount)}/>
             <OperationsSelector allOps={allOps}
-                                initialOps={[Operations.ADD, Operations.MULT]}
-                                onOpsChanged={(selectedOps) => {
+                                onOpsChanged={(selectedOps: Array<Operation>) => {
                                     setSelectedOps(selectedOps)
                                 }}/>
         </div>
         <div className="canvasWrapper">
             <canvas ref={setCanvasRef} width={canvasWidth} height={canvasHeight}/>
         </div>
+        <div className="printButton">print</div>
     </div>);
 }

@@ -1,13 +1,13 @@
 import {NumberComplexity} from "../complexity/NumberComplexity";
 import {EquationsAmount} from "../complexity/EquationsAmount";
 import {OperationsSelector} from "../complexity/OperationsSelector";
-import {Operations} from "../../util/Operations";
+import {Operation} from "../../util/Operation";
 import React, {useState} from "react";
 
 const Settings = () => {
     const numberRanges = [10, 25];
     const equationsAmounts = [6, 8, 10];
-    const allOps = [Operations.ADD, Operations.SUB, Operations.MULT, Operations.DIV];
+    const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
     let [numberRange, setNumberRange] = useState(numberRanges[0]);
     let [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
@@ -20,7 +20,6 @@ const Settings = () => {
         <EquationsAmount equationsAmounts={equationsAmounts}
                          onChange={(amount: number) => setEquationsAmount(amount)}/>
         <OperationsSelector allOps={allOps}
-                            initialOps={[Operations.ADD, Operations.MULT]}
                             onOpsChanged={(selectedOps) => {
                                 setSelectedOps(selectedOps)
                             }}/>

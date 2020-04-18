@@ -13,9 +13,18 @@
     display: flex;
     width: calc(100vw - var(--settingsWidth));
     height: calc(100vh - var(--headerHeight) - var(--subHeaderHeight) - var(--footerHeight));
-    border: 1px solid red;
 }
 
 .hidden {
     display: none;
+}
+
+.printButton {
+    position: absolute;
+    top: calc(var(--headerHeight) + var(--subHeaderHeight) + 10px);
+    right: 10px;
+    border-radius: 5px;
+    background-color: #7cadef;
+    padding: 5px;
+    cursor: pointer;
 }

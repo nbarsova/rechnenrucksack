@@ -1,10 +1,15 @@
 import {MapTargetObject} from "./MapTargetObject";
 
+import {Direction} from "./Direction";
+import {StepEquation} from "./StepEquation";
+
 export const createCanvas = (context: CanvasRenderingContext2D,
                              canvasWidth: number,
                              canvasHeight: number,
                              numberRange: number,
-                             targets: Array<MapTargetObject>) =>
+                             targets: Array<MapTargetObject>,
+                             equations: Array<StepEquation>,
+                                translations: any) =>
 {
     context.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -14,13 +19,7 @@ export const createCanvas = (context: CanvasRenderingContext2D,
 
     border.onload=function() {
         context.drawImage(border, 0, 0, canvasWidth, canvasHeight);
-    }
-
-    let compass=new Image();
-    compass.src=require('../../img/compass.png');
-    compass.onload=function() {
-        context.drawImage(compass, canvasWidth-100, canvasHeight-120, 60, 80);
-    }
+    };
 
     context.strokeStyle = '#888888';
     context.lineWidth = 1;
@@ -68,8 +67,58 @@ export const createCanvas = (context: CanvasRenderingContext2D,
     {
         for (let i=0; i<targets.length; i++)
         {
-            console.log("drawing", targets[i].x, targets[i].y);
             context.drawImage(stonePic,targets[i].x*mapStep+canvasHeight/2-mapStep/2,-targets[i].y*mapStep+canvasHeight/2-mapStep/2, mapStep, mapStep*2/3);
         }
+    };
+    const fontSize = 14;
+    context.font = fontSize+"px PT Sans";
+    const descrArr = translations.description.match(/[^\r\n]+/g);
+    console.log(translations.description.length, descrArr.length);
+    // context.fillText(translations.description,canvasHeight,start*3);
+    for (var j=0;j<descrArr.length;j++)
+    {
+        console.log(descrArr[j].length);
+        context.fillText(descrArr[j], canvasHeight,start*3+j*fontSize*1.5);
+    }
+
+    for (let ii=0; ii<equations.length; ii++)
+    {
+        let axis="";
+        if (ii%2==0)
+        {
+            axis=Direction.HORIZONTAL;
+        } else {
+            axis=Direction.VERTICAL;
+        }
+
+        context.fillText((ii+1)+"). "+equations[ii].equation+" = __ "+translations.steps+" "+setDirection(equations[ii].step, axis, translations)+"\n",canvasHeight,start*3 + descrArr.length*fontSize*1.5+ii*fontSize*1.5);
+    }
+
+    let compass=new Image();
+    compass.src=require('../../img/compass.png');
+    compass.onload=function() {
+        context.drawImage(compass, canvasWidth-100, end - mapStep*3, mapStep*2, mapStep*2.5);
+    }
+};
+
+const setDirection = (number: number, direction: string, translations: any) =>
+{
+
+    switch (direction)
+    {
+        case Direction.VERTICAL:
+            if (Math.sign(number) === 1) {
+                return translations.dirUp;
+            } else {
+                return translations.dirDown;
+            }
+            break;
+        case Direction.HORIZONTAL:
+            if (Math.sign(number) === 1) {
+                return translations.dirRight;
+            } else {
+                return translations.dirLeft;
+            }
+            break;
     }
 };
