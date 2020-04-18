@@ -1,4 +1,10 @@
-export const createCanvas = (context: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, numberRange: number) =>
+import {MapTargetObject} from "./MapTargetObject";
+
+export const createCanvas = (context: CanvasRenderingContext2D,
+                             canvasWidth: number,
+                             canvasHeight: number,
+                             numberRange: number,
+                             targets: Array<MapTargetObject>) =>
 {
     context.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -19,26 +25,25 @@ export const createCanvas = (context: CanvasRenderingContext2D, canvasWidth: num
     context.strokeStyle = '#888888';
     context.lineWidth = 1;
 
-    const startX=10;
-    const startY=10;
-    const fieldSize = (numberRange === 10) ? 5: 10;
+    const start=0.06*canvasHeight;
+    const end = canvasHeight - 0.06*canvasHeight;
+    const fieldSize = (numberRange === 10) ? 6: 11;
 
-    const mapStep = canvasHeight/(2*fieldSize);
-    console.log(numberRange, fieldSize, mapStep);
+    const mapStep = (end - start)/(2*fieldSize);
 
-    for (let ik=startX; ik<=canvasHeight+startX; ik+=mapStep)
+    for (let ik=start; ik<=end; ik+=mapStep)
     {
         context.beginPath();
-        context.moveTo(ik,startY-5);
-        context.lineTo(ik,canvasHeight+startX+5);
+        context.moveTo(ik,start-5);
+        context.lineTo(ik,end+5);
         context.stroke();
     }
 
-    for (var j=startY; j<=canvasHeight+startY; j+=mapStep)
+    for (let j=start; j<=end; j+=mapStep)
     {
         context.beginPath();
-        context.moveTo(startX-5, j);
-        context.lineTo(canvasHeight+startY+5, j);
+        context.moveTo(start-5, j);
+        context.lineTo(end+5, j);
         context.stroke();
     }
 
@@ -48,11 +53,23 @@ export const createCanvas = (context: CanvasRenderingContext2D, canvasWidth: num
     context.lineWidth = 3;
 
     context.beginPath();
-    context.moveTo(canvasHeight/2+startX-6, canvasHeight/2+startY-6);
-    context.lineTo(canvasHeight/2+startX+6, canvasHeight/2+startY+6);
+    context.moveTo((end-start)/2+start-mapStep/4, (end-start)/2+start-mapStep/4);
+    context.lineTo((end-start)/2+start+mapStep/4, (end-start)/2+start+mapStep/4);
     context.stroke();
 
-    context.moveTo(canvasHeight/2+startX-6, canvasHeight/2+startY+6);
-    context.lineTo(canvasHeight/2+startX+6, canvasHeight/2+startY-6);
+    context.moveTo((end-start)/2+start-mapStep/4, (end-start)/2+start+mapStep/4);
+    context.lineTo((end-start)/2+start+mapStep/4, (end-start)/2+start-mapStep/4);
     context.stroke();
+
+    // target pics
+    let stonePic = new Image();
+    stonePic.src = require('../../img/stones.png');
+    stonePic.onload=function ()
+    {
+        for (let i=0; i<targets.length; i++)
+        {
+            console.log("drawing", targets[i].x, targets[i].y);
+            context.drawImage(stonePic,targets[i].x*mapStep+canvasHeight/2-mapStep/2,-targets[i].y*mapStep+canvasHeight/2-mapStep/2, mapStep, mapStep*2/3);
+        }
+    }
 };

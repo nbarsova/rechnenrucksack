@@ -4,22 +4,28 @@ import {EquationsAmount} from "../complexity/EquationsAmount";
 import {OperationsSelector} from "../complexity/OperationsSelector";
 import "./TreasureHunt.css";
 import {createCanvas} from "./createCanvasUtil";
+import {Operations} from "../../util/Operations";
+import {initTargets} from "./MapGenerator";
 
 export function TreasureHunt() {
     const numberRanges = [10, 25];
     const equationsAmounts = [6, 8, 10];
-    const allOps = ["+", "-", "*", ":"];
+    const allOps = [Operations.ADD, Operations.SUB, Operations.MULT, Operations.DIV];
 
     let [numberRange, setNumberRange] = useState(numberRanges[0]);
     let [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
     let [selectedOps, setSelectedOps] = useState(["+", "-"]);
+    // let [targets, setTargets] = useState([]);
 
     let solutionCanvas: HTMLCanvasElement;
     let context: CanvasRenderingContext2D;
 
     useEffect(() => {
-        console.log(numberRange, equationsAmount, selectedOps);
-        createCanvas(context, canvasWidth, canvasHeight, numberRange);
+        // console.log(numberRange, equationsAmount, selectedOps);
+        const fieldSize = (numberRange === 10) ? 5: 10;
+
+        const targets = initTargets(fieldSize);
+        createCanvas(context, canvasWidth, canvasHeight, numberRange, targets);
     });
 
     const viewportWidth = window.innerWidth;
@@ -36,7 +42,7 @@ export function TreasureHunt() {
         if (el) {
             solutionCanvas = el;
             context = el.getContext("2d");
-            createCanvas(context, canvasWidth, canvasHeight, numberRange);
+            // createCanvas(context, canvasWidth, canvasHeight, numberRange);
         } else {
             solutionCanvas = null;
         }
@@ -50,7 +56,7 @@ export function TreasureHunt() {
             <EquationsAmount equationsAmounts={equationsAmounts}
                              onChange={(amount: number) => setEquationsAmount(amount)}/>
             <OperationsSelector allOps={allOps}
-                                initialOps={["+", "-"]}
+                                initialOps={[Operations.ADD, Operations.MULT]}
                                 onOpsChanged={(selectedOps) => {
                                     setSelectedOps(selectedOps)
                                 }}/>
