@@ -14,7 +14,7 @@ export function Header(props:
     document.title = intl.formatMessage({id: "rechnenrucksack"});
 
     let renderLanguage = (language: string) => {
-        return (<div className={language === currentLanguage ? "selectedLanguage" : "language"}
+        return (<div key={language} className={language === currentLanguage ? "selectedLanguage" : "language"}
                      onClick={() => {
                          setCurrentLanguage(language);
                          props.headerCallback(language);
@@ -24,7 +24,7 @@ export function Header(props:
     }
 
     return (<header>
-        <div onClick={() => props.resetPuzzle()}>
+        <div className="headerWrapper" onClick={() => props.resetPuzzle()}>
             <FormattedMessage id="rechnenrucksack"/>
         </div>
         <div className="languages"> {languages.map(renderLanguage)}</div>

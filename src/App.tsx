@@ -6,12 +6,14 @@ import {TreasureHunt} from "./components/treasure/TreasureHunt";
 import {FormattedMessage, IntlProvider} from "react-intl";
 import {deMessagesJSON, enMessagesJson, ruMessagesJSON} from "./messages/messages";
 import {Header} from "./Header";
+import Footer from "./Footer";
 
 const App = () => {
 
   let getCurrentComponent: () => any | RTCIceComponent | null;
   let puzzles = [
     {
+      key: 'treasure',
       name: <FormattedMessage
           id="treasureMap"
           defaultMessage="Treasure map"/>,
@@ -19,12 +21,14 @@ const App = () => {
       thumbnail: require("./img/compass.png")
     },
     {
+      key: 'secretCode',
       name: <FormattedMessage
           id="secretCode" defaultMessage="Secret map"/>,
       component: <SecretMessage/>,
       thumbnail: require("./img/secretP.png")
     },
     {
+      key: 'monster',
       name: <FormattedMessage
           id="lockTheMonster" defaultMessage="Lock the Monster"/>,
       component: <LockMonster/>,
@@ -40,7 +44,7 @@ const App = () => {
                    onClick={() => {
                      setCurrentPuzzle(puzzle)
                    }}
-                   key={puzzle.name}>
+                   key={puzzle.key}>
         <img
             className="thumbnail"
             src={puzzle.thumbnail}/>
@@ -53,7 +57,7 @@ const App = () => {
           onClick={() => {
             setCurrentPuzzle(puzzle)
           }}
-          key={puzzle.name}>{puzzle.name}</p>)
+          key={puzzle.key}>{puzzle.name}</p>)
     }
   };
 
@@ -92,6 +96,7 @@ const App = () => {
             {puzzles.map(renderPuzzle)}
           </div>
           {currentPuzzle && currentPuzzle.component}
+          <Footer/>
         </div>
       </IntlProvider>
   );

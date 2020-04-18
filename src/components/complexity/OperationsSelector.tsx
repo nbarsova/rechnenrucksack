@@ -39,7 +39,7 @@ export function OperationsSelector(props: {
 
     };
 
-    return (<div>
+    return (<div className='numberComplexity'>
         <b><FormattedMessage id="operations"/></b>
     {props.allOps.map(renderOperation)}
     </div>)

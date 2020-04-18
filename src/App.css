@@ -3,6 +3,13 @@
   width: 100vw;
 }
 
+:root {
+  --headerHeight: 80px;
+  --subHeaderHeight: 60px;
+  --footerHeight: 60px;
+  --settingsWidth: 300px;
+}
+
 @font-face {
   font-family: 'PT Sans';
   src: url('fonts/PT_Sans/PT_Sans-Web-Regular.ttf')  format('truetype');
@@ -20,13 +27,13 @@
 
 body{
   font-family: 'PT Sans', sans-serif;
-  margin: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 header {
   background-color: #7cadef;
-  padding: 10px;
-  font-size: 10vh;
+  font-size: 48px;
   font-family: "Neucha";
   font-weight: bold;
   text-transform: uppercase;
@@ -36,10 +43,15 @@ header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  height: var(--headerHeight);
+}
+
+.headerWrapper {
+  padding: 10px;
 }
 
 .languages {
-  font-size: 3vh;
+  font-size: 16px;
   display: flex;
   flex-direction: row;
   letter-spacing: 2px;
@@ -51,7 +63,7 @@ header {
 }
 
 .selectedLanguage {
-  composes: language;
+  margin-right: 10px;
   font-weight: bold;
 }
 
@@ -59,16 +71,16 @@ header {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px;
 }
 
 .puzzle {
-  padding: 10px;
   font-family: "Neucha";
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  margin: 10px;
   width: 30vh;
 }
 
@@ -77,6 +89,19 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  height: var(--subHeaderHeight);
+}
+
+.Footer
+{
+  position: absolute;
+  background-color: #7cadef;
+  font-weight: bold;
+  width: 100%;
+  height: var(--footerHeight);
+  bottom: 0;
+  display: flex;
+  align-items: center;
 }
 
 .thumbnail {
@@ -85,16 +110,16 @@ header {
 
 .puzzleName {
   background-color: #7cadef;
-  padding: 10px;
   font-size: 3vh;
+  padding: 10px;
   width: 100%;
   font-weight: bold;
 }
 
 .puzzleNameBar {
   background-color:  #a4c7f4;
-  padding: 5px;
-  font-size: 3vh;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  padding: 0 5px;
 }
