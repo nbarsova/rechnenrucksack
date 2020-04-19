@@ -15,7 +15,7 @@ export const createCanvas = (context: CanvasRenderingContext2D,
 
     let border=new Image();
 
-    border.src=require('../../img/map-border-horizontal.png');
+    border.src=require('../../img/map-border-horizontal.svg');
 
     border.onload=function() {
         context.drawImage(border, 0, 0, canvasWidth, canvasHeight);
@@ -62,7 +62,7 @@ export const createCanvas = (context: CanvasRenderingContext2D,
 
     // target pics
     let stonePic = new Image();
-    stonePic.src = require('../../img/stones.png');
+    stonePic.src = require('../../img/stones.svg');
     stonePic.onload=function ()
     {
         for (let i=0; i<targets.length; i++)
