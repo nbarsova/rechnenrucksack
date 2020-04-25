@@ -7,8 +7,10 @@ import {createCanvas} from "./createCanvasUtil";
 import {Operation} from "../../util/Operation";
 import {createPathToCurrentTarget, initTargets} from "./MapGenerator";
 import {createEquationSet} from "../../util/arithmetic";
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {StepEquation} from "./StepEquation";
+import ReactPDF, {Page, Text, Image, View, Document, StyleSheet, PDFDownloadLink} from '@react-pdf/renderer';
+import PrintPage from "./PrintPage";
 
 export function TreasureHunt() {
     const numberRanges = [10, 25];
@@ -31,6 +33,7 @@ export function TreasureHunt() {
 
     let solutionCanvas: HTMLCanvasElement;
     let context: CanvasRenderingContext2D;
+    const [dataURI, setDataURI] = useState(null);
 
     useEffect(() => {
         // console.log(numberRange, equationsAmount, selectedOps);
@@ -61,7 +64,8 @@ export function TreasureHunt() {
         }
         console.log(currentTarget, equationSteps);
         createCanvas(context, canvasWidth, canvasHeight, numberRange, targets, equationSteps, translations);
-    });
+        setDataURI(solutionCanvas.toDataURL());
+    }, [numberRange, equationsAmount, selectedOps]);
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -73,7 +77,7 @@ export function TreasureHunt() {
     const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
     const canvasWidth = canvasHeight * 2;
 
-    function setCanvasRef(el: HTMLCanvasElement) {
+    const setCanvasRef = (el: HTMLCanvasElement) => {
         if (el) {
             solutionCanvas = el;
             context = el.getContext("2d");
@@ -82,6 +86,8 @@ export function TreasureHunt() {
             solutionCanvas = null;
         }
     }
+
+    const [printPageReady, setPrintPageReady] = useState(false);
 
     return (<div className="main">
         <div className="settings">
@@ -98,6 +104,8 @@ export function TreasureHunt() {
         <div className="canvasWrapper">
             <canvas ref={setCanvasRef} width={canvasWidth} height={canvasHeight}/>
         </div>
-        <div className="printButton">print</div>
+        {dataURI && <PDFDownloadLink document={<PrintPage dataURI={dataURI}/>} fileName="treasure.pdf">
+            {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+        </PDFDownloadLink>}
     </div>);
 }

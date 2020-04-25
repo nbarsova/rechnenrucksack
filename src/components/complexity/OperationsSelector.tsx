@@ -30,7 +30,7 @@ export function OperationsSelector(props: {
             setSelectedOps(newOps);
 
             props.onOpsChanged(newOps);
-        }} className="clickable">
+        }} className="clickable" key={operation}>
         <input type="checkbox"
         checked={selectedOps.indexOf(operation) >= 0}
         onChange={() => {

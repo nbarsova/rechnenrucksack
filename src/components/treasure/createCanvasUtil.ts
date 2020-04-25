@@ -49,7 +49,7 @@ export const createCanvas = (context: CanvasRenderingContext2D,
     // a cross in the center
 
     context.strokeStyle = '#000000';
-    context.lineWidth = 3;
+    context.lineWidth = 2;
 
     context.beginPath();
     context.moveTo((end-start)/2+start-mapStep/4, (end-start)/2+start-mapStep/4);
