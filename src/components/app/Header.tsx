@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {useIntl, FormattedMessage} from "react-intl";
 import './App.css';
+import {Link} from "react-router-dom";
 
 export function Header(props:
                            {
                                locale: string
-                               headerCallback: (lang: string) => void,
-                               resetPuzzle: () => void
+                               headerCallback: (lang: string) => void
                            }) {
     let languages = ["en", "ru", "de"];
     let [currentLanguage, setCurrentLanguage] = useState(props.locale);
@@ -24,9 +24,9 @@ export function Header(props:
     }
 
     return (<header>
-        <div className="headerWrapper" onClick={() => props.resetPuzzle()}>
+        <Link className="headerWrapper" to={'/'}>
             <FormattedMessage id="rechnenrucksack"/>
-        </div>
+        </Link>
         <div className="languages"> {languages.map(renderLanguage)}</div>
     </header>)
 }

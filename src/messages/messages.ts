@@ -30,7 +30,7 @@ export const deMessagesJSON = {
     "dirRight": "rechts",
     "dirLeft": "links",
     "worksheetTitle": "Unter welchem Stein liegt der Schatz?",
-    "worksheetDesc": "Die Piraten haben einen Schatz vergraben.\nAber unter welchem Stein?Löse die Aufgaben,\nlaufe in die Richtung und finde die Lösung heraus.\nDas Kreuz zeigt, wo du anfangen musst.  ",
+    "worksheetDesc": "Die Piraten haben einen Schatz vergraben. Aber unter welchem Stein? Löse die Aufgaben, laufe in die Richtung und finde die Lösung heraus. Das Kreuz zeigt, wo du anfangen musst.  ",
 
 };
 
@@ -48,6 +48,6 @@ export const ruMessagesJSON = {
     "dirRight": "направо",
     "dirLeft": "налево",
     "worksheetTitle": "Под каким камнем клад?",
-    "worksheetDesc": "Пираты закопали клад под камнем, но под каким?\nДля того, чтобы найти нужный камень, решай\nпримеры и двигайся в указанном направлении.\nКрестик указывает начало пути.  ",
+    "worksheetDesc": "Пираты закопали клад под камнем, но под каким? Для того, чтобы найти нужный камень, решай примеры и двигайся в указанном направлении. Крестик указывает начало пути.  ",
 
 };

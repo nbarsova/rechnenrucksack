@@ -11,17 +11,12 @@
 
 .canvasWrapper {
     display: flex;
-    width: calc(100vw - var(--settingsWidth));
-    height: calc(100vh - var(--headerHeight) - var(--subHeaderHeight) - var(--footerHeight));
-}
-
-.hidden {
-    display: none;
+    position: relative;
 }
 
 .printButton {
     position: absolute;
-    top: calc(var(--headerHeight) + var(--subHeaderHeight) + 10px);
+    top: calc(var(--headerHeight) + var(--subHeaderHeight) + 40px);
     right: 10px;
     border-radius: 5px;
     background-color: #7cadef;

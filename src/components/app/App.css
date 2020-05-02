@@ -7,22 +7,22 @@
   --headerHeight: 80px;
   --subHeaderHeight: 60px;
   --footerHeight: 60px;
-  --settingsWidth: 300px;
+  --settingsWidth: 30vw;
 }
 
 @font-face {
   font-family: 'PT Sans';
-  src: url('fonts/PT_Sans/PT_Sans-Web-Regular.ttf')  format('truetype');
+  src: url('../../fonts/PT_Sans/PT_Sans-Web-Regular.ttf')  format('truetype');
 }
 
 @font-face {
   font-family: 'Neucha';
-  src: url('fonts/Neucha/Neucha.ttf')  format('truetype');
+  src: url('../../fonts/Neucha/Neucha.ttf')  format('truetype');
 }
 
 @font-face {
   font-family: 'Courgette';
-  src: url('fonts/Courgette/Courgette-Regular.ttf')  format('truetype');
+  src: url('../../fonts/Courgette/Courgette-Regular.ttf')  format('truetype');
 }
 
 body{
