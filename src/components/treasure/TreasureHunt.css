@@ -14,12 +14,29 @@
     position: relative;
 }
 
+@media print {
+    .printPageText {
+        min-width: 40vw;
+    }
+}
+.printPageText {
+    display: flex;
+    flex-direction: column;
+    margin: 3vh 5vh 3vh;
+}
+
+
+.printEquation {
+    margin: 5px 0;
+}
+
 .printButton {
     position: absolute;
-    top: calc(var(--headerHeight) + var(--subHeaderHeight) + 40px);
     right: 10px;
-    border-radius: 5px;
+    bottom: calc(var(--footerHeight) + 10px);
     background-color: #7cadef;
-    padding: 5px;
-    cursor: pointer;
+    border-radius: 5px;
+    padding: 0 10px
 }
+
+

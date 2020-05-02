@@ -9,11 +9,6 @@ import PrintContainer from "./PrintContainer";
 
 const App = () => {
 
-  let getCurrentComponent: () => any | RTCIceComponent | null;
-
-  const [currentPuzzle, setCurrentPuzzle] = useState(null);
-
-
   const messages: any = {
     en: enMessagesJson,
     de: deMessagesJSON,
@@ -32,12 +27,6 @@ const App = () => {
 
   let [locale, setCurrentLocale] = useState(defaultLocale);
 
-  const [printComponent, setPrintComponent] = useState(null);
-
-  const printCallback = (el: any) => {
-    setPrintComponent(el);
-  }
-
   return (
       <IntlProvider locale={locale}
                     messages={messages[locale]}>
@@ -46,18 +35,18 @@ const App = () => {
 
             <Switch>
               <Route path="/treasure/print">
-                <PrintContainer title='Where is the treasure?' component={printComponent}/>
+                <PrintContainer puzzle={puzzles.treasure.key}/>
               </Route>
               <Route path="/treasure">
-                <Main currentPuzzle={puzzles[0]} defaultLocale={defaultLocale}
+                <Main currentPuzzle={puzzles.treasure} defaultLocale={defaultLocale}
                 setLocale={setCurrentLocale}/>
               </Route>
               <Route path="/secret">
-                <Main currentPuzzle={puzzles[1]} defaultLocale={defaultLocale}
+                <Main currentPuzzle={puzzles.secret} defaultLocale={defaultLocale}
                       setLocale={setCurrentLocale}/>
               </Route>
               <Route path="/monster">
-                <Main currentPuzzle={puzzles[2]} defaultLocale={defaultLocale}
+                <Main currentPuzzle={puzzles.monster} defaultLocale={defaultLocale}
                       setLocale={setCurrentLocale}/>
               </Route>
               <Route path="/">

@@ -48,6 +48,11 @@ header {
 
 .headerWrapper {
   padding: 10px;
+  text-decoration: none;
+}
+
+.headerWrapper:visited {
+  color: black;
 }
 
 .languages {
@@ -76,7 +81,6 @@ header {
 }
 
 .puzzle {
-  font-family: "Neucha";
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -122,4 +126,38 @@ header {
   font-weight: bold;
   cursor: pointer;
   padding: 0 5px;
+  text-decoration: none;
+}
+
+
+.puzzleNameBar:visited {
+  text-decoration: none;
+  color: black;
+}
+
+.printContainer {
+
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.printTitle {
+  font-size: 48px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  margin: 10px;
+  font-family: "Neucha";
+}
+
+.copyright {
+  font-family: "Neucha";
+  font-size: 40px;
+  color: #555555;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }

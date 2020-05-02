@@ -9,8 +9,14 @@ import {createEquationSet} from "../../util/arithmetic";
 import {useIntl} from 'react-intl';
 import {StepEquation} from "./StepEquation";
 import {Link} from "react-router-dom";
-import PrintPage from "./PrintPage";
+import PrintTreasurePage from "./PrintTreasurePage";
 import {easyGrid, hardGrid} from "./pictureSources";
+import {
+    EQUATIONS_PARAMETER_NAME,
+    getFromStorage,
+    NUMBER_RANGE_PARAMETER_NAME, setInStorage,
+    TARGETS_PARAMETER_NAME
+} from "../../util/localStorage";
 
 const TreasureHunt = () => {
     const numberRanges = [10, 25];
@@ -30,17 +36,12 @@ const TreasureHunt = () => {
     const canvasDivHeight = viewportHeight - 220;
 
     const  canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
-    const canvasWidth = canvasHeight * 2;
 
-    const [printPageReady, setPrintPageReady] = useState(false);
-
-    const [gridSrc, setGridSrc] = useState(easyGrid);
     const [equationSteps, setEquationSteps] = useState([]);
     const [targets, setTargets] = useState([]);
-    // const [fieldSize, setFieldSize] = useState(5);
 
     useEffect(() => {
-        setGridSrc(numberRange === 10 ? easyGrid : hardGrid);
+
         const fieldSize = (numberRange === 10) ? 5 : 10;
 
         const targets = initTargets(fieldSize);
@@ -84,10 +85,16 @@ const TreasureHunt = () => {
                                     setSelectedOps(selectedOps)
                                 }}/>
         </div>
-        <PrintPage equationSteps={equationSteps} gridSrc={gridSrc}
-                  targets={targets} canvasHeight={canvasHeight} numberRange={numberRange}/>
+        <PrintTreasurePage equationSteps={equationSteps}
+                           targets={targets} canvasHeight={canvasHeight} numberRange={numberRange}/>
 
-        <Link to={"/treasure/print"} style={{position: 'absolute', right: '10px', top: '100px'}}><p>print me</p></Link>
+        <Link target='_blank' to={"/treasure/print"}
+              className='printButton'
+               onClick={()=> {
+                   setInStorage(NUMBER_RANGE_PARAMETER_NAME, numberRange+'');
+                   setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
+                   setInStorage(TARGETS_PARAMETER_NAME, JSON.stringify(targets));
+               }}><p>print me</p></Link>
     </div>);
 }
 

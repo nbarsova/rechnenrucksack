@@ -12,8 +12,8 @@ export const enMessagesJson = {
     "dirRight": "right",
     "dirLeft": "left",
     "worksheetTitle": "Under which stone is the treasure?",
-    "worksheetDesc": "The pirates have buried their treasure!\nBut under which stone?\nSolve the tasks to find out!\nThe cross shows where to start.  ",
-
+    "worksheetDesc": "The pirates have buried their treasure!\nBut under which stone? Solve the tasks to find out! ",
+    "worksheetDescStart": "The cross shows where to start. "
 };
 
 export const deMessagesJSON = {
@@ -30,8 +30,8 @@ export const deMessagesJSON = {
     "dirRight": "rechts",
     "dirLeft": "links",
     "worksheetTitle": "Unter welchem Stein liegt der Schatz?",
-    "worksheetDesc": "Die Piraten haben einen Schatz vergraben. Aber unter welchem Stein? Löse die Aufgaben, laufe in die Richtung und finde die Lösung heraus. Das Kreuz zeigt, wo du anfangen musst.  ",
-
+    "worksheetDesc": "Die Piraten haben einen Schatz vergraben. Aber unter welchem Stein? Löse die Aufgaben, laufe in die Richtung und finde die Lösung heraus. ",
+    "worksheetDescStart": "Das Kreuz zeigt, wo du anfangen musst.  "
 };
 
 export const ruMessagesJSON = {
@@ -48,6 +48,6 @@ export const ruMessagesJSON = {
     "dirRight": "направо",
     "dirLeft": "налево",
     "worksheetTitle": "Под каким камнем клад?",
-    "worksheetDesc": "Пираты закопали клад под камнем, но под каким? Для того, чтобы найти нужный камень, решай примеры и двигайся в указанном направлении. Крестик указывает начало пути.  ",
-
+    "worksheetDesc": "Пираты закопали клад под камнем, но под каким? Для того, чтобы найти нужный камень, решай примеры и двигайся в указанном направлении. ",
+    "worksheetDescStart": "Крестик указывает начало пути.  "
 };

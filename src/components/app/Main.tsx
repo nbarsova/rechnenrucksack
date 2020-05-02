@@ -21,11 +21,11 @@ export function Main(props: {
         </Link>)
     };
 
-    const renderPuzzles = puzzles.map(renderPuzzle);
+    const puzzlesArray = Object.values(puzzles);
+    const renderPuzzles = puzzlesArray.map(renderPuzzle);
 
-    const renderPuzzleInBar = (puzzle: any) => <Link to={"/" + puzzle.key}>
+    const renderPuzzleInBar = (puzzle: any) => <Link to={"/" + puzzle.key} className="puzzleNameBar">
         <p
-        className="puzzleNameBar"
         key={puzzle.key}>{puzzle.name}</p></Link>;
 
 
@@ -34,10 +34,10 @@ export function Main(props: {
                 locale={props.defaultLocale}/>
         <div>
             {props.currentPuzzle ? <div>
-                    <div className='puzzleBar'>{puzzles.map(renderPuzzleInBar)}</div>
+                    <div className='puzzleBar'>{puzzlesArray.map(renderPuzzleInBar)}</div>
                     {props.currentPuzzle.component}
                 </div> :
-                <div className="puzzles">{puzzles.map(renderPuzzle)}</div>}
+                <div className="puzzles">{puzzlesArray.map(renderPuzzle)}</div>}
 
         </div>
         <Footer/>

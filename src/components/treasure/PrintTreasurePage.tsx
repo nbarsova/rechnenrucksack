@@ -1,17 +1,20 @@
 import React from "react";
-import {compass, cross, stone} from "./pictureSources";
+import {compass, cross, easyGrid, hardGrid, stone} from "./pictureSources";
 import {Direction} from "./Direction";
 import {FormattedMessage, useIntl} from 'react-intl';
 
-const PrintPage = (props: {
-    gridSrc: any,
+const PrintTreasurePage = (props: {
     equationSteps: any,
     targets: any,
     canvasHeight: number,
     numberRange: number
      }) => {
 
+    console.log('print treasure page ', props);
+
     const intl = useIntl();
+
+    const gridSrc = props.numberRange === 10 ? easyGrid : hardGrid;
 
     const renderTarget = ((target: any)=> {
         const mapStep = (props.numberRange === 10) ? props.canvasHeight / 14 : props.canvasHeight /28;
@@ -34,7 +37,7 @@ const PrintPage = (props: {
         } else {
             axis = Direction.VERTICAL;
         }
-        return <span style={{margin: '5px 0'}} key={index}>{(index+1)+ '). '+ equationStep.equation + " = __ " + intl.formatMessage({id: 'steps'})
+        return <span className='printEquation' key={index}>{(index+1)+ '). '+ equationStep.equation + " = __ " + intl.formatMessage({id: 'steps'})
         + ' ' + getDirection(equationStep.step, axis)}</span>;
     };
 
@@ -58,16 +61,17 @@ const PrintPage = (props: {
 
     return ( <div className="canvasWrapper">
         <img
-            src={props.gridSrc} width={props.canvasHeight} height={props.canvasHeight}/>
+            src={gridSrc} width={props.canvasHeight} height={props.canvasHeight}/>
         <img
-            src={cross} style={{color: 'green', position: 'absolute', top: props.canvasHeight/2-10, left: props.canvasHeight/2-10}}
+            src={cross} style={{position: 'absolute', top: props.canvasHeight/2-10, left: props.canvasHeight/2-10}}
         height={20} width={20}/>
-            {props.targets.map(renderTarget)}
-        <div style={{display: 'flex', flexDirection: 'column', margin: '5px 10px', width: '80%'}}>
-            <FormattedMessage id='worksheetDesc' />
+        {props.targets.map(renderTarget)}
+        <div className='printPageText'>
+            <span className='printEquation'><FormattedMessage id='worksheetDesc' /></span>
+            <span className='printEquation'><FormattedMessage id='worksheetDescStart' /></span>
             {props.equationSteps.map(renderEquation)}
         </div>
     </div>);
 }
 
-export default PrintPage;
+export default PrintTreasurePage;
