@@ -40,7 +40,7 @@ const PrintEquation = (props: {
         intl.formatMessage({id: 'steps'},
             {count: props.showAnswer ? Math.abs(props.equationStep.step) : 100}) + ' ';
 
-    return <div className='printEquation'
+    return (<div className='printEquation'
                 key={props.index}>
         <span className='equationText'>{(props.index + 1) + '). '}</span>
         <span className='equationText'>{props.equationStep.equation.number1}</span>
@@ -48,7 +48,7 @@ const PrintEquation = (props: {
         <span className='equationText'>{props.equationStep.equation.number2 + " = "}</span>
         <span className={props.showAnswer ? 'equationAnswerText': 'equationText'}>{result}</span>
         <span className='equationText'>{stepStr}</span>
-        <span className='equationText'>{getDirection(props.equationStep.step, axis)}</span></div>;
+        <span className='equationText'>{getDirection(props.equationStep.step, axis)}</span></div>);
 };
 
 export default PrintEquation;

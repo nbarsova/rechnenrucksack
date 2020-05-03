@@ -31,7 +31,8 @@ export const enMessagesJson = {
     "secretMessageTooLong": "Secret message must not be longer than 50 symbols",
     "messageLength": "Message length:",
     "symbolsInStringMessage": ",  different symbols:",
-
+    "equationsToSolve": "Solve the equations and find the results in the key \nto read each letter of the secret message!",
+    "codeKey": "Letter code key: ",
 };
 
 export const deMessagesJSON = {
@@ -66,7 +67,9 @@ export const deMessagesJSON = {
     "enterMessage": "Tragen Sie eine Nachricht ein, um Geheimcode zu generieren",
     "secretMessageTooLong": "Geheime Nachricht darf nicht länger als 50 Symbole sein",
     "messageLength": "Nachricht Länge:",
-    "symbolsInStringMessage": ", Buchstabenanzahl:"
+    "symbolsInStringMessage": ", Buchstabenanzahl:",
+    "equationsToSolve": "Löse die Aufgaben und finde die Ergebnisse im Schlüssel, \num die Nachricht zu raten!",
+    "codeKey": "Schlüssel: ",
 
 };
 
@@ -103,6 +106,8 @@ export const ruMessagesJSON = {
     "secretMessageTooLong": "Секретное сообщение не должно быть длиннее 50 символов",
     "messageLength": "Длина сообщения:",
     "symbolsInStringMessage": ", разных букв:",
+    "equationsToSolve": "Чтобы прочитать секретное сообщение, реши примеры и подставь нужную букву по ключу",
+    "codeKey": "Ключ: ",
 
 
 };
