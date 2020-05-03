@@ -20,7 +20,7 @@ export const puzzles = {
         key: 'secret',
         name: <FormattedMessage
             id="secretCode" defaultMessage="Secret map"/>,
-        printTitle: <FormattedMessage id='worksheetTitle' />,
+        printTitle: <FormattedMessage id='secretCodeTitle' />,
         component: <SecretMessage/>,
         thumbnail: require("../../img/secretP.png")
     },

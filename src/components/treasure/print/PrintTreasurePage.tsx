@@ -30,8 +30,26 @@ const PrintTreasurePage = (props: {
     });
 
     const renderEquation = (equationStep: any, index: number) => {
-        return <PrintEquation equationStep={equationStep} index={index} showAnswer={false}/>;
+        return <PrintEquation equationStep={equationStep} index={index}/>;
     };
+
+    const getDirection = (number: number, direction: string) => {
+
+        switch (direction) {
+            case Direction.VERTICAL:
+                if (Math.sign(number) === 1) {
+                    return intl.formatMessage({id: 'dirUp'});
+                } else {
+                    return intl.formatMessage({id: 'dirDown'});
+                }
+                break;
+            case Direction.HORIZONTAL:
+                if (Math.sign(number) === 1) {
+                    return intl.formatMessage({id: 'dirRight'})
+                } else
+                    return intl.formatMessage({id: 'dirLeft'});
+        }
+    }
 
     return ( <div className="canvasWrapper">
         <img

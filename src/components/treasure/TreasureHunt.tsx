@@ -91,7 +91,7 @@ const TreasureHunt = () => {
 
     return (<div className="main">
         <div className="settings">
-            <NumberComplexity numberRanges={numberRanges}
+            <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
                               onRangeChange={(range: number) => setNumberRange(range)}/>
 
             <EquationsAmount equationsAmounts={equationsAmounts}
@@ -101,24 +101,24 @@ const TreasureHunt = () => {
                                     setSelectedOps(selectedOps)
                                 }}/>
 
+            <div className='buttons'>
+                <Link target='_blank' to={"/treasure/print"}
+                      className='printButton'
+                      title={intl.formatMessage({id: 'printStudent'})}
+                      onClick={prepareStudentPage}><img src={printIcon} /></Link>
 
+                <Link target='_blank' to={"/treasure/print/solution"}
+                      className='printButton'
+                      title={intl.formatMessage({id: 'printTeacher'})}
+                      onClick={prepareTeacherPage}><img src={solutionIcon} /></Link>
+                <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
+                     onClick={createNewEquationSet}><img src={refreshIcon} /></div>
+            </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}
                            targets={targets} canvasHeight={canvasHeight} numberRange={numberRange}/>
 
-        <div className='buttons'>
-            <Link target='_blank' to={"/treasure/print"}
-                  className='printButton'
-                  title={intl.formatMessage({id: 'printStudent'})}
-                  onClick={prepareStudentPage}><img src={printIcon} /></Link>
 
-            <Link target='_blank' to={"/treasure/print/solution"}
-                  className='printButton'
-                  title={intl.formatMessage({id: 'printTeacher'})}
-                  onClick={prepareTeacherPage}><img src={solutionIcon} /></Link>
-            <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
-                 onClick={createNewEquationSet}><img src={refreshIcon} /></div>
-        </div>
     </div>);
 }
 

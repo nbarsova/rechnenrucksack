@@ -4,6 +4,7 @@ import {FormattedMessage} from "react-intl";
 
 export function NumberComplexity(props: {
     numberRanges: Array<number>,
+    selectedRange: number,
     onRangeChange: (range: number) => void
 }) {
 
@@ -11,17 +12,15 @@ export function NumberComplexity(props: {
         return (<div key={range}
         className="clickable"
         onClick={() => {
-            if (range !== selectedRange) {
-                setSelectedRange(range);
+            if (range !== props.selectedRange) {
                 props.onRangeChange(range);
             }
         }}>
         <input type="radio"
-        checked={range === selectedRange}
+        checked={range === props.selectedRange}
         onChange={()=>{}}/>0-{range}</div>)
     };
 
-    let [selectedRange, setSelectedRange] = useState(props.numberRanges[0]);
     return (
         <div className="numberComplexity">
         <b><FormattedMessage id="numberRanges"/></b>

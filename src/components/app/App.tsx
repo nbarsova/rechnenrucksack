@@ -51,6 +51,12 @@ const App = () => {
                 <Main currentPuzzle={puzzles.treasure} defaultLocale={defaultLocale}
                 setLocale={setLocale}/>
               </Route>
+              <Route path="/secret/print/solution">
+                <PrintContainer puzzle={puzzles.secret.key} solution/>
+              </Route>
+              <Route path="/secret/print">
+                <PrintContainer puzzle={puzzles.secret.key}/>
+              </Route>
               <Route path="/secret">
                 <Main currentPuzzle={puzzles.secret} defaultLocale={defaultLocale}
                       setLocale={setLocale}/>

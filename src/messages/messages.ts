@@ -33,6 +33,8 @@ export const enMessagesJson = {
     "symbolsInStringMessage": ",  different symbols:",
     "equationsToSolve": "Solve the equations and find the results in the key \nto read each letter of the secret message!",
     "codeKey": "Letter code key: ",
+    "secretCodeTitle": "Solve the secret code!",
+
 };
 
 export const deMessagesJSON = {
@@ -70,6 +72,7 @@ export const deMessagesJSON = {
     "symbolsInStringMessage": ", Buchstabenanzahl:",
     "equationsToSolve": "Löse die Aufgaben und finde die Ergebnisse im Schlüssel, \num die Nachricht zu raten!",
     "codeKey": "Schlüssel: ",
+    "secretCodeTitle": "Löse den geheimen Code!",
 
 };
 
@@ -108,6 +111,7 @@ export const ruMessagesJSON = {
     "symbolsInStringMessage": ", разных букв:",
     "equationsToSolve": "Чтобы прочитать секретное сообщение, реши примеры и подставь нужную букву по ключу",
     "codeKey": "Ключ: ",
+    "secretCodeTitle": "Разгадай секретный шифр!",
 
 
 };

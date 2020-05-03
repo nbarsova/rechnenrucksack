@@ -8,14 +8,14 @@ import {printIcon, refreshIcon, solutionIcon} from "../treasure/pictureSources";
 import {FormattedMessage, useIntl} from "react-intl";
 import {countMessageSymbols, isLetter} from "./CodeGenerator";
 import {createEquationSet, normalRandom} from "../../util/arithmetic";
-import PrintEquation from "../treasure/print/PrintEquation";
-import {StepEquation} from "../../util/classes/StepEquation";
 import {Equation} from "../../util/classes/Equation";
+import SecretCodePrintPage from "./SecretCodePrintPage";
+import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 
 const SecretMessage = () => {
     const intl = useIntl();
 
-    const numberRanges = [10, 25];
+    const [numberRanges, setNumberRanges] = useState([10, 25, 100]);
     const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
     let [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
@@ -37,12 +37,26 @@ const SecretMessage = () => {
     const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
 
     useEffect(() => {
-        setMessageSymbols(countMessageSymbols(secretMessage));
+
+        const symbols = countMessageSymbols(secretMessage);
+        const nRanges=[];
+
+        if (symbols.length <= 10) {
+            nRanges.push(10);
+        }
+        if (symbols.length <= 25) {
+            nRanges.push(25);
+        }
+        nRanges.push(100);
+
+        setMessageSymbols(symbols);
+        setNumberRanges(nRanges);
+        setNumberRange(nRanges[0]);
+
     }, [secretMessage]);
 
-    useEffect(()=> {
+    useEffect(() => {
         setSecretMessage(initialMessage);
-
     }, [intl.locale])
 
     const updateSecretMessage = (ev: any) => {
@@ -53,110 +67,67 @@ const SecretMessage = () => {
         } else {
             setError(false);
             setSecretMessage(newMessage);
-            const symbols = countMessageSymbols(newMessage);
-            setMessageSymbols(symbols);
-            const codes = createCodes(symbols);
-            assignEquationsToString(newMessage, symbols, codes);
         }
     };
 
     const createCodes = (symbols: Array<string>) => {
 
-        let complexity = 10;
-
-        if (symbols.length>10)
-        {
-            complexity=25;
-        }
-
-        if (symbols.length>25)
-        {
-            complexity=100;
-        }
-
-        const coes = [];
-        let treshold = (symbols.length === complexity) ? symbols.length-1 : symbols.length;
-        for (let i=0; i<treshold; i++)
-        {
+            const coes = [];
+        let treshold = (symbols.length === numberRange) ? symbols.length - 1 : symbols.length;
+        for (let i = 0; i < treshold; i++) {
             let code;
             do {
-                code = normalRandom(1, complexity);
+                code = normalRandom(1, numberRange);
             } while (!isUniqueCode(code, coes));
 
             coes.push({letter: symbols[i], code: code});
         }
 
-        if (symbols.length === complexity)
-        {
-            coes.push({letter: symbols[symbols.length-1], code:0});
+        if (symbols.length === numberRange) {
+            coes.push({letter: symbols[symbols.length - 1], code: 0});
         }
 
         setLetterCodes(coes);
         return coes;
     };
 
-    const findCodeForLetter = (letter: string, codes: Array<any>): number =>
-    {
-        return codes.find(code=> code.letter === letter).code;
+    const findCodeForLetter = (letter: string, codes: Array<any>): number => {
+        return codes.find(code => code.letter === letter).code;
     };
 
 
     const assignEquationsToString = (sMessage: string,
                                      ssymbols: Array<any>,
-                                     codes: Array<any>) =>
-    {
-        let steps: Array<number>=[];
+                                     codes: Array<any>) => {
+        let steps: Array<number> = [];
 
-        for (let i=0; i<sMessage.length; i++)
-        {
+        for (let i = 0; i < sMessage.length; i++) {
             let symbol = sMessage.charAt(i).toUpperCase();
             if (isLetter(symbol)) {
-                const step=findCodeForLetter(symbol, codes);
+                const step = findCodeForLetter(symbol, codes);
                 steps.push(step);
             }
         }
 
-        let complexity = 10;
-
-        if (ssymbols.length>10)
-        {
-            complexity=25;
-        }
-
-        if (ssymbols.length>25)
-        {
-            complexity=100;
-        }
-
-       const equations = createEquationSet(steps, selectedOps, complexity);
+        const equations = createEquationSet(steps, selectedOps, numberRange);
         setEquations(equations);
     };
 
-    const isUniqueCode = (code: number, letterCodes: Array<any>) =>
-    {
-        for (var i=0; i<letterCodes.length; i++)
-        {
-            if (letterCodes[i].code === code)
-            {
+    const isUniqueCode = (code: number, letterCodes: Array<any>) => {
+        for (var i = 0; i < letterCodes.length; i++) {
+            if (letterCodes[i].code === code) {
                 return false;
             }
         }
         return true;
     };
 
-    const renderEquation = (equation: Equation, index: number) => {
-       return (<div key={index} className='codeLetter'>
-           <div className='letterPlaceHolder'
-                style={{height: canvasHeight/10, width: canvasHeight/10}}/>
-           {equation.number1 + ' '+ equation.operation+ ' '+equation.number2+ " = __"}
-       </div>)
+    const prepareParameters = () => {
+        setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equations));
+        setInStorage(LETTER_CODES_PARAMETER_NAME, JSON.stringify(letterCodes));
     };
 
-    const renderKey = (letterCode: any) => {
-        return <div key={letterCode.letter} className='codeLetter'>
-            {letterCode.code + ' = '+ letterCode.letter}
-        </div>
-    }
+    console.log(numberRanges, numberRange, messageSymbols.length);
 
     return (<div className="main">
         <div className="settings">
@@ -175,34 +146,40 @@ const SecretMessage = () => {
                     <span className='equationText'><FormattedMessage id='symbolsInStringMessage'/> </span>
                     {messageSymbols.length}
                 </div>}
-            <NumberComplexity numberRanges={numberRanges}
+            <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
                               onRangeChange={(range: number) => setNumberRange(range)}/>
 
             <OperationsSelector allOps={allOps}
                                 onOpsChanged={(selectedOps: Array<Operation>) => {
                                     setSelectedOps(selectedOps)
                                 }}/>
-        </div>
-        <div className='buttons'>
-            <Link target='_blank' to={"/treasure/print"}
-                  className='printButton'
-                  title={intl.formatMessage({id: 'printStudent'})}
-            ><img src={printIcon}/></Link>
 
-            <Link target='_blank' to={"/treasure/print/solution"}
-                  className='printButton'
-                  title={intl.formatMessage({id: 'printTeacher'})}
-            ><img src={solutionIcon}/></Link>
-            <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
-            ><img src={refreshIcon}/></div>
+            <div className='buttons'>
+                <Link target='_blank' to={"/secret/print"}
+                      className='printButton'
+                      title={intl.formatMessage({id: 'printStudent'})}
+                      onClick={prepareParameters}
+                ><img src={printIcon}/></Link>
+
+                <Link target='_blank' to={"/secret/print/solution"}
+                      className='printButton'
+                      onClick={prepareParameters}
+                      title={intl.formatMessage({id: 'printTeacher'})}
+                ><img src={solutionIcon}/></Link>
+                <div className='printButton'
+                     title={intl.formatMessage({id: 'refresh'})}
+                     onClick={()=> {
+                         const codes = createCodes(messageSymbols);
+                         assignEquationsToString(secretMessage, messageSymbols, codes);
+                     }}
+                ><img src={refreshIcon}/></div>
+            </div>
         </div>
-        <div className='printSecretCode'>
-            <FormattedMessage id='equationsToSolve'/>
-            <div className='codeWrapper'>{equations && equations.map(renderEquation)}</div>
-            {letterCodes && (<div className='codeWrapper'>
-                <b><FormattedMessage id='codeKey'/></b>
-            {letterCodes && letterCodes.map(renderKey)}</div>)}
-        </div>
+        <SecretCodePrintPage
+            canvasHeight={canvasHeight}
+            equations={equations}
+            letterCodes={letterCodes}
+        showLetters={false}/>
     </div>)
 }
 
