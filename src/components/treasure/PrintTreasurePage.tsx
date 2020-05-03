@@ -37,7 +37,11 @@ const PrintTreasurePage = (props: {
         } else {
             axis = Direction.VERTICAL;
         }
-        return <span className='printEquation' key={index}>{(index+1)+ '). '+ equationStep.equation + " = __ " + intl.formatMessage({id: 'steps'})
+        
+        return <span className='printEquation' key={index}>{(index+1)+ '). '+ equationStep.equation.number1 + ' '
+        + equationStep.equation.operation + ' '
+            +equationStep.equation.number2 
+        + " = __ " + intl.formatMessage({id: 'steps'})
         + ' ' + getDirection(equationStep.step, axis)}</span>;
     };
 

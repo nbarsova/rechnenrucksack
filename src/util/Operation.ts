@@ -1,6 +1,6 @@
 export enum Operation {
     ADD= '+',
     SUB= '-',
-    MULT='*',
+    MULT='\u00D7',
     DIV=':'
 }

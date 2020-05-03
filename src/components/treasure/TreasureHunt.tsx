@@ -10,11 +10,10 @@ import {useIntl} from 'react-intl';
 import {StepEquation} from "./StepEquation";
 import {Link} from "react-router-dom";
 import PrintTreasurePage from "./PrintTreasurePage";
-import {easyGrid, hardGrid} from "./pictureSources";
 import {
     EQUATIONS_PARAMETER_NAME,
-    getFromStorage,
-    NUMBER_RANGE_PARAMETER_NAME, setInStorage,
+    NUMBER_RANGE_PARAMETER_NAME,
+    setInStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
 
@@ -49,7 +48,7 @@ const TreasureHunt = () => {
         setTargets(targets);
         const currentTarget = targets[Math.floor((Math.random() * 10) / 3)];
         let options = {};
-        if ((selectedOps.length === 1) && (selectedOps[0] === "*")) {
+        if ((selectedOps.length === 1) && (selectedOps[0] === Operation.MULT)) {
             options = {noPrimes: true}
         }
 
@@ -60,6 +59,7 @@ const TreasureHunt = () => {
             absSteps.push(Math.abs(steps[i]));
         }
         const equations = createEquationSet(absSteps, selectedOps, numberRange);
+
         let equationSteps: Array<StepEquation> = [];
 
         for (let ii = 0; ii < steps.length; ii++) {

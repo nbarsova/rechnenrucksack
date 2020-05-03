@@ -151,7 +151,7 @@ const createUniqueStep = function (lowerLimit: number,
                                    coordinate: any, fieldSize: number,
                                    steps: Array<any>) {
     let step = 0;
-    let condition = true;
+
     do {
         step = normalRandom(lowerLimit, upperLimit);
         var signChange = Math.random();

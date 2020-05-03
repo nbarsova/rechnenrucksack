@@ -95,21 +95,21 @@ function ArithmeticService($q) {
       {
         switch (operations[ii])
           {
-            case ('+'):
+            case (Operation.ADD):
               adN=opTreshold;
-            case ('-'):
+            case (Operation.SUB):
               subN=opTreshold;
-            case ('*'):
+            case (Operation.MULT):
               multN=opTreshold;
-            case (':'):
+            case (Operation.DIV):
               divN=opTreshold;
           }
       }
 
-      tresholds.push({op: '+', treshold: adN});
-      tresholds.push({op: '-', treshold: subN});
-      tresholds.push({op: '*', treshold: multN});
-      tresholds.push({op: ':', treshold: divN});
+      tresholds.push({op: Operation.ADD, treshold: adN});
+      tresholds.push({op: Operation.SUB, treshold: subN});
+      tresholds.push({op: Operation.MULT, treshold: multN});
+      tresholds.push({op: Operation.DIV, treshold: divN});
 
       for (var i=0; i<steps.length; i++)
         {
@@ -123,7 +123,7 @@ function ArithmeticService($q) {
           // если число простое - выкидываем умножение
             if (service.isPrime(steps[i]))
             {
-              exclusions.push('*');
+              exclusions.push(Operation.MULT);
             }
 
           // если число = границе сложности - выкидываем вычитание

@@ -31,7 +31,7 @@ export const createEquationSet = (steps: Array<number>, operations: Array<string
     tresholds.push({op: Operation.MULT, treshold: multN});
     tresholds.push({op: Operation.DIV, treshold: divN});
 
-    for (var i = 0; i < steps.length; i++) {
+    for (let i = 0; i < steps.length; i++) {
         if (steps[i] > Number(complexity)) {
             return;
             // deferred.reject("Step is more than complexity, need to regenerate steps");
@@ -74,7 +74,7 @@ export const createEquationSet = (steps: Array<number>, operations: Array<string
             }
         }
     }
-    return equationsSet
+    return equationsSet;
 }
 
 
@@ -114,13 +114,13 @@ const selectOperation = function (operations: Array<string>, exclusions: Array<s
 
 const createEquationsForNumber = function (number: number, operation: string, complexity: number) {
     switch (operation) {
-        case ('+'):
+        case (Operation.ADD):
             return createAdditionEquations(number, complexity);
-        case ('-'):
+        case (Operation.SUB):
             return createSubstractionEquations(number, complexity);
-        case ('*'):
+        case (Operation.MULT):
             return createMultiplicationEquations(number, complexity);
-        case (':'):
+        case (Operation.DIV):
             return createDivisionEquations(number, complexity);
     }
 }
@@ -128,11 +128,11 @@ const createEquationsForNumber = function (number: number, operation: string, co
 const buildUniqueEquation = function (number: number, operation: string, complexity: number, generatedEquations: Array<any>) {
     // console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
 
-    var equation;
-    var numberExists = false;
-    var operationFound = false;
+    let equation;
+    let numberExists = false;
+    let operationFound = false;
 
-    for (var k = 0; k < generatedEquations.length; k++) {
+    for (let k = 0; k < generatedEquations.length; k++) {
         if (generatedEquations[k].number === number) {
             numberExists = true;
             for (var kk = 0; kk < generatedEquations[k].values.length; kk++) {
@@ -163,11 +163,11 @@ const buildUniqueEquation = function (number: number, operation: string, complex
         });
     }
 
-    for (var n = 0; n < generatedEquations.length; n++) {
+    for (let n = 0; n < generatedEquations.length; n++) {
         if (generatedEquations[n].number === number) {
             // console.log("Looking up number "+ generatedEquations[n].number);
             // console.log(generatedEquations[n].values);
-            for (var nn = 0; nn < generatedEquations[n].values.length; nn++) {
+            for (let nn = 0; nn < generatedEquations[n].values.length; nn++) {
                 // console.log("The value is ");
                 // console.log(generatedEquations[n].values[nn]);
                 // console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
@@ -184,6 +184,7 @@ const buildUniqueEquation = function (number: number, operation: string, complex
                     var randomNumber = normalRandom(0, generatedEquations[n].values[nn].equations.length - 1);
                     //console.log("Random number is "+randomNumber);
                     equation = generatedEquations[n].values[nn].equations[randomNumber];
+                    console.log(equation);
                     generatedEquations[n].values[nn].equations.splice(randomNumber, 1);
 
                 }
@@ -191,8 +192,7 @@ const buildUniqueEquation = function (number: number, operation: string, complex
         }
     }
     //console.log(generatedEquations);
-    return equation.print();
-
+    return equation;
 }
 
 const createAdditionEquations = function (number: number, complexity: number) {
@@ -202,7 +202,7 @@ const createAdditionEquations = function (number: number, complexity: number) {
     if (number > 2) adstart = 1;
 
     for (var kk = adstart; kk <= number - adstart; kk++) {
-        var newEquation = new Equation(kk, number - kk, '+', number);
+        var newEquation = new Equation(kk, number - kk, Operation.ADD, number);
         newEquations.push(newEquation);
     }
     return newEquations;
@@ -217,7 +217,7 @@ const createSubstractionEquations = function (number: number, complexity: number
     }
 
     for (var ss = 1; ss <= complexity - number + subDim; ss++) {
-        var newEquation = new Equation(number + ss - subDim, ss - subDim, '-', number);
+        var newEquation = new Equation(number + ss - subDim, ss - subDim, Operation.SUB, number);
         newEquations.push(newEquation);
     }
     return newEquations;
@@ -233,7 +233,7 @@ const createMultiplicationEquations = function (number: number, complexity: numb
 
     for (var mm = multstart; mm <= number / multstart; mm++) {
         if ((number) % mm === 0) {
-            var newEquation = new Equation(mm, number / mm, '*', number);
+            var newEquation = new Equation(mm, number / mm, Operation.MULT, number);
             newEquations.push(newEquation);
         }
     }
@@ -253,7 +253,7 @@ const createDivisionEquations = function (number: number, complexity: number) {
 //    console.log("Division start ="+divstart);
 
     for (var dd = divstart; (dd < 10) && (dd * number <= complexity); dd++) {
-        var newEquation = new Equation(dd * number, dd, ':', number);
+        var newEquation = new Equation(dd * number, dd, Operation.DIV, number);
         newEquations.push(newEquation);
     }
     return newEquations;
