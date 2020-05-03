@@ -12,12 +12,12 @@ export function Main(props: {
 }) {
 
     let renderPuzzle = (puzzle: any) => {
-        return (<Link to={"/" + puzzle.key}>
-            <img
+        return (<Link to={"/" + puzzle.key} className="puzzleName">
+            <div className='puzzle'><img
                 className="thumbnail"
                 src={puzzle.thumbnail}/>
-            <p
-                className="puzzleName">{puzzle.name}</p>
+                <p className='puzzleNameText'>{puzzle.name}</p>
+            </div>
         </Link>)
     };
 
@@ -25,8 +25,7 @@ export function Main(props: {
     const renderPuzzles = puzzlesArray.map(renderPuzzle);
 
     const renderPuzzleInBar = (puzzle: any) => <Link to={"/" + puzzle.key} className="puzzleNameBar">
-        <p
-        key={puzzle.key}>{puzzle.name}</p></Link>;
+        {puzzle.name}</Link>;
 
 
     return (<div>

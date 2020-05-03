@@ -1,7 +1,7 @@
-import {MapTargetObject} from "./MapTargetObject";
+import {MapTargetObject} from "./classes/MapTargetObject";
 
-import {Direction} from "./Direction";
-import {StepEquation} from "./StepEquation";
+import {Direction} from "./classes/Direction";
+import {StepEquation} from "../../util/classes/StepEquation";
 
 export const createCanvas = (context: CanvasRenderingContext2D,
                              canvasWidth: number,

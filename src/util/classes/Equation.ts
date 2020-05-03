@@ -13,11 +13,6 @@ export class Equation
         this.result = result;
     }
 
-    print ()
-    {
-        return (this.number1+" "+ this.operation+" "+this.number2);
-    }
-
     equals (newEquation: Equation)
     {
         return ((newEquation.number1 === this.number1)

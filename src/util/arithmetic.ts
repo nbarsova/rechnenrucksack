@@ -1,5 +1,5 @@
-import {Equation} from "./Equation";
-import {Operation} from "./Operation";
+import {Equation} from "./classes/Equation";
+import {Operation} from "./enums/Operation";
 
 export const createEquationSet = (steps: Array<number>, operations: Array<string>, complexity: number) => {
     let generatedEquations: Array<any> = [];
@@ -184,7 +184,6 @@ const buildUniqueEquation = function (number: number, operation: string, complex
                     var randomNumber = normalRandom(0, generatedEquations[n].values[nn].equations.length - 1);
                     //console.log("Random number is "+randomNumber);
                     equation = generatedEquations[n].values[nn].equations[randomNumber];
-                    console.log(equation);
                     generatedEquations[n].values[nn].equations.splice(randomNumber, 1);
 
                 }

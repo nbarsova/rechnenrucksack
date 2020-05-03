@@ -1,4 +1,4 @@
-import {MapTargetObject} from "./MapTargetObject";
+import {MapTargetObject} from "./classes/MapTargetObject";
 import {createEquationSet, isPrime, normalRandom} from "../../util/arithmetic";
 
 export const initTargets = (fieldSize: number): Array<MapTargetObject> => {

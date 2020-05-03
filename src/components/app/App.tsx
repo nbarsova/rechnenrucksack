@@ -6,6 +6,7 @@ import {deMessagesJSON, enMessagesJson, ruMessagesJSON} from "../../messages/mes
 import {Main} from "./Main";
 import {puzzles} from "./puzzles";
 import PrintContainer from "./PrintContainer";
+import {getFromStorage, LOCALE_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 
 const App = () => {
 
@@ -15,8 +16,9 @@ const App = () => {
     ru: ruMessagesJSON
   };
 
-  let defaultLocale = "en";
-  switch (navigator.language) {
+  let defaultLocale = getFromStorage(LOCALE_PARAMETER_NAME);
+
+  if (!defaultLocale) switch (navigator.language) {
     case "de-DE":
       defaultLocale = "de";
     case "ru-RU":
@@ -25,7 +27,12 @@ const App = () => {
       break;
   }
 
-  let [locale, setCurrentLocale] = useState(defaultLocale);
+  let [locale, setCurrentLocale] = useState(defaultLocale || 'en');
+
+  const setLocale = (locale: string) => {
+    setCurrentLocale(locale);
+    setInStorage(LOCALE_PARAMETER_NAME, locale);
+  }
 
   return (
       <IntlProvider locale={locale}
@@ -34,24 +41,27 @@ const App = () => {
           <div>
 
             <Switch>
+              <Route path="/treasure/print/solution">
+                <PrintContainer puzzle={puzzles.treasure.key} solution/>
+              </Route>
               <Route path="/treasure/print">
                 <PrintContainer puzzle={puzzles.treasure.key}/>
               </Route>
               <Route path="/treasure">
                 <Main currentPuzzle={puzzles.treasure} defaultLocale={defaultLocale}
-                setLocale={setCurrentLocale}/>
+                setLocale={setLocale}/>
               </Route>
               <Route path="/secret">
                 <Main currentPuzzle={puzzles.secret} defaultLocale={defaultLocale}
-                      setLocale={setCurrentLocale}/>
+                      setLocale={setLocale}/>
               </Route>
               <Route path="/monster">
                 <Main currentPuzzle={puzzles.monster} defaultLocale={defaultLocale}
-                      setLocale={setCurrentLocale}/>
+                      setLocale={setLocale}/>
               </Route>
               <Route path="/">
                 <Main defaultLocale={defaultLocale}
-                      setLocale={setCurrentLocale}/>
+                      setLocale={setLocale}/>
               </Route>
             </Switch>
           </div>

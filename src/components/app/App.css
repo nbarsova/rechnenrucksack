@@ -1,163 +1,204 @@
 .app {
-  height: 100vh;
-  width: 100vw;
+    height: 100vh;
+    width: 100vw;
 }
 
 :root {
-  --headerHeight: 80px;
-  --subHeaderHeight: 60px;
-  --footerHeight: 60px;
-  --settingsWidth: 30vw;
+    --headerHeight: 80px;
+    --subHeaderHeight: 60px;
+    --footerHeight: 60px;
+    --settingsWidth: 20vw;
+}
+
+@media print {
+    @page {
+        size: landscape;
+    }
 }
 
 @font-face {
-  font-family: 'PT Sans';
-  src: url('../../fonts/PT_Sans/PT_Sans-Web-Regular.ttf')  format('truetype');
+    font-family: 'PT Sans';
+    src: url('../../fonts/PT_Sans/PT_Sans-Web-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Neucha';
-  src: url('../../fonts/Neucha/Neucha.ttf')  format('truetype');
+    font-family: 'Neucha';
+    src: url('../../fonts/Neucha/Neucha.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Courgette';
-  src: url('../../fonts/Courgette/Courgette-Regular.ttf')  format('truetype');
+    font-family: 'Courgette';
+    src: url('../../fonts/Courgette/Courgette-Regular.ttf') format('truetype');
 }
 
-body{
-  font-family: 'PT Sans', sans-serif;
-  margin: 0;
-  padding: 0;
+body {
+    font-family: 'PT Sans', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 header {
-  background-color: #7cadef;
-  font-size: 48px;
-  font-family: "Neucha";
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-  letter-spacing: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: var(--headerHeight);
+    background-color: #7cadef;
+    font-size: 48px;
+    font-family: "Neucha";
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--headerHeight);
 }
 
 .headerWrapper {
-  padding: 10px;
-  text-decoration: none;
+    padding: 10px;
+    text-decoration: none;
 }
 
 .headerWrapper:visited {
-  color: black;
+    color: black;
 }
 
 .languages {
-  font-size: 16px;
-  display: flex;
-  flex-direction: row;
-  letter-spacing: 2px;
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    letter-spacing: 2px;
 }
 
 .language {
-  margin-right: 10px;
-  font-weight: normal;
+    margin-right: 10px;
+    font-weight: normal;
 }
 
 .selectedLanguage {
-  margin-right: 10px;
-  font-weight: bold;
+    margin-right: 10px;
+    font-weight: bold;
 }
 
 .puzzles {
-  display:flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px;
 }
 
 .puzzle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  width: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    width: 30vh;
 }
 
 .puzzleBar {
-  background-color: #a4c7f4;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  height: var(--subHeaderHeight);
+    background-color: #a4c7f4;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: var(--subHeaderHeight);
 }
 
-.Footer
-{
-  position: absolute;
-  background-color: #7cadef;
-  font-weight: bold;
-  width: 100%;
-  height: var(--footerHeight);
-  bottom: 0;
-  display: flex;
-  align-items: center;
+.Footer {
+    position: absolute;
+    background-color: #7cadef;
+    font-weight: bold;
+    width: 100%;
+    height: var(--footerHeight);
+    bottom: 0;
+    display: flex;
+    align-items: center;
 }
 
 .thumbnail {
-  height: 30vh;
+    height: 30vh;
 }
 
 .puzzleName {
-  background-color: #7cadef;
-  font-size: 3vh;
-  padding: 10px;
-  width: 100%;
-  font-weight: bold;
+    font-size: 3vh;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.puzzleName:visited {
+    text-decoration: none;
+    color: black;
+}
+
+.puzzleNameText {
+    background-color: #a4c7f4;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    min-width: 20vw;
+    text-decoration: none;
+    color: black;
 }
 
 .puzzleNameBar {
-  background-color:  #a4c7f4;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 0 5px;
-  text-decoration: none;
+    background-color: #a4c7f4;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
 .puzzleNameBar:visited {
-  text-decoration: none;
-  color: black;
+    text-decoration: none;
+    color: black;
 }
 
 .printContainer {
 
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
 }
 
 .printTitle {
-  font-size: 48px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 10px;
-  margin: 10px;
-  font-family: "Neucha";
+    font-size: 48px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    margin: 10px;
+    font-family: "Neucha";
+}
+
+.nameDate {
+    font-family: "Neucha";
+    font-size: 18px;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.nameDateLine {
+    margin: 5px;
 }
 
 .copyright {
-  font-family: "Neucha";
-  font-size: 36px;
-  color: #999999;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+    font-family: "Neucha";
+    font-size: 36px;
+    color: #cbcbcb;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
 }
