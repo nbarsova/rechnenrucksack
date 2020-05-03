@@ -23,6 +23,15 @@ export const enMessagesJson = {
     "lowerRight": "lower right stone.",
     "lowerLeft": "lower left stone.",
     "answer": "Answer:",
+    "printStudent": "print puzzle",
+    "printTeacher": "print solution",
+    "refresh": "new puzzle",
+    'initialSecretMessage': "SHE SELLS SEASHELLS BY THE SEASHORE",
+    "enterMessage": "Enter the message to be encoded",
+    "secretMessageTooLong": "Secret message must not be longer than 50 symbols",
+    "messageLength": "Message length:",
+    "symbolsInStringMessage": ",  different symbols:",
+
 };
 
 export const deMessagesJSON = {
@@ -50,6 +59,15 @@ export const deMessagesJSON = {
     "lowerRight": "unten rechts.",
     "lowerLeft": "unten links.",
     "answer": "Antwort:",
+    "printStudent": "Aufgabe drucken",
+    "printTeacher": "Lösung drucken",
+    "refresh": "Neue Aufgabe",
+    "initialSecretMessage": "Fischers Fritz fischt frische Fische",
+    "enterMessage": "Tragen Sie eine Nachricht ein, um Geheimcode zu generieren",
+    "secretMessageTooLong": "Geheime Nachricht darf nicht länger als 50 Symbole sein",
+    "messageLength": "Nachricht Länge:",
+    "symbolsInStringMessage": ", Buchstabenanzahl:"
+
 };
 
 export const ruMessagesJSON = {
@@ -77,4 +95,14 @@ export const ruMessagesJSON = {
     "lowerRight": "справа снизу.",
     "lowerLeft": "слева снизу.",
     "answer": "Ответ:",
+    "printStudent": "распечатать задание",
+    "printTeacher": "распечатать решение",
+    "refresh": "новое задание",
+    "initialSecretMessage": "шла саша по шоссе и сосала сушку",
+    "enterMessage": "Введите секретное сообщение",
+    "secretMessageTooLong": "Секретное сообщение не должно быть длиннее 50 символов",
+    "messageLength": "Длина сообщения:",
+    "symbolsInStringMessage": ", разных букв:",
+
+
 };

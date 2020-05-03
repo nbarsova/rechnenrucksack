@@ -5,3 +5,4 @@ export const compass = require('../../img/compass.png');
 export const cross = require('../../img/cross.svg');
 export const printIcon = require('../../img/print.svg');
 export const solutionIcon = require('../../img/tick.svg');
+export const refreshIcon = require('../../img/refresh.svg');

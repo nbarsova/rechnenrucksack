@@ -1,9 +1,9 @@
 import React from "react";
 
 import {FormattedMessage} from "react-intl";
-import {SecretMessage} from "../secret/SecretMessage";
 import {LockMonster} from "../monster/LockMonster";
 import TreasureHunt from "../treasure/TreasureHunt";
+import SecretMessage from "../secret/SecretMessage";
 
 export const puzzles = {
     treasure:

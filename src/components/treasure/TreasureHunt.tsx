@@ -17,7 +17,7 @@ import {
     setInStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
-import {printIcon, solutionIcon} from "./pictureSources";
+import {printIcon, refreshIcon, solutionIcon} from "./pictureSources";
 
 const TreasureHunt = () => {
     const numberRanges = [10, 25];
@@ -31,7 +31,6 @@ const TreasureHunt = () => {
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    // const orientation = viewportWidth > viewportHeight ? 'landscape' : 'portrait';
 
     const canvasDivWidth = viewportWidth - 300; // magic nums from css
     const canvasDivHeight = viewportHeight - 220;
@@ -43,14 +42,16 @@ const TreasureHunt = () => {
     const [currentTarget, setCurrentTarget] = useState(null);
 
     useEffect(() => {
+        createNewEquationSet();
+    }, [numberRange, equationsAmount, selectedOps]);
 
+    const createNewEquationSet = () => {
         const fieldSize = (numberRange === 10) ? 5 : 10;
 
         const targets = initTargets(fieldSize);
 
-        setTargets(targets);
         const cTarget = targets[Math.floor((Math.random() * 10) / 3)];
-        setCurrentTarget(cTarget);
+
         let options = {};
         if ((selectedOps.length === 1) && (selectedOps[0] === Operation.MULT)) {
             options = {noPrimes: true}
@@ -72,12 +73,21 @@ const TreasureHunt = () => {
                 step: steps[ii]
             });
         }
-
+        setTargets(targets);
+        setCurrentTarget(cTarget);
         setEquationSteps(equationSteps);
-    }, [numberRange, equationsAmount, selectedOps]);
+    };
 
-    console.log(currentTarget);
+    const prepareStudentPage = () => {
+        setInStorage(NUMBER_RANGE_PARAMETER_NAME, numberRange + '');
+        setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
+        setInStorage(TARGETS_PARAMETER_NAME, JSON.stringify(targets));
+    };
 
+    const prepareTeacherPage = () => {
+            setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
+            setInStorage(CURRENT_TARGET_PARAMETER_NAME, JSON.stringify(currentTarget));
+    };
 
     return (<div className="main">
         <div className="settings">
@@ -91,28 +101,24 @@ const TreasureHunt = () => {
                                     setSelectedOps(selectedOps)
                                 }}/>
 
-            <div className='buttons'>
-                <Link target='_blank' to={"/treasure/print"}
-                      className='printButton'
-                      onClick={() => {
-                          setInStorage(NUMBER_RANGE_PARAMETER_NAME, numberRange + '');
-                          setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
-                          setInStorage(TARGETS_PARAMETER_NAME, JSON.stringify(targets));
-                      }}><img src={printIcon}/></Link>
 
-                <Link target='_blank' to={"/treasure/print/solution"}
-                      className='printButton'
-                      onClick={() => {
-                          console.log('setting in storage ', currentTarget);
-                          setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
-                          setInStorage(CURRENT_TARGET_PARAMETER_NAME, JSON.stringify(currentTarget));
-                      }}><img src={solutionIcon}/></Link>
-            </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}
                            targets={targets} canvasHeight={canvasHeight} numberRange={numberRange}/>
 
+        <div className='buttons'>
+            <Link target='_blank' to={"/treasure/print"}
+                  className='printButton'
+                  title={intl.formatMessage({id: 'printStudent'})}
+                  onClick={prepareStudentPage}><img src={printIcon} /></Link>
 
+            <Link target='_blank' to={"/treasure/print/solution"}
+                  className='printButton'
+                  title={intl.formatMessage({id: 'printTeacher'})}
+                  onClick={prepareTeacherPage}><img src={solutionIcon} /></Link>
+            <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
+                 onClick={createNewEquationSet}><img src={refreshIcon} /></div>
+        </div>
     </div>);
 }
 
