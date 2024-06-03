@@ -13,18 +13,16 @@
 
 .canvasWrapper {
     display: flex;
+    flex-direction: row;
+    align-content: space-between;
     position: relative;
+    width: 100%;
 }
 
-@media print {
-    .printPageText {
-        min-width: 30vw;
-    }
-}
 .printPageText {
     display: flex;
     flex-direction: column;
-    margin: 3vh 5vh 3vh;
+    margin: 5px;
 }
 
 .printPageAnswer {

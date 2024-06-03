@@ -1,4 +1,3 @@
-import React from 'react';
 import {Direction} from "../classes/Direction";
 import {StepEquation} from "../../../util/classes/StepEquation";
 import {useIntl} from "react-intl";
@@ -20,7 +19,6 @@ const PrintEquation = (props: {
                 } else {
                     return intl.formatMessage({id: 'dirDown'});
                 }
-                break;
             case Direction.HORIZONTAL:
                 if (Math.sign(number) === 1) {
                     return intl.formatMessage({id: 'dirRight'})

@@ -17,7 +17,10 @@ import {
     setInStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
-import {printIcon, refreshIcon, solutionIcon} from "./pictureSources";
+import PrintIcon from "../../svg/PrintIcon";
+import SolutionIcon from "../../svg/SolutionIcon";
+import RefreshIcon from "../../svg/RefreshIcon";
+
 
 const TreasureHunt = () => {
     const numberRanges = [10, 25];
@@ -78,15 +81,15 @@ const TreasureHunt = () => {
         setEquationSteps(equationSteps);
     };
 
+    const prepareTeacherPage = () => {
+            setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
+            setInStorage(CURRENT_TARGET_PARAMETER_NAME, JSON.stringify(currentTarget));
+    };
+
     const prepareStudentPage = () => {
         setInStorage(NUMBER_RANGE_PARAMETER_NAME, numberRange + '');
         setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
         setInStorage(TARGETS_PARAMETER_NAME, JSON.stringify(targets));
-    };
-
-    const prepareTeacherPage = () => {
-            setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
-            setInStorage(CURRENT_TARGET_PARAMETER_NAME, JSON.stringify(currentTarget));
     };
 
     return (<div className="main">
@@ -105,18 +108,17 @@ const TreasureHunt = () => {
                 <Link target='_blank' to={"/treasure/print"}
                       className='printButton'
                       title={intl.formatMessage({id: 'printStudent'})}
-                      onClick={prepareStudentPage}><img src={printIcon} /></Link>
-
+                      onClick={prepareStudentPage}><PrintIcon /></Link>
                 <Link target='_blank' to={"/treasure/print/solution"}
                       className='printButton'
                       title={intl.formatMessage({id: 'printTeacher'})}
-                      onClick={prepareTeacherPage}><img src={solutionIcon} /></Link>
+                      onClick={prepareTeacherPage}><SolutionIcon /></Link>
                 <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
-                     onClick={createNewEquationSet}><img src={refreshIcon} /></div>
+                     onClick={createNewEquationSet}><RefreshIcon /></div>
             </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}
-                           targets={targets} canvasHeight={canvasHeight} numberRange={numberRange}/>
+                               stones={targets} canvasHeight={canvasHeight} canvasDimension='px' numberRange={numberRange}/>
 
 
     </div>);

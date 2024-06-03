@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {MapTargetObject} from "../classes/MapTargetObject";
 import PrintEquation from "./PrintEquation";
 import {FormattedMessage, useIntl} from "react-intl";

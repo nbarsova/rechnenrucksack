@@ -1,4 +1,3 @@
-import React from 'react';
 import {FormattedMessage} from "react-intl";
 import {Equation} from "../../util/classes/Equation";
 
@@ -9,6 +8,8 @@ const SecretCodePrintPage = (props:
                                      canvasHeight: number,
                                      showLetters: boolean
                                  }) => {
+
+    console.log('codes', props.letterCodes);
 
     const renderEquation = (equation: Equation, index: number) => {
         const res = props.showLetters ? equation.result : '__'
@@ -36,7 +37,7 @@ const SecretCodePrintPage = (props:
                 <FormattedMessage id='equationsToSolve'/>
             </div>
             <div className='codeWrapper'>{props.equations.length > 0 && props.equations.map(renderEquation)}</div>
-            {props.letterCodes.length > 0 && <div className='codeWrapper'>
+            {props.letterCodes && props.letterCodes.length > 0 && <div className='codeWrapper'>
                 <div className='codeKey'><FormattedMessage id='codeKey'/></div>
                 {props.letterCodes && props.letterCodes.map(renderKey)}
             </div>}

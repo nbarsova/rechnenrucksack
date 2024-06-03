@@ -161,17 +161,15 @@ header {
     color: black;
 }
 
-.printContainer {
-
-    height: 100%;
-    width: 100%;
+.printPreviewContainer {
     display: flex;
     flex-direction: column;
-
+    width: 290mm;
+    height: 210mm;
 }
 
 .printTitle {
-    font-size: 48px;
+    font-size: 42px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 10px;
@@ -182,9 +180,6 @@ header {
 .nameDate {
     font-family: "Neucha";
     font-size: 18px;
-    position: absolute;
-    top: 0;
-    right: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -198,7 +193,6 @@ header {
     font-family: "Neucha";
     font-size: 36px;
     color: #cbcbcb;
-    position: absolute;
     bottom: 20px;
     right: 20px;
 }

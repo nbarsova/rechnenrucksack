@@ -1,9 +1,14 @@
-import React from "react";
-
 import {FormattedMessage} from "react-intl";
 import {LockMonster} from "../monster/LockMonster";
 import TreasureHunt from "../treasure/TreasureHunt";
 import SecretMessage from "../secret/SecretMessage";
+
+// @ts-ignore
+import compass from '../../img/compass.png';
+// @ts-ignore
+import secret from '../../img/secretP.png';
+// @ts-ignore
+import monster from '../../img/monsterP.png';
 
 export const puzzles = {
     treasure:
@@ -14,7 +19,7 @@ export const puzzles = {
         defaultMessage="Treasure map"/>,
         printTitle: <FormattedMessage id='worksheetTitle' />,
         component: <TreasureHunt/>,
-        thumbnail: require("../../img/compass.png")
+        thumbnail: compass
     },
     secret: {
         key: 'secret',
@@ -22,7 +27,7 @@ export const puzzles = {
             id="secretCode" defaultMessage="Secret map"/>,
         printTitle: <FormattedMessage id='secretCodeTitle' />,
         component: <SecretMessage/>,
-        thumbnail: require("../../img/secretP.png")
+        thumbnail: secret
     },
     monster: {
         key: 'monster',
@@ -30,6 +35,6 @@ export const puzzles = {
             id="lockTheMonster" defaultMessage="Lock the Monster"/>,
         printTitle: <FormattedMessage id='worksheetTitle' />,
         component: <LockMonster/>,
-        thumbnail: require("../../img/monsterP.png")
+        thumbnail: monster
     }
 }

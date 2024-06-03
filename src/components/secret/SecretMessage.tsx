@@ -4,11 +4,14 @@ import {OperationsSelector} from "../complexity/OperationsSelector";
 import {Operation} from "../../util/enums/Operation";
 import {Link} from "react-router-dom";
 import "./SecretMessage.css";
-import {printIcon, refreshIcon, solutionIcon} from "../treasure/pictureSources";
+import PrintIcon from "../../svg/PrintIcon";
+import SolutionIcon from "../../svg/SolutionIcon";
+import RefreshIcon from "../../svg/RefreshIcon";
+
 import {FormattedMessage, useIntl} from "react-intl";
 import {countMessageSymbols, isLetter} from "./CodeGenerator";
 import {createEquationSet, normalRandom} from "../../util/arithmetic";
-import {Equation} from "../../util/classes/Equation";
+
 import SecretCodePrintPage from "./SecretCodePrintPage";
 import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 
@@ -159,20 +162,20 @@ const SecretMessage = () => {
                       className='printButton'
                       title={intl.formatMessage({id: 'printStudent'})}
                       onClick={prepareParameters}
-                ><img src={printIcon}/></Link>
+                ><PrintIcon/></Link>
 
                 <Link target='_blank' to={"/secret/print/solution"}
                       className='printButton'
                       onClick={prepareParameters}
                       title={intl.formatMessage({id: 'printTeacher'})}
-                ><img src={solutionIcon}/></Link>
+                ><SolutionIcon/></Link>
                 <div className='printButton'
                      title={intl.formatMessage({id: 'refresh'})}
                      onClick={()=> {
                          const codes = createCodes(messageSymbols);
                          assignEquationsToString(secretMessage, messageSymbols, codes);
                      }}
-                ><img src={refreshIcon}/></div>
+                ><RefreshIcon/></div>
             </div>
         </div>
         <SecretCodePrintPage
