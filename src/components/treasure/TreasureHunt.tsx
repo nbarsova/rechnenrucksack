@@ -106,11 +106,11 @@ const TreasureHunt = () => {
                                 }}/>
 
             <div className='buttons'>
-                <Link target='_blank' to={"/treasure/print"}
+                <Link target='_blank' to={"/rechnenrucksack/treasure/print"}
                       className='printButton'
                       title={intl.formatMessage({id: 'printStudent'})}
                       onClick={prepareStudentPage}><PrintIcon /></Link>
-                <Link target='_blank' to={"/treasure/print/solution"}
+                <Link target='_blank' to={"/rechnenrucksack/treasure/print/solution"}
                       className='printButton'
                       title={intl.formatMessage({id: 'printTeacher'})}
                       onClick={prepareTeacherPage}><SolutionIcon /></Link>

@@ -126,13 +126,13 @@ const SecretMessage = () => {
                      }}
                 ><RefreshIcon/></div>
 
-                <Link target='_blank' to={"/secret/print"}
+                <Link target='_blank' to={"/rechnenrucksack/secret/print"}
                       className='printButton'
                       title={intl.formatMessage({id: 'printStudent'})}
                       onClick={prepareParameters}
                 ><PrintIcon/></Link>
 
-                <Link target='_blank' to={"/secret/print/solution"}
+                <Link target='_blank' to={"/rechnenrucksack/secret/print"}
                       className='printButton'
                       onClick={prepareParameters}
                       title={intl.formatMessage({id: 'printTeacher'})}

@@ -41,27 +41,27 @@ const App = () => {
           <div>
 
             <Switch>
-              <Route path="/treasure/print/solution">
+              <Route path="/rechnenrucksack/treasure/print/solution">
                 <PrintContainer puzzle={puzzles.treasure.key} solution/>
               </Route>
-              <Route path="/treasure/print">
+              <Route path="/rechnenrucksack/treasure/print">
                 <PrintContainer puzzle={puzzles.treasure.key}/>
               </Route>
-              <Route path="/treasure">
+              <Route path="/rechnenrucksack/treasure">
                 <Main currentPuzzle={puzzles.treasure} defaultLocale={defaultLocale}
                 setLocale={setLocale}/>
               </Route>
-              <Route path="/secret/print/solution">
+              <Route path="/rechnenrucksack/secret/print/solution">
                 <PrintContainer puzzle={puzzles.secret.key} solution/>
               </Route>
-              <Route path="/secret/print">
+              <Route path="/rechnenrucksack/secret/print">
                 <PrintContainer puzzle={puzzles.secret.key}/>
               </Route>
-              <Route path="/secret">
+              <Route path="/rechnenrucksack/secret">
                 <Main currentPuzzle={puzzles.secret} defaultLocale={defaultLocale}
                       setLocale={setLocale}/>
               </Route>
-              <Route path="/monster">
+              <Route path="/rechnenrucksack/monster">
                 <Main currentPuzzle={puzzles.monster} defaultLocale={defaultLocale}
                       setLocale={setLocale}/>
               </Route>

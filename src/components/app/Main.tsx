@@ -1,5 +1,4 @@
 import {Header} from "./Header";
-import React from "react";
 import {Puzzle} from "./Puzzle";
 import {puzzles} from "./puzzles";
 import Footer from "./Footer";
@@ -12,7 +11,7 @@ export function Main(props: {
 }) {
 
     let renderPuzzle = (puzzle: any) => {
-        return (<Link key={puzzle.key} to={"/" + puzzle.key} className="puzzleName">
+        return (<Link key={'/rechnenrucksack/'+puzzle.key} to={"/" + puzzle.key} className="puzzleName">
             <div className='puzzle'><img
                 className="thumbnail"
                 src={puzzle.thumbnail}/>
