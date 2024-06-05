@@ -1,7 +1,7 @@
 import './App.css';
 
 const Footer = () =>{
-    return (<div className='Footer'>(c) Rechnenrucksack.com, 2024
+    return (<div className='Footer'>(c) Rechnenrucksack, 2024
     </div>)
 }
 
