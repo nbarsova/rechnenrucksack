@@ -27,15 +27,10 @@ const SecretMessage = () => {
     let [secretMessage, setSecretMessage] = useState(intl.formatMessage({id: 'initialSecretMessage'}));
     let [error, setError] = useState(false);
 
-    const {
-        symbols: messageSymbols,
-        codes,
-        equations: updatedEquations
-    } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
+    const [letterCodes, setLetterCodes] = useState<{ letter: string; code: number; }[]>([]);
 
-    const [letterCodes, setLetterCodes] = useState(codes);
-    const [symbols, setSymbols] = useState(messageSymbols);
-    const [equations, setEquations] = useState<Array<Equation> | undefined>(updatedEquations);
+    const [symbols, setSymbols] = useState<string[]>([]);
+    const [equations, setEquations] = useState<Array<Equation>|undefined>([]);
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -46,7 +41,16 @@ const SecretMessage = () => {
     const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
 
     useEffect(() => {
-        setSecretMessage(intl.formatMessage({id: 'initialSecretMessage'}));
+        const newMessage=intl.formatMessage({id: 'initialSecretMessage'});
+        setSecretMessage(newMessage);
+        const {
+            symbols: messageSymbolss,
+            codes: codess,
+            equations: updatedEquationss
+        } = createSecretCodeForMessage(newMessage, numberRange, selectedOps);
+        setSymbols(messageSymbolss);
+        setLetterCodes(codess);
+        setEquations(updatedEquationss);
     }, [intl.locale])
 
     const updateSecretMessage = (ev: any) => {

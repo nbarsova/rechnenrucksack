@@ -53,7 +53,6 @@ const findCodeForLetter = (letter: string, codes: Array<any>) => {
 export const createEquations = (sMessage: string,
                                 codes: Array<any>, selectedOps: Operation [], numberRange: number) => {
     let steps: Array<number> = [];
-    console.log('Creating equations', sMessage, codes, selectedOps, numberRange);
 
     for (let i = 0; i < sMessage.length; i++) {
         let symbol = sMessage.charAt(i).toUpperCase();
@@ -64,7 +63,6 @@ export const createEquations = (sMessage: string,
             }
         }
     }
-    console.log('Got steps', steps);
 
     const equations: Array<Equation> | undefined = createEquationSet(steps, selectedOps, numberRange);
     return equations;
