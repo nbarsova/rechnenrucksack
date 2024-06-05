@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {NumberComplexity} from "../complexity/NumberComplexity";
 import {EquationsAmount} from "../complexity/EquationsAmount";
 import {OperationsSelector} from "../complexity/OperationsSelector";
@@ -20,6 +20,7 @@ import {
 import PrintIcon from "../../svg/PrintIcon";
 import SolutionIcon from "../../svg/SolutionIcon";
 import RefreshIcon from "../../svg/RefreshIcon";
+import {MapTargetObject} from "./classes/MapTargetObject";
 
 
 const TreasureHunt = () => {
@@ -40,9 +41,9 @@ const TreasureHunt = () => {
 
     const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
 
-    const [equationSteps, setEquationSteps] = useState([]);
-    const [targets, setTargets] = useState([]);
-    const [currentTarget, setCurrentTarget] = useState(null);
+    const [equationSteps, setEquationSteps] = useState<StepEquation[]>([]);
+    const [targets, setTargets] = useState<MapTargetObject[]>([]);
+    const [currentTarget, setCurrentTarget] = useState<MapTargetObject|null>(null);
 
     useEffect(() => {
         createNewEquationSet();
@@ -118,7 +119,7 @@ const TreasureHunt = () => {
             </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}
-                               stones={targets} canvasHeight={canvasHeight} canvasDimension='px' numberRange={numberRange}/>
+                               stones={targets} canvasHeight={canvasHeight} numberRange={numberRange}/>
 
 
     </div>);

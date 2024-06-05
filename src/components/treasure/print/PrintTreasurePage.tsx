@@ -36,7 +36,7 @@ const PrintTreasurePage = (props: {
 
     return ( <div className="canvasWrapper">
         <img
-            src={gridSrc} height={props.canvasHeight+'px'} width={props.canvasHeight+20+'px'}/>
+            src={gridSrc} height={props.canvasHeight+'px'} width={props.canvasHeight+'px'}/>
         <img
             src={Cross} style={{position: 'absolute', top: props.canvasHeight/2-10, left: props.canvasHeight/2-10}}
         height={20} width={20}/>

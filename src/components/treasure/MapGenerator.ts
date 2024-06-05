@@ -1,5 +1,5 @@
 import {MapTargetObject} from "./classes/MapTargetObject";
-import {createEquationSet, isPrime, normalRandom} from "../../util/arithmetic";
+import {isPrime, normalRandom} from "../../util/arithmetic";
 
 export const initTargets = (fieldSize: number): Array<MapTargetObject> => {
     const targetObjects = [new MapTargetObject(fieldSize - Math.floor((Math.random() * fieldSize) / 3),
@@ -108,6 +108,7 @@ export const createPathToCurrentTarget
     return steps;
 }
 
+/*
 const createEquationsFromPath = (steps: Array<number>, complexity: number, language: string, operations: Array<string>) => {
 
     var numberSteps = [];
@@ -126,6 +127,7 @@ const createEquationsFromPath = (steps: Array<number>, complexity: number, langu
 
 }
 
+
 const isTarget = (x: number, y: number, targetObjects: Array<MapTargetObject>) => {
     var isTarget = false;
     for (var i = 0; i < targetObjects.length; i++) {
@@ -135,7 +137,7 @@ const isTarget = (x: number, y: number, targetObjects: Array<MapTargetObject>) =
     }
     return isTarget;
 }
-
+*/
 const isUniqueNumberStep = (number: number, steps: Array<any>) => {
     var isUnique = true;
     for (var i = 0; i < steps.length; i++) {
@@ -172,7 +174,6 @@ const createNonPrimeStep = function (lowerLimit: number,
                                      fieldSize: number) {
 //  console.log("Creating step for limit [" +lowerLimit+" ,"+ upperLimit+ "], coordinate "+coordinate);
     var step = 0;
-    var condition = true;
     do {
         step = normalRandom(lowerLimit, upperLimit);
         var signChange = Math.random();

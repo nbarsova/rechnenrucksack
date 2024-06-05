@@ -4,5 +4,4 @@ export class Puzzle {
     name: any;
     component: any;
     thumbnail: any;
-    printTitle: any;
 }

@@ -14,11 +14,15 @@ export const createEquationSet = (steps: Array<number>, operations: Array<string
     let tresholds = [];
 
     for (let ii = 0; ii < operations.length; ii++) {
+
         switch (operations[ii]) {
+            // @ts-ignore
             case (Operation.ADD):
                 adN = opTreshold;
+            // @ts-ignore
             case (Operation.SUB):
                 subN = opTreshold;
+            // @ts-ignore
             case (Operation.MULT):
                 multN = opTreshold;
             case (Operation.DIV):
@@ -111,11 +115,11 @@ const selectOperation = function (operations: Array<string>, exclusions: Array<s
 const createEquationsForNumber = function (number: number, operation: string, complexity: number) {
     switch (operation) {
         case (Operation.ADD):
-            return createAdditionEquations(number, complexity);
+            return createAdditionEquations(number);
         case (Operation.SUB):
             return createSubstractionEquations(number, complexity);
         case (Operation.MULT):
-            return createMultiplicationEquations(number, complexity);
+            return createMultiplicationEquations(number);
         case (Operation.DIV):
             return createDivisionEquations(number, complexity);
     }
@@ -188,7 +192,7 @@ const buildUniqueEquation = function (number: number, operation: string, complex
     return equation;
 }
 
-const createAdditionEquations = function (number: number, complexity: number) {
+const createAdditionEquations = function (number: number) {
     var newEquations = [];
 
     var adstart = 0;
@@ -216,7 +220,7 @@ const createSubstractionEquations = function (number: number, complexity: number
     return newEquations;
 }
 
-const createMultiplicationEquations = function (number: number, complexity: number) {
+const createMultiplicationEquations = function (number: number) {
     var newEquations = [];
 
     var multstart = 1;

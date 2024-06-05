@@ -191,9 +191,10 @@ header {
 
 .copyright {
     font-family: "Neucha";
-    font-size: 36px;
+    font-size: 28px;
     color: #cbcbcb;
-    bottom: 20px;
-    right: 20px;
     margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }

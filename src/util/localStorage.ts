@@ -10,7 +10,7 @@ export const setInStorage = (parameterName: string, value: string): void => {
     window.localStorage.setItem(parameterName, value);
 };
 
-export const getFromStorage = (parameterName: string): string  => {
+export const getFromStorage = (parameterName: string): string | null  => {
     const paramValue = window.localStorage.getItem(parameterName);
     // window.localStorage.removeItem(parameterName);
     return paramValue;
