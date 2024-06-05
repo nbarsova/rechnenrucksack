@@ -1,7 +1,7 @@
 import {Equation} from "./classes/Equation";
 import {Operation} from "./enums/Operation";
 
-export const createEquationSet = (steps: Array<number>, operations: Array<string>, complexity: number) => {
+export const createEquationSet = (steps: Array<number>, operations: Array<string>, complexity: number):Array<Equation> | undefined => {
     let generatedEquations: Array<any> = [];
 
     let equationsSet = [];
@@ -34,7 +34,6 @@ export const createEquationSet = (steps: Array<number>, operations: Array<string
     for (let i = 0; i < steps.length; i++) {
         if (steps[i] > Number(complexity)) {
             return;
-            // deferred.reject("Step is more than complexity, need to regenerate steps");
         } else {
 
             let exclusions = [];
@@ -61,8 +60,7 @@ export const createEquationSet = (steps: Array<number>, operations: Array<string
                 exclusions.push(Operation.DIV);
             }
 
-            var currentOp = selectOperation(operations, exclusions, tresholds);
-            //console.log("The step is "+steps[i]+ " operation is "+ currentOp);
+            let currentOp = selectOperation(operations, exclusions, tresholds);
 
             equationsSet.push(buildUniqueEquation(steps[i], currentOp, complexity, generatedEquations));
 
@@ -103,10 +101,8 @@ const selectOperation = function (operations: Array<string>, exclusions: Array<s
         }
         if (typeof (selectedOp) === 'undefined') {
             let randomNum = normalRandom(0, operations.length - 1);
-            //console.log("Random number "+ randomNum);
             selectedOp = operations[randomNum];
         }
-        //console.log(selectedOp);
         return selectedOp;
     }
 }
@@ -126,8 +122,6 @@ const createEquationsForNumber = function (number: number, operation: string, co
 }
 
 const buildUniqueEquation = function (number: number, operation: string, complexity: number, generatedEquations: Array<any>) {
-    // console.log("Building equation for step "+number + ", operation "+operation+ " ,complexity "+complexity);
-
     let equation;
     let numberExists = false;
     let operationFound = false;

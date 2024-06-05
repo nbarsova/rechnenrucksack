@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import "./Complexity.css";
 import {FormattedMessage} from "react-intl";
 

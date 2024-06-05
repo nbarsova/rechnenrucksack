@@ -3,13 +3,11 @@ import {Equation} from "../../util/classes/Equation";
 
 const SecretCodePrintPage = (props:
                                  {
-                                     equations: Array<Equation>,
+                                     equations: Array<Equation> | undefined,
                                      letterCodes: Array<any>,
                                      canvasHeight: number,
                                      showLetters: boolean
                                  }) => {
-
-    console.log('codes', props.letterCodes);
 
     const renderEquation = (equation: Equation, index: number) => {
         const res = props.showLetters ? equation.result : '__'
@@ -36,7 +34,7 @@ const SecretCodePrintPage = (props:
             <div className='secretCodeDescription'>
                 <FormattedMessage id='equationsToSolve'/>
             </div>
-            <div className='codeWrapper'>{props.equations.length > 0 && props.equations.map(renderEquation)}</div>
+            <div className='codeWrapper'>{props.equations && props.equations.length > 0 && props.equations.map(renderEquation)}</div>
             {props.letterCodes && props.letterCodes.length > 0 && <div className='codeWrapper'>
                 <div className='codeKey'><FormattedMessage id='codeKey'/></div>
                 {props.letterCodes && props.letterCodes.map(renderKey)}
