@@ -1,0 +1,63 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    min-width: var(--settingsWidth);
+    position: relative;
+}
+
+.canvasWrapper {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    position: relative;
+    width: 100%;
+}
+
+.printPageText {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.printPageAnswer {
+    margin: 20px 0 0 0;
+}
+
+
+.printEquation {
+    margin: 4px 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.equationText {
+    margin: 0 5px 0 0;
+}
+
+.equationAnswerText {
+    margin: 0 5px 0 0;
+    font-family: 'Courgette';
+    text-decoration: underline;
+}
+
+.buttons {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    display: flex;
+}
+.printButton {
+    margin: 10px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
+

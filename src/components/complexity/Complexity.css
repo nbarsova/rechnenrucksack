@@ -1,0 +1,9 @@
+.numberComplexity {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.clickable {
+    cursor: pointer;
+}
