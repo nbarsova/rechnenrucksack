@@ -82,13 +82,13 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
+                justifyContent: 'flex-start',
                 height: '90%'
             }}>
                 <div style={{
                     display: 'flex',
-                    justifyContent: 'flex-start',
-                    flexDirection: 'column'
+                    justifyContent: 'space-between',
+                    flexDirection: 'row'
                 }}>
 
                     <div className='printTitle'>{puzzleTitle}</div>
@@ -100,11 +100,11 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
                             <span className='equationText'><FormattedMessage id='workDate'/></span>______________
                         </div>
                     </div>
-
-                    {currentPuzzleComponent}
                 </div>
+                    {currentPuzzleComponent}
+
             </div>
-            <div className='copyright'>&#169; RECHNENRUCKSACK</div>
+            <div className='copyright'>&#169; https://nbarsova.github.io/rechnenrucksack</div>
         </div>
     )
 };
