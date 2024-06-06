@@ -28,7 +28,7 @@ export const puzzles = {
         printTitle: <FormattedMessage id='secretCodeTitle' />,
         component: <SecretMessage/>,
         thumbnail: secret
-    }, /*
+    },
     monster: {
         key: 'monster',
         name: <FormattedMessage
@@ -36,5 +36,5 @@ export const puzzles = {
         printTitle: <FormattedMessage id='worksheetTitle' />,
         component: <LockMonster/>,
         thumbnail: monster
-    } */
+    }
 }
