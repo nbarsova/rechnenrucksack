@@ -11,7 +11,7 @@ export function Main(props: {
 }) {
 
     let renderPuzzle = (puzzle: any) => {
-        return (<Link key={puzzle.key} to={'/rechnenrucksack/'+ puzzle.key} className="puzzleName">
+        return (<Link key={puzzle.key} to={puzzle.key} className="puzzleName">
             <div className='puzzle'><img
                 className="thumbnail"
                 src={puzzle.thumbnail}/>
@@ -22,7 +22,7 @@ export function Main(props: {
 
     const puzzlesArray = Object.values(puzzles);
 
-    const renderPuzzleInBar = (puzzle: any) => <Link key={puzzle.key} to={"/rechnenrucksack/" + puzzle.key} className="puzzleNameBar">
+    const renderPuzzleInBar = (puzzle: any) => <Link key={puzzle.key} to={puzzle.key} className="puzzleNameBar">
         {puzzle.name}</Link>;
 
 
