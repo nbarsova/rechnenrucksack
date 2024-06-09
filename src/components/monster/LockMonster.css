@@ -1,0 +1,5 @@
+.clickableRadio {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}

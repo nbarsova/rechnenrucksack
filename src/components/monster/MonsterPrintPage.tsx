@@ -1,42 +1,86 @@
 // @ts-ignore
 import monster from '../../img/monsterP.png';
+import {Equation} from "../../util/classes/Equation";
 
-const MonsterPrintPage = () => {
+const MonsterPrintPage =(props:
+                             {
+                                 equations: Array<Equation> | undefined
+                             }) => {
+    const monsterCellSize = 30;
 
+    const renderEquation = (eq: Equation) => {
+        return (<><div style={{
+            height: monsterCellSize + 'px',
+            width: monsterCellSize + 'px',
+            border: '1px solid gray', display: 'flex', justifyContent: 'center', alignItems: 'center'
+        }}>{eq.number1}</div>
+        <div style={{
+            height: monsterCellSize + 'px',
+            width: monsterCellSize + 'px',
+            border: '1px solid gray', display: 'flex', justifyContent: 'center', alignItems: 'center'
+        }}>{eq.operation}</div>
+        <div style={{
+            height: monsterCellSize + 'px',
+            width: monsterCellSize + 'px',
+            border: '1px solid gray', display: 'flex', justifyContent: 'center', alignItems: 'center'
+        }}>{eq.number2}</div>
+        <div style={{
+            height: monsterCellSize + 'px',
+            width: monsterCellSize + 'px',
+            border: '1px solid gray', display: 'flex', justifyContent: 'center', alignItems: 'center'
+        }}>=</div>
+        <div style={{
+            height: monsterCellSize + 'px',
+            width: monsterCellSize + 'px',
+            border: '1px solid gray'
+        }}></div></>)
+    };
 
-    return (
-        <div style={{display: 'flex', flexDirection: 'row'}} id='mainCell'>
+    return props.equations ? (
+        <div style={{display: 'flex', flexDirection: 'row', margin: '5px'}} id='mainCell'>
             <div style={{display: 'flex', flexDirection: 'column'}} id='leftEquation'>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
+                <div style={{
+                    height: monsterCellSize + 'px',
+                    width: monsterCellSize + 'px',
+                    border: '1px solid gray',
+                    backgroundColor: 'gray'
+                }}></div>
+                {renderEquation(props.equations[0])}
+                <div style={{
+                    height: monsterCellSize + 'px',
+                    width: monsterCellSize + 'px',
+                    border: '1px solid gray',
+                    backgroundColor: 'gray'
+                }}></div>
             </div>
             <div style={{display: 'flex', flexDirection: 'column'}} id='middle'>
-                <div style={{ display: 'flex', flexDirection: 'row'}} id='middleEquationTop'>
-                    <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                    <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                    <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
+                <div style={{display: 'flex', flexDirection: 'row'}} id='middleEquationTop'>
+                    {renderEquation(props.equations[1])}
                 </div>
-                <div style={{ height: '95px', width: '90px'}} id='monsterPic'>
-                    <img  style={{ height: '95px', width: '90px'}} src={monster} />
+                <div style={{ height: 5*monsterCellSize+10+'px', width: 5*monsterCellSize+'px'}} id='monsterPic'>
+                    <img  style={{ height: 5*monsterCellSize+10+'px', width: 5*monsterCellSize+'px'}} src={monster} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row'}} id='middleEquationBottom'>
-                    <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                    <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                    <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
+                    {renderEquation(props.equations[2])}
                 </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column'}} id='rightEquation'>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
-                <div style={{height: '30px', width: '30px', border: '1px solid black'}}></div>
+            <div style={{display: 'flex', flexDirection: 'column'}} id='rightEquation'>
+                <div style={{
+                    height: monsterCellSize + 'px',
+                    width: monsterCellSize + 'px',
+                    border: '1px solid gray',
+                    backgroundColor: 'gray'
+                }}></div>
+                {renderEquation(props.equations[3])}
+                <div style={{
+                    height: monsterCellSize + 'px',
+                    width: monsterCellSize + 'px',
+                    border: '1px solid gray',
+                    backgroundColor: 'gray'
+                }}></div>
             </div>
         </div>
-    );
+    ) : null;
 };
 
 export default MonsterPrintPage;

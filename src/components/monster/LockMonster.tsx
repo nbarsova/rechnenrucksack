@@ -10,21 +10,27 @@ import PrintIcon from "../../svg/PrintIcon";
 import SolutionIcon from "../../svg/SolutionIcon";
 import "../complexity/Complexity.css";
 
+import {Equation} from "../../util/classes/Equation";
+
+import { createMonsterEquations, } from "./MonsterEquationsGenerator";
+
 const addOps = [Operation.ADD, Operation.SUB];
 const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
 const numberRanges = [10, 25, 100];
 
+const monstersAmounts = [4, 6, 8];
+
 export function LockMonster() {
     const intl = useIntl();
 
-    let [selectedOps, setSelectedOps] = useState(addOps);
-    let [numberRange, setNumberRange] = useState(numberRanges[0]);
+    const [selectedOps, setSelectedOps] = useState(addOps);
+    const [numberRange, setNumberRange] = useState(numberRanges[0]);
+    const [monstersAmount, setMonstersAmount] = useState<number>(monstersAmounts[0]);
 
+    const [monsterEquations, setMonsterEquations] = useState<Array<Array<Equation>>>(createMonsterEquations(monstersAmount, selectedOps, numberRange));
     const prepareParameters = () => {
     };
-
-    console.log('rendering ', selectedOps);
 
     return (<div className="main">
         <div className="settings">
@@ -34,19 +40,34 @@ export function LockMonster() {
             <div className='numberComplexity'>
                 <b><FormattedMessage id="operations"/></b>
                 <div
-                    style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}}>
-                <input type="radio"
-                       checked={selectedOps === addOps}
-                       onChange={() => {
-                           setSelectedOps(addOps)
-                       }}/> + and -
+                    className='clickableRadio'>
+                    <input type="radio"
+                           checked={selectedOps === addOps}
+                           onChange={() => {
+                               setSelectedOps(addOps)
+                           }}/> + and -
+                </div>
+                <div
+                    className='clickableRadio'>
+                    <input type="radio"
+                           checked={selectedOps === allOps}
+                           onChange={() => {
+                               setSelectedOps(allOps)
+                           }}/>all arithmetic operations
+                </div>
             </div>
-            <div
-                style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}}><input type="radio"
-                                             checked={selectedOps === allOps}
-                                             onChange={() => {
-                                                 setSelectedOps(allOps)
-                                             }}/>all arithmetic operations
+
+            <div className='numberComplexity'>
+                <b>How many monsters?</b>
+                {monstersAmounts.map((amount: number) => <div
+                    style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}}>
+                    <input type="radio"
+                           checked={monstersAmount === amount}
+                           onChange={() => {
+                               setMonstersAmount(amount);
+                               setMonsterEquations(createMonsterEquations(amount, selectedOps, numberRange));
+                           }}/>{amount}
+                </div>)}
             </div>
 
             <div className='buttons'>
@@ -70,7 +91,7 @@ export function LockMonster() {
                 ><SolutionIcon/></Link>
             </div>
         </div>
-        </div>
-        <MonsterPrintPage/>
+        {monsterEquations && monsterEquations.map((equationSet, index) => <MonsterPrintPage equations={equationSet} key={index}/>)}
+
     </div>)
 }

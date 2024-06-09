@@ -87,15 +87,15 @@ const selectOperation = function (operations: Array<string>, exclusions: Array<s
         let maxTreshold = 0;
 
         for (let i = 0; i < operations.length; i++) {
-            var op = operations[i];
-            var excluded = false;
+            let op = operations[i];
+            let excluded = false;
 
-            for (var ii = 0; ii < exclusions.length; ii++) {
+            for (let ii = 0; ii < exclusions.length; ii++) {
                 if (exclusions[ii] === op) excluded = true;
             }
 
             if (!excluded) {
-                for (var iii = 0; iii < tresholds.length; iii++) {
+                for (let iii = 0; iii < tresholds.length; iii++) {
                     if ((tresholds[iii].op === op) && (tresholds[iii].treshold !== 0) && (maxTreshold < tresholds[iii].treshold)) {
                         maxTreshold = tresholds[iii].treshold;
                         selectedOp = tresholds[iii].op;
