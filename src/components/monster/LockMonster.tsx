@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import {FormattedMessage, useIntl} from "react-intl";
 import {NumberComplexity} from "../complexity/NumberComplexity";
@@ -29,8 +29,26 @@ export function LockMonster() {
     const [monstersAmount, setMonstersAmount] = useState<number>(monstersAmounts[0]);
 
     const [monsterEquations, setMonsterEquations] = useState<Array<Array<Equation>>>(createMonsterEquations(monstersAmount, selectedOps, numberRange));
+
+    useEffect(() => {
+        const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
+        setMonsterEquations(newEquations);
+    }, [selectedOps, numberRange, monstersAmount]);
+
     const prepareParameters = () => {
     };
+
+    const viewportHeight = window.innerHeight;
+
+    const canvasDivHeight = viewportHeight - 220;
+
+    const monsterHeight = (canvasDivHeight-100)/2;
+
+    const monsterCellHeight = monsterHeight/7;
+
+    console.log(canvasDivHeight, monsterHeight, monsterCellHeight, monstersAmount*monsterHeight/2);
+
+    const monsterDivWidth = monstersAmount * monsterHeight / 2;
 
     return (<div className="main">
         <div className="settings">
@@ -60,12 +78,11 @@ export function LockMonster() {
             <div className='numberComplexity'>
                 <b>How many monsters?</b>
                 {monstersAmounts.map((amount: number) => <div
-                    style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}}>
+                    style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}} key={amount}>
                     <input type="radio"
                            checked={monstersAmount === amount}
                            onChange={() => {
                                setMonstersAmount(amount);
-                               setMonsterEquations(createMonsterEquations(amount, selectedOps, numberRange));
                            }}/>{amount}
                 </div>)}
             </div>
@@ -74,7 +91,8 @@ export function LockMonster() {
                 <div className='printButton'
                      title={intl.formatMessage({id: 'refresh'})}
                      onClick={() => {
-
+                         const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
+                         setMonsterEquations(newEquations);
                      }}
                 ><RefreshIcon/></div>
 
@@ -91,7 +109,10 @@ export function LockMonster() {
                 ><SolutionIcon/></Link>
             </div>
         </div>
-        {monsterEquations && monsterEquations.map((equationSet, index) => <MonsterPrintPage equations={equationSet} key={index}/>)}
-
+        <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: monsterDivWidth}}>
+            {monsterEquations && monsterEquations.map((equationSet, index) =>
+            <MonsterPrintPage equations={equationSet} key={index}
+        monsterCellSize={monsterCellHeight}/>)}
+        </div>
     </div>)
 }

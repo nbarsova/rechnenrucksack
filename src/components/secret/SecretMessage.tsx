@@ -40,17 +40,24 @@ const SecretMessage = () => {
 
     const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
 
-    useEffect(() => {
-        const newMessage=intl.formatMessage({id: 'initialSecretMessage'});
-        setSecretMessage(newMessage);
+    const recreateMessage = () => {
         const {
             symbols: messageSymbolss,
             codes: codess,
             equations: updatedEquationss
-        } = createSecretCodeForMessage(newMessage, numberRange, selectedOps);
+        } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
         setSymbols(messageSymbolss);
         setLetterCodes(codess);
         setEquations(updatedEquationss);
+    }
+
+    useEffect(() => {
+        recreateMessage();
+    }, [secretMessage, numberRange, selectedOps]);
+
+    useEffect(() => {
+        const newMessage=intl.formatMessage({id: 'initialSecretMessage'});
+        setSecretMessage(newMessage);
     }, [intl.locale])
 
     const updateSecretMessage = (ev: any) => {
