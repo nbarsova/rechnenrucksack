@@ -1,12 +1,15 @@
-// @ts-ignore
-import monster from '../../img/monsterP.png';
+
 import {Equation} from "../../util/classes/Equation";
+import Monster from "../../svg/Monster";
 
 const MonsterPrintPage =(props:
                              {
-                                 equations: Array<Equation> | undefined, monsterCellSize: number
+                                 equations: Array<Equation> | undefined, monsterCell: number, showAnswers: boolean
                              }) => {
-    const {monsterCellSize, equations} = props;
+    const {monsterCell, equations, showAnswers} = props;
+    const monsterCellSize= monsterCell/7;
+
+    console.log('rendering for equations', equations);
 
     const renderEquation = (eq: Equation) => {
         return (<><div style={{
@@ -33,7 +36,7 @@ const MonsterPrintPage =(props:
             height: monsterCellSize + 'px',
             width: monsterCellSize + 'px',
             border: '1px solid gray'
-        }}></div></>)
+        }}>{showAnswers ? eq.result: null}</div></>)
     };
 
     return equations ? (
@@ -58,7 +61,7 @@ const MonsterPrintPage =(props:
                     {renderEquation(equations[1])}
                 </div>
                 <div style={{ height: 5*monsterCellSize+10+'px', width: 5*monsterCellSize+'px'}} id='monsterPic'>
-                    <img  style={{ height: 5*monsterCellSize+10+'px', width: 5*monsterCellSize+'px'}} src={monster} />
+                    <Monster width={5*monsterCellSize+10} height={5*monsterCellSize+10}/>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row'}} id='middleEquationBottom'>
                     {renderEquation(equations[2])}

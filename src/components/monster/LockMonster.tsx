@@ -13,6 +13,7 @@ import "../complexity/Complexity.css";
 import {Equation} from "../../util/classes/Equation";
 
 import { createMonsterEquations, } from "./MonsterEquationsGenerator";
+import {EQUATIONS_PARAMETER_NAME, MONSTERS_AMOUNT_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 
 const addOps = [Operation.ADD, Operation.SUB];
 const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
@@ -36,19 +37,14 @@ export function LockMonster() {
     }, [selectedOps, numberRange, monstersAmount]);
 
     const prepareParameters = () => {
+        setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(monsterEquations));
+        setInStorage(MONSTERS_AMOUNT_PARAMETER_NAME, JSON.stringify(monstersAmount));
     };
 
     const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
 
-    const canvasDivHeight = viewportHeight - 220;
-
-    const monsterHeight = (canvasDivHeight-100)/2;
-
-    const monsterCellHeight = monsterHeight/7;
-
-    console.log(canvasDivHeight, monsterHeight, monsterCellHeight, monstersAmount*monsterHeight/2);
-
-    const monsterDivWidth = monstersAmount * monsterHeight / 2;
+    const monsterCellHeight = Math.min((viewportHeight - 300)/2, 0.7*viewportWidth/monstersAmount*2)
 
     return (<div className="main">
         <div className="settings">
@@ -96,23 +92,23 @@ export function LockMonster() {
                      }}
                 ><RefreshIcon/></div>
 
-                <Link target='_blank' to={"secret/print"}
+                <Link target='_blank' to={"monster/print"}
                       className='printButton'
                       title={intl.formatMessage({id: 'printStudent'})}
                       onClick={prepareParameters}
                 ><PrintIcon/></Link>
 
-                <Link target='_blank' to={"secret/print/solution"}
+                <Link target='_blank' to={"monster/print/solution"}
                       className='printButton'
                       onClick={prepareParameters}
                       title={intl.formatMessage({id: 'printTeacher'})}
                 ><SolutionIcon/></Link>
             </div>
         </div>
-        <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: monsterDivWidth}}>
+        <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: monsterCellHeight*monstersAmount/2+100+'px'}}>
             {monsterEquations && monsterEquations.map((equationSet, index) =>
             <MonsterPrintPage equations={equationSet} key={index}
-        monsterCellSize={monsterCellHeight}/>)}
+        monsterCell={monsterCellHeight} showAnswers={false}/>)}
         </div>
     </div>)
 }

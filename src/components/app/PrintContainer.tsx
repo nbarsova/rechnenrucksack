@@ -3,7 +3,7 @@ import PrintTreasurePage from "../treasure/print/PrintTreasurePage";
 import {
     CURRENT_TARGET_PARAMETER_NAME,
     EQUATIONS_PARAMETER_NAME,
-    getFromStorage, LETTER_CODES_PARAMETER_NAME,
+    getFromStorage, LETTER_CODES_PARAMETER_NAME, MONSTERS_AMOUNT_PARAMETER_NAME,
     NUMBER_RANGE_PARAMETER_NAME, removeFromStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
@@ -13,6 +13,7 @@ import html2canvas from 'html2canvas';
 import {jsPDF} from 'jspdf';
 import SecretCodePrintPage from "../secret/SecretCodePrintPage";
 import PrintTreasureSolutionPage from "../treasure/print/PrintTreasureSolutionPage";
+import MonsterPrintPage from "../monster/MonsterPrintPage";
 
 const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
     let currentPuzzleComponent;
@@ -47,6 +48,7 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
             removeFromStorage(NUMBER_RANGE_PARAMETER_NAME);
             removeFromStorage(TARGETS_PARAMETER_NAME);
             removeFromStorage(LETTER_CODES_PARAMETER_NAME);
+            removeFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME);
         };
 
         createPDF();
@@ -61,7 +63,7 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
                     currentTarget={JSON.parse(getFromStorage(CURRENT_TARGET_PARAMETER_NAME))}/> :
                 <PrintTreasurePage
                     numberRange={Number(getFromStorage(NUMBER_RANGE_PARAMETER_NAME))}
-                    canvasHeight={canvasHeight} canvasDimension='px'
+                    canvasHeight={canvasHeight}
                     equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                     stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}/>;
             puzzleTitle = puzzles.secret.printTitle;
@@ -74,10 +76,27 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
                 showLetters={props.solution}/>;
             puzzleTitle = puzzles.secret.printTitle;
             break;
+        case (puzzles.monster.key):
+            const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
+            const monsterEquations =JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME));
+            const monsterCellHeight = Math.min((viewportHeight - 300)/2, (viewportWidth-220)/monsterAmount*2);
+            currentPuzzleComponent = <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                width: '280mm'
+            }}>
+                {monsterEquations && monsterEquations.map((equationSet, index) =>
+                    <MonsterPrintPage equations={equationSet} key={index}
+                                      monsterCell={(viewportWidth-200)/monsterAmount} showAnswers={false}/>)}
+            </div>;
+            puzzleTitle = puzzles.monster.printTitle;
+            break;
         default:
             currentPuzzleComponent = <div/>;
     }
 
+    console.log('rendering for ', puzzleTitle);
     return (<div className='printPreviewContainer' ref={printElementDiv}>
             <div style={{
                 display: 'flex',

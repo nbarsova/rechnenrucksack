@@ -35,6 +35,7 @@ export const puzzles = {
             id="lockTheMonster" defaultMessage="Lock the Monster"/>,
         printTitle: <FormattedMessage id='worksheetTitle' />,
         component: <LockMonster/>,
-        thumbnail: monster
+        thumbnail: monster,
+        printTitle: <FormattedMessage id='lockMonsterTitle' />,
     }
 }

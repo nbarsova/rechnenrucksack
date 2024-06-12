@@ -34,7 +34,7 @@ export const enMessagesJson = {
     "equationsToSolve": "Solve the equations and find the results in the key \nto read each letter of the secret message!",
     "codeKey": "Letter code key: ",
     "secretCodeTitle": "Solve the secret code!",
-
+    "lockMonsterTitle": "Lock the Monster!",
 };
 
 export const deMessagesJSON = {
@@ -73,7 +73,7 @@ export const deMessagesJSON = {
     "equationsToSolve": "Löse die Aufgaben und finde die Ergebnisse im Schlüssel, \num die Nachricht zu raten!",
     "codeKey": "Schlüssel: ",
     "secretCodeTitle": "Löse den geheimen Code!",
-
+    "lockMonsterTitle": "Fang dem Monster!",
 };
 
 export const ruMessagesJSON = {
@@ -112,6 +112,6 @@ export const ruMessagesJSON = {
     "equationsToSolve": "Чтобы прочитать секретное сообщение, реши примеры и подставь нужную букву по ключу",
     "codeKey": "Ключ: ",
     "secretCodeTitle": "Разгадай секретный шифр!",
-
+    "lockMonsterTitle": "Запри монстра в клетке!",
 
 };
