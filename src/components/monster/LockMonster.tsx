@@ -1,19 +1,20 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 import {FormattedMessage, useIntl} from "react-intl";
 import {NumberComplexity} from "../complexity/NumberComplexity";
 import {Operation} from "../../util/enums/Operation";
 import RefreshIcon from "../../svg/RefreshIcon";
 import {Link} from "react-router-dom";
-import MonsterPrintPage from "./MonsterPrintPage";
 import PrintIcon from "../../svg/PrintIcon";
 import SolutionIcon from "../../svg/SolutionIcon";
 import "../complexity/Complexity.css";
+import "./LockMonster.css";
 
 import {Equation} from "../../util/classes/Equation";
 
-import { createMonsterEquations, } from "./MonsterEquationsGenerator";
+import {createMonsterEquations,} from "./MonsterEquationsGenerator";
 import {EQUATIONS_PARAMETER_NAME, MONSTERS_AMOUNT_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
+import MonsterPrintPage from "./print/MonsterPrintPage";
 
 const addOps = [Operation.ADD, Operation.SUB];
 const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
@@ -41,10 +42,7 @@ export function LockMonster() {
         setInStorage(MONSTERS_AMOUNT_PARAMETER_NAME, JSON.stringify(monstersAmount));
     };
 
-    const viewportHeight = window.innerHeight;
-    const viewportWidth = window.innerWidth;
-
-    const monsterCellHeight = Math.min((viewportHeight - 300)/2, 0.7*viewportWidth/monstersAmount*2)
+    const printContainerRef = useRef<HTMLDivElement>(null);
 
     return (<div className="main">
         <div className="settings">
@@ -105,10 +103,9 @@ export function LockMonster() {
                 ><SolutionIcon/></Link>
             </div>
         </div>
-        <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: monsterCellHeight*monstersAmount/2+100+'px'}}>
-            {monsterEquations && monsterEquations.map((equationSet, index) =>
-            <MonsterPrintPage equations={equationSet} key={index}
-        monsterCell={monsterCellHeight} showAnswers={false}/>)}
-        </div>
+        <div className='printContainer' ref={printContainerRef}>
+            <MonsterPrintPage monsterEquations={monsterEquations}
+                              monstersAmount={monstersAmount} showAnswers={false}
+                              parentWidth={printContainerRef.current?.clientWidth} parentHeight={printContainerRef.current?.clientHeight}/></div>
     </div>)
 }

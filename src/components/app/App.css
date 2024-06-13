@@ -166,6 +166,19 @@ header {
     flex-direction: column;
     width: 290mm;
     height: 210mm;
+    border: 1px solid red;
+}
+
+.printHeader {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.printPuzzle {
+    display: flex;
+    flex-grow: 1;
+    border: 1px solid magenta
 }
 
 .printTitle {
@@ -197,4 +210,14 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
 }

@@ -3,3 +3,15 @@
     flex-direction: row;
     cursor: pointer;
 }
+
+.monsterCell {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+}
+
+.printContainer {
+    border: 1px solid blue;
+    width: calc(100vw - var(--settingsWidth));
+    height: calc(100vh - var(--headerHeight) - var(--subHeaderHeight) - var(--footerHeight));
+}
