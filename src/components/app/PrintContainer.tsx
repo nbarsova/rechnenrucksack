@@ -15,18 +15,11 @@ import SecretCodePrintPage from "../secret/SecretCodePrintPage";
 import PrintTreasureSolutionPage from "../treasure/print/PrintTreasureSolutionPage";
 import MonsterPrintPage from "../monster/print/MonsterPrintPage";
 
-/*
- Print container logic:
-  - create divs using print dimensions
-  - read values from storage
-  - fill divs with generated puzzles
-  - generate pdf
- */
-
 const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
 
-    const [currentPuzzleComponent, setCurrentPuzzleComponent] = useState(<div/>);
-    const [puzzleTitle, setPuzzleTitle] = useState("");
+    const [currentPuzzle, setCurrentPuzzle] = useState<string | null>(null);
+    // @ts-ignore
+    let puzzleTitle = currentPuzzle ? puzzles[currentPuzzle].printTitle: '';
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
@@ -64,52 +57,54 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
         removeFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME);
     };
 
+    let puzzleComponent=null;
+
+    switch (currentPuzzle) {
+        case(puzzles.treasure.key):
+            puzzleComponent = props.solution ?
+                <PrintTreasureSolutionPage
+                    equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
+                    currentTarget={JSON.parse(getFromStorage(CURRENT_TARGET_PARAMETER_NAME))}/> :
+                <PrintTreasurePage
+                    numberRange={Number(getFromStorage(NUMBER_RANGE_PARAMETER_NAME))}
+                    canvasHeight={canvasHeight}
+                    equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
+                    stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}/>;
+            break;
+        case (puzzles.secret.key):
+            puzzleComponent = <SecretCodePrintPage
+                equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
+                letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
+                canvasHeight={canvasHeight}
+                showLetters={props.solution}/>;
+            break;
+        case (puzzles.monster.key):
+            const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
+            const monsterEquations = JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME));
+            puzzleComponent = <MonsterPrintPage
+                monsterEquations={monsterEquations}
+                monstersAmount={monsterAmount}
+                showAnswers={props.solution} parentHeight={innerPrintElementDiv.current?.clientHeight}
+                parentWidth={innerPrintElementDiv.current?.clientWidth}/>;
+            break;
+        default:
+            puzzleComponent=null;
+    }
+
     useEffect(() => {
         if (innerPrintElementDiv.current) {
-            console.log('we have a div?');
-            switch (props.puzzle) {
-                case(puzzles.treasure.key):
-                    setCurrentPuzzleComponent(props.solution ?
-                        <PrintTreasureSolutionPage
-                            equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
-                            currentTarget={JSON.parse(getFromStorage(CURRENT_TARGET_PARAMETER_NAME))}/> :
-                        <PrintTreasurePage
-                            numberRange={Number(getFromStorage(NUMBER_RANGE_PARAMETER_NAME))}
-                            canvasHeight={canvasHeight}
-                            equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
-                            stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}/>);
-                    setPuzzleTitle(puzzles.secret.printTitle);
-                    break;
-                case (puzzles.secret.key):
-                    setCurrentPuzzleComponent(<SecretCodePrintPage
-                        equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
-                        letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
-                        canvasHeight={canvasHeight}
-                        showLetters={props.solution}/>);
-                    setPuzzleTitle(puzzles.secret.printTitle);
-                    break;
-                case (puzzles.monster.key):
-                    const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
-                    const monsterEquations = JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME));
-                    setCurrentPuzzleComponent(<MonsterPrintPage
-                        monsterEquations={monsterEquations}
-                        monstersAmount={monsterAmount}
-                        showAnswers={props.solution} parentHeight={innerPrintElementDiv.current?.clientHeight}
-                        parentWidth={innerPrintElementDiv.current?.clientWidth}/>);
-                    setPuzzleTitle(puzzles.monster.printTitle);
-                    break;
-                default:
-                    setCurrentPuzzleComponent(<div/>);
-            }
-
-            clearStorage();
-            // createPDF();
+            setCurrentPuzzle(props.puzzle);
         }
     }, [innerPrintElementDiv.current]);
 
-    console.log('rendering ', currentPuzzleComponent);
+    useEffect(()=> {
+        if (currentPuzzle) {
+            createPDF();
+            clearStorage();
+        }
+    }, [currentPuzzle]);
 
-  return (<div className='printPreviewContainer' ref={printElementDiv}>
+     return (<div className='printPreviewContainer' ref={printElementDiv}>
             <div className='printHeader'>
 
                 <div className='printTitle'>{puzzleTitle}</div>
@@ -124,7 +119,7 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
             </div>
 
             <div className='printPuzzle'
-                 ref={innerPrintElementDiv}>{currentPuzzleComponent}</div>
+                 ref={innerPrintElementDiv}>{puzzleComponent}</div>
 
             <div className='copyright'>&#169; https://nbarsova.github.io/rechnenrucksack</div>
         </div>
