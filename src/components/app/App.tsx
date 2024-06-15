@@ -21,13 +21,15 @@ const App = () => {
   if (!defaultLocale) switch (navigator.language) {
     case "de-DE":
       defaultLocale = "de";
+      break;
     case "ru-RU":
       defaultLocale = "ru";
+      break;
     default:
       break;
   }
 
-  let [locale, setCurrentLocale] = useState(defaultLocale || 'en');
+  const [locale, setCurrentLocale] = useState(defaultLocale || 'en');
 
   const setLocale = (locale: string) => {
     setCurrentLocale(locale);

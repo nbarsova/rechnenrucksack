@@ -16,7 +16,7 @@ const MonsterPrintPage = (props: {
 
     // const containerHeight = parentRef.current ? parentRef.current.clientHeight: 800;
     // const containerWidth = parentRef.current ? parentRef.current.clientWidth: 800;
-    console.log('container', parentWidth, parentHeight);
+    console.log('container', parentWidth, parentHeight, parentHeight / 2 - 10, parentWidth / monstersAmount * 2);
     const monsterCellHeight = Math.min(parentHeight / 2 - 10, parentWidth / monstersAmount * 2)
 
     const rowWidth = (monsterCellHeight+20)*monstersAmount/2;

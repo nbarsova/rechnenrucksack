@@ -6,11 +6,11 @@ import {Link} from "react-router-dom";
 
 export function Main(props: {
     currentPuzzle?: Puzzle,
-    defaultLocale: string,
+    defaultLocale: string | null,
     setLocale: (language: string) => void
 }) {
 
-    let renderPuzzle = (puzzle: any) => {
+    const renderPuzzle = (puzzle: any) => {
         return (<Link key={puzzle.key} to={puzzle.key} className="puzzleName">
             <div className='puzzle'><img
                 className="thumbnail"
@@ -28,7 +28,7 @@ export function Main(props: {
 
     return (<div>
         <Header headerCallback={props.setLocale}
-                locale={props.defaultLocale}/>
+                locale={props.defaultLocale||'en'}/>
         <div>
             {props.currentPuzzle ? <div>
                     <div className='puzzleBar'>{puzzlesArray.map(renderPuzzleInBar)}</div>

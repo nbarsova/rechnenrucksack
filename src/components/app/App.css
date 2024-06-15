@@ -177,8 +177,8 @@ header {
 
 .printPuzzle {
     display: flex;
-    flex-grow: 1;
-    border: 1px solid magenta
+    flex: 1;
+    border: 1px solid magenta;
 }
 
 .printTitle {

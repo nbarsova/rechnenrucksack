@@ -76,7 +76,7 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
                 equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                 letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
                 canvasHeight={canvasHeight}
-                showLetters={props.solution}/>;
+                showLetters={Boolean(props.solution)}/>;
             break;
         case (puzzles.monster.key):
             const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
@@ -84,7 +84,7 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
             puzzleComponent = <MonsterPrintPage
                 monsterEquations={monsterEquations}
                 monstersAmount={monsterAmount}
-                showAnswers={props.solution} parentHeight={innerPrintElementDiv.current?.clientHeight}
+                showAnswers={Boolean(props.solution)} parentHeight={innerPrintElementDiv.current?.clientHeight}
                 parentWidth={innerPrintElementDiv.current?.clientWidth}/>;
             break;
         default:
