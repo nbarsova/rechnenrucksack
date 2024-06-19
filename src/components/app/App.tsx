@@ -1,12 +1,14 @@
 import {useState} from 'react';
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
-import './App.css';
+import {Outlet, Route, Routes} from "react-router-dom";
 import {IntlProvider} from "react-intl";
 import {deMessagesJSON, enMessagesJson, ruMessagesJSON} from "../../messages/messages";
-import {Main} from "./Main";
-import {puzzles} from "./puzzles";
-import PrintContainer from "./PrintContainer";
 import {getFromStorage, LOCALE_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
+import './App.css';
+import {Header} from "./Header";
+import Footer from "./Footer";
+import TreasureHunt from "../treasure/TreasureHunt";
+import SecretMessage from "../secret/SecretMessage";
+import {LockMonster} from "../monster/LockMonster";
 
 const App = () => {
 
@@ -39,47 +41,20 @@ const App = () => {
   return (
       <IntlProvider locale={locale}
                     messages={messages[locale]}>
-        <Router>
-          <div>
+        <Routes>
+          <Route path='/rechnenrucksack' element={
+            <div><Header headerCallback={setLocale} locale={locale} />
+              <Outlet/>
+              <Footer/>
+            </div>
+          }>
+            <Route path="/rechnenrucksack/treasure" element={<TreasureHunt/>} />
+            <Route path="/rechnenrucksack/secretCode" element={<SecretMessage/>} />
+            <Route path="/rechnenrucksack/monster" element={<LockMonster/>} />
+          </Route>
 
-            <Switch>
-              <Route path="/treasure/print/solution">
-                <PrintContainer puzzle={puzzles.treasure.key} solution/>
-              </Route>
-              <Route path="/treasure/print">
-                <PrintContainer puzzle={puzzles.treasure.key}/>
-              </Route>
-              <Route path="/treasure">
-                <Main currentPuzzle={puzzles.treasure} defaultLocale={defaultLocale}
-                setLocale={setLocale}/>
-              </Route>
-              <Route path="/secret/print/solution">
-                <PrintContainer puzzle={puzzles.secret.key} solution/>
-              </Route>
-              <Route path="/secret/print">
-                <PrintContainer puzzle={puzzles.secret.key}/>
-              </Route>
-              <Route path="/secret">
-                <Main currentPuzzle={puzzles.secret} defaultLocale={defaultLocale}
-                      setLocale={setLocale}/>
-              </Route>
-              <Route path="/monster/print/solution">
-                <PrintContainer puzzle={puzzles.monster.key} solution/>
-              </Route>
-              <Route path="/monster/print">
-                <PrintContainer puzzle={puzzles.monster.key}/>
-              </Route>
-              <Route path="/monster">
-                <Main currentPuzzle={puzzles.monster} defaultLocale={defaultLocale}
-                      setLocale={setLocale}/>
-              </Route>
-              <Route path="/">
-                <Main defaultLocale={defaultLocale}
-                      setLocale={setLocale}/>
-              </Route>
-            </Switch>
-          </div>
-        </Router>
+
+        </Routes>
       </IntlProvider>
     );
   };

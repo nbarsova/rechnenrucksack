@@ -161,6 +161,10 @@ header {
     color: black;
 }
 
+.selectedPuzzleNameBar {
+    background-color: #1574ef;
+}
+
 .printPreviewContainer {
     display: flex;
     flex-direction: column;

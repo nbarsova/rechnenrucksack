@@ -1,0 +1,5 @@
+.settingsMainContainer {
+    display: flex;
+    flex-direction: column;
+    width: var(--settingsWidth);
+}

@@ -2,18 +2,19 @@ import {useState} from "react";
 import {useIntl, FormattedMessage} from "react-intl";
 import './App.css';
 import {Link} from "react-router-dom";
+import {puzzles} from "./puzzles";
 
 export function Header(props:
                            {
                                locale: string
                                headerCallback: (lang: string) => void
                            }) {
-    let languages = ["en", "ru", "de"];
-    let [currentLanguage, setCurrentLanguage] = useState(props.locale);
-    let intl = useIntl();
+    const languages = ["en", "ru", "de"];
+    const [currentLanguage, setCurrentLanguage] = useState(props.locale);
+    const intl = useIntl();
     document.title = intl.formatMessage({id: "rechnenrucksack"});
 
-    let renderLanguage = (language: string) => {
+    const renderLanguage = (language: string) => {
         return (<div key={language} className={language === currentLanguage ? "selectedLanguage" : "language"}
                      onClick={() => {
                          setCurrentLanguage(language);
@@ -23,10 +24,18 @@ export function Header(props:
         </div>)
     }
 
-    return (<header>
-        <Link className="headerWrapper" to={'/'}>
-            <FormattedMessage id="rechnenrucksack"/>
-        </Link>
-        <div className="languages"> {languages.map(renderLanguage)}</div>
-    </header>)
+    const renderPuzzleInBar = (puzzle: any) => <Link key={puzzle.key} to={puzzle.key}
+                                                     className="puzzleNameBar">
+        {puzzle.name}</Link>;
+
+    return (<>
+            <header>
+                <Link className="headerWrapper" to={'/'}>
+                    <FormattedMessage id="rechnenrucksack"/>
+                </Link>
+                <div className="languages"> {languages.map(renderLanguage)}</div>
+            </header>
+            <div className='puzzleBar'>{puzzles.map(renderPuzzleInBar)}</div>
+        </>
+    )
 }
