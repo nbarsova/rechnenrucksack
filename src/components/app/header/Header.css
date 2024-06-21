@@ -19,6 +19,13 @@ header {
     text-decoration: none;
 }
 
+@media only screen and (min-width: 768px) {
+    .headerWrapper {
+        font-size: 5vh;
+        letter-spacing: 1vh;
+    }
+}
+
 .headerWrapper:visited {
     color: black;
 }
@@ -27,7 +34,14 @@ header {
     font-size: 1.2vh;
     display: flex;
     flex-direction: row;
+    align-items: center;
     letter-spacing: 2px;
+}
+
+@media only screen and (min-width: 768px) {
+    .languages {
+        font-size: 2vh;
+    }
 }
 
 .language {
@@ -38,4 +52,11 @@ header {
 .selectedLanguage {
     margin-right: 10px;
     font-weight: bold;
+    font-size: 1.5vh;
+}
+
+@media only screen and (min-width: 768px) {
+    .selectedLanguage {
+        font-size: 2.5vh;
+    }
 }

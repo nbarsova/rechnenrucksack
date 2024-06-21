@@ -13,6 +13,16 @@
     --mainAreaHeight: calc(100vh - var(--headerHeight) - var(--footerHeight));
 }
 
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
 @media print {
     @page {
         size: landscape;
@@ -40,59 +50,7 @@ body {
     padding: 0;
 }
 
-header {
-    background-color: #7cadef;
-    font-size: 2.5vh;
-    font-family: "Neucha";
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    letter-spacing: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: var(--headerHeight);
-}
-
-.headerWrapper {
-    padding: 1vh;
-    text-decoration: none;
-}
-
-.headerWrapper:visited {
-    color: black;
-}
-
-.languages {
-    font-size: 1.2vh;
-    display: flex;
-    flex-direction: row;
-    letter-spacing: 2px;
-}
-
-.language {
-    margin-right: 10px;
-    font-weight: normal;
-}
-
-.selectedLanguage {
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-.puzzles {
-    height: var(--mainAreaHeight);
-}
-
-.puzzle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    height: calc(var(--mainAreaHeight) / var(--puzzleAmount));
-}
-
+/** SUBHEADER **/
 .puzzleBar {
     background-color: #a4c7f4;
     display: flex;
@@ -101,23 +59,69 @@ header {
     height: var(--subHeaderHeight);
 }
 
-.Footer {
-    position: absolute;
-    background-color: #7cadef;
+.puzzleNameBar {
+    background-color: #a4c7f4;
+    font-size: 2vh;
     font-weight: bold;
-    width: 100%;
-    height: var(--footerHeight);
-    bottom: 0;
+    cursor: pointer;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    justify-content: center;
     align-items: center;
+}
+
+.puzzleNameBar:visited {
+    text-decoration: none;
+    color: black;
+}
+
+.selectedPuzzleNameBar {
+    background-color: #1574ef;
+}
+
+/** ROOT PAGE WITH PUZZLE LIST **/
+.puzzles {
+    height: var(--mainAreaHeight);
+}
+
+@media only screen and (min-width: 768px) {
+    .puzzles {
+        display: flex;
+        flex-direction: row;
+        width: 100vw;
+        margin-top: 1vh;
+        justify-content: space-around;
+    }
+}
+
+.puzzle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    height: calc(var(--mainAreaHeight) / var(--puzzleAmount) - 2vw);
+}
+
+@media only screen and (min-width: 768px) {
+    .puzzle {
+        width: calc(100vw / var(--puzzleAmount) - 5vw);
+    }
 }
 
 .thumbnail {
     height: calc((var(--mainAreaHeight) - var(--puzzleAmount) * var(--subHeaderHeight)) / var(--puzzleAmount));
 }
 
-@media only screen and (min-width: 600px) {
 
+@media only screen and (min-width: 768px) {
+    .thumbnail {
+        width: calc(100vw / var(--puzzleAmount) - 10vw);
+        height: calc(100vw / var(--puzzleAmount) - 10vw);
+    }
 }
+
 
 .puzzleName {
     font-weight: bold;
@@ -146,29 +150,14 @@ header {
     margin: 0;
 }
 
-.puzzleNameBar {
-    background-color: #a4c7f4;
-    font-size: 2vh;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 5px;
-    text-decoration: none;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@media only screen and (min-width: 768px) {
+    .puzzleNameText {
+        width: calc(100vw / var(--puzzleAmount) - 5vw);
+    }
 }
 
 
-.puzzleNameBar:visited {
-    text-decoration: none;
-    color: black;
-}
-
-.selectedPuzzleNameBar {
-    background-color: #1574ef;
-}
-
+/** PRINT **/
 .printPreviewContainer {
     display: flex;
     flex-direction: column;
@@ -210,6 +199,18 @@ header {
     margin: 5px;
 }
 
+
+/** FOOTER **/
+.Footer {
+    position: absolute;
+    background-color: #7cadef;
+    font-weight: bold;
+    width: 100%;
+    height: var(--footerHeight);
+    bottom: 0;
+    align-items: center;
+}
+
 .copyright {
     font-family: "Neucha";
     font-size: 20px;
@@ -220,20 +221,6 @@ header {
     justify-content: flex-end;
 }
 
-.flexRow {
-    display: flex;
-    flex-direction: row;
-}
-
-.flexColumn {
-    display: flex;
-    flex-direction: column;
-}
-
-.main {
-    display: flex;
-    flex-direction: column;
-}
 
 .settings {
     background-color: #ef7c97;
