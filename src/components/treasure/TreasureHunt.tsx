@@ -3,11 +3,11 @@ import {NumberComplexity} from "../complexity/NumberComplexity";
 import {EquationsAmount} from "../complexity/EquationsAmount";
 import {OperationsSelector} from "../complexity/OperationsSelector";
 import "./TreasureHunt.css";
-import {Operation} from "../../util/enums/Operation";
+import {Operation} from "../../types/enums/Operation";
 import {createPathToCurrentTarget, initTargets} from "./MapGenerator";
 import {createEquationSet} from "../../util/arithmetic";
 import {useIntl} from 'react-intl';
-import {StepEquation} from "../../util/classes/StepEquation";
+import {StepEquation} from "../../types/StepEquation";
 import {Link} from "react-router-dom";
 import PrintTreasurePage from "./print/PrintTreasurePage";
 import {
@@ -28,9 +28,9 @@ const TreasureHunt = () => {
     const equationsAmounts = [6, 8, 10];
     const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
-    let [numberRange, setNumberRange] = useState(numberRanges[0]);
-    let [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
-    let [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
+    const [numberRange, setNumberRange] = useState(numberRanges[0]);
+    const [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
+    const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
     const intl = useIntl();
 
     const viewportWidth = window.innerWidth;
@@ -69,7 +69,7 @@ const TreasureHunt = () => {
         }
         const equations = createEquationSet(absSteps, selectedOps, numberRange);
 
-        let equationSteps: Array<StepEquation> = [];
+        const equationSteps: Array<StepEquation> = [];
 
         for (let ii = 0; ii < steps.length; ii++) {
             equationSteps.push({

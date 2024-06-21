@@ -1,8 +1,7 @@
 import {useState} from "react";
-import {useIntl, FormattedMessage} from "react-intl";
+import {FormattedMessage, useIntl} from "react-intl";
 import './App.css';
 import {Link} from "react-router-dom";
-import {puzzles} from "./puzzles";
 
 export function Header(props:
                            {
@@ -24,18 +23,12 @@ export function Header(props:
         </div>)
     }
 
-    const renderPuzzleInBar = (puzzle: any) => <Link key={puzzle.key} to={puzzle.key}
-                                                     className="puzzleNameBar">
-        {puzzle.name}</Link>;
-
-    return (<>
+    return (
             <header>
-                <Link className="headerWrapper" to={'/'}>
+                <Link className="headerWrapper" to={'/rechnenrucksack'}>
                     <FormattedMessage id="rechnenrucksack"/>
                 </Link>
                 <div className="languages"> {languages.map(renderLanguage)}</div>
             </header>
-            <div className='puzzleBar'>{puzzles.map(renderPuzzleInBar)}</div>
-        </>
     )
 }

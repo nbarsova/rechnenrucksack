@@ -1,5 +1,5 @@
 import {FormattedMessage} from "react-intl";
-import {Equation} from "../../util/classes/Equation";
+import {Equation} from "../../types/Equation";
 
 const SecretCodePrintPage = (props:
                                  {

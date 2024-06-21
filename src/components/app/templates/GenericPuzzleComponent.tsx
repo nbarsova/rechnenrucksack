@@ -8,7 +8,7 @@ import PrintPuzzlePage from "./PrintPuzzlePage";
 import '../App.css';
 import Settings from "../../settings/Settings";
 
-const GenericPuzzleComponent = (props: {currentPuzzle: any}) => {
+const GenericPuzzleComponent = (props: {currentPuzzle?: any}) => {
     const intl = useIntl();
     const settings = {};
 

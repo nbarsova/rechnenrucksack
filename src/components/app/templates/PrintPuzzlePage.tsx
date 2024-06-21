@@ -1,6 +1,6 @@
 import '../App.css';
 
-const PrintPuzzlePage = (props: {puzzleSettings: any}) => {
+const PrintPuzzlePage = () => {
     return (
         <div className="PrintPuzzlePage">
 

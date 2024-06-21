@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {NumberComplexity} from "../complexity/NumberComplexity";
 import {OperationsSelector} from "../complexity/OperationsSelector";
-import {Operation} from "../../util/enums/Operation";
+import {Operation} from "../../types/enums/Operation";
 import {Link} from "react-router-dom";
 import "./SecretMessage.css";
 import PrintIcon from "../../svg/PrintIcon";
@@ -13,7 +13,7 @@ import {countMessageSymbols, createSecretCodeForMessage} from "./CodeGenerator";
 
 import SecretCodePrintPage from "./SecretCodePrintPage";
 import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
-import {Equation} from "../../util/classes/Equation";
+import {Equation} from "../../types/Equation";
 
 const SecretMessage = () => {
     const intl = useIntl();
@@ -21,11 +21,11 @@ const SecretMessage = () => {
     const [numberRanges, setNumberRanges] = useState([10, 25, 100]);
     const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
-    let [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
-    let [numberRange, setNumberRange] = useState(numberRanges[0]);
+    const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
+    const [numberRange, setNumberRange] = useState(numberRanges[0]);
 
-    let [secretMessage, setSecretMessage] = useState(intl.formatMessage({id: 'initialSecretMessage'}));
-    let [error, setError] = useState(false);
+    const [secretMessage, setSecretMessage] = useState(intl.formatMessage({id: 'initialSecretMessage'}));
+    const [error, setError] = useState(false);
 
     const [letterCodes, setLetterCodes] = useState<{ letter: string; code: number; }[]>([]);
 

@@ -1,9 +1,9 @@
-import {Puzzle} from "../app/Puzzle";
+import {Puzzle} from "../../types/Puzzle";
 import {puzzleKeys} from "../app/puzzles";
 import {NumberComplexity} from "../complexity/NumberComplexity";
 import {EquationsAmount} from "../complexity/EquationsAmount";
 import {OperationsSelector} from "../complexity/OperationsSelector";
-import {Operation} from "../../util/enums/Operation";
+import {Operation} from "../../types/enums/Operation";
 
 const Settings = (props: {
     currentPuzzle?: Puzzle

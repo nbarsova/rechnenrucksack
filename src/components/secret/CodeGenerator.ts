@@ -1,12 +1,12 @@
 import {createEquationSet, normalRandom} from "../../util/arithmetic";
-import {Equation} from "../../util/classes/Equation";
-import {Operation} from "../../util/enums/Operation";
+import {Equation} from "../../types/Equation";
+import {Operation} from "../../types/enums/Operation";
 
 
 export const countMessageSymbols = (secretMessage: string) => {
-    let symbols = [];
+    const symbols = [];
     for (let i = 0; i < secretMessage.length; i++) {
-        let symbol = secretMessage.charAt(i);
+        const symbol = secretMessage.charAt(i);
 
         if (isLetter(symbol) && symbols.indexOf(symbol.toUpperCase()) === -1)
             symbols.push(symbol.toUpperCase());
@@ -15,7 +15,7 @@ export const countMessageSymbols = (secretMessage: string) => {
 };
 
 const isUniqueCode = (code: number, letterCodes: Array<any>) => {
-    for (var i = 0; i < letterCodes.length; i++) {
+    for (let i = 0; i < letterCodes.length; i++) {
         if (letterCodes[i].code === code) {
             return false;
         }
@@ -25,7 +25,7 @@ const isUniqueCode = (code: number, letterCodes: Array<any>) => {
 
 export const createLetterCodes = (symbols: Array<string>, numberRange: number) => {
     const newCodes = [];
-    let treshold = (symbols.length === numberRange) ? symbols.length - 1 : symbols.length;
+    const treshold = (symbols.length === numberRange) ? symbols.length - 1 : symbols.length;
     for (let i = 0; i < treshold; i++) {
         let code;
         do {
@@ -52,10 +52,10 @@ const findCodeForLetter = (letter: string, codes: Array<any>) => {
 
 export const createEquations = (sMessage: string,
                                 codes: Array<any>, selectedOps: Operation [], numberRange: number) => {
-    let steps: Array<number> = [];
+    const steps: Array<number> = [];
 
     for (let i = 0; i < sMessage.length; i++) {
-        let symbol = sMessage.charAt(i).toUpperCase();
+        const symbol = sMessage.charAt(i).toUpperCase();
         if (isLetter(symbol)) {
             const step = findCodeForLetter(symbol, codes);
             if (step) {

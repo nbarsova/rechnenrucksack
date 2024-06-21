@@ -7,7 +7,7 @@ import {
     NUMBER_RANGE_PARAMETER_NAME, removeFromStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
-import {puzzles} from "./puzzles";
+import {puzzles} from "../app/puzzles";
 import {FormattedMessage} from "react-intl";
 import html2canvas from 'html2canvas';
 import {jsPDF} from 'jspdf';
@@ -19,13 +19,13 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
 
     const [currentPuzzle, setCurrentPuzzle] = useState<string | null>(null);
     // @ts-ignore
-    let puzzleTitle = currentPuzzle ? puzzles[currentPuzzle].printTitle: '';
+    const puzzleTitle = currentPuzzle ? puzzles[currentPuzzle].printTitle: '';
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
     const canvasDivWidth = viewportWidth - 300; // magic nums from css
     const canvasDivHeight = viewportHeight - 200;
-    let canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
+    const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
 
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
     const innerPrintElementDiv = useRef<HTMLDivElement>(null); // this is container for the puzzle, we need it for right dimensions

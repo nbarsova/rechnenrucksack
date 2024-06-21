@@ -4,10 +4,13 @@
 }
 
 :root {
-    --headerHeight: 80px;
-    --subHeaderHeight: 60px;
-    --footerHeight: 60px;
+    --headerHeight: 8vh;
+    --subHeaderHeight: 6vh;
+    --footerHeight: 4vh;
     --settingsWidth: 20vw;
+    --settingsHeight: 30vh;
+    --puzzleAmount: 3;
+    --mainAreaHeight: calc(100vh - var(--headerHeight) - var(--footerHeight));
 }
 
 @media print {
@@ -39,7 +42,7 @@ body {
 
 header {
     background-color: #7cadef;
-    font-size: 48px;
+    font-size: 2.5vh;
     font-family: "Neucha";
     font-weight: bold;
     text-transform: uppercase;
@@ -53,7 +56,7 @@ header {
 }
 
 .headerWrapper {
-    padding: 10px;
+    padding: 1vh;
     text-decoration: none;
 }
 
@@ -62,7 +65,7 @@ header {
 }
 
 .languages {
-    font-size: 16px;
+    font-size: 1.2vh;
     display: flex;
     flex-direction: row;
     letter-spacing: 2px;
@@ -79,11 +82,7 @@ header {
 }
 
 .puzzles {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 20px;
+    height: var(--mainAreaHeight);
 }
 
 .puzzle {
@@ -91,7 +90,7 @@ header {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    width: 30vh;
+    height: calc(var(--mainAreaHeight) / var(--puzzleAmount));
 }
 
 .puzzleBar {
@@ -109,20 +108,21 @@ header {
     width: 100%;
     height: var(--footerHeight);
     bottom: 0;
-    display: flex;
     align-items: center;
 }
 
 .thumbnail {
-    height: 30vh;
+    height: calc((var(--mainAreaHeight) - var(--puzzleAmount) * var(--subHeaderHeight)) / var(--puzzleAmount));
+}
+
+@media only screen and (min-width: 600px) {
+
 }
 
 .puzzleName {
-    font-size: 3vh;
     font-weight: bold;
     color: black;
     text-decoration: none;
-    padding: 10px;
 }
 
 .puzzleName:visited {
@@ -132,19 +132,23 @@ header {
 
 .puzzleNameText {
     background-color: #a4c7f4;
-    font-size: 16px;
+    font-size: 2vh;
     font-weight: bold;
     cursor: pointer;
     text-align: center;
-    padding: 5px;
-    min-width: 20vw;
+    display: table-cell;
+    vertical-align: middle;
+    height: var(--subHeaderHeight);
+    line-height: var(--subHeaderHeight);
+    width: 100vw;
     text-decoration: none;
     color: black;
+    margin: 0;
 }
 
 .puzzleNameBar {
     background-color: #a4c7f4;
-    font-size: 16px;
+    font-size: 2vh;
     font-weight: bold;
     cursor: pointer;
     padding: 5px;
@@ -224,4 +228,22 @@ header {
 .flexColumn {
     display: flex;
     flex-direction: column;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings {
+    background-color: #ef7c97;
+    height: var(--settingsHeight);
+    width: 100vw;
+}
+
+.printPreview {
+    background-color: #808283;
+    height: calc(100vh - var(--headerHeight) - var(--subHeaderHeight) - var(--settingsHeight) - var(--footerHeight));
+    min-width: 290px;
+    overflow-x: scroll;
 }

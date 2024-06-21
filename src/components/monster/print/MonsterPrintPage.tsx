@@ -1,5 +1,5 @@
 import MonsterCellComponent from "./MonsterCellComponent";
-import {Equation} from "../../../util/classes/Equation";
+import {Equation} from "../../../types/Equation";
 import '../LockMonster.css';
 import '../../app/App.css';
 

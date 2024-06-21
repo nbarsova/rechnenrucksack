@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from "react";
 
 import {FormattedMessage, useIntl} from "react-intl";
 import {NumberComplexity} from "../complexity/NumberComplexity";
-import {Operation} from "../../util/enums/Operation";
+import {Operation} from "../../types/enums/Operation";
 import RefreshIcon from "../../svg/RefreshIcon";
 import {Link} from "react-router-dom";
 import PrintIcon from "../../svg/PrintIcon";
@@ -10,7 +10,7 @@ import SolutionIcon from "../../svg/SolutionIcon";
 import "../complexity/Complexity.css";
 import "./LockMonster.css";
 
-import {Equation} from "../../util/classes/Equation";
+import {Equation} from "../../types/Equation";
 
 import {createMonsterEquations,} from "./MonsterEquationsGenerator";
 import {EQUATIONS_PARAMETER_NAME, MONSTERS_AMOUNT_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
