@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {FormattedMessage, useIntl} from "react-intl";
-import './App.css';
+import './Header.css';
 import {Link} from "react-router-dom";
 
 export function Header(props:

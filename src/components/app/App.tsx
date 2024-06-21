@@ -4,7 +4,7 @@ import {IntlProvider} from "react-intl";
 import {deMessagesJSON, enMessagesJson, ruMessagesJSON} from "../../messages/messages";
 import {getFromStorage, LOCALE_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 import './App.css';
-import {Header} from "./Header";
+import {Header} from "./header/Header";
 import Footer from "./Footer";
 import SecretMessage from "../secret/SecretMessage";
 import {LockMonster} from "../monster/LockMonster";
