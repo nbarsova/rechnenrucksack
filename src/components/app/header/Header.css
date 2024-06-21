@@ -1,0 +1,41 @@
+/** HEADER **/
+header {
+    background-color: #7cadef;
+    font-size: 2.5vh;
+    font-family: "Neucha";
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--headerHeight);
+}
+
+.headerWrapper {
+    padding: 1vh;
+    text-decoration: none;
+}
+
+.headerWrapper:visited {
+    color: black;
+}
+
+.languages {
+    font-size: 1.2vh;
+    display: flex;
+    flex-direction: row;
+    letter-spacing: 2px;
+}
+
+.language {
+    margin-right: 10px;
+    font-weight: normal;
+}
+
+.selectedLanguage {
+    margin-right: 10px;
+    font-weight: bold;
+}
