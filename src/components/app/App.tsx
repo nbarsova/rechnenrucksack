@@ -8,11 +8,13 @@ import {Header} from "./header/Header";
 import Footer from "./footer/Footer";
 import SecretMessage from "../secret/SecretMessage";
 import {LockMonster} from "../monster/LockMonster";
-import {puzzles} from "./puzzles";
+import {puzzleKeys, puzzles} from "./puzzles";
 import {useLocation} from "react-router";
-import PrintPuzzlePage from "./templates/PrintPuzzlePage";
 import TreasureHunt from "../treasure/TreasureHunt";
 import Puzzles from "./Puzzles/Puzzles";
+import PrintContainer from "../print/PrintContainer";
+
+export const ROOT_PATH = "/rechnenrucksack";
 
 const App = () => {
 
@@ -44,10 +46,12 @@ const App = () => {
 
     const location = useLocation();
 
-    const isRoot = location.pathname === "/rechnenrucksack";
+    const isRoot = location.pathname === ROOT_PATH;
+
+    const currentPuzzle = location.pathname.slice(ROOT_PATH.length+1, location.pathname.length);
 
     const renderPuzzleInBar = (puzzle: any) => <Link key={puzzle.key} to={puzzle.key}
-                                                     className="puzzleNameBar">
+                                                     className={currentPuzzle === puzzle.key ? 'selectedPuzzleNameBar': "puzzleNameBar"}>
         {puzzle.name}</Link>;
 
 
@@ -64,11 +68,11 @@ const App = () => {
                         <Footer/>
                     </div>
                 }>
-                    <Route path="/rechnenrucksack/treasure" element={<TreasureHunt/>}/>
-                    <Route path="/rechnenrucksack/secretCode" element={<SecretMessage/>}/>
-                    <Route path="/rechnenrucksack/monster" element={<LockMonster/>}/>
+                    <Route path={ROOT_PATH+'/'+puzzleKeys.TREASURE_PUZZLE_KEY} element={<TreasureHunt/>}/>
+                    <Route path={ROOT_PATH+'/'+puzzleKeys.SECRET_CODE_PUZZLE_KEY} element={<SecretMessage/>}/>
+                    <Route path={ROOT_PATH+'/'+puzzleKeys.MONSTER_PUZZLE_KEY} element={<LockMonster/>}/>
                 </Route>
-                <Route path='/rechnenrucksack/print' element={<PrintPuzzlePage/>}/>
+                <Route path={ROOT_PATH+'/print'} element={<PrintContainer />}/>
             </Routes>
         </IntlProvider>
     );

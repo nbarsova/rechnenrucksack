@@ -1,4 +1,4 @@
-import * as React from "react"
+
 const SvgComponent = (props: any) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ const SvgComponent = (props: any) => (
         style={{
             enableBackground: "new 0 0 511.999 511.999",
         }}
-        height={30} width={30}
+        height={props.height} width={props.width}
         viewBox="0 0 511.999 511.999"
         {...props}
     >

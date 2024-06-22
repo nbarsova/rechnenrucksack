@@ -3,8 +3,11 @@ import PrintTreasurePage from "../treasure/print/PrintTreasurePage";
 import {
     CURRENT_TARGET_PARAMETER_NAME,
     EQUATIONS_PARAMETER_NAME,
-    getFromStorage, LETTER_CODES_PARAMETER_NAME, MONSTERS_AMOUNT_PARAMETER_NAME,
-    NUMBER_RANGE_PARAMETER_NAME, removeFromStorage,
+    getFromStorage,
+    LETTER_CODES_PARAMETER_NAME,
+    MONSTERS_AMOUNT_PARAMETER_NAME,
+    NUMBER_RANGE_PARAMETER_NAME,
+    removeFromStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
 import {puzzleKeys, puzzles} from "../app/puzzles";
@@ -14,18 +17,24 @@ import {jsPDF} from 'jspdf';
 import SecretCodePrintPage from "../secret/SecretCodePrintPage";
 import PrintTreasureSolutionPage from "../treasure/print/PrintTreasureSolutionPage";
 import MonsterPrintPage from "../monster/print/MonsterPrintPage";
+import {useSearchParams} from "react-router-dom";
+import './Print.css'
 
-const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
+const PrintContainer = () => {
 
+    const [search] = useSearchParams();
+    const puzzle = search.get('puzzle');
+    const solution = search.get('solution');
+
+    console.log(puzzle, solution);
     const [currentPuzzle, setCurrentPuzzle] = useState<string | null>(null);
-    // @ts-ignore
-    const puzzleTitle = currentPuzzle ? puzzles[currentPuzzle].printTitle: '';
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
+    const fullPuzzleInfo = puzzles.find((p) => p.key === currentPuzzle);
 
-    const canvasDivWidth = viewportWidth - 300; // magic nums from css
-    const canvasDivHeight = viewportHeight - 200;
-    const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
+    const puzzleTitle = fullPuzzleInfo ? fullPuzzleInfo.printTitle: '';
+
+    const viewportHeight = Math.min(window.screen.height, window.innerHeight);
+    const canvasHeight = 0.9*viewportHeight;
+    // const viewportWidth = Math.min(window.screen.width, window.innerWidth);
 
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
     const innerPrintElementDiv = useRef<HTMLDivElement>(null); // this is container for the puzzle, we need it for right dimensions
@@ -61,7 +70,7 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
 
     switch (currentPuzzle) {
         case(puzzleKeys.TREASURE_PUZZLE_KEY):
-            puzzleComponent = props.solution ?
+            puzzleComponent = solution ?
                 <PrintTreasureSolutionPage
                     equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                     currentTarget={JSON.parse(getFromStorage(CURRENT_TARGET_PARAMETER_NAME))}/> :
@@ -75,8 +84,8 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
             puzzleComponent = <SecretCodePrintPage
                 equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                 letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
-                canvasHeight={canvasHeight}
-                showLetters={Boolean(props.solution)}/>;
+                canvasHeight={viewportHeight-20}
+                showLetters={Boolean(solution)}/>;
             break;
         case (puzzleKeys.MONSTER_PUZZLE_KEY):
             const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
@@ -84,7 +93,7 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
             puzzleComponent = <MonsterPrintPage
                 monsterEquations={monsterEquations}
                 monstersAmount={monsterAmount}
-                showAnswers={Boolean(props.solution)} parentHeight={innerPrintElementDiv.current?.clientHeight}
+                showAnswers={Boolean(solution)} parentHeight={innerPrintElementDiv.current?.clientHeight}
                 parentWidth={innerPrintElementDiv.current?.clientWidth}/>;
             break;
         default:
@@ -93,14 +102,14 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
 
     useEffect(() => {
         if (innerPrintElementDiv.current) {
-            setCurrentPuzzle(props.puzzle);
+            setCurrentPuzzle(puzzle);
         }
     }, [innerPrintElementDiv.current]);
 
     useEffect(()=> {
         if (currentPuzzle) {
             createPDF();
-            clearStorage();
+            // clearStorage();
         }
     }, [currentPuzzle]);
 

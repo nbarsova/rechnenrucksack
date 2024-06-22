@@ -1,0 +1,42 @@
+/** PRINT **/
+.printPreviewContainer {
+    display: flex;
+    flex-direction: column;
+    width: var(--printWidth);
+    height: var(--printHeight);
+    border: 1px solid magenta;
+}
+
+.printHeader {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.printPuzzle {
+    display: flex;
+    flex: 1;
+    border: 1px solid green;
+    flex-direction: row;
+}
+
+.printTitle {
+    font-size: var(--printHeaderHeight);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2mm;
+    margin: 2mm;
+    font-family: "Neucha";
+}
+
+.nameDate {
+    font-family: "Neucha";
+    font-size: var(--printTextHeight);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.nameDateLine {
+    margin: 2mm;
+}

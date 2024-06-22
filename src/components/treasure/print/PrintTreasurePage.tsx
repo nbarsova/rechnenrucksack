@@ -28,7 +28,7 @@ const PrintTreasurePage = (props: {
                     key={posX+''+posY}
                     style={{position: 'absolute',
                         top: posY,
-                        left: posX}}><Stone/></div>
+                        left: posX}}><Stone height={props.canvasHeight / 14} width={props.canvasHeight / 14}/></div>
     });
 
     const renderEquation = (equationStep: any, index: number) => {

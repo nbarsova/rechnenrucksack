@@ -13,6 +13,10 @@
     --puzzleAmount: 3;
     --mainAreaHeight: calc(100vh - var(--headerHeight) - var(--footerHeight));
     --subHeaderFontSize: 2vh;
+    --printHeight: 210mm;
+    --printWidth: 290mm;
+    --printHeaderHeight: 10mm;
+    --printTextHeight: 6mm;
 }
 
 .flexRow {
@@ -80,7 +84,16 @@ body {
 }
 
 .selectedPuzzleNameBar {
-    font-size: 2.5vh;
+    background-color: #a4c7f4;
+    font-size: calc(var(--subHeaderFontSize) + 0.5vh);
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /** ROOT PAGE WITH PUZZLE LIST **/
@@ -160,49 +173,6 @@ body {
 }
 
 
-/** PRINT **/
-.printPreviewContainer {
-    display: flex;
-    flex-direction: column;
-    width: 290mm;
-    height: 210mm;
-    border: 1px solid red;
-}
-
-.printHeader {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-}
-
-.printPuzzle {
-    display: flex;
-    flex: 1;
-    border: 1px solid magenta;
-}
-
-.printTitle {
-    font-size: 42px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 10px;
-    margin: 10px;
-    font-family: "Neucha";
-}
-
-.nameDate {
-    font-family: "Neucha";
-    font-size: 18px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.nameDateLine {
-    margin: 5px;
-}
-
-
 /* INDIVIDUAL PUZZLE PAGE LAYOUT */
 
 .settings {
@@ -224,4 +194,10 @@ body {
     white-space: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
+}
+
+.printPreviewPrint {
+    composes: printPreview;
+    height: 270mm;
+    border: 0;
 }

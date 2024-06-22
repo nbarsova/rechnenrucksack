@@ -21,6 +21,8 @@ import PrintIcon from "../../svg/PrintIcon";
 import SolutionIcon from "../../svg/SolutionIcon";
 import RefreshIcon from "../../svg/RefreshIcon";
 import {MapTargetObject} from "./classes/MapTargetObject";
+import {puzzleKeys} from "../app/puzzles";
+import {ROOT_PATH} from "../app/App";
 
 
 const TreasureHunt = () => {
@@ -90,7 +92,6 @@ const TreasureHunt = () => {
     const mainAreaHeight = viewportHeight - 0.08*viewportHeight - 0.04*viewportHeight; // same as mainAreaHeight in css
     const printPreviewHeight = 0.8*(mainAreaHeight - 0.3*viewportHeight); // mainArea minus the settings
 
-    console.log('printPreviewHeight', viewportHeight, mainAreaHeight, printPreviewHeight);
     return (<div className="main">
         <div className="settings">
             <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
@@ -104,11 +105,11 @@ const TreasureHunt = () => {
                                 }}/>
 
             <div className='buttons'>
-                <Link target='_blank' to={"/treasure/print"}
+                <Link target='_blank' to={ROOT_PATH+"/print?puzzle="+puzzleKeys.TREASURE_PUZZLE_KEY}
                       className='printButton'
                       title={intl.formatMessage({id: 'printStudent'})}
                       onClick={prepareStudentPage}><PrintIcon /></Link>
-                <Link target='_blank' to={"/treasure/print/solution"}
+                <Link target='_blank' to={ROOT_PATH+"/print?puzzle="+puzzleKeys.TREASURE_PUZZLE_KEY+'&solution'}
                       className='printButton'
                       title={intl.formatMessage({id: 'printTeacher'})}
                       onClick={prepareTeacherPage}><SolutionIcon /></Link>
@@ -117,7 +118,7 @@ const TreasureHunt = () => {
             </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}
-                               stones={targets} canvasHeight={printPreviewHeight} numberRange={numberRange}/>
+                               stones={targets} canvasHeight={printPreviewHeight} numberRange={numberRange} />
 
 
     </div>);
