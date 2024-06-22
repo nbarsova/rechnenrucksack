@@ -3,6 +3,7 @@
     width: 100vw;
 }
 
+/* if you change things here, also change canvasHeight calculation for print pages */
 :root {
     --headerHeight: 8vh;
     --subHeaderHeight: 6vh;
@@ -11,6 +12,7 @@
     --settingsHeight: 30vh;
     --puzzleAmount: 3;
     --mainAreaHeight: calc(100vh - var(--headerHeight) - var(--footerHeight));
+    --subHeaderFontSize: 2vh;
 }
 
 .flexRow {
@@ -61,7 +63,7 @@ body {
 
 .puzzleNameBar {
     background-color: #a4c7f4;
-    font-size: 2vh;
+    font-size: var(--subHeaderFontSize);
     font-weight: bold;
     cursor: pointer;
     padding: 5px;
@@ -78,7 +80,7 @@ body {
 }
 
 .selectedPuzzleNameBar {
-    background-color: #1574ef;
+    font-size: 2.5vh;
 }
 
 /** ROOT PAGE WITH PUZZLE LIST **/
@@ -101,12 +103,13 @@ body {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    height: calc(var(--mainAreaHeight) / var(--puzzleAmount) - 2vw);
+    height: calc(var(--mainAreaHeight) / var(--puzzleAmount));
 }
 
 @media only screen and (min-width: 768px) {
     .puzzle {
         width: calc(100vw / var(--puzzleAmount) - 5vw);
+        height: calc(100vw / var(--puzzleAmount) - 5vw);
     }
 }
 
@@ -200,37 +203,25 @@ body {
 }
 
 
-/** FOOTER **/
-.Footer {
-    position: absolute;
-    background-color: #7cadef;
-    font-weight: bold;
-    width: 100%;
-    height: var(--footerHeight);
-    bottom: 0;
-    align-items: center;
-}
-
-.copyright {
-    font-family: "Neucha";
-    font-size: 20px;
-    color: #cbcbcb;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-
+/* INDIVIDUAL PUZZLE PAGE LAYOUT */
 
 .settings {
-    background-color: #ef7c97;
     height: var(--settingsHeight);
     width: 100vw;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    font-size: var(--subHeaderFontSize);
 }
 
 .printPreview {
-    background-color: #808283;
-    height: calc(100vh - var(--headerHeight) - var(--subHeaderHeight) - var(--settingsHeight) - var(--footerHeight));
-    min-width: 290px;
+    border: 2px ridge #808283;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    position: relative;
+    width: 90vw;
+    white-space: nowrap;
     overflow-x: scroll;
+    overflow-y: hidden;
 }

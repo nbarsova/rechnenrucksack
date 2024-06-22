@@ -20,14 +20,14 @@ export const createPathToCurrentTarget
        fieldSize: number,
        currentTarget: MapTargetObject,
        options: any) => {
-    let pathObject = new MapTargetObject(0, 0);
+    const pathObject = new MapTargetObject(0, 0);
     let step = 0;
 
-    let steps = [];
+    const steps = [];
 
     for (let i = 0; i < equationsAmount - 4; i++) {
-        var upperLimit = fieldSize;
-        var lowerLimit = 3;
+        let upperLimit = fieldSize;
+        let lowerLimit = 3;
 
         if (i % 2 == 0) // odd steps are horizontal
         {
@@ -65,7 +65,7 @@ export const createPathToCurrentTarget
 
     // two steps before last, we need to get close to target, but not too close
 
-    let deltaX = currentTarget.x - pathObject.x;
+    const deltaX = currentTarget.x - pathObject.x;
 //    console.log("Delta x "+deltaX);
 
     if (Math.abs(deltaX) > 3) {
@@ -79,7 +79,7 @@ export const createPathToCurrentTarget
 //    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // Предпоследний вертикальный
-    let deltaY = currentTarget.y - pathObject.y;
+    const deltaY = currentTarget.y - pathObject.y;
 //    console.log("Delta y "+deltaY);
 
     if (Math.abs(deltaY) > 3) {
@@ -93,13 +93,13 @@ export const createPathToCurrentTarget
 //    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // последний горизонтальный
-    let lastHorStep = currentTarget.x - pathObject.x;
+    const lastHorStep = currentTarget.x - pathObject.x;
     steps.push(lastHorStep);
     pathObject.x += lastHorStep;
 //    console.log("Position is: "+pathObject.x+ ", "+pathObject.y);
 
     // последний вертикальный
-    let lastVertStep = currentTarget.y - pathObject.y;
+    const lastVertStep = currentTarget.y - pathObject.y;
     steps.push(lastVertStep);
 
     pathObject.y += lastVertStep;
@@ -109,13 +109,13 @@ export const createPathToCurrentTarget
 }
 
 /*
-const createEquationsFromPath = (steps: Array<number>, complexity: number, language: string, operations: Array<string>) => {
+const createEquationsFromPath = (steps: Array<number>, settings: number, language: string, operations: Array<string>) => {
 
     var numberSteps = [];
     for (var i = 0; i < steps.length; i++) {
         numberSteps.push(Math.abs(steps[i]));
     }
-    let stepArr = createEquationSet(numberSteps, operations, complexity);
+    let stepArr = createEquationSet(numberSteps, operations, settings);
     let res = [];
 
     for (let j = 0; j < stepArr.length; j++) {
@@ -139,8 +139,8 @@ const isTarget = (x: number, y: number, targetObjects: Array<MapTargetObject>) =
 }
 */
 const isUniqueNumberStep = (number: number, steps: Array<any>) => {
-    var isUnique = true;
-    for (var i = 0; i < steps.length; i++) {
+    const isUnique = true;
+    for (let i = 0; i < steps.length; i++) {
         if (Math.abs(steps[i].step) === Math.abs(number)) {
             return false;
         }
@@ -156,7 +156,7 @@ const createUniqueStep = function (lowerLimit: number,
 
     do {
         step = normalRandom(lowerLimit, upperLimit);
-        var signChange = Math.random();
+        const signChange = Math.random();
         if (signChange < 0.5) {
             step = -step;
         }
@@ -173,10 +173,10 @@ const createNonPrimeStep = function (lowerLimit: number,
                                      coordinate: any,
                                      fieldSize: number) {
 //  console.log("Creating step for limit [" +lowerLimit+" ,"+ upperLimit+ "], coordinate "+coordinate);
-    var step = 0;
+    let step = 0;
     do {
         step = normalRandom(lowerLimit, upperLimit);
-        var signChange = Math.random();
+        const signChange = Math.random();
         if (signChange < 0.5) {
             step = -step;
         }

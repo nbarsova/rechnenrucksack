@@ -1,5 +1,5 @@
 import {puzzles} from "./puzzles";
-import Footer from "./Footer";
+import Footer from "./footer/Footer";
 import {Link, useRoutes} from "react-router-dom";
 import {useLocation} from "react-router";
 import TreasureHunt from "../treasure/TreasureHunt";

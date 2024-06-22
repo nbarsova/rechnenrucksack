@@ -4,10 +4,6 @@ import TreasureHunt from "../treasure/TreasureHunt";
 import SecretMessage from "../secret/SecretMessage";
 
 // @ts-ignore
-import compass from '../../img/compass.png';
-// @ts-ignore
-import secret from '../../img/secretP.png';
-// @ts-ignore
 import monster from '../../img/monsterP.png';
 
 
@@ -23,7 +19,7 @@ export const puzzles = [{
         defaultMessage="Treasure map"/>,
         printTitle: <FormattedMessage id='worksheetTitle' />,
         component: <TreasureHunt/>,
-        thumbnail: compass
+        thumbnail: monster
     },
      {
         key: puzzleKeys.SECRET_CODE_PUZZLE_KEY,
@@ -31,7 +27,7 @@ export const puzzles = [{
             id="secretCode" defaultMessage="Secret map"/>,
         printTitle: <FormattedMessage id='secretCodeTitle' />,
         component: <SecretMessage/>,
-        thumbnail: secret
+        thumbnail: monster
     },
      {
         key: puzzleKeys.MONSTER_PUZZLE_KEY,

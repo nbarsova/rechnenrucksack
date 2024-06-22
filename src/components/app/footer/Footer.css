@@ -1,0 +1,20 @@
+/** FOOTER **/
+.Footer {
+    position: absolute;
+    background-color: #7cadef;
+    font-weight: bold;
+    width: 100%;
+    height: var(--footerHeight);
+    bottom: 0;
+    align-items: center;
+}
+
+.copyright {
+    font-family: "Neucha";
+    font-size: 20px;
+    color: #cbcbcb;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

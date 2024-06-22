@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
-import {NumberComplexity} from "../complexity/NumberComplexity";
-import {EquationsAmount} from "../complexity/EquationsAmount";
-import {OperationsSelector} from "../complexity/OperationsSelector";
+import {NumberComplexity} from "../settings/NumberComplexity";
+import {EquationsAmount} from "../settings/EquationsAmount";
+import {OperationsSelector} from "../settings/OperationsSelector";
 import "./TreasureHunt.css";
 import {Operation} from "../../types/enums/Operation";
 import {createPathToCurrentTarget, initTargets} from "./MapGenerator";
@@ -32,14 +32,6 @@ const TreasureHunt = () => {
     const [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
     const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
     const intl = useIntl();
-
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    const canvasDivWidth = viewportWidth - 300; // magic nums from css
-    const canvasDivHeight = viewportHeight - 220;
-
-    const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
 
     const [equationSteps, setEquationSteps] = useState<StepEquation[]>([]);
     const [targets, setTargets] = useState<MapTargetObject[]>([]);
@@ -73,6 +65,7 @@ const TreasureHunt = () => {
 
         for (let ii = 0; ii < steps.length; ii++) {
             equationSteps.push({
+                // @ts-ignore
                 equation: equations[ii],
                 step: steps[ii]
             });
@@ -93,6 +86,11 @@ const TreasureHunt = () => {
         setInStorage(TARGETS_PARAMETER_NAME, JSON.stringify(targets));
     };
 
+    const viewportHeight = Math.min(window.screen.height, window.innerHeight);
+    const mainAreaHeight = viewportHeight - 0.08*viewportHeight - 0.04*viewportHeight; // same as mainAreaHeight in css
+    const printPreviewHeight = 0.8*(mainAreaHeight - 0.3*viewportHeight); // mainArea minus the settings
+
+    console.log('printPreviewHeight', viewportHeight, mainAreaHeight, printPreviewHeight);
     return (<div className="main">
         <div className="settings">
             <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
@@ -119,7 +117,7 @@ const TreasureHunt = () => {
             </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}
-                               stones={targets} canvasHeight={canvasHeight} numberRange={numberRange}/>
+                               stones={targets} canvasHeight={printPreviewHeight} numberRange={numberRange}/>
 
 
     </div>);

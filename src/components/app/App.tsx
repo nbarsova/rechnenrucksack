@@ -5,13 +5,14 @@ import {deMessagesJSON, enMessagesJson, ruMessagesJSON} from "../../messages/mes
 import {getFromStorage, LOCALE_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 import './App.css';
 import {Header} from "./header/Header";
-import Footer from "./Footer";
+import Footer from "./footer/Footer";
 import SecretMessage from "../secret/SecretMessage";
 import {LockMonster} from "../monster/LockMonster";
 import {puzzles} from "./puzzles";
 import {useLocation} from "react-router";
 import PrintPuzzlePage from "./templates/PrintPuzzlePage";
-import GenericPuzzleComponent from "./templates/GenericPuzzleComponent";
+import TreasureHunt from "../treasure/TreasureHunt";
+import Puzzles from "./Puzzles/Puzzles";
 
 const App = () => {
 
@@ -41,16 +42,6 @@ const App = () => {
         setInStorage(LOCALE_PARAMETER_NAME, locale);
     }
 
-    const renderPuzzle = (puzzle: any) => {
-        return (<Link key={puzzle.key} to={puzzle.key} className="puzzleName">
-            <div className='puzzle'><img
-                className="thumbnail"
-                src={puzzle.thumbnail}/>
-                <p className='puzzleNameText'>{puzzle.name}</p>
-            </div>
-        </Link>)
-    };
-
     const location = useLocation();
 
     const isRoot = location.pathname === "/rechnenrucksack";
@@ -59,6 +50,7 @@ const App = () => {
                                                      className="puzzleNameBar">
         {puzzle.name}</Link>;
 
+
     return (
         <IntlProvider locale={locale}
                       messages={messages[locale]}>
@@ -66,13 +58,13 @@ const App = () => {
                 <Route path='/rechnenrucksack' element={
                     <div className='app'>
                         <Header headerCallback={setLocale} locale={locale}/>
-                        {isRoot ? <div className="puzzles">{puzzles.map(renderPuzzle)}</div> :
+                        {isRoot ? <Puzzles /> :
                             <div className='puzzleBar'>{puzzles.map(renderPuzzleInBar)}</div>}
                         {!isRoot && <Outlet/>}
                         <Footer/>
                     </div>
                 }>
-                    <Route path="/rechnenrucksack/treasure" element={<GenericPuzzleComponent/>}/>
+                    <Route path="/rechnenrucksack/treasure" element={<TreasureHunt/>}/>
                     <Route path="/rechnenrucksack/secretCode" element={<SecretMessage/>}/>
                     <Route path="/rechnenrucksack/monster" element={<LockMonster/>}/>
                 </Route>

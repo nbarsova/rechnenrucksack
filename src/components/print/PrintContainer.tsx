@@ -7,7 +7,7 @@ import {
     NUMBER_RANGE_PARAMETER_NAME, removeFromStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
-import {puzzles} from "../app/puzzles";
+import {puzzleKeys, puzzles} from "../app/puzzles";
 import {FormattedMessage} from "react-intl";
 import html2canvas from 'html2canvas';
 import {jsPDF} from 'jspdf';
@@ -60,7 +60,7 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
     let puzzleComponent=null;
 
     switch (currentPuzzle) {
-        case(puzzles.treasure.key):
+        case(puzzleKeys.TREASURE_PUZZLE_KEY):
             puzzleComponent = props.solution ?
                 <PrintTreasureSolutionPage
                     equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
@@ -71,14 +71,14 @@ const PrintContainer = (props: { puzzle: string, solution?: boolean }) => {
                     equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                     stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}/>;
             break;
-        case (puzzles.secret.key):
+        case (puzzleKeys.SECRET_CODE_PUZZLE_KEY):
             puzzleComponent = <SecretCodePrintPage
                 equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                 letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
                 canvasHeight={canvasHeight}
                 showLetters={Boolean(props.solution)}/>;
             break;
-        case (puzzles.monster.key):
+        case (puzzleKeys.MONSTER_PUZZLE_KEY):
             const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
             const monsterEquations = JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME));
             puzzleComponent = <MonsterPrintPage

@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
-import {NumberComplexity} from "../complexity/NumberComplexity";
-import {OperationsSelector} from "../complexity/OperationsSelector";
+import {NumberComplexity} from "../settings/NumberComplexity";
+import {OperationsSelector} from "../settings/OperationsSelector";
 import {Operation} from "../../types/enums/Operation";
 import {Link} from "react-router-dom";
 import "./SecretMessage.css";

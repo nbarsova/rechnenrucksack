@@ -238,7 +238,7 @@ const createMultiplicationEquations = function (number: number) {
 }
 
 const createDivisionEquations = function (number: number, complexity: number) {
-//    console.log("Creating division equations for number "+number +" complexity "+complexity);
+//    console.log("Creating division equations for number "+number +" settings "+settings);
     const newEquations = [];
 
     let divstart = 1;

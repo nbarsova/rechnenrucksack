@@ -1,24 +1,9 @@
-
-
-.settings {
-    display: flex;
-    flex-direction: column;
-    min-width: var(--settingsWidth);
-    position: relative;
-}
-
-.canvasWrapper {
-    display: flex;
-    flex-direction: row;
-    align-content: space-between;
-    position: relative;
-    width: 100%;
-}
-
 .printPageText {
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
+    float: none;
+    font-size: calc(0.8 * var(--subHeaderFontSize));
     margin-left: 20px;
+    margin-right: 20px;
 }
 
 .printPageAnswer {
@@ -44,15 +29,12 @@
 }
 
 .buttons {
-    position: absolute;
-    bottom: 0;
-    right: 10px;
     display: flex;
 }
 .printButton {
-    margin: 10px;
-    height: 30px;
-    width: 30px;
+    height: 4vh;
+    width: 4vh;
+    margin: 1vh;
     cursor: pointer;
 }
 
