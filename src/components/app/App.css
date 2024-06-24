@@ -237,7 +237,6 @@ body {
 }
 
 .printPreviewPrint {
-    border: 2px ridge #808283;
     display: flex;
     flex-direction: row;
     align-content: space-between;

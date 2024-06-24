@@ -32,10 +32,10 @@ const PrintContainer = () => {
     const puzzleTitle = fullPuzzleInfo ? fullPuzzleInfo.printTitle: '';
 
     const viewportHeight = Math.min(window.screen.height, window.innerHeight);
-    const canvasHeight = 0.9*viewportHeight; // TODO: review this calculcation, base it on screen size, for mobile it works, for desktop - doesn't
-    // const viewportWidth = Math.min(window.screen.width, window.innerWidth);
-
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
+
+    const canvasHeight = printElementDiv.current?.clientHeight && 0.8*printElementDiv.current.clientHeight;
+
     const innerPrintElementDiv = useRef<HTMLDivElement>(null); // this is container for the puzzle, we need it for right dimensions
 
     async function createPDF() {
