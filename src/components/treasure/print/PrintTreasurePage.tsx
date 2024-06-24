@@ -14,7 +14,8 @@ const PrintTreasurePage = (props: {
     equationSteps: any,
     stones: MapTargetObject [],
     canvasHeight: number,
-    numberRange: number
+    numberRange: number,
+    mode?: 'print' | 'web'
      }) => {
 
     const gridSrc = props.numberRange === 10 ? EasyGrid : HardGrid;
@@ -28,21 +29,21 @@ const PrintTreasurePage = (props: {
                     key={posX+''+posY}
                     style={{position: 'absolute',
                         top: posY,
-                        left: posX}}><Stone height={props.canvasHeight / 14} width={props.canvasHeight / 14}/></div>
+                        left: posX}}><Stone height={mapStep} width={mapStep}/></div>
     });
 
     const renderEquation = (equationStep: any, index: number) => {
         return <PrintEquation equationStep={equationStep} index={index} key={index}/>;
     };
 
-    return ( <div className="printPreview">
+    return ( <div className={props.mode==='print'? 'printPreviewPrint': "printPreview"}>
         <img
             src={gridSrc} height={props.canvasHeight+'px'} width={props.canvasHeight+'px'}/>
         <img
             src={Cross} style={{position: 'absolute', top: props.canvasHeight/2-10, left: props.canvasHeight/2-10}}
         height={20} width={20}/>
         {props.stones.map(renderTarget)}
-        <div className='printPageText'>
+        <div className={props.mode==='print'? 'printPageTextPrint': "printPageText"}>
             <span className='printEquation'><FormattedMessage id='worksheetDesc1' /></span>
             <span className='printEquation'><FormattedMessage id='worksheetDesc2' /></span>
             <span className='printEquation'><FormattedMessage id='worksheetDesc3' /></span>

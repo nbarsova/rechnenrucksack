@@ -89,8 +89,20 @@ const TreasureHunt = () => {
     };
 
     const viewportHeight = Math.min(window.screen.height, window.innerHeight);
-    const mainAreaHeight = viewportHeight - 0.08*viewportHeight - 0.04*viewportHeight; // same as mainAreaHeight in css
-    const printPreviewHeight = 0.8*(mainAreaHeight - 0.3*viewportHeight); // mainArea minus the settings
+    const viewportWidth = Math.min(window.innerWidth, window.innerWidth);
+
+    let mainAreaHeight;
+
+    // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
+
+    if (viewportWidth < 1200) {
+        mainAreaHeight = (viewportHeight - 0.08*viewportHeight - 0.04*viewportHeight - 0.06*viewportHeight - 0.3*viewportHeight);
+    } else {
+        // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
+        mainAreaHeight = viewportHeight - 0.08*viewportHeight - 0.04*viewportHeight - 0.06*viewportHeight - 0.02*viewportHeight;
+    }
+
+    console.log('mainAreaHeight', mainAreaHeight);
 
     return (<div className="main">
         <div className="settings">
@@ -118,7 +130,7 @@ const TreasureHunt = () => {
             </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}
-                               stones={targets} canvasHeight={printPreviewHeight} numberRange={numberRange} />
+                               stones={targets} canvasHeight={mainAreaHeight} numberRange={numberRange} />
 
 
     </div>);

@@ -1,7 +1,16 @@
 .app {
     height: 100vh;
-    width: 100vw;
 }
+
+/** uncomment to debug overflowing divs
+.slide-content .scroller {
+   width: 1024px;
+}
+
+* {
+   outline: 1px solid #f00 !important;
+}
+**/
 
 /* if you change things here, also change canvasHeight calculation for print pages */
 :root {
@@ -175,6 +184,15 @@ body {
 
 /* INDIVIDUAL PUZZLE PAGE LAYOUT */
 
+
+@media only screen and (min-width: 1200px) {
+    .main {
+        display: flex;
+        flex-direction: row;
+        height: calc(var(--mainAreaHeight) - var(--subHeaderHeight));
+    }
+}
+
 .settings {
     height: var(--settingsHeight);
     width: 100vw;
@@ -182,6 +200,16 @@ body {
     flex-direction: column;
     flex-wrap: wrap;
     font-size: var(--subHeaderFontSize);
+    background-color: white;
+}
+
+@media only screen and (min-width: 1200px) {
+    .settings {
+        display: flex;
+        flex-direction: column;
+        height: calc(var(--mainAreaHeight) - var(--subHeaderHeight));
+        width: var(--settingsWidth);
+    }
 }
 
 .printPreview {
@@ -191,13 +219,30 @@ body {
     align-content: space-between;
     position: relative;
     width: 90vw;
+    max-width: 200vh;
     white-space: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
+    background-color: white;
+}
+
+@media only screen and (min-width: 1200px) {
+    .printPreview {
+        display: flex;
+        flex-direction: row;
+        border: 0;
+        height: calc(var(--mainAreaHeight) - var(--subHeaderHeight));
+        width: calc(100vw - var(--settingsWidth));
+    }
 }
 
 .printPreviewPrint {
-    composes: printPreview;
-    height: 270mm;
-    border: 0;
+    border: 2px ridge #808283;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    position: relative;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    background-color: white;
 }

@@ -26,14 +26,13 @@ const PrintContainer = () => {
     const puzzle = search.get('puzzle');
     const solution = search.get('solution');
 
-    console.log(puzzle, solution);
     const [currentPuzzle, setCurrentPuzzle] = useState<string | null>(null);
     const fullPuzzleInfo = puzzles.find((p) => p.key === currentPuzzle);
 
     const puzzleTitle = fullPuzzleInfo ? fullPuzzleInfo.printTitle: '';
 
     const viewportHeight = Math.min(window.screen.height, window.innerHeight);
-    const canvasHeight = 0.9*viewportHeight;
+    const canvasHeight = 0.9*viewportHeight; // TODO: review this calculcation, base it on screen size, for mobile it works, for desktop - doesn't
     // const viewportWidth = Math.min(window.screen.width, window.innerWidth);
 
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
@@ -78,7 +77,8 @@ const PrintContainer = () => {
                     numberRange={Number(getFromStorage(NUMBER_RANGE_PARAMETER_NAME))}
                     canvasHeight={canvasHeight}
                     equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
-                    stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}/>;
+                    stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}
+                mode='print'/>;
             break;
         case (puzzleKeys.SECRET_CODE_PUZZLE_KEY):
             puzzleComponent = <SecretCodePrintPage
@@ -101,10 +101,10 @@ const PrintContainer = () => {
     }
 
     useEffect(() => {
-        if (innerPrintElementDiv.current) {
+        if (printElementDiv.current) {
             setCurrentPuzzle(puzzle);
         }
-    }, [innerPrintElementDiv.current]);
+    }, [printElementDiv.current]);
 
     useEffect(()=> {
         if (currentPuzzle) {
@@ -127,8 +127,7 @@ const PrintContainer = () => {
                 </div>
             </div>
 
-            <div className='printPuzzle'
-                 ref={innerPrintElementDiv}>{puzzleComponent}</div>
+            {puzzleComponent}
 
             <div className='copyright'>&#169; https://nbarsova.github.io/rechnenrucksack</div>
         </div>
