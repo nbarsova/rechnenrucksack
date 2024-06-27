@@ -196,11 +196,15 @@ body {
 .settings {
     height: var(--settingsHeight);
     width: 100vw;
+    background-color: white;
+}
+
+.treasureSettings {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     font-size: var(--subHeaderFontSize);
-    background-color: white;
+    height: 100%;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -214,23 +218,20 @@ body {
 
 .printPreview {
     border: 2px ridge #808283;
-    display: flex;
-    flex-direction: row;
-    align-content: space-between;
     position: relative;
     width: 90vw;
     max-width: 200vh;
     white-space: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
-    background-color: white;
+    background-color: green;
+    margin-left: 10px;
 }
 
 @media only screen and (min-width: 1200px) {
     .printPreview {
         display: flex;
         flex-direction: row;
-        border: 0;
         height: calc(var(--mainAreaHeight) - var(--subHeaderHeight));
         width: calc(100vw - var(--settingsWidth));
     }
@@ -244,4 +245,28 @@ body {
     overflow-x: scroll;
     overflow-y: hidden;
     background-color: white;
+}
+
+.buttons {
+    display: flex;
+    position: absolute;
+    top: calc(var(--headerHeight) + var(--subHeaderHeight) + var(--settingsHeight));
+    z-index: 2;
+    background-color: #a4c7f4;
+    opacity: 80%;
+    left: 10px; /* same as print area margin */
+}
+
+@media only screen and (min-width: 1200px) {
+    .buttons {
+        top: calc(var(--headerHeight) + var(--subHeaderHeight));
+        left: calc(var(--settingsWidth) + 10px);
+    }
+}
+
+.printButton {
+    height: 4vh;
+    width: 4vh;
+    margin: 1vh;
+    cursor: pointer;
 }

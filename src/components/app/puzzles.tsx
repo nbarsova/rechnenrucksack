@@ -6,12 +6,12 @@ import SecretMessage from "../secret/SecretMessage";
 // @ts-ignore
 import monster from '../../img/monsterP.png';
 
-
 export enum puzzleKeys  {
     TREASURE_PUZZLE_KEY='treasure',
     SECRET_CODE_PUZZLE_KEY='secretCode',
     MONSTER_PUZZLE_KEY='monster'
 }
+
 export const puzzles = [{
         key: puzzleKeys.TREASURE_PUZZLE_KEY,
         name: <FormattedMessage

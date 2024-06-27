@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {Link, Outlet, Route, Routes} from "react-router-dom";
 import {IntlProvider} from "react-intl";
 import {deMessagesJSON, enMessagesJson, ruMessagesJSON} from "../../messages/messages";
@@ -59,7 +59,7 @@ const App = () => {
         <IntlProvider locale={locale}
                       messages={messages[locale]}>
             <Routes>
-                <Route path='/rechnenrucksack' element={
+                <Route path={ROOT_PATH} element={
                     <div className='app'>
                         <Header headerCallback={setLocale} locale={locale}/>
                         {isRoot ? <Puzzles /> :

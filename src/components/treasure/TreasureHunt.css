@@ -41,14 +41,5 @@
     text-decoration: underline;
 }
 
-.buttons {
-    display: flex;
-}
-.printButton {
-    height: 4vh;
-    width: 4vh;
-    margin: 1vh;
-    cursor: pointer;
-}
 
 
