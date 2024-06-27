@@ -25,6 +25,7 @@ import {puzzleKeys} from "../app/puzzles";
 import {ROOT_PATH} from "../app/App";
 import "./TreasureHunt.css";
 import "../app/App.css";
+import Buttons from "../buttons/Buttons";
 
 const TreasureHunt = () => {
     const numberRanges = [10, 25];
@@ -116,19 +117,8 @@ const TreasureHunt = () => {
                 <EquationsAmount equationsAmounts={equationsAmounts}
                                  onChange={(amount: number) => setEquationsAmount(amount)}/>
 
-                <div className='buttons'>
-                    <Link target='_blank' to={ROOT_PATH + "/print?puzzle=" + puzzleKeys.TREASURE_PUZZLE_KEY}
-                          className='printButton'
-                          title={intl.formatMessage({id: 'printStudent'})}
-                          onClick={prepareStudentPage}><PrintIcon/></Link>
-                    <Link target='_blank'
-                          to={ROOT_PATH + "/print?puzzle=" + puzzleKeys.TREASURE_PUZZLE_KEY + '&solution'}
-                          className='printButton'
-                          title={intl.formatMessage({id: 'printTeacher'})}
-                          onClick={prepareTeacherPage}><SolutionIcon/></Link>
-                    <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
-                         onClick={createNewEquationSet}><RefreshIcon/></div>
-                </div>
+                <Buttons prepareSolutionParameters={prepareTeacherPage} preparePrintParameters={prepareStudentPage}
+                         refresh={createNewEquationSet} puzzleKey={puzzleKeys.TREASURE_PUZZLE_KEY}/>
             </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}

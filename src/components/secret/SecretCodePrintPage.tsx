@@ -22,7 +22,6 @@ const SecretCodePrintPage = (props:
     const renderEquationsInRow = (rowIndex: number) => {
 
         const row = props.equations?.map((eq, columnIndex) => {
-            console.log('eq', eq, getLetterForCode(eq.result));
             const res = eq.result;
             if (columnIndex >= rowIndex * 10 && columnIndex < rowIndex * 10 + 10) {
                 return (<td key={columnIndex}>
@@ -48,11 +47,13 @@ const SecretCodePrintPage = (props:
                     <FormattedMessage id='equationsToSolve'/>
                 </div>
                 <table>
+                    <tbody>
                     {renderEquationsInRow(0)}
                     {renderEquationsInRow(1)}
                     {renderEquationsInRow(2)}
                     {renderEquationsInRow(3)}
                     {renderEquationsInRow(4)}
+                    </tbody>
                 </table>
                 {props.letterCodes && props.letterCodes.length > 0 &&
                     <div className='codeKey'>

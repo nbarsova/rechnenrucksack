@@ -15,6 +15,8 @@ import SecretCodePrintPage from "./SecretCodePrintPage";
 import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 import {Equation} from "../../types/Equation";
 import {ROOT_PATH} from "../app/App";
+import Buttons from "../buttons/Buttons";
+import {puzzleKeys} from "../app/puzzles";
 
 const SecretMessage = () => {
     const intl = useIntl();
@@ -88,6 +90,15 @@ const SecretMessage = () => {
         setInStorage(LETTER_CODES_PARAMETER_NAME, JSON.stringify(letterCodes));
     };
 
+    const refresh = () => {
+        const {
+            codes,
+            equations: updatedEquations
+        } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
+        setLetterCodes(codes);
+        setEquations(updatedEquations);
+    }
+
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
@@ -133,7 +144,20 @@ const SecretMessage = () => {
                     </div>}
             </div>
 
-            <div className='buttons'>
+            <Buttons prepareSolutionParameters={prepareParameters} preparePrintParameters={prepareParameters}
+                     refresh={refresh} puzzleKey='secretCode'/>
+        </div>
+        <SecretCodePrintPage
+            canvasHeight={mainAreaHeight}
+            equations={equations}
+            letterCodes={letterCodes}
+            showLetters={false}/>
+    </div>)
+}
+
+export default SecretMessage;
+/*
+ <div className='buttons'>
                 <Link target='_blank' to={ROOT_PATH+'/print?puzzle=secretCode'}
                       className='printButton'
                       title={intl.formatMessage({id: 'printStudent'})}
@@ -144,50 +168,6 @@ const SecretMessage = () => {
                       title={intl.formatMessage({id: 'printTeacher'})}
                       onClick={prepareParameters}><SolutionIcon/></Link>
                 <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
-                     onClick={() => {
-                    const {
-                        codes,
-                        equations: updatedEquations
-                    } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
-                    setLetterCodes(codes);
-                    setEquations(updatedEquations);
-                }}><RefreshIcon/></div>
+                     onClick={() => }><RefreshIcon/></div>
             </div>
-        </div>
-
-
-        <SecretCodePrintPage
-            canvasHeight={mainAreaHeight}
-            equations={equations}
-            letterCodes={letterCodes}
-            showLetters={false}/>
-    </div>)
-}
-
-export default SecretMessage;
-
-/*
-<Link className='printButton' target='_blank' to={ROOT_PATH + "/print?puzzle=" + puzzleKeys.TREASURE_PUZZLE_KEY}
-                     title={intl.formatMessage({id: 'refresh'})}
-                     onClick={() => {
-                         const {
-                             codes,
-                             equations: updatedEquations
-                         } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
-                         setLetterCodes(codes);
-                         setEquations(updatedEquations);
-                     }}
-                ><RefreshIcon/></Link>
-
-                <Link target='_blank' to={"secret/print"}
-                      className='printButton'
-                      title={intl.formatMessage({id: 'printStudent'})}
-                      onClick={prepareParameters}
-                ><PrintIcon/></Link>
-
-                <Link target='_blank' to={"secret/print/solution"}
-                      className='printButton'
-                      onClick={prepareParameters}
-                      title={intl.formatMessage({id: 'printTeacher'})}
-                ><SolutionIcon/></Link>
  */
