@@ -1,0 +1,23 @@
+.buttons {
+    display: flex;
+    position: absolute;
+    top: calc(var(--headerHeight) + var(--subHeaderHeight) + var(--settingsHeight));
+    z-index: 2;
+    background-color: #a4c7f4;
+    opacity: 80%;
+    left: 10px; /* same as print area margin */
+}
+
+@media only screen and (min-width: 1200px) {
+    .buttons {
+        top: calc(var(--headerHeight) + var(--subHeaderHeight));
+        left: calc(var(--settingsWidth) + 10px);
+    }
+}
+
+.button {
+    height: 4vh;
+    width: 4vh;
+    margin: 1vh;
+    cursor: pointer;
+}

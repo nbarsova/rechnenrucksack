@@ -1,19 +1,16 @@
 import {useEffect, useState} from 'react';
-import {NumberComplexity} from "../complexity/NumberComplexity";
-import {OperationsSelector} from "../complexity/OperationsSelector";
-import {Operation} from "../../util/enums/Operation";
-import {Link} from "react-router-dom";
+import {NumberComplexity} from "../settings/NumberComplexity";
+import {OperationsSelector} from "../settings/OperationsSelector";
+import {Operation} from "../../types/enums/Operation";
 import "./SecretMessage.css";
-import PrintIcon from "../../svg/PrintIcon";
-import SolutionIcon from "../../svg/SolutionIcon";
-import RefreshIcon from "../../svg/RefreshIcon";
 
 import {FormattedMessage, useIntl} from "react-intl";
 import {countMessageSymbols, createSecretCodeForMessage} from "./CodeGenerator";
 
 import SecretCodePrintPage from "./SecretCodePrintPage";
 import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
-import {Equation} from "../../util/classes/Equation";
+import {Equation} from "../../types/Equation";
+import Buttons from "../buttons/Buttons";
 
 const SecretMessage = () => {
     const intl = useIntl();
@@ -21,45 +18,46 @@ const SecretMessage = () => {
     const [numberRanges, setNumberRanges] = useState([10, 25, 100]);
     const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
-    let [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
-    let [numberRange, setNumberRange] = useState(numberRanges[0]);
+    const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
+    const [numberRange, setNumberRange] = useState(numberRanges[0]);
 
-    let [secretMessage, setSecretMessage] = useState(intl.formatMessage({id: 'initialSecretMessage'}));
-    let [error, setError] = useState(false);
+    const [secretMessage, setSecretMessage] = useState(intl.formatMessage({id: 'initialSecretMessage'}));
+    const [error, setError] = useState(false);
 
     const [letterCodes, setLetterCodes] = useState<{ letter: string; code: number; }[]>([]);
 
     const [symbols, setSymbols] = useState<string[]>([]);
-    const [equations, setEquations] = useState<Array<Equation>|undefined>([]);
+    const [equations, setEquations] = useState<Array<Equation> | undefined>([]);
 
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
 
-    const canvasDivWidth = viewportWidth - 300; // magic nums from css
-    const canvasDivHeight = viewportHeight - 220;
-
-    const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
-
-    useEffect(() => {
-        const newMessage=intl.formatMessage({id: 'initialSecretMessage'});
-        setSecretMessage(newMessage);
+    const recreateMessage = () => {
         const {
             symbols: messageSymbolss,
             codes: codess,
             equations: updatedEquationss
-        } = createSecretCodeForMessage(newMessage, numberRange, selectedOps);
+        } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
         setSymbols(messageSymbolss);
         setLetterCodes(codess);
         setEquations(updatedEquationss);
+    }
+
+    useEffect(() => {
+        recreateMessage();
+    }, [secretMessage, numberRange, selectedOps]);
+
+    useEffect(() => {
+        const newMessage = intl.formatMessage({id: 'initialSecretMessage'});
+        setSecretMessage(newMessage);
     }, [intl.locale])
 
     const updateSecretMessage = (ev: any) => {
         const newMessage = ev.target.value;
-        setSecretMessage(newMessage);
 
-        if (newMessage.length > 50) {
+        if (newMessage.length > 48) {
             setError(true);
+            setSecretMessage(newMessage.substring(0, 50));
         } else {
+            setSecretMessage(newMessage);
             setError(false);
             setLetterCodes([]);
             setEquations([]);
@@ -86,61 +84,67 @@ const SecretMessage = () => {
         setInStorage(LETTER_CODES_PARAMETER_NAME, JSON.stringify(letterCodes));
     };
 
+    const refresh = () => {
+        const {
+            codes,
+            equations: updatedEquations
+        } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
+        setLetterCodes(codes);
+        setEquations(updatedEquations);
+    }
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    let mainAreaHeight;
+
+    // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
+
+    if (viewportWidth < 1200) {
+        console.log('small screen');
+        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
+    } else {
+        console.log('big screen');
+        // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
+        mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
+    }
+
     return (<div className="main">
         <div className="settings">
-            <div className='numberComplexity'><b><FormattedMessage id="enterMessage"/></b>
+            <div className="choiceContainer">
+                <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
+                                  onRangeChange={(range: number) => setNumberRange(range)}/>
+
+                <OperationsSelector allOps={allOps}
+                                    onOpsChanged={(selectedOps: Array<Operation>) => {
+                                        setSelectedOps(selectedOps)
+                                    }}/>
             </div>
-            <textarea value={secretMessage}
-                      className={error ? 'borderedSecretMessageInput' : 'secretMessageInput'}
-                      rows={3}
-                      onChange={updateSecretMessage}
-            />
-            {error ? <div className='errorMessage'>
-                    <FormattedMessage id='secretMessageTooLong'/>
-                </div> :
-                <div className='countMessage'>
-                    <span className='equationText'><FormattedMessage id='messageLength'/></span>
-                    {secretMessage.length}
-                    <span className='equationText'><FormattedMessage id='symbolsInStringMessage'/> </span>
-                    {symbols.length}
-                </div>}
-
-            <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
-                              onRangeChange={(range: number) => setNumberRange(range)}/>
-
-            <OperationsSelector allOps={allOps}
-                                onOpsChanged={(selectedOps: Array<Operation>) => {
-                                    setSelectedOps(selectedOps)
-                                }}/>
-
-            <div className='buttons'>
-                <div className='printButton'
-                     title={intl.formatMessage({id: 'refresh'})}
-                     onClick={() => {
-                         const {
-                             codes,
-                             equations: updatedEquations
-                         } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
-                         setLetterCodes(codes);
-                         setEquations(updatedEquations);
-                     }}
-                ><RefreshIcon/></div>
-
-                <Link target='_blank' to={"secret/print"}
-                      className='printButton'
-                      title={intl.formatMessage({id: 'printStudent'})}
-                      onClick={prepareParameters}
-                ><PrintIcon/></Link>
-
-                <Link target='_blank' to={"secret/print/solution"}
-                      className='printButton'
-                      onClick={prepareParameters}
-                      title={intl.formatMessage({id: 'printTeacher'})}
-                ><SolutionIcon/></Link>
+            <div className="messageInputContainer">
+                <div className='secretCodeDescriptionText'>
+                    <b><FormattedMessage id="enterMessage"/></b>
+                </div>
+                <textarea value={secretMessage}
+                          className={error ? 'borderedSecretMessageInput' : 'secretMessageInput'}
+                          rows={3}
+                          onChange={updateSecretMessage}
+                />
+                {error ? <div className='errorMessage'>
+                        <FormattedMessage id='secretMessageTooLong'/>
+                    </div> :
+                    <div className='countMessage'>
+                        <span className='equationText'><FormattedMessage id='messageLength'/></span>
+                        {secretMessage.length}
+                        <span className='equationText'><FormattedMessage id='symbolsInStringMessage'/> </span>
+                        {symbols.length}
+                    </div>}
             </div>
+
+            <Buttons prepareSolutionParameters={prepareParameters} preparePrintParameters={prepareParameters}
+                     refresh={refresh} puzzleKey='secretCode'/>
         </div>
         <SecretCodePrintPage
-            canvasHeight={canvasHeight}
+            canvasHeight={mainAreaHeight}
             equations={equations}
             letterCodes={letterCodes}
             showLetters={false}/>
@@ -148,3 +152,18 @@ const SecretMessage = () => {
 }
 
 export default SecretMessage;
+/*
+ <div className='buttons'>
+                <Link target='_blank' to={ROOT_PATH+'/print?puzzle=secretCode'}
+                      className='printButton'
+                      title={intl.formatMessage({id: 'printStudent'})}
+                      onClick={prepareParameters}><PrintIcon/></Link>
+                <Link target='_blank'
+                      to={ROOT_PATH}
+                      className='printButton'
+                      title={intl.formatMessage({id: 'printTeacher'})}
+                      onClick={prepareParameters}><SolutionIcon/></Link>
+                <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
+                     onClick={() => }><RefreshIcon/></div>
+            </div>
+ */

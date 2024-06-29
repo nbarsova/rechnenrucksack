@@ -27,14 +27,14 @@ export const enMessagesJson = {
     "printTeacher": "print solution",
     "refresh": "new puzzle",
     'initialSecretMessage': "SHE SELLS SEASHELLS BY THE SEASHORE",
-    "enterMessage": "Enter the message to be encoded",
+    "enterMessage": "Enter the message to be encoded (50 symbols max)",
     "secretMessageTooLong": "Secret message must not be longer than 50 symbols",
     "messageLength": "Message length:",
     "symbolsInStringMessage": ",  different symbols:",
     "equationsToSolve": "Solve the equations and find the results in the key \nto read each letter of the secret message!",
     "codeKey": "Letter code key: ",
     "secretCodeTitle": "Solve the secret code!",
-
+    "lockMonsterTitle": "Lock the Monster!",
 };
 
 export const deMessagesJSON = {
@@ -66,14 +66,14 @@ export const deMessagesJSON = {
     "printTeacher": "Lösung drucken",
     "refresh": "Neue Aufgabe",
     "initialSecretMessage": "Fischers Fritz fischt frische Fische",
-    "enterMessage": "Tragen Sie eine Nachricht ein, um Geheimcode zu generieren",
+    "enterMessage": "Tragen Sie eine Nachricht ein, um Geheimcode zu generiere (max. 50 Symbole)",
     "secretMessageTooLong": "Geheime Nachricht darf nicht länger als 50 Symbole sein",
     "messageLength": "Nachricht Länge:",
     "symbolsInStringMessage": ", Buchstabenanzahl:",
     "equationsToSolve": "Löse die Aufgaben und finde die Ergebnisse im Schlüssel, \num die Nachricht zu raten!",
     "codeKey": "Schlüssel: ",
     "secretCodeTitle": "Löse den geheimen Code!",
-
+    "lockMonsterTitle": "Fang dem Monster!",
 };
 
 export const ruMessagesJSON = {
@@ -105,13 +105,13 @@ export const ruMessagesJSON = {
     "printTeacher": "распечатать решение",
     "refresh": "новое задание",
     "initialSecretMessage": "шла саша по шоссе и сосала сушку",
-    "enterMessage": "Введите секретное сообщение",
+    "enterMessage": "Введите секретное сообщение (макс. 50 символов)",
     "secretMessageTooLong": "Секретное сообщение не должно быть длиннее 50 символов",
     "messageLength": "Длина сообщения:",
     "symbolsInStringMessage": ", разных букв:",
     "equationsToSolve": "Чтобы прочитать секретное сообщение, реши примеры и подставь нужную букву по ключу",
     "codeKey": "Ключ: ",
     "secretCodeTitle": "Разгадай секретный шифр!",
-
+    "lockMonsterTitle": "Запри монстра в клетке!",
 
 };

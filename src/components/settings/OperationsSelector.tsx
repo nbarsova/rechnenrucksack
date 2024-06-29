@@ -1,21 +1,21 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {FormattedMessage} from "react-intl";
 import "./Complexity.css";
-import {Operation} from "../../util/enums/Operation";
+import {Operation} from "../../types/enums/Operation";
 
 export function OperationsSelector(props: {
     allOps: Array<Operation>,
     onOpsChanged: (selectedOps: Array<Operation>) => void
 }) {
 
-    let [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
+    const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
 
-    let renderOperation = (operation: Operation) => {
+    const renderOperation = (operation: Operation) => {
         return (<div onClick={() => {
             let cont: boolean = false;
-            let newOps: Array<Operation> = [];
+            const newOps: Array<Operation> = [];
 
-            for (let op of selectedOps) {
+            for (const op of selectedOps) {
                 if (op !== operation) {
                     newOps.push(op);
                 } else {

@@ -1,5 +1,5 @@
 import {Direction} from "../classes/Direction";
-import {StepEquation} from "../../../util/classes/StepEquation";
+import {StepEquation} from "../../../types/StepEquation";
 import {useIntl} from "react-intl";
 
 const PrintEquation = (props: {

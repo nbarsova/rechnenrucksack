@@ -33,7 +33,7 @@ const PrintTreasureSolutionPage = (props: {
         }
 
         return (
-            <div className='printPageText'>
+            <div className='printPageTextWeb'>
                 {props.equationSteps.map(renderEquation)}
                 <div className='printPageAnswer'>
                     <span className='equationText'><FormattedMessage id='answer'/></span>

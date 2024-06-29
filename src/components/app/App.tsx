@@ -1,79 +1,81 @@
 import {useState} from 'react';
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
-import './App.css';
+import {Link, Outlet, Route, Routes} from "react-router-dom";
 import {IntlProvider} from "react-intl";
 import {deMessagesJSON, enMessagesJson, ruMessagesJSON} from "../../messages/messages";
-import {Main} from "./Main";
-import {puzzles} from "./puzzles";
-import PrintContainer from "./PrintContainer";
 import {getFromStorage, LOCALE_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
+import './App.css';
+import {Header} from "./header/Header";
+import Footer from "./footer/Footer";
+import SecretMessage from "../secret/SecretMessage";
+import {LockMonster} from "../monster/LockMonster";
+import {puzzleKeys, puzzles} from "./puzzles";
+import {useLocation} from "react-router";
+import TreasureHunt from "../treasure/TreasureHunt";
+import Puzzles from "./Puzzles/Puzzles";
+import PrintContainer from "../print/PrintContainer";
+
+export const ROOT_PATH = "/rechnenrucksack";
 
 const App = () => {
 
-  const messages: any = {
-    en: enMessagesJson,
-    de: deMessagesJSON,
-    ru: ruMessagesJSON
-  };
+    const messages: any = {
+        en: enMessagesJson,
+        de: deMessagesJSON,
+        ru: ruMessagesJSON
+    };
 
-  let defaultLocale = getFromStorage(LOCALE_PARAMETER_NAME);
+    let defaultLocale = getFromStorage(LOCALE_PARAMETER_NAME);
 
-  if (!defaultLocale) switch (navigator.language) {
-    case "de-DE":
-      defaultLocale = "de";
-    case "ru-RU":
-      defaultLocale = "ru";
-    default:
-      break;
-  }
+    if (!defaultLocale) switch (navigator.language) {
+        case "de-DE":
+            defaultLocale = "de";
+            break;
+        case "ru-RU":
+            defaultLocale = "ru";
+            break;
+        default:
+            break;
+    }
 
-  let [locale, setCurrentLocale] = useState(defaultLocale || 'en');
+    const [locale, setCurrentLocale] = useState(defaultLocale || 'en');
 
-  const setLocale = (locale: string) => {
-    setCurrentLocale(locale);
-    setInStorage(LOCALE_PARAMETER_NAME, locale);
-  }
+    const setLocale = (locale: string) => {
+        setCurrentLocale(locale);
+        setInStorage(LOCALE_PARAMETER_NAME, locale);
+    }
 
-  return (
-      <IntlProvider locale={locale}
-                    messages={messages[locale]}>
-        <Router>
-          <div>
+    const location = useLocation();
 
-            <Switch>
-              <Route path="/treasure/print/solution">
-                <PrintContainer puzzle={puzzles.treasure.key} solution/>
-              </Route>
-              <Route path="/treasure/print">
-                <PrintContainer puzzle={puzzles.treasure.key}/>
-              </Route>
-              <Route path="/treasure">
-                <Main currentPuzzle={puzzles.treasure} defaultLocale={defaultLocale}
-                setLocale={setLocale}/>
-              </Route>
-              <Route path="/secret/print/solution">
-                <PrintContainer puzzle={puzzles.secret.key} solution/>
-              </Route>
-              <Route path="/secret/print">
-                <PrintContainer puzzle={puzzles.secret.key}/>
-              </Route>
-              <Route path="/secret">
-                <Main currentPuzzle={puzzles.secret} defaultLocale={defaultLocale}
-                      setLocale={setLocale}/>
-              </Route>
-              <Route path="/monster">
-                <Main currentPuzzle={puzzles.monster} defaultLocale={defaultLocale}
-                      setLocale={setLocale}/>
-              </Route>
-              <Route path="/">
-                <Main defaultLocale={defaultLocale}
-                      setLocale={setLocale}/>
-              </Route>
-            </Switch>
-          </div>
-        </Router>
-      </IntlProvider>
+    const isRoot = location.pathname === ROOT_PATH;
+
+    const currentPuzzle = location.pathname.slice(ROOT_PATH.length+1, location.pathname.length);
+
+    const renderPuzzleInBar = (puzzle: any) => <Link key={puzzle.key} to={puzzle.key}
+                                                     className={currentPuzzle === puzzle.key ? 'selectedPuzzleNameBar': "puzzleNameBar"}>
+        {puzzle.name}</Link>;
+
+
+    return (
+        <IntlProvider locale={locale}
+                      messages={messages[locale]}>
+            <Routes>
+                <Route path={ROOT_PATH} element={
+                    <div className='app'>
+                        <Header headerCallback={setLocale} locale={locale}/>
+                        {isRoot ? <Puzzles /> :
+                            <div className='puzzleBar'>{puzzles.map(renderPuzzleInBar)}</div>}
+                        {!isRoot && <Outlet/>}
+                        <Footer/>
+                    </div>
+                }>
+                    <Route path={ROOT_PATH+'/'+puzzleKeys.TREASURE_PUZZLE_KEY} element={<TreasureHunt/>}/>
+                    <Route path={ROOT_PATH+'/'+puzzleKeys.SECRET_CODE_PUZZLE_KEY} element={<SecretMessage/>}/>
+                    <Route path={ROOT_PATH+'/'+puzzleKeys.MONSTER_PUZZLE_KEY} element={<LockMonster/>}/>
+                </Route>
+                <Route path={ROOT_PATH+'/print'} element={<PrintContainer />}/>
+            </Routes>
+        </IntlProvider>
     );
-  };
+};
 
 export default App;

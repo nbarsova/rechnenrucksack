@@ -1,14 +1,12 @@
 import {useEffect, useState} from 'react';
-import {NumberComplexity} from "../complexity/NumberComplexity";
-import {EquationsAmount} from "../complexity/EquationsAmount";
-import {OperationsSelector} from "../complexity/OperationsSelector";
-import "./TreasureHunt.css";
-import {Operation} from "../../util/enums/Operation";
+
+import {NumberComplexity} from "../settings/NumberComplexity";
+import {EquationsAmount} from "../settings/EquationsAmount";
+import {OperationsSelector} from "../settings/OperationsSelector";
+import {Operation} from "../../types/enums/Operation";
 import {createPathToCurrentTarget, initTargets} from "./MapGenerator";
 import {createEquationSet} from "../../util/arithmetic";
-import {useIntl} from 'react-intl';
-import {StepEquation} from "../../util/classes/StepEquation";
-import {Link} from "react-router-dom";
+import {StepEquation} from "../../types/StepEquation";
 import PrintTreasurePage from "./print/PrintTreasurePage";
 import {
     CURRENT_TARGET_PARAMETER_NAME,
@@ -17,33 +15,24 @@ import {
     setInStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
-import PrintIcon from "../../svg/PrintIcon";
-import SolutionIcon from "../../svg/SolutionIcon";
-import RefreshIcon from "../../svg/RefreshIcon";
 import {MapTargetObject} from "./classes/MapTargetObject";
-
+import {puzzleKeys} from "../app/puzzles";
+import "./TreasureHunt.css";
+import "../app/App.css";
+import Buttons from "../buttons/Buttons";
 
 const TreasureHunt = () => {
     const numberRanges = [10, 25];
     const equationsAmounts = [6, 8, 10];
     const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
-    let [numberRange, setNumberRange] = useState(numberRanges[0]);
-    let [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
-    let [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
-    const intl = useIntl();
-
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    const canvasDivWidth = viewportWidth - 300; // magic nums from css
-    const canvasDivHeight = viewportHeight - 220;
-
-    const canvasHeight = Math.min(canvasDivHeight, canvasDivWidth / 2);
+    const [numberRange, setNumberRange] = useState(numberRanges[0]);
+    const [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
+    const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
 
     const [equationSteps, setEquationSteps] = useState<StepEquation[]>([]);
     const [targets, setTargets] = useState<MapTargetObject[]>([]);
-    const [currentTarget, setCurrentTarget] = useState<MapTargetObject|null>(null);
+    const [currentTarget, setCurrentTarget] = useState<MapTargetObject | null>(null);
 
     useEffect(() => {
         createNewEquationSet();
@@ -69,10 +58,11 @@ const TreasureHunt = () => {
         }
         const equations = createEquationSet(absSteps, selectedOps, numberRange);
 
-        let equationSteps: Array<StepEquation> = [];
+        const equationSteps: Array<StepEquation> = [];
 
         for (let ii = 0; ii < steps.length; ii++) {
             equationSteps.push({
+                // @ts-ignore
                 equation: equations[ii],
                 step: steps[ii]
             });
@@ -83,8 +73,8 @@ const TreasureHunt = () => {
     };
 
     const prepareTeacherPage = () => {
-            setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
-            setInStorage(CURRENT_TARGET_PARAMETER_NAME, JSON.stringify(currentTarget));
+        setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equationSteps));
+        setInStorage(CURRENT_TARGET_PARAMETER_NAME, JSON.stringify(currentTarget));
     };
 
     const prepareStudentPage = () => {
@@ -93,33 +83,41 @@ const TreasureHunt = () => {
         setInStorage(TARGETS_PARAMETER_NAME, JSON.stringify(targets));
     };
 
+    const viewportHeight = Math.min(window.screen.height, window.innerHeight);
+    const viewportWidth = Math.min(window.innerWidth, window.innerWidth);
+
+    let mainAreaHeight;
+
+    // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
+
+    if (viewportWidth < 1200) {
+        console.log('small screen');
+        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
+    } else {
+        console.log('big screen');
+        // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
+        mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
+    }
+
     return (<div className="main">
         <div className="settings">
-            <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
-                              onRangeChange={(range: number) => setNumberRange(range)}/>
+            <div className='treasureSettings'>
+                <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
+                                  onRangeChange={(range: number) => setNumberRange(range)}/>
 
-            <EquationsAmount equationsAmounts={equationsAmounts}
-                             onChange={(amount: number) => setEquationsAmount(amount)}/>
-            <OperationsSelector allOps={allOps}
-                                onOpsChanged={(selectedOps: Array<Operation>) => {
-                                    setSelectedOps(selectedOps)
-                                }}/>
+                <OperationsSelector allOps={allOps}
+                                    onOpsChanged={(selectedOps: Array<Operation>) => {
+                                        setSelectedOps(selectedOps)
+                                    }}/>
+                <EquationsAmount equationsAmounts={equationsAmounts}
+                                 onChange={(amount: number) => setEquationsAmount(amount)}/>
 
-            <div className='buttons'>
-                <Link target='_blank' to={"/treasure/print"}
-                      className='printButton'
-                      title={intl.formatMessage({id: 'printStudent'})}
-                      onClick={prepareStudentPage}><PrintIcon /></Link>
-                <Link target='_blank' to={"/treasure/print/solution"}
-                      className='printButton'
-                      title={intl.formatMessage({id: 'printTeacher'})}
-                      onClick={prepareTeacherPage}><SolutionIcon /></Link>
-                <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
-                     onClick={createNewEquationSet}><RefreshIcon /></div>
+                <Buttons prepareSolutionParameters={prepareTeacherPage} preparePrintParameters={prepareStudentPage}
+                         refresh={createNewEquationSet} puzzleKey={puzzleKeys.TREASURE_PUZZLE_KEY}/>
             </div>
         </div>
         <PrintTreasurePage equationSteps={equationSteps}
-                               stones={targets} canvasHeight={canvasHeight} numberRange={numberRange}/>
+                           stones={targets} canvasHeight={mainAreaHeight} numberRange={numberRange}/>
 
 
     </div>);

@@ -1,17 +1,17 @@
-import {Equation} from "./classes/Equation";
-import {Operation} from "./enums/Operation";
+import {Equation} from "../types/Equation";
+import {Operation} from "../types/enums/Operation";
 
 export const createEquationSet = (steps: Array<number>, operations: Array<string>, complexity: number):Array<Equation> | undefined => {
-    let generatedEquations: Array<any> = [];
+    const generatedEquations: Array<Equation> = [];
 
-    let equationsSet = [];
+    const equationsSet = [];
 
-    let opTreshold = Math.floor(steps.length / operations.length) + 1;
+    const opTreshold = Math.floor(steps.length / operations.length) + 1;
     let adN = 0;
     let subN = 0;
     let multN = 0;
     let divN = 0;
-    let tresholds = [];
+    const tresholds = [];
 
     for (let ii = 0; ii < operations.length; ii++) {
 
@@ -40,7 +40,7 @@ export const createEquationSet = (steps: Array<number>, operations: Array<string
             return;
         } else {
 
-            let exclusions = [];
+            const exclusions = [];
 
             // если число простое - выкидываем умножение
             if (isPrime(steps[i])) {
@@ -64,12 +64,12 @@ export const createEquationSet = (steps: Array<number>, operations: Array<string
                 exclusions.push(Operation.DIV);
             }
 
-            let currentOp = selectOperation(operations, exclusions, tresholds);
+            const currentOp = selectOperation(operations, exclusions, tresholds);
 
             equationsSet.push(buildUniqueEquation(steps[i], currentOp, complexity, generatedEquations));
 
             //update tresholds
-            for (var j = 0; j < tresholds.length; j++) {
+            for (let j = 0; j < tresholds.length; j++) {
                 if ((tresholds[j].op === currentOp) && (tresholds[j].treshold > 0)) {
                     tresholds[j].treshold--;
                 }
@@ -87,15 +87,15 @@ const selectOperation = function (operations: Array<string>, exclusions: Array<s
         let maxTreshold = 0;
 
         for (let i = 0; i < operations.length; i++) {
-            var op = operations[i];
-            var excluded = false;
+            const op = operations[i];
+            let excluded = false;
 
-            for (var ii = 0; ii < exclusions.length; ii++) {
+            for (let ii = 0; ii < exclusions.length; ii++) {
                 if (exclusions[ii] === op) excluded = true;
             }
 
             if (!excluded) {
-                for (var iii = 0; iii < tresholds.length; iii++) {
+                for (let iii = 0; iii < tresholds.length; iii++) {
                     if ((tresholds[iii].op === op) && (tresholds[iii].treshold !== 0) && (maxTreshold < tresholds[iii].treshold)) {
                         maxTreshold = tresholds[iii].treshold;
                         selectedOp = tresholds[iii].op;
@@ -104,7 +104,7 @@ const selectOperation = function (operations: Array<string>, exclusions: Array<s
             }
         }
         if (typeof (selectedOp) === 'undefined') {
-            let randomNum = normalRandom(0, operations.length - 1);
+            const randomNum = normalRandom(0, operations.length - 1);
             selectedOp = operations[randomNum];
         }
         return selectedOp;
@@ -133,7 +133,7 @@ const buildUniqueEquation = function (number: number, operation: string, complex
     for (let k = 0; k < generatedEquations.length; k++) {
         if (generatedEquations[k].number === number) {
             numberExists = true;
-            for (var kk = 0; kk < generatedEquations[k].values.length; kk++) {
+            for (let kk = 0; kk < generatedEquations[k].values.length; kk++) {
                 if (generatedEquations[k].values[kk].operation === operation) {
                     operationFound = true;
                     if (generatedEquations[k].values[kk].equations.length === 0) {
@@ -179,7 +179,7 @@ const buildUniqueEquation = function (number: number, operation: string, complex
 
                     //console.log(generatedEquations[n].values[nn]);
 
-                    var randomNumber = normalRandom(0, generatedEquations[n].values[nn].equations.length - 1);
+                    const randomNumber = normalRandom(0, generatedEquations[n].values[nn].equations.length - 1);
                     //console.log("Random number is "+randomNumber);
                     equation = generatedEquations[n].values[nn].equations[randomNumber];
                     generatedEquations[n].values[nn].equations.splice(randomNumber, 1);
@@ -193,44 +193,44 @@ const buildUniqueEquation = function (number: number, operation: string, complex
 }
 
 const createAdditionEquations = function (number: number) {
-    var newEquations = [];
+    const newEquations = [];
 
-    var adstart = 0;
+    let adstart = 0;
     if (number > 2) adstart = 1;
 
-    for (var kk = adstart; kk <= number - adstart; kk++) {
-        var newEquation = new Equation(kk, number - kk, Operation.ADD, number);
+    for (let kk = adstart; kk <= number - adstart; kk++) {
+        const newEquation = new Equation(kk, number - kk, Operation.ADD, number);
         newEquations.push(newEquation);
     }
     return newEquations;
 }
 
 const createSubstractionEquations = function (number: number, complexity: number) {
-    var newEquations = [];
+    const newEquations = [];
 
-    var subDim = 0;
+    let subDim = 0;
     if (number === Number(complexity)) {
         subDim = 1;
     }
 
-    for (var ss = 1; ss <= complexity - number + subDim; ss++) {
-        var newEquation = new Equation(number + ss - subDim, ss - subDim, Operation.SUB, number);
+    for (let ss = 1; ss <= complexity - number + subDim; ss++) {
+        const newEquation = new Equation(number + ss - subDim, ss - subDim, Operation.SUB, number);
         newEquations.push(newEquation);
     }
     return newEquations;
 }
 
 const createMultiplicationEquations = function (number: number) {
-    var newEquations = [];
+    const newEquations = [];
 
-    var multstart = 1;
+    let multstart = 1;
     if ((!(isPrime(number))) && (number > 2)) {
         multstart = 2;
     }
 
-    for (var mm = multstart; mm <= number / multstart; mm++) {
+    for (let mm = multstart; mm <= number / multstart; mm++) {
         if ((number) % mm === 0) {
-            var newEquation = new Equation(mm, number / mm, Operation.MULT, number);
+            const newEquation = new Equation(mm, number / mm, Operation.MULT, number);
             newEquations.push(newEquation);
         }
     }
@@ -238,10 +238,10 @@ const createMultiplicationEquations = function (number: number) {
 }
 
 const createDivisionEquations = function (number: number, complexity: number) {
-//    console.log("Creating division equations for number "+number +" complexity "+complexity);
-    var newEquations = [];
+//    console.log("Creating division equations for number "+number +" settings "+settings);
+    const newEquations = [];
 
-    var divstart = 1;
+    let divstart = 1;
 
     if (2 * number <= complexity) {
         divstart = 2;
@@ -249,8 +249,8 @@ const createDivisionEquations = function (number: number, complexity: number) {
 
 //    console.log("Division start ="+divstart);
 
-    for (var dd = divstart; (dd < 10) && (dd * number <= complexity); dd++) {
-        var newEquation = new Equation(dd * number, dd, Operation.DIV, number);
+    for (let dd = divstart; (dd < 10) && (dd * number <= complexity); dd++) {
+        const newEquation = new Equation(dd * number, dd, Operation.DIV, number);
         newEquations.push(newEquation);
     }
     return newEquations;
@@ -274,14 +274,14 @@ export const normalRandom = (min: number, max: number) => {
 /* Check if an absolute value of a number is prime */
 
 export const isPrime = (number: number) => {
-    var isPrime = true;
+    let isPrime = true;
 
     if (Math.abs(number) <= 3) {
         isPrime = true;
     } else if ((number % 2 === 0) || (number % 3 === 0)) {
         isPrime = false;
     } else {
-        for (var jj = 5; jj * jj < number; jj = jj + 6) {
+        for (let jj = 5; jj * jj < number; jj = jj + 6) {
             if ((number % jj === 0) || (number % (jj + 2) === 0)) {
                 isPrime = false;
             }
