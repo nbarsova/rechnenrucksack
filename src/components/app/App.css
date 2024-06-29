@@ -225,7 +225,6 @@ body {
     overflow-x: scroll;
     overflow-y: hidden;
     margin-left: 10px;
-    background-color: lightgoldenrodyellow;
 }
 
 @media only screen and (min-width: 1200px) {

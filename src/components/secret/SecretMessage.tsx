@@ -2,11 +2,7 @@ import {useEffect, useState} from 'react';
 import {NumberComplexity} from "../settings/NumberComplexity";
 import {OperationsSelector} from "../settings/OperationsSelector";
 import {Operation} from "../../types/enums/Operation";
-import {Link} from "react-router-dom";
 import "./SecretMessage.css";
-import PrintIcon from "../../svg/PrintIcon";
-import SolutionIcon from "../../svg/SolutionIcon";
-import RefreshIcon from "../../svg/RefreshIcon";
 
 import {FormattedMessage, useIntl} from "react-intl";
 import {countMessageSymbols, createSecretCodeForMessage} from "./CodeGenerator";
@@ -14,9 +10,7 @@ import {countMessageSymbols, createSecretCodeForMessage} from "./CodeGenerator";
 import SecretCodePrintPage from "./SecretCodePrintPage";
 import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 import {Equation} from "../../types/Equation";
-import {ROOT_PATH} from "../app/App";
 import Buttons from "../buttons/Buttons";
-import {puzzleKeys} from "../app/puzzles";
 
 const SecretMessage = () => {
     const intl = useIntl();
@@ -59,7 +53,7 @@ const SecretMessage = () => {
     const updateSecretMessage = (ev: any) => {
         const newMessage = ev.target.value;
 
-        if (newMessage.length > 50) {
+        if (newMessage.length > 48) {
             setError(true);
             setSecretMessage(newMessage.substring(0, 50));
         } else {
@@ -107,8 +101,10 @@ const SecretMessage = () => {
     // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
 
     if (viewportWidth < 1200) {
+        console.log('small screen');
         mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
     } else {
+        console.log('big screen');
         // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
         mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
     }

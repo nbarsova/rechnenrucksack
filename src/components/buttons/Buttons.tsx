@@ -21,7 +21,7 @@ const Buttons = (props: {
                   title={intl.formatMessage({id: 'printStudent'})}
                   onClick={preparePrintParameters}><PrintIcon/></Link>
             <Link target='_blank'
-                  to={ROOT_PATH}
+                  to={ROOT_PATH + '/print?puzzle='+puzzleKey+'&solution=true'}
                   className='button'
                   title={intl.formatMessage({id: 'printTeacher'})}
                   onClick={prepareSolutionParameters}><SolutionIcon/></Link>

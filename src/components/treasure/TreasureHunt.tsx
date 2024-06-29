@@ -1,6 +1,4 @@
 import {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
-import {useIntl} from 'react-intl';
 
 import {NumberComplexity} from "../settings/NumberComplexity";
 import {EquationsAmount} from "../settings/EquationsAmount";
@@ -17,12 +15,8 @@ import {
     setInStorage,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
-import PrintIcon from "../../svg/PrintIcon";
-import SolutionIcon from "../../svg/SolutionIcon";
-import RefreshIcon from "../../svg/RefreshIcon";
 import {MapTargetObject} from "./classes/MapTargetObject";
 import {puzzleKeys} from "../app/puzzles";
-import {ROOT_PATH} from "../app/App";
 import "./TreasureHunt.css";
 import "../app/App.css";
 import Buttons from "../buttons/Buttons";
@@ -35,7 +29,6 @@ const TreasureHunt = () => {
     const [numberRange, setNumberRange] = useState(numberRanges[0]);
     const [equationsAmount, setEquationsAmount] = useState(equationsAmounts[0]);
     const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
-    const intl = useIntl();
 
     const [equationSteps, setEquationSteps] = useState<StepEquation[]>([]);
     const [targets, setTargets] = useState<MapTargetObject[]>([]);
@@ -98,8 +91,10 @@ const TreasureHunt = () => {
     // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
 
     if (viewportWidth < 1200) {
+        console.log('small screen');
         mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
     } else {
+        console.log('big screen');
         // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
         mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
     }

@@ -29,11 +29,12 @@ const PrintContainer = () => {
     const [currentPuzzle, setCurrentPuzzle] = useState<string | null>(null);
     const fullPuzzleInfo = puzzles.find((p) => p.key === currentPuzzle);
 
-    const puzzleTitle = fullPuzzleInfo ? fullPuzzleInfo.printTitle: '';
+    const puzzleTitle = fullPuzzleInfo ? fullPuzzleInfo.printTitle : '';
 
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
 
-    const canvasHeight = printElementDiv.current?.clientHeight && 0.8*printElementDiv.current.clientHeight;
+    const canvasHeight = printElementDiv.current?.clientHeight && 0.8 * printElementDiv.current.clientHeight;
+    console.log(printElementDiv.current?.clientHeight, canvasHeight)
 
     const innerPrintElementDiv = useRef<HTMLDivElement>(null); // this is container for the puzzle, we need it for right dimensions
 
@@ -51,11 +52,17 @@ const PrintContainer = () => {
             (imgProperties.height * pdfWidth) / imgProperties.width;
 
         pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('print.pdf');
 
+        let fileName = currentPuzzle;
+
+        if (solution) fileName+='_solution';
+
+        fileName+='.pdf';
+        // @ts-ignore
+        pdf.save(fileName);
     }
 
-    const clearStorage = ()=> {
+    const clearStorage = () => {
         removeFromStorage(EQUATIONS_PARAMETER_NAME);
         removeFromStorage(CURRENT_TARGET_PARAMETER_NAME);
         removeFromStorage(NUMBER_RANGE_PARAMETER_NAME);
@@ -64,7 +71,7 @@ const PrintContainer = () => {
         removeFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME);
     };
 
-    let puzzleComponent=null;
+    let puzzleComponent = null;
 
     switch (currentPuzzle) {
         case(puzzleKeys.TREASURE_PUZZLE_KEY):
@@ -77,14 +84,15 @@ const PrintContainer = () => {
                     canvasHeight={canvasHeight}
                     equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                     stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}
-                mode='print'/>;
+                    mode='print'/>;
             break;
         case (puzzleKeys.SECRET_CODE_PUZZLE_KEY):
             puzzleComponent = <SecretCodePrintPage
                 equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                 letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
                 canvasHeight={canvasHeight}
-                showLetters={Boolean(solution)}/>;
+                showLetters={Boolean(solution)}
+                mode='print'/>;
             break;
         case (puzzleKeys.MONSTER_PUZZLE_KEY):
             const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
@@ -96,7 +104,7 @@ const PrintContainer = () => {
                 parentWidth={innerPrintElementDiv.current?.clientWidth}/>;
             break;
         default:
-            puzzleComponent=null;
+            puzzleComponent = null;
     }
 
     useEffect(() => {
@@ -105,14 +113,14 @@ const PrintContainer = () => {
         }
     }, [printElementDiv.current]);
 
-    useEffect(()=> {
+    useEffect(() => {
         if (currentPuzzle) {
             createPDF();
-            // clearStorage();
+            clearStorage();
         }
     }, [currentPuzzle]);
 
-     return (<div className='printPreviewContainer' ref={printElementDiv}>
+    return (<div className='printPreviewContainer' ref={printElementDiv}>
             <div className='printHeader'>
 
                 <div className='printTitle'>{puzzleTitle}</div>
