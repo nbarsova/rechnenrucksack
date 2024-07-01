@@ -19,10 +19,13 @@
 
 .copyright {
     font-family: "Neucha";
-    font-size: 20px;
+    font-size: calc(0.5 * var(--printTextHeight));
     color: #cbcbcb;
     margin-left: 10px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    position: absolute;
+    bottom:0;
+    right: 0;
 }

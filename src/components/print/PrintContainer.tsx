@@ -38,7 +38,7 @@ const PrintContainer = () => {
 
     const innerPrintElementDiv = useRef<HTMLDivElement>(null); // this is container for the puzzle, we need it for right dimensions
 
-    async function createPDF() {
+    /* async function createPDF() {
 
         const element = printElementDiv.current;
         // @ts-ignore
@@ -60,7 +60,7 @@ const PrintContainer = () => {
         fileName+='.pdf';
         // @ts-ignore
         pdf.save(fileName);
-    }
+    } */
 
     const clearStorage = () => {
         removeFromStorage(EQUATIONS_PARAMETER_NAME);
@@ -115,7 +115,7 @@ const PrintContainer = () => {
 
     useEffect(() => {
         if (currentPuzzle) {
-            createPDF();
+            window.print();
             clearStorage();
         }
     }, [currentPuzzle]);

@@ -22,7 +22,7 @@
     --puzzleAmount: 3;
     --mainAreaHeight: calc(100vh - var(--headerHeight) - var(--footerHeight));
     --subHeaderFontSize: 2vh;
-    --printHeight: 210mm;
+    --printHeight: 190mm;
     --printWidth: 290mm;
     --printHeaderHeight: 10mm;
     --printTextHeight: 6mm;

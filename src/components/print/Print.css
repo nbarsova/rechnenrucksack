@@ -4,7 +4,6 @@
     flex-direction: column;
     width: var(--printWidth);
     height: var(--printHeight);
-    border: 1px solid lightsalmon;
 }
 
 .printHeader {
