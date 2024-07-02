@@ -12,8 +12,6 @@ import {
 } from "../../util/localStorage";
 import {puzzleKeys, puzzles} from "../app/puzzles";
 import {FormattedMessage} from "react-intl";
-import html2canvas from 'html2canvas';
-import {jsPDF} from 'jspdf';
 import SecretCodePrintPage from "../secret/SecretCodePrintPage";
 import PrintTreasureSolutionPage from "../treasure/print/PrintTreasureSolutionPage";
 import MonsterPrintPage from "../monster/print/MonsterPrintPage";
@@ -37,30 +35,6 @@ const PrintContainer = () => {
     console.log(printElementDiv.current?.clientHeight, canvasHeight)
 
     const innerPrintElementDiv = useRef<HTMLDivElement>(null); // this is container for the puzzle, we need it for right dimensions
-
-    /* async function createPDF() {
-
-        const element = printElementDiv.current;
-        // @ts-ignore
-        const canvas = await html2canvas(element);
-        const data = canvas.toDataURL('image/png');
-
-        const pdf = new jsPDF('landscape');
-        const imgProperties = pdf.getImageProperties(data);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight =
-            (imgProperties.height * pdfWidth) / imgProperties.width;
-
-        pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-        let fileName = currentPuzzle;
-
-        if (solution) fileName+='_solution';
-
-        fileName+='.pdf';
-        // @ts-ignore
-        pdf.save(fileName);
-    } */
 
     const clearStorage = () => {
         removeFromStorage(EQUATIONS_PARAMETER_NAME);

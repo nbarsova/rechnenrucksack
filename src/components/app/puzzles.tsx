@@ -4,7 +4,9 @@ import SecretMessage from "../secret/SecretMessage";
 
 // @ts-ignore
 import monster from '../../img/monsterP.png';
+// @ts-ignore
 import map from '../../img/mapP.png';
+// @ts-ignore
 import secret from '../../img/secretP.png';
 
 export enum puzzleKeys  {

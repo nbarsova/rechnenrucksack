@@ -6,7 +6,7 @@ header {
     font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;
-    letter-spacing: 10px;
+    letter-spacing: 1vh;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

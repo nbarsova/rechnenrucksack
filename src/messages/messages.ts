@@ -66,7 +66,7 @@ export const deMessagesJSON = {
     "printTeacher": "Lösung drucken",
     "refresh": "Neue Aufgabe",
     "initialSecretMessage": "Fischers Fritz fischt frische Fische",
-    "enterMessage": "Tragen Sie eine Nachricht ein, um Geheimcode zu generiere (max. 50 Symbole)",
+    "enterMessage": "Tragen Sie eine Nachricht ein (max. 50 Symbole)",
     "secretMessageTooLong": "Geheime Nachricht darf nicht länger als 50 Symbole sein",
     "messageLength": "Nachricht Länge:",
     "symbolsInStringMessage": ", Buchstabenanzahl:",
