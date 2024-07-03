@@ -126,19 +126,19 @@ const SecretMessage = () => {
                 </div>
                 <textarea value={secretMessage}
                           className={error ? 'borderedSecretMessageInput' : 'secretMessageInput'}
-                          rows={3}
+                          rows={2}
                           onChange={updateSecretMessage}
                 />
-                {error ? <div className='errorMessage'>
-                        <FormattedMessage id='secretMessageTooLong'/>
-                    </div> :
-                    <div className='countMessage'>
-                        <span className='equationText'><FormattedMessage id='messageLength'/></span>
-                        {secretMessage.length}
-                        <span className='equationText'><FormattedMessage id='symbolsInStringMessage'/> </span>
-                        {symbols.length}
-                    </div>}
             </div>
+            {error ? <div className='errorMessage'>
+                    <FormattedMessage id='secretMessageTooLong'/>
+                </div> :
+                <div className='countMessage'>
+                    <span className='equationText'><FormattedMessage id='messageLength'/></span>
+                    {secretMessage.length}
+                    <span className='equationText'><FormattedMessage id='symbolsInStringMessage'/> </span>
+                    {symbols.length}
+                </div>}
 
             <Buttons prepareSolutionParameters={prepareParameters} preparePrintParameters={prepareParameters}
                      refresh={refresh} puzzleKey='secretCode'/>
