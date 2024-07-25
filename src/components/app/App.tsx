@@ -11,7 +11,7 @@ import {LockMonster} from "../monster/LockMonster";
 import {puzzleKeys, puzzles} from "./puzzles";
 import {useLocation} from "react-router";
 import TreasureHunt from "../treasure/TreasureHunt";
-import Puzzles from "./Puzzles/Puzzles";
+import Puzzles from "./puzzles/Puzzles";
 import PrintContainer from "../print/PrintContainer";
 
 export const ROOT_PATH = "/rechnenrucksack/";
