@@ -25,7 +25,7 @@ export function Header(props:
 
     return (
             <header>
-                <Link className="headerWrapper" to={'/rechnenrucksack'}>
+                <Link className="headerWrapper" to={'/rechnenrucksack/'}>
                     <FormattedMessage id="rechnenrucksack"/>
                 </Link>
                 <div className="languages"> {languages.map(renderLanguage)}</div>
