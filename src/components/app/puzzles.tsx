@@ -3,11 +3,12 @@ import TreasureHunt from "../treasure/TreasureHunt";
 import SecretMessage from "../secret/SecretMessage";
 
 // @ts-ignore
-import monster from '../../img/monsterP.png';
+import monster from '../../img/monster/1.png';
 // @ts-ignore
 import map from '../../img/mapP.png';
 // @ts-ignore
 import secret from '../../img/secretP.png';
+import {LockMonster} from "../monster/LockMonster";
 
 export enum puzzleKeys  {
     TREASURE_PUZZLE_KEY='treasure',
@@ -31,7 +32,7 @@ export const puzzles = [{
         printTitle: <FormattedMessage id='secretCodeTitle' />,
         component: <SecretMessage/>,
         thumbnail: secret
-    } /*,
+    } ,
      {
         key: puzzleKeys.MONSTER_PUZZLE_KEY,
         name: <FormattedMessage
@@ -39,5 +40,5 @@ export const puzzles = [{
         component: <LockMonster/>,
         thumbnail: monster,
         printTitle: <FormattedMessage id='lockMonsterTitle' />,
-    } */
+    }
 ];

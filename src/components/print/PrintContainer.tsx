@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
+import {useSearchParams} from "react-router-dom";
 import PrintTreasurePage from "../treasure/print/PrintTreasurePage";
 import {
     CURRENT_TARGET_PARAMETER_NAME,
@@ -15,7 +16,6 @@ import {FormattedMessage} from "react-intl";
 import SecretCodePrintPage from "../secret/SecretCodePrintPage";
 import PrintTreasureSolutionPage from "../treasure/print/PrintTreasureSolutionPage";
 import MonsterPrintPage from "../monster/print/MonsterPrintPage";
-import {useSearchParams} from "react-router-dom";
 import './Print.css'
 
 const PrintContainer = () => {

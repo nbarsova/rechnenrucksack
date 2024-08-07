@@ -3,6 +3,8 @@ import {Equation} from "../../../types/Equation";
 import '../LockMonster.css';
 import '../../app/App.css';
 
+
+
 const MonsterPrintPage = (props: {
     monsterEquations: Array<Array<Equation>>;
     monstersAmount: number;
@@ -27,7 +29,7 @@ const MonsterPrintPage = (props: {
         }}>
             {monsterEquations && monsterEquations.map((equationSet: Equation [], index: number) =>
                 <MonsterCellComponent key={index} equations={equationSet} monsterCell={monsterCellHeight}
-                                      showAnswers={showAnswers}/>)}
+                                      showAnswers={showAnswers} monsterNumber={index}/>)}
         </div>
     );
 };

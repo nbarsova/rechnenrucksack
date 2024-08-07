@@ -1,8 +1,22 @@
 
 import {Equation} from "../../../types/Equation";
-import Monster from "../../../svg/Monster";
+// @ts-ignore
+import monster1 from '../../../img/monster/1.png'
+// @ts-ignore
+import monster2 from '../../../img/monster/2.png';
+// @ts-ignore
+import monster3 from '../../../img/monster/3.png';
+// @ts-ignore
+import monster4 from '../../../img/monster/4.png';
+// @ts-ignore
+import monster5 from '../../../img/monster/5.png';
+// @ts-ignore
+import monster6 from '../../../img/monster/6.png';
 import '../LockMonster.css';
 import '../../app/App.css';
+import {normalRandom} from "../../../util/arithmetic";
+
+const monsterPics= [monster1, monster2, monster3, monster4, monster5, monster6];
 
 const EquationCell = (props: { monsterCellSize: any; value: number | string }) => {
     const {monsterCellSize, value} = props;
@@ -25,7 +39,7 @@ const CornerCell = (props: { monsterCellSize: any; })=> {
 
 const MonsterCellComponent = (props:
                                   {
-                                      equations: Array<Equation> | undefined, monsterCell: number, showAnswers: boolean
+                                      equations: Array<Equation> | undefined, monsterCell: number, showAnswers: boolean, monsterNumber: number
                                   }) => {
     const {monsterCell, equations, showAnswers} = props;
     const monsterCellSize= monsterCell/7-2;
@@ -49,11 +63,15 @@ const MonsterCellComponent = (props:
                 <div className='flexRow' id='middleEquationTop'>
                     {renderEquation(equations[1])}
                 </div>
-                <div style={{ height: 5*monsterCellSize+10+'px', width: 5*monsterCellSize+'px'}} id='monsterPic'>
-                    <Monster width={5*monsterCellSize+10} height={5*monsterCellSize+10}/>
+                <div style={{height: 5 * monsterCellSize + 10 + 'px', width: 5 * monsterCellSize + 'px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+                     id='monsterPic'>
+                    <img
+                        className="thumbnail"
+                        src={monsterPics[normalRandom(0, 5)]}
+                    height={4 * monsterCellSize} width={4 * monsterCellSize}/>
                 </div>
                 <div className='flexRow' id='middleEquationBottom'>
-                    {renderEquation(equations[2])}
+                {renderEquation(equations[2])}
                 </div>
             </div>
             <div className='flexColumn' id='rightEquation'>

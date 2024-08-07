@@ -54,9 +54,7 @@ const App = () => {
                                                      className={currentPuzzle === puzzle.key ? 'selectedPuzzleNameBar': "puzzleNameBar"}>
         {puzzle.name}</Link>;
 
-    console.log('is root', isRoot, location.pathname);
-
-    return (
+     return (
         <IntlProvider locale={locale}
                       messages={messages[locale]}>
             <Routes>
