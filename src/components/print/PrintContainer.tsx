@@ -88,7 +88,7 @@ const PrintContainer = () => {
 
     useEffect(() => {
         if (currentPuzzle) {
-            window.print();
+            setTimeout(() => window.print(), 500);
             clearStorage();
         }
     }, [currentPuzzle]);
