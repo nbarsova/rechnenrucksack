@@ -32,7 +32,6 @@ const PrintContainer = () => {
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
 
     const canvasHeight = printElementDiv.current?.clientHeight && 0.8 * printElementDiv.current.clientHeight;
-    console.log(printElementDiv.current?.clientHeight, canvasHeight)
 
     const innerPrintElementDiv = useRef<HTMLDivElement>(null); // this is container for the puzzle, we need it for right dimensions
 

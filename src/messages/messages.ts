@@ -3,7 +3,7 @@ export const enMessagesJson = {
     "treasureMap": "Treasure Map",
     "secretCode": "Secret Code",
     "lockTheMonster": "Lock the Monster",
-    "numberRanges":"Numbers in tasks",
+    "numberRanges": "Numbers in tasks",
     "equationsAmount": "How many tasks?",
     "operations": "Arithmetic operations",
     "steps": '{count, plural, one {step} other {steps}}',
@@ -13,7 +13,7 @@ export const enMessagesJson = {
     "dirLeft": "left",
     "worksheetTitle": "Where is the treasure?",
     "worksheetDesc1": "The pirates have buried their treasure!",
-        "worksheetDesc2":   "But under which stone? Solve the tasks to find out! ",
+    "worksheetDesc2": "But under which stone? Solve the tasks to find out! ",
     "worksheetDesc3": "The cross shows where to start. ",
     "studentName": "Name",
     "workDate": "Date",
@@ -35,6 +35,9 @@ export const enMessagesJson = {
     "codeKey": "Letter code key: ",
     "secretCodeTitle": "Solve the secret code!",
     "lockMonsterTitle": "Lock the Monster!",
+    "howManyMonsters": "How many monsters?",
+    "addAndSubscribe": '+ and -',
+    "allOperations": "all",
 };
 
 export const deMessagesJSON = {
@@ -42,7 +45,7 @@ export const deMessagesJSON = {
     "treasureMap": "Schatzsuche",
     "secretCode": "Geheimcode",
     "lockTheMonster": "Fang dem Monster",
-    "numberRanges":"Zahlenbereich",
+    "numberRanges": "Zahlenbereich",
     "equationsAmount": "Aufgabenanzahl",
     "operations": "Rechenoperationen",
     "steps": '{count, plural, one { Schritt} other { Schritte}}',
@@ -52,7 +55,7 @@ export const deMessagesJSON = {
     "dirLeft": "links",
     "worksheetTitle": "Wo liegt der Schatz?",
     "worksheetDesc1": "Die Piraten haben einen Schatz vergraben. Aber unter welchem Stein? ",
-    "worksheetDesc2":  "Löse die Aufgaben, laufe in die Richtung und finde die Lösung heraus. ",
+    "worksheetDesc2": "Löse die Aufgaben, laufe in die Richtung und finde die Lösung heraus. ",
     "worksheetDesc3": "Das Kreuz zeigt, wo du anfangen musst.  ",
     "studentName": "Name",
     "workDate": "Datum",
@@ -74,6 +77,9 @@ export const deMessagesJSON = {
     "codeKey": "Schlüssel: ",
     "secretCodeTitle": "Löse den geheimen Code!",
     "lockMonsterTitle": "Fang dem Monster!",
+    "howManyMonsters": "Wieviele Monster?",
+    "addAndSubscribe": '+ and -',
+    "allOperations": "alle",
 };
 
 export const ruMessagesJSON = {
@@ -113,5 +119,7 @@ export const ruMessagesJSON = {
     "codeKey": "Ключ: ",
     "secretCodeTitle": "Разгадай секретный шифр!",
     "lockMonsterTitle": "Запри монстра в клетке!",
-
+    "howManyMonsters": "Сколько монстров?",
+    "addAndSubscribe": '+ и -',
+    "allOperations": "все",
 };

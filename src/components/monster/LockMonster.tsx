@@ -45,67 +45,72 @@ export function LockMonster() {
     const printContainerRef = useRef<HTMLDivElement>(null);
 
     return (<div className="main">
-        <div className="settings">
-            <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
-                              onRangeChange={(range: number) => setNumberRange(range)}/>
+            <div className="settings">
+                <div className='treasureSettings'>
+                    <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
+                                      onRangeChange={(range: number) => setNumberRange(range)}/>
 
-            <div className='numberComplexity'>
-                <b><FormattedMessage id="operations"/></b>
-                <div
-                    className='clickableRadio'>
-                    <input type="radio"
-                           checked={selectedOps === addOps}
-                           onChange={() => {
-                               setSelectedOps(addOps)
-                           }}/> + and -
+                    <div className='numberComplexity'>
+                        <b><FormattedMessage id="operations"/></b>
+                        <div
+                            className='clickableRadio'>
+                            <input type="radio"
+                                   checked={selectedOps === addOps}
+                                   onChange={() => {
+                                       setSelectedOps(addOps)
+                                   }}/><FormattedMessage id='addAndSubscribe'/>
+                        </div>
+                        <div
+                            className='clickableRadio'>
+                            <input type="radio"
+                                   checked={selectedOps === allOps}
+                                   onChange={() => {
+                                       setSelectedOps(allOps)
+                                   }}/><FormattedMessage id='allOperations'/>
+                        </div>
+                    </div>
+
+                    <div className='numberComplexity'>
+                        <b><FormattedMessage id='howManyMonsters'/></b>
+                        {monstersAmounts.map((amount: number) => <div
+                            style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}} key={amount}>
+                            <input type="radio"
+                                   checked={monstersAmount === amount}
+                                   onChange={() => {
+                                       setMonstersAmount(amount);
+                                   }}/>{amount}
+                        </div>)}
+                    </div>
+                    <div className='buttons'>
+                        <div className='printButton'
+                             title={intl.formatMessage({id: 'refresh'})}
+                             onClick={() => {
+                                 const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
+                                 setMonsterEquations(newEquations);
+                             }}
+                        ><RefreshIcon/></div>
+
+                        <Link target='_blank' to={"monster/print"}
+                              className='printButton'
+                              title={intl.formatMessage({id: 'printStudent'})}
+                              onClick={prepareParameters}
+                        ><PrintIcon/></Link>
+
+                        <Link target='_blank' to={"monster/print/solution"}
+                              className='printButton'
+                              onClick={prepareParameters}
+                              title={intl.formatMessage({id: 'printTeacher'})}
+                        ><SolutionIcon/></Link>
+                    </div>
                 </div>
-                <div
-                    className='clickableRadio'>
-                    <input type="radio"
-                           checked={selectedOps === allOps}
-                           onChange={() => {
-                               setSelectedOps(allOps)
-                           }}/>all arithmetic operations
-                </div>
+
+
             </div>
-
-            <div className='numberComplexity'>
-                <b>How many monsters?</b>
-                {monstersAmounts.map((amount: number) => <div
-                    style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}} key={amount}>
-                    <input type="radio"
-                           checked={monstersAmount === amount}
-                           onChange={() => {
-                               setMonstersAmount(amount);
-                           }}/>{amount}
-                </div>)}
-            </div>
-
-            <div className='buttons'>
-                <div className='printButton'
-                     title={intl.formatMessage({id: 'refresh'})}
-                     onClick={() => {
-                         const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
-                         setMonsterEquations(newEquations);
-                     }}
-                ><RefreshIcon/></div>
-
-                <Link target='_blank' to={"monster/print"}
-                      className='printButton'
-                      title={intl.formatMessage({id: 'printStudent'})}
-                      onClick={prepareParameters}
-                ><PrintIcon/></Link>
-
-                <Link target='_blank' to={"monster/print/solution"}
-                      className='printButton'
-                      onClick={prepareParameters}
-                      title={intl.formatMessage({id: 'printTeacher'})}
-                ><SolutionIcon/></Link>
-            </div>
+            <div className='printContainer' ref={printContainerRef}>
+                <MonsterPrintPage monsterEquations={monsterEquations}
+                                  monstersAmount={monstersAmount} showAnswers={false}
+                                  parentWidth={printContainerRef.current?.clientWidth}
+                                  parentHeight={printContainerRef.current?.clientHeight}/></div>
         </div>
-        <div className='printContainer' ref={printContainerRef}>
-            <MonsterPrintPage monsterEquations={monsterEquations}
-                              monstersAmount={monstersAmount} showAnswers={false}
-                              parentWidth={printContainerRef.current?.clientWidth} parentHeight={printContainerRef.current?.clientHeight}/></div>
-    </div>)
+    )
 }
