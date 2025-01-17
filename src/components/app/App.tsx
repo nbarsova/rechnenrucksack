@@ -6,7 +6,7 @@ import {getFromStorage, LOCALE_PARAMETER_NAME, setInStorage} from "../../util/lo
 import './App.css';
 import {Header} from "./header/Header";
 import Footer from "./footer/Footer";
-import SecretMessage from "../secret/SecretMessage";
+import SecretCode from "../secret/SecretCode";
 import {LockMonster} from "../monster/LockMonster";
 import {puzzleKeys, puzzles} from "./puzzles";
 import {useLocation} from "react-router";
@@ -48,13 +48,11 @@ const App = () => {
 
     const isRoot = location.pathname === ROOT_PATH;
 
-    const currentPuzzle = location.pathname.slice(ROOT_PATH.length+1, location.pathname.length);
+    const currentPuzzle = location.pathname.slice(ROOT_PATH.length + 1, location.pathname.length);
 
     const renderPuzzleInBar = (puzzle: any) => <Link key={puzzle.key} to={puzzle.key}
-                                                     className={currentPuzzle === puzzle.key ? 'selectedPuzzleNameBar': "puzzleNameBar"}>
+                                                     className={currentPuzzle === puzzle.key ? 'selectedPuzzleNameBar' : "puzzleNameBar"}>
         {puzzle.name}</Link>;
-
-    console.log('is root', isRoot, location.pathname);
 
     return (
         <IntlProvider locale={locale}
@@ -63,17 +61,17 @@ const App = () => {
                 <Route path={ROOT_PATH} element={
                     <div className='app'>
                         <Header headerCallback={setLocale} locale={locale}/>
-                        {isRoot ? <Puzzles /> :
+                        {isRoot ? <Puzzles/> :
                             <div className='puzzleBar'>{puzzles.map(renderPuzzleInBar)}</div>}
                         {!isRoot && <Outlet/>}
                         <Footer/>
                     </div>
                 }>
-                    <Route path={ROOT_PATH+'/'+puzzleKeys.TREASURE_PUZZLE_KEY} element={<TreasureHunt/>}/>
-                    <Route path={ROOT_PATH+'/'+puzzleKeys.SECRET_CODE_PUZZLE_KEY} element={<SecretMessage/>}/>
-                    <Route path={ROOT_PATH+'/'+puzzleKeys.MONSTER_PUZZLE_KEY} element={<LockMonster/>}/>
+                    <Route path={ROOT_PATH + '/' + puzzleKeys.TREASURE_PUZZLE_KEY} element={<TreasureHunt/>}/>
+                    <Route path={ROOT_PATH + '/' + puzzleKeys.SECRET_CODE_PUZZLE_KEY} element={<SecretCode/>}/>
+                    <Route path={ROOT_PATH + '/' + puzzleKeys.MONSTER_PUZZLE_KEY} element={<LockMonster/>}/>
                 </Route>
-                <Route path={ROOT_PATH+'/print'} element={<PrintContainer />}/>
+                <Route path={ROOT_PATH + '/print'} element={<PrintContainer/>}/>
             </Routes>
         </IntlProvider>
     );

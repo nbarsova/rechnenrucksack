@@ -12,7 +12,7 @@ import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} fro
 import {Equation} from "../../types/Equation";
 import Buttons from "../buttons/Buttons";
 
-const SecretMessage = () => {
+const SecretCode = () => {
     const intl = useIntl();
 
     const [numberRanges, setNumberRanges] = useState([10, 25, 100]);
@@ -101,10 +101,8 @@ const SecretMessage = () => {
     // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
 
     if (viewportWidth < 1200) {
-        console.log('small screen');
         mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
     } else {
-        console.log('big screen');
         // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
         mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
     }
@@ -151,19 +149,4 @@ const SecretMessage = () => {
     </div>)
 }
 
-export default SecretMessage;
-/*
- <div className='buttons'>
-                <Link target='_blank' to={ROOT_PATH+'/print?puzzle=secretCode'}
-                      className='printButton'
-                      title={intl.formatMessage({id: 'printStudent'})}
-                      onClick={prepareParameters}><PrintIcon/></Link>
-                <Link target='_blank'
-                      to={ROOT_PATH}
-                      className='printButton'
-                      title={intl.formatMessage({id: 'printTeacher'})}
-                      onClick={prepareParameters}><SolutionIcon/></Link>
-                <div className='printButton' title={intl.formatMessage({id: 'refresh'})}
-                     onClick={() => }><RefreshIcon/></div>
-            </div>
- */
+export default SecretCode;

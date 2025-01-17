@@ -1,12 +1,8 @@
 import {useEffect, useRef, useState} from "react";
 
-import {FormattedMessage, useIntl} from "react-intl";
+import {FormattedMessage} from "react-intl";
 import {NumberComplexity} from "../settings/NumberComplexity";
 import {Operation} from "../../types/enums/Operation";
-import RefreshIcon from "../../svg/RefreshIcon";
-import {Link} from "react-router-dom";
-import PrintIcon from "../../svg/PrintIcon";
-import SolutionIcon from "../../svg/SolutionIcon";
 import "../settings/Complexity.css";
 import "./LockMonster.css";
 
@@ -15,6 +11,8 @@ import {Equation} from "../../types/Equation";
 import {createMonsterEquations,} from "./MonsterEquationsGenerator";
 import {EQUATIONS_PARAMETER_NAME, MONSTERS_AMOUNT_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 import MonsterPrintPage from "./print/MonsterPrintPage";
+import Buttons from "../buttons/Buttons";
+import {puzzleKeys} from "../app/puzzles";
 
 const addOps = [Operation.ADD, Operation.SUB];
 const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
@@ -24,7 +22,6 @@ const numberRanges = [10, 25, 100];
 const monstersAmounts = [2, 4, 6];
 
 export function LockMonster() {
-    const intl = useIntl();
 
     const [selectedOps, setSelectedOps] = useState(addOps);
     const [numberRange, setNumberRange] = useState(numberRanges[0]);
@@ -44,68 +41,72 @@ export function LockMonster() {
 
     const printContainerRef = useRef<HTMLDivElement>(null);
 
+    const refresh = () => {
+        const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
+        setMonsterEquations(newEquations);
+    }
+
+    const viewportHeight = Math.min(window.screen.height, window.innerHeight);
+    const viewportWidth = Math.min(window.innerWidth, window.innerWidth);
+
+    let mainAreaHeight;
+
+    // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
+
+    if (viewportWidth < 1200) {
+        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
+    } else {
+        // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
+        mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
+    }
+
     return (<div className="main">
-        <div className="settings">
-            <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
-                              onRangeChange={(range: number) => setNumberRange(range)}/>
+            <div className="settings">
+                <div className='treasureSettings'>
+                    <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
+                                      onRangeChange={(range: number) => setNumberRange(range)}/>
 
-            <div className='numberComplexity'>
-                <b><FormattedMessage id="operations"/></b>
-                <div
-                    className='clickableRadio'>
-                    <input type="radio"
-                           checked={selectedOps === addOps}
-                           onChange={() => {
-                               setSelectedOps(addOps)
-                           }}/> + and -
+                    <div className='numberComplexity'>
+                        <b><FormattedMessage id="operations"/></b>
+                        <div
+                            className='clickableRadio'>
+                            <input type="radio"
+                                   checked={selectedOps === addOps}
+                                   onChange={() => {
+                                       setSelectedOps(addOps)
+                                   }}/><FormattedMessage id='addAndSubscribe'/>
+                        </div>
+                        <div
+                            className='clickableRadio'>
+                            <input type="radio"
+                                   checked={selectedOps === allOps}
+                                   onChange={() => {
+                                       setSelectedOps(allOps)
+                                   }}/><FormattedMessage id='allOperations'/>
+                        </div>
+                    </div>
+
+                    <div className='numberComplexity'>
+                        <b><FormattedMessage id='howManyMonsters'/></b>
+                        {monstersAmounts.map((amount: number) => <div
+                            style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}} key={amount}>
+                            <input type="radio"
+                                   checked={monstersAmount === amount}
+                                   onChange={() => {
+                                       setMonstersAmount(amount);
+                                   }}/>{amount}
+                        </div>)}
+                    </div>
+                    <Buttons prepareSolutionParameters={prepareParameters} preparePrintParameters={prepareParameters}
+                             refresh={refresh} puzzleKey={puzzleKeys.MONSTER_PUZZLE_KEY}/>
                 </div>
-                <div
-                    className='clickableRadio'>
-                    <input type="radio"
-                           checked={selectedOps === allOps}
-                           onChange={() => {
-                               setSelectedOps(allOps)
-                           }}/>all arithmetic operations
-                </div>
+
+
             </div>
-
-            <div className='numberComplexity'>
-                <b>How many monsters?</b>
-                {monstersAmounts.map((amount: number) => <div
-                    style={{display: 'flex', flexDirection: 'row', cursor: 'pointer'}} key={amount}>
-                    <input type="radio"
-                           checked={monstersAmount === amount}
-                           onChange={() => {
-                               setMonstersAmount(amount);
-                           }}/>{amount}
-                </div>)}
-            </div>
-
-            <div className='buttons'>
-                <div className='printButton'
-                     title={intl.formatMessage({id: 'refresh'})}
-                     onClick={() => {
-                         const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
-                         setMonsterEquations(newEquations);
-                     }}
-                ><RefreshIcon/></div>
-
-                <Link target='_blank' to={"monster/print"}
-                      className='printButton'
-                      title={intl.formatMessage({id: 'printStudent'})}
-                      onClick={prepareParameters}
-                ><PrintIcon/></Link>
-
-                <Link target='_blank' to={"monster/print/solution"}
-                      className='printButton'
-                      onClick={prepareParameters}
-                      title={intl.formatMessage({id: 'printTeacher'})}
-                ><SolutionIcon/></Link>
-            </div>
+            <div className='printPreview' ref={printContainerRef}>
+                <MonsterPrintPage monsterEquations={monsterEquations}
+                                  monstersAmount={monstersAmount} showAnswers={false}
+                                  parentHeight={mainAreaHeight}/></div>
         </div>
-        <div className='printContainer' ref={printContainerRef}>
-            <MonsterPrintPage monsterEquations={monsterEquations}
-                              monstersAmount={monstersAmount} showAnswers={false}
-                              parentWidth={printContainerRef.current?.clientWidth} parentHeight={printContainerRef.current?.clientHeight}/></div>
-    </div>)
+    )
 }

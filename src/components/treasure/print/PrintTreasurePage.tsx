@@ -14,9 +14,10 @@ const PrintTreasurePage = (props: {
     equationSteps: any,
     stones: MapTargetObject [],
     canvasHeight: number,
-    numberRange: number,
-    mode?: 'print' | 'web'
+    numberRange: number
 }) => {
+
+    console.log('canvasHeight', props.canvasHeight);
 
     const gridSrc = props.numberRange === 10 ? EasyGrid : HardGrid;
 
@@ -38,7 +39,7 @@ const PrintTreasurePage = (props: {
         return <PrintEquation equationStep={equationStep} index={index} key={index}/>;
     };
 
-    return (<div className={props.mode === 'print' ? 'printPreviewPrint' : "printPreview"}>
+    return (<div className="printPreview">
         <div className='flexRow'>
             <img
                 src={gridSrc} height={props.canvasHeight + 'px'} width={props.canvasHeight + 'px'}/>
@@ -47,7 +48,7 @@ const PrintTreasurePage = (props: {
                 style={{position: 'absolute', top: props.canvasHeight / 2 - 10, left: props.canvasHeight / 2 - 10}}
                 height={20} width={20}/>
             {props.stones.map(renderTarget)}
-            <div className={props.mode === 'print' ? 'printPageTextPrint' : "printPageText"}>
+            <div className="printPageText">
                 <span className='printEquation'><FormattedMessage id='worksheetDesc1'/></span>
                 <span className='printEquation'><FormattedMessage id='worksheetDesc2'/></span>
                 <span className='printEquation'><FormattedMessage id='worksheetDesc3'/></span>

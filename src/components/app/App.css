@@ -4,21 +4,20 @@
 
 /** uncomment to debug overflowing divs
 .slide-content .scroller {
-   width: 1024px;
+    width: 1024px;
 }
 
 * {
-   outline: 1px solid #f00 !important;
-}
-**/
+    outline: 1px solid #f00 !important;
+} */
 
 /* if you change things here, also change canvasHeight calculation for print pages */
 :root {
     --headerHeight: 8vh;
     --subHeaderHeight: 6vh;
-    --footerHeight: 4vh;
+    --footerHeight: 6vh;
     --settingsWidth: 20vw;
-    --settingsHeight: 30vh;
+    --settingsHeight: 25vh;
     --puzzleAmount: 3;
     --mainAreaHeight: calc(100vh - var(--headerHeight) - var(--footerHeight));
     --subHeaderFontSize: 2vh;
@@ -141,10 +140,10 @@ body {
 
 
 @media only screen and (min-width: 768px) {
-    .thumbnail {
-        width: calc(100vw / var(--puzzleAmount) - 10vw);
-        height: calc(100vw / var(--puzzleAmount) - 10vw);
-    }
+    /*.thumbnail {*/
+    /*    width: calc(100vw / var(--puzzleAmount) - 10vw);*/
+    /*    height: calc(100vw / var(--puzzleAmount) - 10vw);*/
+    /*}*/
 }
 
 
@@ -217,7 +216,7 @@ body {
 }
 
 .printPreview {
-    border: 2px ridge #808283;
+    /* border: 1px ridge #808283; */
     position: relative;
     width: 90vw;
     max-width: 200vh;
@@ -233,6 +232,7 @@ body {
         flex-direction: row;
         height: calc(var(--mainAreaHeight) - var(--subHeaderHeight));
         width: calc(100vw - var(--settingsWidth));
+        overflow-x: unset;
     }
 }
 
@@ -246,3 +246,6 @@ body {
     background-color: white;
 }
 
+.copyright {
+    color: darkgrey;
+}

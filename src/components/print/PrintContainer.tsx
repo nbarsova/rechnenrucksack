@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
+import {useSearchParams} from "react-router-dom";
 import PrintTreasurePage from "../treasure/print/PrintTreasurePage";
 import {
     CURRENT_TARGET_PARAMETER_NAME,
@@ -15,7 +16,6 @@ import {FormattedMessage} from "react-intl";
 import SecretCodePrintPage from "../secret/SecretCodePrintPage";
 import PrintTreasureSolutionPage from "../treasure/print/PrintTreasureSolutionPage";
 import MonsterPrintPage from "../monster/print/MonsterPrintPage";
-import {useSearchParams} from "react-router-dom";
 import './Print.css'
 
 const PrintContainer = () => {
@@ -32,9 +32,6 @@ const PrintContainer = () => {
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
 
     const canvasHeight = printElementDiv.current?.clientHeight && 0.8 * printElementDiv.current.clientHeight;
-    console.log(printElementDiv.current?.clientHeight, canvasHeight)
-
-    const innerPrintElementDiv = useRef<HTMLDivElement>(null); // this is container for the puzzle, we need it for right dimensions
 
     const clearStorage = () => {
         removeFromStorage(EQUATIONS_PARAMETER_NAME);
@@ -57,25 +54,23 @@ const PrintContainer = () => {
                     numberRange={Number(getFromStorage(NUMBER_RANGE_PARAMETER_NAME))}
                     canvasHeight={canvasHeight}
                     equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
-                    stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}
-                    mode='print'/>;
+                    stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}/>;
             break;
         case (puzzleKeys.SECRET_CODE_PUZZLE_KEY):
             puzzleComponent = <SecretCodePrintPage
                 equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                 letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
                 canvasHeight={canvasHeight}
-                showLetters={Boolean(solution)}
-                mode='print'/>;
+                showLetters={Boolean(solution)}/>;
             break;
         case (puzzleKeys.MONSTER_PUZZLE_KEY):
+            console.log('div', canvasHeight);
             const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
             const monsterEquations = JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME));
             puzzleComponent = <MonsterPrintPage
                 monsterEquations={monsterEquations}
                 monstersAmount={monsterAmount}
-                showAnswers={Boolean(solution)} parentHeight={innerPrintElementDiv.current?.clientHeight}
-                parentWidth={innerPrintElementDiv.current?.clientWidth}/>;
+                showAnswers={Boolean(solution)} parentHeight={canvasHeight}/>;
             break;
         default:
             puzzleComponent = null;
