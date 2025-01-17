@@ -30,17 +30,18 @@ export function OperationsSelector(props: {
             setSelectedOps(newOps);
 
             props.onOpsChanged(newOps);
-        }} className="clickable" key={operation}>
-        <input type="checkbox"
-        checked={selectedOps.indexOf(operation) >= 0}
-        onChange={() => {
-        }}/>{operation}
+        }} className="clickable operationItem" key={operation}>
+            <input type="checkbox"
+                   checked={selectedOps.indexOf(operation) >= 0}
+                   onChange={() => {
+                   }}/>
+            <p className='operationText'>{operation}</p>
         </div>);
 
     };
 
     return (<div className='numberComplexity'>
         <b><FormattedMessage id="operations"/></b>
-    {props.allOps.map(renderOperation)}
+        <div className='operationsContainer'>{props.allOps.map(renderOperation)}</div>
     </div>)
 }

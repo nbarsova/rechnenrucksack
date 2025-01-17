@@ -78,7 +78,7 @@ export const deMessagesJSON = {
     "secretCodeTitle": "Löse den geheimen Code!",
     "lockMonsterTitle": "Fang dem Monster!",
     "howManyMonsters": "Wieviele Monster?",
-    "addAndSubscribe": '+ and -',
+    "addAndSubscribe": '+ und -',
     "allOperations": "alle",
 };
 

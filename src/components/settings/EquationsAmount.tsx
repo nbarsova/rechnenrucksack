@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
-import  "./Complexity.css";
+import {useState} from 'react';
+import "./Complexity.css";
 import {FormattedMessage} from "react-intl";
 
 export function EquationsAmount(props:
-                                    {
-                                        equationsAmounts: Array<number>,
-                                        onChange: (amount: number) => void
-                                    }) {
+                                {
+                                    equationsAmounts: Array<number>,
+                                    onChange: (amount: number) => void
+                                }) {
 
-    let [selectedAmount, setSelectedAmount] = useState(props.equationsAmounts[0]);
+    const [selectedAmount, setSelectedAmount] = useState(props.equationsAmounts[0]);
 
-    let renderAmount = (amount: number) => {
+    const renderAmount = (amount: number) => {
         return (<div key={amount}
                      className="clickable"
                      onClick={() => {

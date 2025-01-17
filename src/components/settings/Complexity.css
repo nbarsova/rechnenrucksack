@@ -7,3 +7,19 @@
 .clickable {
     cursor: pointer;
 }
+
+.operationsContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.operationItem {
+    flex: 0 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.operationText {
+    margin: 0;
+    width: 20px;
+}
