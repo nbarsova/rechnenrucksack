@@ -19,7 +19,7 @@ const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
 const numberRanges = [10, 25, 100];
 
-const monstersAmounts = [2, 4, 6];
+const monstersAmounts = [6, 4, 2];
 
 export function LockMonster() {
 

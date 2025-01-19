@@ -7,22 +7,21 @@ const MonsterPrintPage = (props: {
     monsterEquations: Array<Array<Equation>>;
     monstersAmount: number;
     showAnswers: boolean;
-    parentHeight: number | undefined
+    parentHeight: number
 }) => {
     const {
         monsterEquations, monstersAmount, showAnswers, parentHeight
     } = props;
 
-    const monsterCellHeight = parentHeight / 2 - 10;
-
-    const rowWidth = (monsterCellHeight + 10) * monstersAmount / 2;
+    const monsterCellHeight = monstersAmount === 2 ? parentHeight - 20 : parentHeight / 2 - 10;
 
     return (
         <div style={{
             display: "flex",
-            flexDirection: 'row',
+            flexDirection: 'column',
             flexWrap: 'wrap',
-            width: rowWidth + 'px',
+            width: 3 * parentHeight / 2 + 'px',
+            height: parentHeight + 'px',
         }}>
             {monsterEquations && monsterEquations.map((equationSet: Equation [], index: number) =>
                 <MonsterCellComponent key={index} equations={equationSet} monsterCell={monsterCellHeight}
