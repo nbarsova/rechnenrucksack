@@ -1,18 +1,16 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 
 import {FormattedMessage} from "react-intl";
 import {NumberComplexity} from "../settings/NumberComplexity";
-import {Operation} from "../../types/enums/Operation";
 import "../settings/Complexity.css";
 import "./LockMonster.css";
-
-import {Equation} from "../../types/Equation";
 
 import {createMonsterEquations,} from "./MonsterEquationsGenerator";
 import {EQUATIONS_PARAMETER_NAME, MONSTERS_AMOUNT_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 import MonsterPrintPage from "./print/MonsterPrintPage";
 import Buttons from "../buttons/Buttons";
 import {puzzleKeys} from "../app/puzzles";
+import {Equation, Operation} from "../../types";
 
 const addOps = [Operation.ADD, Operation.SUB];
 const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
@@ -38,8 +36,6 @@ export function LockMonster() {
         setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(monsterEquations));
         setInStorage(MONSTERS_AMOUNT_PARAMETER_NAME, JSON.stringify(monstersAmount));
     };
-
-    const printContainerRef = useRef<HTMLDivElement>(null);
 
     const refresh = () => {
         const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
@@ -103,10 +99,11 @@ export function LockMonster() {
 
 
             </div>
-            <div className='printPreview' ref={printContainerRef}>
+            <div className='printPreview'>
                 <MonsterPrintPage equations={monsterEquations}
                                   monstersAmount={monstersAmount} showAnswers={false}
-                                  parentHeight={mainAreaHeight}/></div>
+                                  parentHeight={mainAreaHeight}/>
+            </div>
         </div>
     )
 }
