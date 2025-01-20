@@ -31,7 +31,7 @@ const PrintContainer = () => {
 
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
 
-    const canvasHeight = printElementDiv.current?.clientHeight && 0.8 * printElementDiv.current.clientHeight;
+    const canvasHeight = printElementDiv.current?.clientHeight && 0.9 * printElementDiv.current.clientHeight;
 
     const clearStorage = () => {
         removeFromStorage(EQUATIONS_PARAMETER_NAME);
@@ -60,8 +60,8 @@ const PrintContainer = () => {
             puzzleComponent = <SecretCodePrintPage
                 equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                 letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
-                canvasHeight={canvasHeight}
-                showLetters={Boolean(solution)}/>;
+                parentHeight={canvasHeight}
+                showAnswers={Boolean(solution)}/>;
             break;
         case (puzzleKeys.MONSTER_PUZZLE_KEY):
             console.log('div', canvasHeight);
@@ -85,7 +85,7 @@ const PrintContainer = () => {
     useEffect(() => {
         if (currentPuzzle) {
             setTimeout(() => window.print(), 500);
-            clearStorage();
+            // clearStorage();
         }
     }, [currentPuzzle]);
 

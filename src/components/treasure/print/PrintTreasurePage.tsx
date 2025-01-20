@@ -17,8 +17,6 @@ const PrintTreasurePage = (props: {
     numberRange: number
 }) => {
 
-    console.log('canvasHeight', props.canvasHeight);
-
     const gridSrc = props.numberRange === 10 ? EasyGrid : HardGrid;
 
     const renderTarget = ((target: any) => {
@@ -39,10 +37,11 @@ const PrintTreasurePage = (props: {
         return <PrintEquation equationStep={equationStep} index={index} key={index}/>;
     };
 
+
     return (<div className="printPreview">
-        <div className='flexRow'>
+        <div className='flexRow' style={{width: 3 * props.canvasHeight / 2 + 'px'}}>
             <img
-                src={gridSrc} height={props.canvasHeight + 'px'} width={props.canvasHeight + 'px'}/>
+                src={gridSrc} height={props.canvasHeight * 0.75 + 'px'} width={props.canvasHeight * 0.75 + 'px'}/>
             <img
                 src={Cross}
                 style={{position: 'absolute', top: props.canvasHeight / 2 - 10, left: props.canvasHeight / 2 - 10}}

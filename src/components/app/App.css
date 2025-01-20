@@ -1,5 +1,7 @@
 .app {
     height: 100vh;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 /** uncomment to debug overflowing divs
@@ -139,14 +141,6 @@ body {
 }
 
 
-@media only screen and (min-width: 768px) {
-    /*.thumbnail {*/
-    /*    width: calc(100vw / var(--puzzleAmount) - 10vw);*/
-    /*    height: calc(100vw / var(--puzzleAmount) - 10vw);*/
-    /*}*/
-}
-
-
 .puzzleName {
     font-weight: bold;
     color: black;
@@ -236,16 +230,4 @@ body {
     }
 }
 
-.printPreviewPrint {
-    display: flex;
-    flex-direction: row;
-    align-content: space-between;
-    position: relative;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    background-color: white;
-}
 
-.copyright {
-    color: darkgrey;
-}

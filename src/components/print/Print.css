@@ -39,3 +39,9 @@
 .nameDateLine {
     margin: 2mm;
 }
+
+.copyright {
+    color: darkgrey;
+    display: flex;
+    justify-content: flex-end;
+}

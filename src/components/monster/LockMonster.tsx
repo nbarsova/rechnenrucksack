@@ -27,7 +27,7 @@ export function LockMonster() {
     const [numberRange, setNumberRange] = useState(numberRanges[0]);
     const [monstersAmount, setMonstersAmount] = useState<number>(monstersAmounts[0]);
 
-    const [monsterEquations, setMonsterEquations] = useState<Array<Array<Equation>>>(createMonsterEquations(monstersAmount, selectedOps, numberRange));
+    const [monsterEquations, setMonsterEquations] = useState<Array<Equation>>(createMonsterEquations(monstersAmount, selectedOps, numberRange));
 
     useEffect(() => {
         const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
@@ -52,9 +52,9 @@ export function LockMonster() {
     let mainAreaHeight;
 
     // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
-
     if (viewportWidth < 1200) {
-        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
+        //                                   headerHeight             subHeaderHeight        footerHeight           settingsHeight
+        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.06 * viewportHeight - 0.06 * viewportHeight - 0.25 * viewportHeight);
     } else {
         // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
         mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
@@ -104,7 +104,7 @@ export function LockMonster() {
 
             </div>
             <div className='printPreview' ref={printContainerRef}>
-                <MonsterPrintPage monsterEquations={monsterEquations}
+                <MonsterPrintPage equations={monsterEquations}
                                   monstersAmount={monstersAmount} showAnswers={false}
                                   parentHeight={mainAreaHeight}/></div>
         </div>

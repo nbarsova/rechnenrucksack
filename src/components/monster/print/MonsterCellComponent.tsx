@@ -1,28 +1,16 @@
 import {Equation} from "../../../types/Equation";
-// @ts-ignore
-import monster1 from '../../../img/monster/1.png'
-// @ts-ignore
-import monster2 from '../../../img/monster/2.png';
-// @ts-ignore
-import monster3 from '../../../img/monster/3.png';
-// @ts-ignore
-import monster4 from '../../../img/monster/4.png';
-// @ts-ignore
-import monster5 from '../../../img/monster/5.png';
-// @ts-ignore
-import monster6 from '../../../img/monster/6.png';
-import '../LockMonster.css';
-import '../../app/App.css';
-import {normalRandom} from "../../../util/arithmetic";
 
-const monsterPics = [monster1, monster2, monster3, monster4, monster5, monster6];
 
 const EquationCell = (props: { monsterCellSize: any; value: number | string }) => {
     const {monsterCellSize, value} = props;
     return <div style={{
         height: monsterCellSize + 'px',
         width: monsterCellSize + 'px',
-        border: '1px solid gray', display: 'flex', justifyContent: 'center', alignItems: 'center'
+        border: '1px solid gray',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 0.7 * monsterCellSize + 'px',
     }}>{value}</div>
 }
 
@@ -32,7 +20,10 @@ const CornerCell = (props: { monsterCellSize: any; }) => {
         height: monsterCellSize + 'px',
         width: monsterCellSize + 'px',
         border: '1px solid gray',
-        backgroundColor: 'gray'
+        backgroundColor: 'gray',
+        backgroundSize: '4px 4px',
+        backgroundImage: 'repeating-linear-gradient(45deg, #7e7e83 0, #7e7e83 0.4px, #ffffff 0, #ffffff 50%)',
+        printColorAdjust: 'exact'
     }}></div>
 }
 
@@ -41,9 +32,9 @@ const MonsterCellComponent = (props:
                                   equations: Array<Equation> | undefined,
                                   monsterCell: number,
                                   showAnswers: boolean,
-                                  monsterNumber: number
+                                  monsterPic: any
                               }) => {
-    const {monsterCell, equations, showAnswers} = props;
+    const {monsterCell, equations, showAnswers, monsterPic} = props;
     const monsterCellSize = monsterCell / 7 - 2;
     const renderEquation = (eq: Equation) => {
         return (<>
@@ -74,7 +65,7 @@ const MonsterCellComponent = (props:
                 }}
                      id='monsterPic'>
                     <img
-                        src={monsterPics[normalRandom(0, 5)]}
+                        src={monsterPic}
                         height={4 * monsterCellSize} width={4 * monsterCellSize}/>
                 </div>
                 <div className='flexRow' id='middleEquationBottom'>
