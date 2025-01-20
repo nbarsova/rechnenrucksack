@@ -1,5 +1,4 @@
 import MonsterCellComponent from "./MonsterCellComponent";
-import {Equation} from "../../../types/Equation";
 import '../LockMonster.css';
 import '../../app/App.css';
 import {PrintPageProps} from "../../../types/components";
@@ -19,6 +18,7 @@ import '../LockMonster.css';
 import '../../app/App.css';
 import {normalRandom} from "../../../util/arithmetic";
 import {createMonsterEquationsArray} from "../MonsterEquationsGenerator";
+import {Equation} from "../../../types";
 
 
 interface MonsterPrintPageProps extends PrintPageProps {

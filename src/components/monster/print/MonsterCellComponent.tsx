@@ -1,4 +1,4 @@
-import {Equation} from "../../../types/Equation";
+import {Equation} from "../../../types";
 
 
 const EquationCell = (props: { monsterCellSize: any; value: number | string }) => {

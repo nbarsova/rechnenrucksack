@@ -1,6 +1,5 @@
 import {createEquationSet, normalRandom} from "../../util/arithmetic";
-import {Equation} from "../../types/Equation";
-import {Operation} from "../../types/enums/Operation";
+import {Equation, Operation} from "../../types";
 
 
 export const countMessageSymbols = (secretMessage: string) => {
@@ -14,7 +13,7 @@ export const countMessageSymbols = (secretMessage: string) => {
     return symbols;
 };
 
-const isUniqueCode = (code: number, letterCodes: Array<any>) => {
+export const isUniqueCode = (code: number, letterCodes: Array<any>) => {
     for (let i = 0; i < letterCodes.length; i++) {
         if (letterCodes[i].code === code) {
             return false;
@@ -24,6 +23,9 @@ const isUniqueCode = (code: number, letterCodes: Array<any>) => {
 };
 
 export const createLetterCodes = (symbols: Array<string>, numberRange: number) => {
+
+    if (symbols.length > numberRange) throw new Error('Number range smaller than symbols length');
+    
     const newCodes = [];
     const treshold = (symbols.length === numberRange) ? symbols.length - 1 : symbols.length;
     for (let i = 0; i < treshold; i++) {
@@ -64,13 +66,17 @@ export const createEquations = (sMessage: string,
         }
     }
 
-    const equations: Array<Equation> | undefined = createEquationSet(steps, selectedOps, numberRange);
+    const equations: Array<Equation> | undefined = createEquationSet(steps, selectedOps, numberRange) || [];
     return equations;
 };
 
 export const createSecretCodeForMessage = (message: string, numberRange: number, selectedOps: Operation[]) => {
     const symbols = countMessageSymbols(message);
+    console.log('symbols', symbols);
     const codes = createLetterCodes(symbols, numberRange);
+    console.log('codes:', codes);
     const equations = createEquations(message, codes, selectedOps, numberRange);
     return {symbols, codes, equations};
 }
+
+export const SECRET_CODE_MAX_LENGTH = 60;

@@ -1,16 +1,15 @@
 import {useEffect, useState} from 'react';
 import {NumberComplexity} from "../settings/NumberComplexity";
 import {OperationsSelector} from "../settings/OperationsSelector";
-import {Operation} from "../../types/enums/Operation";
 import "./SecretMessage.css";
 
 import {FormattedMessage, useIntl} from "react-intl";
-import {countMessageSymbols, createSecretCodeForMessage} from "./CodeGenerator";
+import {countMessageSymbols, createSecretCodeForMessage, SECRET_CODE_MAX_LENGTH} from "./CodeGenerator";
 
-import SecretCodePrintPage from "./SecretCodePrintPage";
+import SecretCodePrintPage from "./print/SecretCodePrintPage";
 import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
-import {Equation} from "../../types/Equation";
 import Buttons from "../buttons/Buttons";
+import {Equation, LetterCode, Operation} from "../../types";
 
 const SecretCode = () => {
     const intl = useIntl();
@@ -19,16 +18,16 @@ const SecretCode = () => {
     const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
     const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
-    const [numberRange, setNumberRange] = useState(numberRanges[0]);
+    const [numberRange, setNumberRange] = useState(numberRanges[2]);
 
     const [secretMessage, setSecretMessage] = useState(intl.formatMessage({id: 'initialSecretMessage'}));
+    console.log('secretMessage', secretMessage);
     const [error, setError] = useState(false);
 
-    const [letterCodes, setLetterCodes] = useState<{ letter: string; code: number; }[]>([]);
+    const [letterCodes, setLetterCodes] = useState<LetterCode[]>([]);
 
     const [symbols, setSymbols] = useState<string[]>([]);
-    const [equations, setEquations] = useState<Array<Equation> | undefined>([]);
-
+    const [equations, setEquations] = useState<Array<Equation>>([]);
 
     const recreateMessage = () => {
         const {
@@ -53,9 +52,12 @@ const SecretCode = () => {
     const updateSecretMessage = (ev: any) => {
         const newMessage = ev.target.value;
 
-        if (newMessage.length > 48) {
+        if (newMessage.length === 0) {
             setError(true);
-            setSecretMessage(newMessage.substring(0, 50));
+            setSecretMessage(newMessage);
+        } else if (newMessage.length > SECRET_CODE_MAX_LENGTH) {
+            setError(true);
+            setSecretMessage(newMessage.substring(0, SECRET_CODE_MAX_LENGTH));
         } else {
             setSecretMessage(newMessage);
             setError(false);
@@ -108,45 +110,49 @@ const SecretCode = () => {
     }
 
     return (<div className="main">
-        <div className="settings">
-            <div className="choiceContainer">
-                <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
-                                  onRangeChange={(range: number) => setNumberRange(range)}/>
+            <div className="settings">
+                <div className="choiceContainer">
+                    <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
+                                      onRangeChange={(range: number) => setNumberRange(range)}/>
 
-                <OperationsSelector allOps={allOps}
-                                    onOpsChanged={(selectedOps: Array<Operation>) => {
-                                        setSelectedOps(selectedOps)
-                                    }}/>
-            </div>
-            <div className="messageInputContainer">
-                <div className='secretCodeDescriptionText'>
-                    <b><FormattedMessage id="enterMessage"/></b>
+                    <OperationsSelector allOps={allOps}
+                                        onOpsChanged={(selectedOps: Array<Operation>) => {
+                                            setSelectedOps(selectedOps)
+                                        }}/>
                 </div>
-                <textarea value={secretMessage}
-                          className={error ? 'borderedSecretMessageInput' : 'secretMessageInput'}
-                          rows={2}
-                          onChange={updateSecretMessage}
-                />
-            </div>
-            {error ? <div className='errorMessage'>
-                    <FormattedMessage id='secretMessageTooLong'/>
-                </div> :
-                <div className='countMessage'>
-                    <span className='equationText'><FormattedMessage id='messageLength'/></span>
-                    {secretMessage.length}
-                    <span className='equationText'><FormattedMessage id='symbolsInStringMessage'/> </span>
-                    {symbols.length}
-                </div>}
+                <div className="messageInputContainer">
+                    <div className='secretCodeDescriptionText'>
+                        <b><FormattedMessage id="enterMessage" values={{limit: SECRET_CODE_MAX_LENGTH}}/></b>
+                    </div>
+                    <textarea value={secretMessage}
+                              className={error ? 'borderedSecretMessageInput' : 'secretMessageInput'}
+                              rows={2}
+                              onChange={updateSecretMessage}
+                    />
+                </div>
+                {error ? <div className='errorMessage'>
+                        <FormattedMessage id='secretMessageTooLong' values={{limit: SECRET_CODE_MAX_LENGTH}}/>
+                    </div> :
+                    <div className='countMessage'>
+                        <span className='equationText'><FormattedMessage id='messageLength'/></span>
+                        {secretMessage.length}
+                        <span className='equationText'><FormattedMessage id='symbolsInStringMessage'/> </span>
+                        {symbols.length}
+                    </div>}
 
-            <Buttons prepareSolutionParameters={prepareParameters} preparePrintParameters={prepareParameters}
-                     refresh={refresh} puzzleKey='secretCode'/>
+                <Buttons prepareSolutionParameters={prepareParameters} preparePrintParameters={prepareParameters}
+                         refresh={refresh} puzzleKey='secretCode'/>
+            </div>
+            <div className='printPreview'>
+                <SecretCodePrintPage
+                    parentHeight={mainAreaHeight}
+                    equations={equations}
+                    letterCodes={letterCodes}
+                    messageString={secretMessage}
+                    showAnswers={false}/>
+            </div>
         </div>
-        <SecretCodePrintPage
-            parentHeight={mainAreaHeight}
-            equations={equations}
-            letterCodes={letterCodes}
-            showAnswers={false}/>
-    </div>)
+    )
 }
 
 export default SecretCode;

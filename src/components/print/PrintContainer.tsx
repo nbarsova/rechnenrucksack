@@ -13,7 +13,7 @@ import {
 } from "../../util/localStorage";
 import {puzzleKeys, puzzles} from "../app/puzzles";
 import {FormattedMessage} from "react-intl";
-import SecretCodePrintPage from "../secret/SecretCodePrintPage";
+import SecretCodePrintPage from "../secret/print/SecretCodePrintPage";
 import PrintTreasureSolutionPage from "../treasure/print/PrintTreasureSolutionPage";
 import MonsterPrintPage from "../monster/print/MonsterPrintPage";
 import './Print.css'

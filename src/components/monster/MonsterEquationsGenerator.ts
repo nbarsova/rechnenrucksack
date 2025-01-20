@@ -1,6 +1,6 @@
 import {createEquationSet, normalRandom} from "../../util/arithmetic";
-import {Operation} from "../../types/enums/Operation";
-import {Equation} from "../../types/Equation";
+
+import {Equation, Operation} from "../../types";
 
 export const createMonsterNumbers = (monstersAmount: number, numberRange: number) => {
     const monsterNumbers = new Array(4 * monstersAmount);

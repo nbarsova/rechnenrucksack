@@ -1,7 +1,8 @@
 import {useState} from 'react';
 import {FormattedMessage} from "react-intl";
 import "./Complexity.css";
-import {Operation} from "../../types/enums/Operation";
+
+import {Operation} from "../../types";
 
 export function OperationsSelector(props: {
     allOps: Array<Operation>,

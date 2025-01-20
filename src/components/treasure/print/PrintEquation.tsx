@@ -1,6 +1,6 @@
 import {Direction} from "../classes/Direction";
-import {StepEquation} from "../../../types/StepEquation";
 import {useIntl} from "react-intl";
+import {StepEquation} from "../../../types";
 
 const PrintEquation = (props: {
     equationStep: StepEquation,
@@ -39,12 +39,12 @@ const PrintEquation = (props: {
             {count: props.showAnswer ? Math.abs(props.equationStep.step) : 100}) + ' ';
 
     return (<div className='printEquation'
-                key={props.index}>
+                 key={props.index}>
         <span className='equationText'>{(props.index + 1) + '). '}</span>
         <span className='equationText'>{props.equationStep.equation.number1}</span>
         <span className='equationText'>{props.equationStep.equation.operation + ' '}</span>
         <span className='equationText'>{props.equationStep.equation.number2 + " = "}</span>
-        <span className={props.showAnswer ? 'equationAnswerText': 'equationText'}>{result}</span>
+        <span className={props.showAnswer ? 'equationAnswerText' : 'equationText'}>{result}</span>
         <span className='equationText'>{stepStr}</span>
         <span className='equationText'>{getDirection(props.equationStep.step, axis)}</span></div>);
 };

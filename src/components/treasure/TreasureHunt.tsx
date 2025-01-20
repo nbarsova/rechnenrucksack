@@ -3,10 +3,8 @@ import {useEffect, useState} from 'react';
 import {NumberComplexity} from "../settings/NumberComplexity";
 import {EquationsAmount} from "../settings/EquationsAmount";
 import {OperationsSelector} from "../settings/OperationsSelector";
-import {Operation} from "../../types/enums/Operation";
 import {createPathToCurrentTarget, initTargets} from "./MapGenerator";
 import {createEquationSet} from "../../util/arithmetic";
-import {StepEquation} from "../../types/StepEquation";
 import PrintTreasurePage from "./print/PrintTreasurePage";
 import {
     CURRENT_TARGET_PARAMETER_NAME,
@@ -20,6 +18,7 @@ import {puzzleKeys} from "../app/puzzles";
 import "./TreasureHunt.css";
 import "../app/App.css";
 import Buttons from "../buttons/Buttons";
+import {Operation, StepEquation} from "../../types";
 
 const TreasureHunt = () => {
     const numberRanges = [10, 25];
