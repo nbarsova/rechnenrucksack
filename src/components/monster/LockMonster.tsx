@@ -1,25 +1,23 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 
 import {FormattedMessage} from "react-intl";
 import {NumberComplexity} from "../settings/NumberComplexity";
-import {Operation} from "../../types/enums/Operation";
 import "../settings/Complexity.css";
 import "./LockMonster.css";
-
-import {Equation} from "../../types/Equation";
 
 import {createMonsterEquations,} from "./MonsterEquationsGenerator";
 import {EQUATIONS_PARAMETER_NAME, MONSTERS_AMOUNT_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
 import MonsterPrintPage from "./print/MonsterPrintPage";
 import Buttons from "../buttons/Buttons";
 import {puzzleKeys} from "../app/puzzles";
+import {Equation, Operation} from "../../types";
 
 const addOps = [Operation.ADD, Operation.SUB];
 const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
 const numberRanges = [10, 25, 100];
 
-const monstersAmounts = [2, 4, 6];
+const monstersAmounts = [6, 4, 2];
 
 export function LockMonster() {
 
@@ -27,7 +25,7 @@ export function LockMonster() {
     const [numberRange, setNumberRange] = useState(numberRanges[0]);
     const [monstersAmount, setMonstersAmount] = useState<number>(monstersAmounts[0]);
 
-    const [monsterEquations, setMonsterEquations] = useState<Array<Array<Equation>>>(createMonsterEquations(monstersAmount, selectedOps, numberRange));
+    const [monsterEquations, setMonsterEquations] = useState<Array<Equation>>(createMonsterEquations(monstersAmount, selectedOps, numberRange));
 
     useEffect(() => {
         const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
@@ -38,8 +36,6 @@ export function LockMonster() {
         setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(monsterEquations));
         setInStorage(MONSTERS_AMOUNT_PARAMETER_NAME, JSON.stringify(monstersAmount));
     };
-
-    const printContainerRef = useRef<HTMLDivElement>(null);
 
     const refresh = () => {
         const newEquations = createMonsterEquations(monstersAmount, selectedOps, numberRange);
@@ -52,9 +48,9 @@ export function LockMonster() {
     let mainAreaHeight;
 
     // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
-
     if (viewportWidth < 1200) {
-        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
+        //                                   headerHeight             subHeaderHeight        footerHeight           settingsHeight
+        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.06 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
     } else {
         // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
         mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
@@ -103,10 +99,11 @@ export function LockMonster() {
 
 
             </div>
-            <div className='printPreview' ref={printContainerRef}>
-                <MonsterPrintPage monsterEquations={monsterEquations}
+            <div className='printPreview'>
+                <MonsterPrintPage equations={monsterEquations}
                                   monstersAmount={monstersAmount} showAnswers={false}
-                                  parentHeight={mainAreaHeight}/></div>
+                                  parentHeight={mainAreaHeight}/>
+            </div>
         </div>
     )
 }

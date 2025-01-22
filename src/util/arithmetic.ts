@@ -1,7 +1,6 @@
-import {Equation} from "../types/Equation";
-import {Operation} from "../types/enums/Operation";
+import {Equation, Operation} from "../types";
 
-export const createEquationSet = (steps: Array<number>, operations: Array<string>, complexity: number):Array<Equation> | undefined => {
+export const createEquationSet = (steps: Array<number>, operations: Array<string>, complexity: number): Array<Equation> | undefined => {
     const generatedEquations: Array<Equation> = [];
 
     const equationsSet = [];

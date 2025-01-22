@@ -1,6 +1,6 @@
 import {createEquationSet, normalRandom} from "../../util/arithmetic";
-import {Operation} from "../../types/enums/Operation";
-import {Equation} from "../../types/Equation";
+
+import {Equation, Operation} from "../../types";
 
 export const createMonsterNumbers = (monstersAmount: number, numberRange: number) => {
     const monsterNumbers = new Array(4 * monstersAmount);
@@ -13,16 +13,19 @@ export const createMonsterNumbers = (monstersAmount: number, numberRange: number
 
 export const createMonsterEquations = (monstersAmount: number, selectedOps: Operation[], numberRange: number) => {
     const numbers = createMonsterNumbers(monstersAmount, numberRange);
-    const allEquations = createEquationSet(numbers,
+    return createEquationSet(numbers,
         selectedOps,
         numberRange) || [];
-    const monstersEquations =[];
-    for (let i=0; i < monstersAmount; i++) {
+}
+
+export const createMonsterEquationsArray = (equations: Array<Equation>, monstersAmount: number) => {
+    const monsterEquations = [];
+    for (let i = 0; i < monstersAmount; i++) {
         const innerArray: Equation[] = [];
-        for (let ii=0; ii<4; ii++) {
-            innerArray.push(allEquations[i*4+ii]);
-            }
-        monstersEquations.push(innerArray);
+        for (let ii = 0; ii < 4; ii++) {
+            innerArray.push(equations[i * 4 + ii]);
+        }
+        monsterEquations.push(innerArray);
     }
-    return monstersEquations;
+    return monsterEquations;
 }

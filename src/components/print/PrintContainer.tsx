@@ -8,12 +8,12 @@ import {
     LETTER_CODES_PARAMETER_NAME,
     MONSTERS_AMOUNT_PARAMETER_NAME,
     NUMBER_RANGE_PARAMETER_NAME,
-    removeFromStorage,
+    removeFromStorage, SECRET_MESSAGE_PARAMETER_NAME,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
 import {puzzleKeys, puzzles} from "../app/puzzles";
 import {FormattedMessage} from "react-intl";
-import SecretCodePrintPage from "../secret/SecretCodePrintPage";
+import SecretCodePrintPage from "../secret/print/SecretCodePrintPage";
 import PrintTreasureSolutionPage from "../treasure/print/PrintTreasureSolutionPage";
 import MonsterPrintPage from "../monster/print/MonsterPrintPage";
 import './Print.css'
@@ -31,7 +31,7 @@ const PrintContainer = () => {
 
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
 
-    const canvasHeight = printElementDiv.current?.clientHeight && 0.8 * printElementDiv.current.clientHeight;
+    const canvasHeight = printElementDiv.current?.clientHeight && 0.9 * printElementDiv.current.clientHeight;
 
     const clearStorage = () => {
         removeFromStorage(EQUATIONS_PARAMETER_NAME);
@@ -60,8 +60,9 @@ const PrintContainer = () => {
             puzzleComponent = <SecretCodePrintPage
                 equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                 letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
-                canvasHeight={canvasHeight}
-                showLetters={Boolean(solution)}/>;
+                message={JSON.parse(getFromStorage(SECRET_MESSAGE_PARAMETER_NAME))}
+                parentHeight={canvasHeight}
+                showAnswers={Boolean(solution)}/>;
             break;
         case (puzzleKeys.MONSTER_PUZZLE_KEY):
             console.log('div', canvasHeight);
@@ -85,7 +86,7 @@ const PrintContainer = () => {
     useEffect(() => {
         if (currentPuzzle) {
             setTimeout(() => window.print(), 500);
-            clearStorage();
+            // clearStorage();
         }
     }, [currentPuzzle]);
 
