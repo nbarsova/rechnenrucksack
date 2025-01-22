@@ -4,12 +4,23 @@ import {OperationsSelector} from "../settings/OperationsSelector";
 import "./SecretMessage.css";
 
 import {FormattedMessage, useIntl} from "react-intl";
-import {countMessageSymbols, createSecretCodeForMessage, SECRET_CODE_MAX_LENGTH} from "./CodeGenerator";
+import {
+    checkSecretMessage,
+    countMessageSymbols,
+    createSecretCodeForMessage,
+    SECRET_CODE_MAX_LENGTH
+} from "./CodeGenerator";
 
 import SecretCodePrintPage from "./print/SecretCodePrintPage";
-import {EQUATIONS_PARAMETER_NAME, LETTER_CODES_PARAMETER_NAME, setInStorage} from "../../util/localStorage";
+import {
+    EQUATIONS_PARAMETER_NAME,
+    LETTER_CODES_PARAMETER_NAME,
+    SECRET_MESSAGE_PARAMETER_NAME,
+    setInStorage
+} from "../../util/localStorage";
 import Buttons from "../buttons/Buttons";
 import {Equation, LetterCode, Operation} from "../../types";
+import SecretMessageInputArea from "./SecretMessageInputArea";
 
 const SecretCode = () => {
     const intl = useIntl();
@@ -18,79 +29,86 @@ const SecretCode = () => {
     const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
 
     const [selectedOps, setSelectedOps] = useState([Operation.ADD, Operation.SUB]);
-    const [numberRange, setNumberRange] = useState(numberRanges[2]);
+    const [numberRange, setNumberRange] = useState(100);
+    const initialMessageString = checkSecretMessage(intl.formatMessage({id: 'initialSecretMessage'}));
 
-    const [secretMessage, setSecretMessage] = useState(intl.formatMessage({id: 'initialSecretMessage'}));
-    console.log('secretMessage', secretMessage);
-    const [error, setError] = useState(false);
+    const [secretMessage, setSecretMessage] = useState<Array<string>>(initialMessageString);
 
     const [letterCodes, setLetterCodes] = useState<LetterCode[]>([]);
 
-    const [symbols, setSymbols] = useState<string[]>([]);
     const [equations, setEquations] = useState<Array<Equation>>([]);
 
     const recreateMessage = () => {
+        console.log("recreateMessage");
         const {
-            symbols: messageSymbolss,
-            codes: codess,
-            equations: updatedEquationss
-        } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
-        setSymbols(messageSymbolss);
-        setLetterCodes(codess);
-        setEquations(updatedEquationss);
+            codes,
+            equations: updatedEquations
+        } = createSecretCodeForMessage(secretMessage.join(' '), numberRange, selectedOps);
+        setLetterCodes(codes);
+        setEquations(updatedEquations);
+    }
+
+    const updateNumberRange = (newMessage: string) => {
+        const newSymbols = countMessageSymbols(newMessage);
+        const nRanges = [];
+
+        if (newSymbols.length <= 10) {
+            nRanges.push(10);
+        }
+        if (newSymbols.length <= 25) {
+            nRanges.push(25);
+        }
+        nRanges.push(100);
+        setNumberRanges(nRanges);
     }
 
     useEffect(() => {
+        updateNumberRange(secretMessage.join(' '))
+    }, [secretMessage]);
+
+    useEffect(() => {
+        console.log('recreateMessage effect');
         recreateMessage();
     }, [secretMessage, numberRange, selectedOps]);
 
     useEffect(() => {
-        const newMessage = intl.formatMessage({id: 'initialSecretMessage'});
+        const newMessage = checkSecretMessage(intl.formatMessage({id: 'initialSecretMessage'}));
+        console.log('newMessage', newMessage);
         setSecretMessage(newMessage);
     }, [intl.locale])
 
-    const updateSecretMessage = (ev: any) => {
-        const newMessage = ev.target.value;
+    const updateSecretMessage = (newMessage: string []) => {
 
-        if (newMessage.length === 0) {
-            setError(true);
-            setSecretMessage(newMessage);
-        } else if (newMessage.length > SECRET_CODE_MAX_LENGTH) {
-            setError(true);
-            setSecretMessage(newMessage.substring(0, SECRET_CODE_MAX_LENGTH));
-        } else {
-            setSecretMessage(newMessage);
-            setError(false);
-            setLetterCodes([]);
-            setEquations([]);
+        setSecretMessage(newMessage);
+        setLetterCodes([]);
+        setEquations([]);
 
-            const newSymbols = countMessageSymbols(newMessage);
-            const nRanges = [];
+        const newSymbols = countMessageSymbols(newMessage.join(' '));
+        const nRanges = [];
 
-            if (newSymbols.length <= 10) {
-                nRanges.push(10);
-            }
-            if (newSymbols.length <= 25) {
-                nRanges.push(25);
-            }
-            nRanges.push(100);
-
-            setSymbols(newSymbols);
-            setNumberRanges(nRanges);
-            setNumberRange(nRanges[0]);
+        if (newSymbols.length <= 10) {
+            nRanges.push(10);
         }
+        if (newSymbols.length <= 25) {
+            nRanges.push(25);
+        }
+        nRanges.push(100);
+
+        setNumberRanges(nRanges);
+        setNumberRange(nRanges[0]);
     };
 
     const prepareParameters = () => {
         setInStorage(EQUATIONS_PARAMETER_NAME, JSON.stringify(equations));
         setInStorage(LETTER_CODES_PARAMETER_NAME, JSON.stringify(letterCodes));
+        setInStorage(SECRET_MESSAGE_PARAMETER_NAME, JSON.stringify(secretMessage));
     };
 
     const refresh = () => {
         const {
             codes,
             equations: updatedEquations
-        } = createSecretCodeForMessage(secretMessage, numberRange, selectedOps);
+        } = createSecretCodeForMessage(secretMessage.join(' '), numberRange, selectedOps);
         setLetterCodes(codes);
         setEquations(updatedEquations);
     }
@@ -103,7 +121,7 @@ const SecretCode = () => {
     // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
     if (viewportWidth < 1200) {
         //                                   headerHeight             subHeaderHeight        footerHeight           settingsHeight
-        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.06 * viewportHeight - 0.06 * viewportHeight - 0.25 * viewportHeight);
+        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.06 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
     } else {
         // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
         mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;
@@ -111,6 +129,12 @@ const SecretCode = () => {
 
     return (<div className="main">
             <div className="settings">
+                <div className="messageInputContainer">
+                    <div className='secretCodeDescriptionText'>
+                        <b><FormattedMessage id="enterMessage" values={{limit: SECRET_CODE_MAX_LENGTH}}/></b>
+                    </div>
+                    <SecretMessageInputArea setValue={updateSecretMessage}/>
+                </div>
                 <div className="choiceContainer">
                     <NumberComplexity numberRanges={numberRanges} selectedRange={numberRange}
                                       onRangeChange={(range: number) => setNumberRange(range)}/>
@@ -120,25 +144,6 @@ const SecretCode = () => {
                                             setSelectedOps(selectedOps)
                                         }}/>
                 </div>
-                <div className="messageInputContainer">
-                    <div className='secretCodeDescriptionText'>
-                        <b><FormattedMessage id="enterMessage" values={{limit: SECRET_CODE_MAX_LENGTH}}/></b>
-                    </div>
-                    <textarea value={secretMessage}
-                              className={error ? 'borderedSecretMessageInput' : 'secretMessageInput'}
-                              rows={2}
-                              onChange={updateSecretMessage}
-                    />
-                </div>
-                {error ? <div className='errorMessage'>
-                        <FormattedMessage id='secretMessageTooLong' values={{limit: SECRET_CODE_MAX_LENGTH}}/>
-                    </div> :
-                    <div className='countMessage'>
-                        <span className='equationText'><FormattedMessage id='messageLength'/></span>
-                        {secretMessage.length}
-                        <span className='equationText'><FormattedMessage id='symbolsInStringMessage'/> </span>
-                        {symbols.length}
-                    </div>}
 
                 <Buttons prepareSolutionParameters={prepareParameters} preparePrintParameters={prepareParameters}
                          refresh={refresh} puzzleKey='secretCode'/>
@@ -148,7 +153,7 @@ const SecretCode = () => {
                     parentHeight={mainAreaHeight}
                     equations={equations}
                     letterCodes={letterCodes}
-                    messageString={secretMessage}
+                    message={secretMessage}
                     showAnswers={false}/>
             </div>
         </div>

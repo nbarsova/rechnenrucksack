@@ -50,7 +50,7 @@ export function LockMonster() {
     // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
     if (viewportWidth < 1200) {
         //                                   headerHeight             subHeaderHeight        footerHeight           settingsHeight
-        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.06 * viewportHeight - 0.06 * viewportHeight - 0.25 * viewportHeight);
+        mainAreaHeight = (viewportHeight - 0.08 * viewportHeight - 0.06 * viewportHeight - 0.06 * viewportHeight - 0.3 * viewportHeight);
     } else {
         // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
         mainAreaHeight = viewportHeight - 0.08 * viewportHeight - 0.04 * viewportHeight - 0.06 * viewportHeight - 0.02 * viewportHeight;

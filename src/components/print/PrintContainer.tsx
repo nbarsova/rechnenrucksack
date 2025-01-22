@@ -8,7 +8,7 @@ import {
     LETTER_CODES_PARAMETER_NAME,
     MONSTERS_AMOUNT_PARAMETER_NAME,
     NUMBER_RANGE_PARAMETER_NAME,
-    removeFromStorage,
+    removeFromStorage, SECRET_MESSAGE_PARAMETER_NAME,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
 import {puzzleKeys, puzzles} from "../app/puzzles";
@@ -60,6 +60,7 @@ const PrintContainer = () => {
             puzzleComponent = <SecretCodePrintPage
                 equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
                 letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
+                message={JSON.parse(getFromStorage(SECRET_MESSAGE_PARAMETER_NAME))}
                 parentHeight={canvasHeight}
                 showAnswers={Boolean(solution)}/>;
             break;

@@ -1,6 +1,6 @@
 import {describe, it, expect} from 'vitest'
 
-import {createLetterCodes, isUniqueCode} from './CodeGenerator';
+import {checkSecretMessage, createLetterCodes, isUniqueCode, NO_MESSAGE_ERROR, TOO_LONG_ERROR} from './CodeGenerator';
 import {LetterCode} from "../../types";
 
 describe('isUniqueCode function', () => {
@@ -86,4 +86,56 @@ describe('createLetterCodes', () => {
     });
 
 });
+
+describe('checkSecretMessage', () => {
+
+    it('string of 15 symbols or less without spaces is not split', () => {
+        const input = 'ABCDEFGHJKLMNOP';
+        const inputShort = 'ABCD';
+        expect(checkSecretMessage(inputShort)).toEqual(['ABCD']);
+        expect(checkSecretMessage(input)).toEqual(['ABCDEFGHJKLMNOP']);
+    })
+
+    it('string of more than 15 symbols without spaces is split into , each no more than 15 symbols ', () => {
+        const input = 'ABCDEFGHJKLMNOPRQ';
+        expect(checkSecretMessage(input)).toEqual(['ABCDEFGHJKLMNOP', 'RQ']);
+    })
+
+    it('string of more than 15 symbols with a space on position less than 15 is split into two , one up to the space and another after it', () => {
+        const inputShort = 'ABCDEFGHJKLMNO PRQ';
+        expect(checkSecretMessage(inputShort)).toEqual(['ABCDEFGHJKLMNO', 'PRQ']);
+    })
+
+    it('string of more than 15 symbols with a space on position less than 15 and after it more than 15 symbols', () => {
+        const input = 'ABCD EFGHJKLMNOPRQRSTU';
+        expect(checkSecretMessage(input)).toEqual(['ABCD', 'EFGHJKLMNOPRQRS', 'TU']);
+    })
+
+    it('string of less than 15 symbols with a space on position less than 15 is not split', () => {
+        const inputShort = 'ABCDE FGHJKLMNO';
+        expect(checkSecretMessage(inputShort)).toEqual(['ABCDE FGHJKLMNO']);
+    })
+
+    it('string of more than 15 symbols several spaces', () => {
+        const input = 'ABCD EFGH JKLMNOPRQRSTU';
+        expect(checkSecretMessage(input)).toEqual(['ABCD EFGH', 'JKLMNOPRQRSTU']);
+    })
+
+    it('string of more than 15 symbols several spaces', () => {
+        const input = 'ABCD EFGH JKLMNOPRQ RSTU';
+        expect(checkSecretMessage(input)).toEqual(['ABCD EFGH', 'JKLMNOPRQ RSTU']);
+    })
+
+    it('the string can be split only to 4  maximum, if the string exceeds 4 substring, the rest is cut', () => {
+        const input = 'ABCDEFGHJKLMNOPABCDEFGHJKLMNOPABCDEFGHJKLMNOPABCDEFGHJKLMNOP';
+        const excessiveInput = 'ABCDEFGHJKLMNOPABCDEFGHJKLMNOPABCDEFGHJKLMNOPABCDEFGHJKLMNOPAA';
+        const excessiveInputWithSpaces = 'ABCDEFGHJKLMNOP ABCDEFGHJKLMNOP ABCDEFGHJKLMNOP ABCDEFGHJKLMNOP';
+        const excessiveInputWithSpacesAndMore = 'ABCDEFGHJKLMNOP ABCDEFGHJKLMNOP ABCDEFGHJKLMNOP ABCDEFGHJKLMNOPAA';
+        expect(checkSecretMessage(input)).toEqual(['ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP']);
+        expect(checkSecretMessage(excessiveInput)).toEqual(['ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP']);
+        expect(checkSecretMessage(excessiveInputWithSpaces)).toEqual(['ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP']);
+        expect(checkSecretMessage(excessiveInputWithSpacesAndMore)).toEqual(['ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP', 'ABCDEFGHJKLMNOP']);
+    })
+})
+
 

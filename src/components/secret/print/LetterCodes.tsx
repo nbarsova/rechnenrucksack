@@ -1,12 +1,12 @@
 import {LetterCode} from "../../../types";
 
-const LetterCodes = (props: { letterCodeHeight: number, letterCodes: Array<LetterCode> }) => {
+const LetterCodes = (props: { letterCodeHeight: number, letterCodeWidth: number, letterCodes: Array<LetterCode> }) => {
 
-    const {letterCodeHeight, letterCodes} = props;
+    const {letterCodeHeight, letterCodes, letterCodeWidth} = props;
 
     const renderKey = (letterCode: LetterCode) => {
         return <div key={letterCode.letter}
-                    style={{marginRight: '5px', border: '1px solid green', fontSize: letterCodeHeight / 8 + 'px'}}>;
+                    style={{marginRight: '5px', fontSize: letterCodeHeight / 8 + 'px'}}>
             {letterCode.code + ' = ' + letterCode.letter}
         </div>
     }
@@ -17,11 +17,11 @@ const LetterCodes = (props: { letterCodeHeight: number, letterCodes: Array<Lette
             flexDirection: 'row',
             flexWrap: 'wrap',
             height: letterCodeHeight + 'px',
-            background: 'lightgreen',
+            width: letterCodeWidth + 'px',
             overflowY: 'auto'
         }}>
             {letterCodes.map(renderKey)}
-        </div>);
+        </div>)
 };
 
 export default LetterCodes;
