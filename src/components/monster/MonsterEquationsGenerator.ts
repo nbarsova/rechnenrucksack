@@ -20,6 +20,9 @@ export const createMonsterEquations = (monstersAmount: number, selectedOps: Oper
 
 export const createMonsterEquationsArray = (equations: Array<Equation>, monstersAmount: number) => {
     const monsterEquations = [];
+    if (!equations || equations.length !== 4 * monstersAmount) {
+        return []
+    }
     for (let i = 0; i < monstersAmount; i++) {
         const innerArray: Equation[] = [];
         for (let ii = 0; ii < 4; ii++) {

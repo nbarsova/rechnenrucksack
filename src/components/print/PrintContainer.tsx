@@ -8,7 +8,8 @@ import {
     LETTER_CODES_PARAMETER_NAME,
     MONSTERS_AMOUNT_PARAMETER_NAME,
     NUMBER_RANGE_PARAMETER_NAME,
-    removeFromStorage, SECRET_MESSAGE_PARAMETER_NAME,
+    removeFromStorage,
+    SECRET_MESSAGE_PARAMETER_NAME,
     TARGETS_PARAMETER_NAME
 } from "../../util/localStorage";
 import {puzzleKeys, puzzles} from "../app/puzzles";
@@ -65,11 +66,10 @@ const PrintContainer = () => {
                 showAnswers={Boolean(solution)}/>;
             break;
         case (puzzleKeys.MONSTER_PUZZLE_KEY):
-            console.log('div', canvasHeight);
             const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
             const monsterEquations = JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME));
             puzzleComponent = <MonsterPrintPage
-                monsterEquations={monsterEquations}
+                equations={monsterEquations}
                 monstersAmount={monsterAmount}
                 showAnswers={Boolean(solution)} parentHeight={canvasHeight}/>;
             break;
