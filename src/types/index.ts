@@ -12,16 +12,6 @@ export class Equation {
     }
 }
 
-export class StepEquation {
-    step: number;
-    equation: Equation;
-
-    constructor(newStep: number, newEquation: Equation) {
-        this.step = newStep;
-        this.equation = newEquation;
-    }
-}
-
 export enum Operation {
     ADD = '+',
     SUB = '-',

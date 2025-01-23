@@ -1,82 +1,85 @@
 import {Equation, Operation} from "../types";
 
-export const createEquationSet = (steps: Array<number>, operations: Array<string>, complexity: number): Array<Equation> | undefined => {
-    const generatedEquations: Array<Equation> = [];
+export const createEquationSet =
+    (steps: Array<number>, operations: Array<string>, complexity: number):
+        Array<Equation> => {
+        const generatedEquations: Array<Equation> = [];
 
-    const equationsSet = [];
+        const equationsSet = [];
 
-    const opTreshold = Math.floor(steps.length / operations.length) + 1;
-    let adN = 0;
-    let subN = 0;
-    let multN = 0;
-    let divN = 0;
-    const tresholds = [];
+        const opTreshold = Math.floor(steps.length / operations.length) + 1;
+        let adN = 0;
+        let subN = 0;
+        let multN = 0;
+        let divN = 0;
+        const tresholds = [];
 
-    for (let ii = 0; ii < operations.length; ii++) {
+        for (let ii = 0; ii < operations.length; ii++) {
 
-        switch (operations[ii]) {
-            // @ts-ignore
-            case (Operation.ADD):
-                adN = opTreshold;
-            // @ts-ignore
-            case (Operation.SUB):
-                subN = opTreshold;
-            // @ts-ignore
-            case (Operation.MULT):
-                multN = opTreshold;
-            case (Operation.DIV):
-                divN = opTreshold;
+            switch (operations[ii]) {
+                case (Operation.ADD):
+                    adN = opTreshold;
+                    break
+                case (Operation.SUB):
+                    subN = opTreshold;
+                    break
+                case (Operation.MULT):
+                    multN = opTreshold;
+                    break;
+                case (Operation.DIV):
+                    divN = opTreshold;
+                    break;
+            }
         }
-    }
 
-    tresholds.push({op: Operation.ADD, treshold: adN});
-    tresholds.push({op: Operation.SUB, treshold: subN});
-    tresholds.push({op: Operation.MULT, treshold: multN});
-    tresholds.push({op: Operation.DIV, treshold: divN});
+        tresholds.push({op: Operation.ADD, treshold: adN});
+        tresholds.push({op: Operation.SUB, treshold: subN});
+        tresholds.push({op: Operation.MULT, treshold: multN});
+        tresholds.push({op: Operation.DIV, treshold: divN});
 
-    for (let i = 0; i < steps.length; i++) {
-        if (steps[i] > Number(complexity)) {
-            return;
-        } else {
+        for (let i = 0; i < steps.length; i++) {
+            if (steps[i] > Number(complexity)) {
+                return [];
+            } else {
 
-            const exclusions = [];
+                const exclusions = [];
 
-            // если число простое - выкидываем умножение
-            if (isPrime(steps[i])) {
-                exclusions.push(Operation.MULT);
-            }
+                // если число простое - выкидываем умножение
+                if (isPrime(steps[i])) {
+                    exclusions.push(Operation.MULT);
+                }
 
-            // если число = границе сложности - выкидываем вычитание
-            if (steps[i] === complexity) {
-                exclusions.push(Operation.SUB);
-            }
+                // если число = границе сложности - выкидываем вычитание
+                if (steps[i] === complexity) {
+                    exclusions.push(Operation.SUB);
+                }
 
-            // если число < 4 - выкидываем сложение
+                // если число < 4 - выкидываем сложение
 
-            if (steps[i] < 4) {
-                exclusions.push(Operation.ADD);
-            }
+                if (steps[i] < 4) {
+                    exclusions.push(Operation.ADD);
+                }
 
-            // если число >10, выкидываем деление
+                // если число >10, выкидываем деление
 
-            if (steps[i] > 10) {
-                exclusions.push(Operation.DIV);
-            }
+                if (steps[i] > 10) {
+                    exclusions.push(Operation.DIV);
+                }
 
-            const currentOp = selectOperation(operations, exclusions, tresholds);
+                const currentOp = selectOperation(operations, exclusions, tresholds);
 
-            equationsSet.push(buildUniqueEquation(steps[i], currentOp, complexity, generatedEquations));
+                equationsSet.push(buildUniqueEquation(steps[i], currentOp, complexity, generatedEquations));
 
-            //update tresholds
-            for (let j = 0; j < tresholds.length; j++) {
-                if ((tresholds[j].op === currentOp) && (tresholds[j].treshold > 0)) {
-                    tresholds[j].treshold--;
+                //update tresholds
+                for (let j = 0; j < tresholds.length; j++) {
+                    if ((tresholds[j].op === currentOp) && (tresholds[j].treshold > 0)) {
+                        tresholds[j].treshold--;
+                    }
                 }
             }
         }
+        return equationsSet;
     }
-    return equationsSet;
-}
 
 
 const selectOperation = function (operations: Array<string>, exclusions: Array<string>, tresholds: Array<any>) {
@@ -162,24 +165,16 @@ const buildUniqueEquation = function (number: number, operation: string, complex
 
     for (let n = 0; n < generatedEquations.length; n++) {
         if (generatedEquations[n].number === number) {
-            // console.log("Looking up number "+ generatedEquations[n].number);
-            // console.log(generatedEquations[n].values);
+
             for (let nn = 0; nn < generatedEquations[n].values.length; nn++) {
-                // console.log("The value is ");
-                // console.log(generatedEquations[n].values[nn]);
-                // console.log("Looking up operation "+generatedEquations[n].values[nn].operation);
+
                 if (generatedEquations[n].values[nn].operation === operation) {
-                    // console.log("There are "+generatedEquations[n].values[nn].equations.length + " equations for number "+number+ " operation "+operation);
 
                     if (generatedEquations[n].values[nn].equations.length === 0) {
-                        // console.log("We need to generate some new equations");
                         generatedEquations[n].values[nn].equations = createEquationsForNumber(number, operation, complexity);
                     }
 
-                    //console.log(generatedEquations[n].values[nn]);
-
                     const randomNumber = normalRandom(0, generatedEquations[n].values[nn].equations.length - 1);
-                    //console.log("Random number is "+randomNumber);
                     equation = generatedEquations[n].values[nn].equations[randomNumber];
                     generatedEquations[n].values[nn].equations.splice(randomNumber, 1);
 
@@ -187,7 +182,6 @@ const buildUniqueEquation = function (number: number, operation: string, complex
             }
         }
     }
-    //console.log(generatedEquations);
     return equation;
 }
 
@@ -237,7 +231,6 @@ const createMultiplicationEquations = function (number: number) {
 }
 
 const createDivisionEquations = function (number: number, complexity: number) {
-//    console.log("Creating division equations for number "+number +" settings "+settings);
     const newEquations = [];
 
     let divstart = 1;
@@ -246,7 +239,6 @@ const createDivisionEquations = function (number: number, complexity: number) {
         divstart = 2;
     }
 
-//    console.log("Division start ="+divstart);
 
     for (let dd = divstart; (dd < 10) && (dd * number <= complexity); dd++) {
         const newEquation = new Equation(dd * number, dd, Operation.DIV, number);

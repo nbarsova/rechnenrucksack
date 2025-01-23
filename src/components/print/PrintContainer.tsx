@@ -3,6 +3,7 @@ import {useSearchParams} from "react-router-dom";
 import PrintTreasurePage from "../treasure/print/PrintTreasurePage";
 import {
     CURRENT_TARGET_PARAMETER_NAME,
+    DIRECTIONS_PARAMETER_NAME,
     EQUATIONS_PARAMETER_NAME,
     getFromStorage,
     LETTER_CODES_PARAMETER_NAME,
@@ -49,25 +50,28 @@ const PrintContainer = () => {
         case(puzzleKeys.TREASURE_PUZZLE_KEY):
             puzzleComponent = solution ?
                 <PrintTreasureSolutionPage
-                    equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
-                    currentTarget={JSON.parse(getFromStorage(CURRENT_TARGET_PARAMETER_NAME))}/> :
+                    equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME) as string)}
+                    currentTarget={JSON.parse(getFromStorage(CURRENT_TARGET_PARAMETER_NAME) as string)}
+                    directions={JSON.parse(getFromStorage(DIRECTIONS_PARAMETER_NAME) as string)}/> :
                 <PrintTreasurePage
                     numberRange={Number(getFromStorage(NUMBER_RANGE_PARAMETER_NAME))}
-                    canvasHeight={canvasHeight}
-                    equationSteps={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
-                    stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME))}/>;
+                    directions={JSON.parse(getFromStorage(DIRECTIONS_PARAMETER_NAME) as string)}
+                    parentHeight={canvasHeight}
+                    equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME) as string)}
+                    stones={JSON.parse(getFromStorage(TARGETS_PARAMETER_NAME) as string)}
+                    printView={true}/>;
             break;
         case (puzzleKeys.SECRET_CODE_PUZZLE_KEY):
             puzzleComponent = <SecretCodePrintPage
-                equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME))}
-                letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME))}
-                message={JSON.parse(getFromStorage(SECRET_MESSAGE_PARAMETER_NAME))}
+                equations={JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME) as string)}
+                letterCodes={JSON.parse(getFromStorage(LETTER_CODES_PARAMETER_NAME) as string)}
+                message={JSON.parse(getFromStorage(SECRET_MESSAGE_PARAMETER_NAME) as string)}
                 parentHeight={canvasHeight}
                 showAnswers={Boolean(solution)}/>;
             break;
         case (puzzleKeys.MONSTER_PUZZLE_KEY):
-            const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME));
-            const monsterEquations = JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME));
+            const monsterAmount = JSON.parse(getFromStorage(MONSTERS_AMOUNT_PARAMETER_NAME) as string);
+            const monsterEquations = JSON.parse(getFromStorage(EQUATIONS_PARAMETER_NAME) as string);
             puzzleComponent = <MonsterPrintPage
                 equations={monsterEquations}
                 monstersAmount={monsterAmount}
@@ -86,7 +90,7 @@ const PrintContainer = () => {
     useEffect(() => {
         if (currentPuzzle) {
             setTimeout(() => window.print(), 500);
-            // clearStorage();
+            clearStorage();
         }
     }, [currentPuzzle]);
 

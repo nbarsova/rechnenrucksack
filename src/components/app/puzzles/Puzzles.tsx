@@ -1,4 +1,3 @@
-
 import {puzzles} from "../puzzles";
 import {Link} from "react-router-dom";
 

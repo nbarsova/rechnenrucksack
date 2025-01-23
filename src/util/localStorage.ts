@@ -7,6 +7,7 @@ export const NAME_DATE_PARAMETER = 'nameDate';
 export const LETTER_CODES_PARAMETER_NAME = 'letterCodes';
 export const SECRET_MESSAGE_PARAMETER_NAME = 'secretMessage';
 export const MONSTERS_AMOUNT_PARAMETER_NAME = 'monstersAMOUNT';
+export const DIRECTIONS_PARAMETER_NAME = 'mapDirections';
 
 export const setInStorage = (parameterName: string, value: string): void => {
     window.localStorage.setItem(parameterName, value);

@@ -8,21 +8,32 @@ import EasyGrid from '../../../img/map2.svg';
 import HardGrid from '../../../img/map3.svg';
 
 import Stone from "../../../svg/Stone";
-import {MapTargetObject} from "../classes/MapTargetObject";
+import {PrintPageProps} from "../../../types/components";
+import {Equation} from "../../../types";
+import {Direction, MapCoordinate} from "../types";
 
-const PrintTreasurePage = (props: {
-    equationSteps: any,
-    stones: MapTargetObject [],
-    canvasHeight: number,
-    numberRange: number
-}) => {
+interface PrintTreasurePageProps extends PrintPageProps {
+    stones: MapCoordinate [],
+    numberRange: number,
+    directions: Direction[],
+    printView: boolean
+}
 
-    const gridSrc = props.numberRange === 10 ? EasyGrid : HardGrid;
+const PrintTreasurePage = (props: PrintTreasurePageProps) => {
 
-    const renderTarget = ((target: any) => {
-        const mapStep = (props.numberRange === 10) ? props.canvasHeight / 14 : props.canvasHeight / 28;
-        const posX = props.canvasHeight / 2 + target.x * mapStep - mapStep / 2;
-        const posY = props.canvasHeight / 2 - target.y * mapStep - mapStep / 2;
+    const {numberRange, stones, equations, parentHeight, directions, printView} = props;
+
+    console.log(numberRange, stones, equations, parentHeight, directions);
+
+    const gridSrc = numberRange === 10 ? EasyGrid : HardGrid;
+
+    // we set the stones and cross position absolutely, which works for
+    const printHeightDiff = printView ? (parentHeight / 9 * 10 * 0.1) : 0;
+
+    const renderTarget = ((target: MapCoordinate) => {
+        const mapStep = (numberRange === 10) ? parentHeight / 14 : parentHeight / 28;
+        const posX = parentHeight / 2 + target.x * mapStep - mapStep / 2;
+        const posY = parentHeight / 2 - target.y * mapStep - mapStep / 2 + printHeightDiff;
 
         return <div
             key={posX + '' + posY}
@@ -30,29 +41,34 @@ const PrintTreasurePage = (props: {
                 position: 'absolute',
                 top: posY,
                 left: posX
-            }}><Stone height={mapStep} width={mapStep}/></div>
+            }}>
+            <Stone
+                height={mapStep}
+                width={mapStep}/></div>
     });
 
-    const renderEquation = (equationStep: any, index: number) => {
-        return <PrintEquation equationStep={equationStep} index={index} key={index}/>;
+    const renderEquation = (equation: Equation, index: number) => {
+        return <PrintEquation equation={equation} direction={directions[index]} index={index} showAnswers={false}/>;
     };
 
 
-    return (<div className="printPreview">
-        <div className='flexRow' style={{width: 3 * props.canvasHeight / 2 + 'px'}}>
-            <img
-                src={gridSrc} height={props.canvasHeight * 0.75 + 'px'} width={props.canvasHeight * 0.75 + 'px'}/>
-            <img
-                src={Cross}
-                style={{position: 'absolute', top: props.canvasHeight / 2 - 10, left: props.canvasHeight / 2 - 10}}
-                height={20} width={20}/>
-            {props.stones.map(renderTarget)}
-            <div className="printPageText">
-                <span className='printEquation'><FormattedMessage id='worksheetDesc1'/></span>
-                <span className='printEquation'><FormattedMessage id='worksheetDesc2'/></span>
-                <span className='printEquation'><FormattedMessage id='worksheetDesc3'/></span>
-                {props.equationSteps.map(renderEquation)}
-            </div>
+    return (<div className='flexRow' style={{width: 3 * parentHeight / 2 + 'px'}}>
+        <img
+            src={gridSrc} height={parentHeight + 'px'} width={parentHeight + 'px'}/>
+        <img
+            src={Cross}
+            style={{
+                position: 'absolute',
+                top: parentHeight / 2 + printHeightDiff - (printView ? 0 : 10),
+                left: parentHeight / 2 - 10
+            }}
+            height={20} width={20}/>
+        {stones.map(renderTarget)}
+        <div className="printPageText">
+            <span className='printEquation'><FormattedMessage id='worksheetDesc1'/></span>
+            <span className='printEquation'><FormattedMessage id='worksheetDesc2'/></span>
+            <span className='printEquation'><FormattedMessage id='worksheetDesc3'/></span>
+            {equations.map(renderEquation)}
         </div>
     </div>);
 }

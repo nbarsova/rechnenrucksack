@@ -10,6 +10,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    height: 10vh;
 }
 
 .printPuzzle {
@@ -20,7 +21,7 @@
 }
 
 .printTitle {
-    font-size: var(--printHeaderHeight);
+    font-size: var(--printHeaderFontHeight);
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2mm;
