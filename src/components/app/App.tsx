@@ -14,7 +14,7 @@ import TreasureHunt from "../treasure/TreasureHunt";
 import Puzzles from "./puzzles/Puzzles";
 import PrintContainer from "../print/PrintContainer";
 
-export const ROOT_PATH = "/rechnenrucksack/";
+export const ROOT_PATH = "/";
 
 const App = () => {
 

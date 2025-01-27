@@ -4,10 +4,10 @@ import './Header.css';
 import {Link} from "react-router-dom";
 
 export function Header(props:
-                           {
-                               locale: string
-                               headerCallback: (lang: string) => void
-                           }) {
+                       {
+                           locale: string
+                           headerCallback: (lang: string) => void
+                       }) {
     const languages = ["en", "ru", "de"];
     const [currentLanguage, setCurrentLanguage] = useState(props.locale);
     const intl = useIntl();
@@ -24,11 +24,11 @@ export function Header(props:
     }
 
     return (
-            <header>
-                <Link className="headerWrapper" to={'/rechnenrucksack/'}>
-                    <FormattedMessage id="rechnenrucksack"/>
-                </Link>
-                <div className="languages"> {languages.map(renderLanguage)}</div>
-            </header>
+        <header>
+            <Link className="headerWrapper" to={'/'}>
+                <FormattedMessage id="rechnenrucksack"/>
+            </Link>
+            <div className="languages"> {languages.map(renderLanguage)}</div>
+        </header>
     )
 }
