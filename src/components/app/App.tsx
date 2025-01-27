@@ -45,8 +45,9 @@ const App = () => {
     }
 
     const location = useLocation();
+    console.log('location', location.pathname);
 
-    const isRoot = location.pathname === ROOT_PATH;
+    const isRoot = location.pathname === '/' + ROOT_PATH;
 
     const currentPuzzle = location.pathname.slice(ROOT_PATH.length + 1, location.pathname.length);
 
