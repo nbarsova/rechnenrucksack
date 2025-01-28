@@ -2,18 +2,23 @@ import {FormattedMessage} from "react-intl";
 import TreasureHunt from "../treasure/TreasureHunt";
 import SecretCode from "../secret/SecretCode";
 
-// @ts-ignore
 import monster from '../../img/monster/1.png';
-// @ts-ignore
-import map from '../../img/mapP.png';
-// @ts-ignore
-import secret from '../../img/secretP.png';
+import compass from '../../img/compass.png';
+import secret from '../../img/secretCode2.png';
 import {LockMonster} from "../monster/LockMonster";
 
 export enum puzzleKeys {
     TREASURE_PUZZLE_KEY = 'treasure',
     SECRET_CODE_PUZZLE_KEY = 'secretCode',
     MONSTER_PUZZLE_KEY = 'lockMonster'
+}
+
+export type PuzzleDescriptor = {
+    key: puzzleKeys;
+    name: JSX.Element;
+    printTitle: JSX.Element;
+    component: JSX.Element;
+    thumbnail: HTMLImageElement;
 }
 
 export const puzzles = [{
@@ -23,7 +28,7 @@ export const puzzles = [{
         defaultMessage="Treasure map"/>,
     printTitle: <FormattedMessage id='worksheetTitle'/>,
     component: <TreasureHunt/>,
-    thumbnail: map
+    thumbnail: compass
 },
     {
         key: puzzleKeys.SECRET_CODE_PUZZLE_KEY,

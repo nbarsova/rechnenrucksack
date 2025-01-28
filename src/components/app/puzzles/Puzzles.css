@@ -1,0 +1,55 @@
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three cards in a row */
+    gap: 20px;
+    padding: 30px;
+}
+
+/* Card styles */
+.card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.02); /* Slightly scale up the entire card */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Increase shadow for depth */
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    color: #7cadef;
+    margin: 10px 0;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Thumbnail image */
+.card img {
+    width: 100%;
+    height: 10vh; /* Fixed height */
+    object-fit: contain;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+@media (min-width: 1200px) {
+    .card img {
+        height: 20vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: 1fr; /* One card per row on small screens */
+    }
+}
