@@ -1,6 +1,6 @@
-import {describe, it, expect} from 'vitest'
+import {describe, expect, it} from 'vitest'
 
-import {checkSecretMessage, createLetterCodes, isUniqueCode, NO_MESSAGE_ERROR, TOO_LONG_ERROR} from './CodeGenerator';
+import {checkSecretMessage, createLetterCodes, isUniqueCode} from './CodeGenerator';
 import {LetterCode} from "../../types";
 
 describe('isUniqueCode function', () => {

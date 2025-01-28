@@ -12,8 +12,7 @@ const SecretMessageInputArea = (props: SecretMessageInputAreaProps) => {
     const [error, setError] = useState<boolean>(false);
     const [originalValue, setOriginalValue] = useState<string>(intl.formatMessage({id: 'initialSecretMessage'}));
 
-    const onChange = (ev) => {
-        console.log('length', ev.target.value.length, ev.target.value)
+    const onChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (ev.target.value.length === 0) {
             console.log('wtf')
             setError(true);
