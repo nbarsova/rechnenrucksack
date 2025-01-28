@@ -110,7 +110,7 @@ const PrintContainer = () => {
 
             {puzzleComponent}
 
-            <div className='copyright'>&#169; https://nbarsova.github.io/rechnenrucksack</div>
+            <div className='copyright'>&#169; bagoftasks.app</div>
         </div>
     )
 };
