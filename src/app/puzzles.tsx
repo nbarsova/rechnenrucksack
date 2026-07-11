@@ -19,10 +19,10 @@ export type PuzzleDescriptor = {
     name: JSX.Element;
     printTitle: JSX.Element;
     component: JSX.Element;
-    thumbnail: HTMLImageElement;
+    thumbnail: string;
 };
 
-export const puzzles = [
+export const puzzles: PuzzleDescriptor[] = [
     {
         key: puzzleKeys.TREASURE_PUZZLE_KEY,
         name: (

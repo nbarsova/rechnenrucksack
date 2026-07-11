@@ -32,9 +32,9 @@ const PrintContainer = () => {
 
     const printElementDiv = useRef<HTMLDivElement>(null); // this is for the whole print page for pdf generation
 
-    const canvasHeight =
-        printElementDiv.current?.clientHeight &&
-        0.9 * printElementDiv.current.clientHeight;
+    const canvasHeight = printElementDiv.current
+        ? 0.9 * printElementDiv.current.clientHeight
+        : 0;
 
     const clearStorage = () => {
         removeFromStorage(EQUATIONS_PARAMETER_NAME);
@@ -76,6 +76,7 @@ const PrintContainer = () => {
                     stones={JSON.parse(
                         getFromStorage(TARGETS_PARAMETER_NAME) as string,
                     )}
+                    showAnswers={false}
                     printView={true}
                 />
             );
