@@ -17,7 +17,7 @@ import Footer from './footer/Footer';
 import SecretCode from '../secret/SecretCode';
 import { LockMonster } from '../monster/LockMonster';
 import { puzzleKeys, puzzles } from './puzzles';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import TreasureHunt from '../treasure/TreasureHunt';
 import Puzzles from './puzzles/Puzzles';
 import PrintContainer from '../print/PrintContainer';
