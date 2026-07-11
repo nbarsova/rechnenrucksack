@@ -17,8 +17,6 @@ const SecretCodePrintPage = (props: SecretCodePrintPageProps) => {
     const { equations, letterCodes, showAnswers, parentHeight, message } =
         props;
 
-    console.log('props:', props);
-
     const letterCodeHeight = 0.2 * parentHeight;
     const messageAreaHeight = 0.8 * parentHeight;
 
@@ -63,13 +61,14 @@ const SecretCodePrintPage = (props: SecretCodePrintPageProps) => {
                             >
                                 {showAnswers ? currentSymbol : ''}{' '}
                             </div>
-                            {currentEquation.number1 +
-                                ' ' +
-                                currentEquation.operation +
-                                ' ' +
-                                currentEquation.number2 +
-                                ' = ' +
-                                (showAnswers ? currentEquation.result : '')}
+                            {currentEquation &&
+                                currentEquation.number1 +
+                                    ' ' +
+                                    currentEquation.operation +
+                                    ' ' +
+                                    currentEquation.number2 +
+                                    ' = ' +
+                                    (showAnswers ? currentEquation.result : '')}
                         </div>,
                     );
                     equationIndex++;
