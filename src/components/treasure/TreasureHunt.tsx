@@ -18,14 +18,23 @@ import {
     setInStorage,
     TARGETS_PARAMETER_NAME,
 } from '../../util/localStorage';
-import { puzzleKeys } from '../../app/puzzles';
+import {
+    findPuzzleByKey,
+    puzzleAlternatePaths,
+    puzzleKeys,
+    puzzlePath,
+} from '../../app/puzzles';
 import './TreasureHunt.css';
 import '../../app/App.css';
 import Buttons from '../buttons/Buttons';
 import { Equation, Operation } from '../../types';
 import { Direction, MapCoordinate } from './types';
+import { useIntl } from 'react-intl';
+import PageMeta from '../../app/PageMeta';
 
 const TreasureHunt = () => {
+    const { locale, formatMessage } = useIntl();
+    const puzzle = findPuzzleByKey(puzzleKeys.TREASURE_PUZZLE_KEY);
     const numberRanges = [10, 25];
     const equationsAmounts = [6, 8, 10];
     const allOps = [
@@ -51,8 +60,6 @@ const TreasureHunt = () => {
         const fieldSize = numberRange === 10 ? 5 : 10;
 
         const targets = initTargets(fieldSize); // initialize four targets near the ends of the field
-
-        console.log('targets', targets);
 
         const goalTarget = targets[Math.floor((Math.random() * 10) / 3)]; // choose a random one
 
@@ -125,6 +132,15 @@ const TreasureHunt = () => {
 
     return (
         <div className="main">
+            <PageMeta
+                title={formatMessage({ id: 'treasureMap' })}
+                description={formatMessage({
+                    id: 'treasureMapDescription',
+                })}
+                locale={locale}
+                path={puzzlePath(puzzle, locale)}
+                alternatePaths={puzzleAlternatePaths(puzzle)}
+            />
             <div className="settings">
                 <div className="treasureSettings">
                     <NumberComplexity

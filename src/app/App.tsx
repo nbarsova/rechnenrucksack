@@ -1,40 +1,43 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 
-import { puzzleKeys } from './puzzles';
+import { puzzles } from './puzzles';
 
 import Puzzles from './puzzles/Puzzles';
 
 import MainLayout from './MainLayout.tsx';
 import LocaleProvider from './LocaleProvider.tsx';
 import PuzzleLayout from './PuzzleLayout.tsx';
-import TreasureHunt from '../components/treasure/TreasureHunt.tsx';
-import SecretCode from '../components/secret/SecretCode.tsx';
-import { LockMonster } from '../components/monster/LockMonster.tsx';
 import PrintContainer from '../components/print/PrintContainer.tsx';
+import { LOCALES } from './locales.ts';
+import { useIntl } from 'react-intl';
+
+const LocaleRedirect = () => {
+    const { locale } = useIntl();
+    return <Navigate to={`/${locale}`} replace />;
+};
 
 const App = () => {
     return (
         <LocaleProvider>
             <Routes>
-                <Route element={<MainLayout />}>
+                <Route path="/" element={<LocaleRedirect />} />
+                <Route path="/print" element={<PrintContainer />} />
+                <Route path="/:locale" element={<MainLayout />}>
                     <Route index element={<Puzzles />} />
                     <Route element={<PuzzleLayout />}>
-                        <Route
-                            path={puzzleKeys.TREASURE_PUZZLE_KEY}
-                            element={<TreasureHunt />}
-                        />
-                        <Route
-                            path={puzzleKeys.SECRET_CODE_PUZZLE_KEY}
-                            element={<SecretCode />}
-                        />
-                        <Route
-                            path={puzzleKeys.MONSTER_PUZZLE_KEY}
-                            element={<LockMonster />}
-                        />
+                        {puzzles.flatMap((puzzle) =>
+                            LOCALES.map((locale) => (
+                                <Route
+                                    key={`${locale}-${puzzle.key}`}
+                                    path={puzzle.slugs[locale]}
+                                    element={puzzle.component}
+                                />
+                            )),
+                        )}
                     </Route>
                 </Route>
-                <Route path="/print" element={<PrintContainer />} />
+                <Route path="*" element={<LocaleRedirect />} />
             </Routes>
         </LocaleProvider>
     );

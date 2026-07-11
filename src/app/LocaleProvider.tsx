@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { IntlProvider } from 'react-intl';
 import {
@@ -11,56 +12,40 @@ import {
     LOCALE_PARAMETER_NAME,
     setInStorage,
 } from '../util/localStorage.ts';
+import { isLocale, Locale } from './locales.ts';
 
-interface LocaleContextValue {
-    locale: string;
-    setLocale: (locale: string) => void;
-}
+// localStorage → navigator.language → 'en'; used when the URL carries no locale
+export const detectLocale = (): Locale => {
+    const stored = getFromStorage(LOCALE_PARAMETER_NAME);
+    if (isLocale(stored)) return stored;
 
-export const LocaleContext = createContext<LocaleContextValue | null>(null);
+    if (navigator.language.startsWith('de')) return 'de';
+    if (navigator.language.startsWith('ru')) return 'ru';
+    return 'en';
+};
 
-export const useLocale = (): LocaleContextValue => {
-    const context = useContext(LocaleContext);
-    if (!context) {
-        throw new Error('useLocale must be used within a LocaleProvider');
-    }
-    return context;
+const messages: Record<Locale, Record<string, string>> = {
+    en: enMessagesJson,
+    de: deMessagesJSON,
+    ru: ruMessagesJSON,
 };
 
 const LocaleProvider = ({ children }: { children: React.ReactNode }) => {
-    const messages: Record<string, Record<string, string>> = {
-        en: enMessagesJson,
-        de: deMessagesJSON,
-        ru: ruMessagesJSON,
-    };
+    const { pathname } = useLocation();
+    const urlLocale = pathname.split('/')[1];
 
-    let defaultLocale = getFromStorage(LOCALE_PARAMETER_NAME);
+    const locale: Locale = isLocale(urlLocale) ? urlLocale : detectLocale();
 
-    if (!defaultLocale)
-        switch (navigator.language) {
-            case 'de-DE':
-                defaultLocale = 'de';
-                break;
-            case 'ru-RU':
-                defaultLocale = 'ru';
-                break;
-            default:
-                break;
+    useEffect(() => {
+        if (isLocale(urlLocale)) {
+            setInStorage(LOCALE_PARAMETER_NAME, urlLocale);
         }
-
-    const [locale, setCurrentLocale] = useState(defaultLocale || 'en');
-
-    const setLocale = (locale: string) => {
-        setCurrentLocale(locale);
-        setInStorage(LOCALE_PARAMETER_NAME, locale);
-    };
+    }, [urlLocale]);
 
     return (
-        <LocaleContext.Provider value={{ locale, setLocale }}>
-            <IntlProvider locale={locale} messages={messages[locale]}>
-                {children}
-            </IntlProvider>
-        </LocaleContext.Provider>
+        <IntlProvider locale={locale} messages={messages[locale]}>
+            {children}
+        </IntlProvider>
     );
 };
 

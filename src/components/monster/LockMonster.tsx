@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { NumberComplexity } from '../settings/NumberComplexity';
 import '../settings/Complexity.css';
 import './LockMonster.css';
@@ -14,7 +14,13 @@ import {
 import MonsterPrintPage from './print/MonsterPrintPage';
 import Buttons from '../buttons/Buttons';
 import { Equation, Operation } from '../../types';
-import { puzzleKeys } from '../../app/puzzles.tsx';
+import {
+    findPuzzleByKey,
+    puzzleAlternatePaths,
+    puzzleKeys,
+    puzzlePath,
+} from '../../app/puzzles.tsx';
+import PageMeta from '../../app/PageMeta.tsx';
 
 const addOps = [Operation.ADD, Operation.SUB];
 const allOps = [Operation.ADD, Operation.SUB, Operation.MULT, Operation.DIV];
@@ -24,6 +30,8 @@ const numberRanges = [10, 25, 100];
 const monstersAmounts = [6, 4, 2];
 
 export function LockMonster() {
+    const { locale, formatMessage } = useIntl();
+    const puzzle = findPuzzleByKey(puzzleKeys.MONSTER_PUZZLE_KEY);
     const [selectedOps, setSelectedOps] = useState(addOps);
     const [numberRange, setNumberRange] = useState(numberRanges[0]);
     const [monstersAmount, setMonstersAmount] = useState<number>(
@@ -89,6 +97,15 @@ export function LockMonster() {
 
     return (
         <div className="main">
+            <PageMeta
+                title={formatMessage({ id: 'lockTheMonster' })}
+                description={formatMessage({
+                    id: 'lockMonsterDescription',
+                })}
+                locale={locale}
+                path={puzzlePath(puzzle, locale)}
+                alternatePaths={puzzleAlternatePaths(puzzle)}
+            />
             <div className="settings">
                 <div className="treasureSettings">
                     <NumberComplexity

@@ -7,6 +7,7 @@ import { JSX } from 'react';
 import TreasureHunt from '../components/treasure/TreasureHunt.tsx';
 import SecretCode from '../components/secret/SecretCode.tsx';
 import { LockMonster } from '../components/monster/LockMonster.tsx';
+import { LOCALES } from './locales.ts';
 
 export enum puzzleKeys {
     TREASURE_PUZZLE_KEY = 'treasure',
@@ -16,6 +17,7 @@ export enum puzzleKeys {
 
 export type PuzzleDescriptor = {
     key: puzzleKeys;
+    slugs: Record<string, string>;
     name: JSX.Element;
     printTitle: JSX.Element;
     component: JSX.Element;
@@ -25,6 +27,11 @@ export type PuzzleDescriptor = {
 export const puzzles: PuzzleDescriptor[] = [
     {
         key: puzzleKeys.TREASURE_PUZZLE_KEY,
+        slugs: {
+            en: 'treasure-map',
+            de: 'schatzsuche',
+            ru: 'karta-sokrovishch',
+        },
         name: (
             <FormattedMessage id="treasureMap" defaultMessage="Treasure map" />
         ),
@@ -34,6 +41,11 @@ export const puzzles: PuzzleDescriptor[] = [
     },
     {
         key: puzzleKeys.SECRET_CODE_PUZZLE_KEY,
+        slugs: {
+            en: 'secret-code',
+            de: 'geheimcode',
+            ru: 'sekretnyj-kod',
+        },
         name: <FormattedMessage id="secretCode" defaultMessage="Secret map" />,
         printTitle: <FormattedMessage id="secretCodeTitle" />,
         component: <SecretCode />,
@@ -41,6 +53,11 @@ export const puzzles: PuzzleDescriptor[] = [
     },
     {
         key: puzzleKeys.MONSTER_PUZZLE_KEY,
+        slugs: {
+            en: 'lock-the-monster',
+            de: 'fang-dem-monster',
+            ru: 'zapri-monstra',
+        },
         name: (
             <FormattedMessage
                 id="lockTheMonster"
@@ -52,3 +69,23 @@ export const puzzles: PuzzleDescriptor[] = [
         printTitle: <FormattedMessage id="lockMonsterTitle" />,
     },
 ];
+
+export const findPuzzleByKey = (key: puzzleKeys): PuzzleDescriptor =>
+    puzzles.find((puzzle) => puzzle.key === key)!;
+
+export const findPuzzleBySlug = (
+    slug: string | undefined,
+): PuzzleDescriptor | undefined =>
+    slug
+        ? puzzles.find((puzzle) => Object.values(puzzle.slugs).includes(slug))
+        : undefined;
+
+export const puzzlePath = (puzzle: PuzzleDescriptor, locale: string): string =>
+    `/${locale}/${puzzle.slugs[locale]}`;
+
+export const puzzleAlternatePaths = (
+    puzzle: PuzzleDescriptor,
+): Record<string, string> =>
+    Object.fromEntries(
+        LOCALES.map((locale) => [locale, puzzlePath(puzzle, locale)]),
+    );

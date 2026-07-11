@@ -1,22 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://bagoftasks.app/</loc>
+    <loc>https://bagoftasks.app/en</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://bagoftasks.app/treasure</loc>
+    <loc>https://bagoftasks.app/de</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://bagoftasks.app/ru</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://bagoftasks.app/en/treasure-map</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bagoftasks.app/secretCode</loc>
+    <loc>https://bagoftasks.app/de/schatzsuche</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bagoftasks.app/lockMonster</loc>
+    <loc>https://bagoftasks.app/ru/karta-sokrovishch</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bagoftasks.app/en/secret-code</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bagoftasks.app/de/geheimcode</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bagoftasks.app/ru/sekretnyj-kod</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bagoftasks.app/en/lock-the-monster</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bagoftasks.app/de/fang-dem-monster</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bagoftasks.app/ru/zapri-monstra</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
