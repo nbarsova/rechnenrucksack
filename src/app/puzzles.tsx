@@ -55,7 +55,7 @@ export const puzzles: PuzzleDescriptor[] = [
         key: puzzleKeys.MONSTER_PUZZLE_KEY,
         slugs: {
             en: 'lock-the-monster',
-            de: 'fang-dem-monster',
+            de: 'fang-das-monster',
             ru: 'zapri-monstra',
         },
         name: (

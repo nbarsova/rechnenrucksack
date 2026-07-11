@@ -56,7 +56,7 @@ export const deMessagesJSON = {
     rechnenrucksack: 'RECHENRUCKSACK',
     treasureMap: 'Schatzsuche',
     secretCode: 'Geheimcode',
-    lockTheMonster: 'Fang dem Monster',
+    lockTheMonster: 'Fang das Monster',
     homeTitle: 'Rechenrucksack – Mathe-Rätsel für Kinder zum Ausdrucken',
     homeDescription:
         'Kostenloser Generator für Mathe-Rätsel für Grundschulkinder zum Ausdrucken. Schatzkarten, Geheimcodes und Monster-Arbeitsblätter auf Deutsch, Englisch und Russisch.',
@@ -102,7 +102,7 @@ export const deMessagesJSON = {
         'Löse die Aufgaben und finde die Ergebnisse im Schlüssel, \num die Nachricht zu raten!',
     codeKey: 'Schlüssel: ',
     secretCodeTitle: 'Löse den geheimen Code!',
-    lockMonsterTitle: 'Fang dem Monster!',
+    lockMonsterTitle: 'Fang das Monster!',
     howManyMonsters: 'Wieviele Monster?',
     addAndSubscribe: '+ und -',
     allOperations: 'alle',
