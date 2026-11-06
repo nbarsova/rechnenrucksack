@@ -7,11 +7,11 @@ export const enMessagesJson = {
     homeDescription:
         'Free printable math puzzle generator for primary school children. Treasure maps, secret codes, and monster-locking worksheets in English, German, and Russian.',
     treasureMapDescription:
-        'Generate a printable treasure map math worksheet — solve equations to find the hidden treasure.',
+        'Solve the equations to walk the map and find where the pirates buried their treasure.',
     secretCodeDescription:
-        'Generate a printable secret code math worksheet — solve equations to decode the hidden message.',
+        'Every answer is a letter. Crack all the sums to decode the hidden message.',
     lockMonsterDescription:
-        'Generate a printable monster math worksheet — solve equations to lock the monster in its cage.',
+        'Fill in the number cage on every side to trap the silly monster inside.',
     numberRanges: 'Numbers in tasks',
     equationsAmount: 'How many tasks?',
     operations: 'Arithmetic operations',
@@ -61,11 +61,11 @@ export const deMessagesJSON = {
     homeDescription:
         'Kostenloser Generator für Mathe-Rätsel für Grundschulkinder zum Ausdrucken. Schatzkarten, Geheimcodes und Monster-Arbeitsblätter auf Deutsch, Englisch und Russisch.',
     treasureMapDescription:
-        'Erstelle ein Mathe-Arbeitsblatt mit Schatzkarte - löse die Aufgaben, um den Schatz zu finden.',
+        'Löse die Rechenaufgaben, laufe über die Karte und finde heraus, wo die Piraten ihren Schatz vergraben haben.',
     secretCodeDescription:
-        'Erstelle ein Mathe-Arbeitsblatt mit Geheimcode - löse die Aufgaben, um die geheime Botschaft zu entschlüsseln.',
+        'Jedes Ergebnis ist ein Buchstabe. Knacke alle Rechenaufgaben und entschlüssele die geheime Botschaft.',
     lockMonsterDescription:
-        'Erstelle ein Mathe-Arbeitsblatt mit Monster - löse die Aufgaben, um das Monster einzusperren.',
+        'Fülle den Zahlenkäfig an allen Seiten aus, um das Monster einzusperren.',
     numberRanges: 'Zahlenbereich',
     equationsAmount: 'Aufgabenanzahl',
     operations: 'Rechenoperationen',
@@ -113,15 +113,14 @@ export const ruMessagesJSON = {
     treasureMap: 'Поиск сокровищ',
     secretCode: 'Секретный шифр',
     lockTheMonster: 'Запри монстра',
-    homeTitle: 'Bag of Tasks – Математические головоломки для печати',
+    homeTitle: 'Рюкзак заданий – Математические головоломки для печати',
     homeDescription:
         'Бесплатный генератор математических головоломок для печати для младших школьников. Карты сокровищ, секретные шифры и задания с монстрами на русском, английском и немецком.',
     treasureMapDescription:
-        'Создай карту сокровищ для распечатки — решай примеры, чтобы найти клад.',
-    secretCodeDescription:
-        'Создай зашифрованное сообщение для распечатки — решай примеры, чтобы расшифровать тайное послание.',
+        'Реши примеры, пройди по карте и узнай, где пираты закопали свой клад.',
+    secretCodeDescription: 'Реши все примеры и расшифруй тайное сообщение.',
     lockMonsterDescription:
-        'Создай задания для распечатки — решай примеры, чтобы запереть монстра в клетке.',
+        'Заполни клетку из чисел со всех сторон, чтобы запереть монстра внутри.',
     numberRanges: 'Числа в примерах',
     equationsAmount: 'Количество примеров',
     operations: 'Арифметические операции',

@@ -19,6 +19,7 @@ export type PuzzleDescriptor = {
     key: puzzleKeys;
     slugs: Record<string, string>;
     name: JSX.Element;
+    description: JSX.Element;
     printTitle: JSX.Element;
     component: JSX.Element;
     thumbnail: string;
@@ -35,6 +36,9 @@ export const puzzles: PuzzleDescriptor[] = [
         name: (
             <FormattedMessage id="treasureMap" defaultMessage="Treasure map" />
         ),
+        description: (
+            <FormattedMessage id="treasureMapDescription" defaultMessage="" />
+        ),
         printTitle: <FormattedMessage id="worksheetTitle" />,
         component: <TreasureHunt />,
         thumbnail: compass,
@@ -47,6 +51,9 @@ export const puzzles: PuzzleDescriptor[] = [
             ru: 'sekretnyj-kod',
         },
         name: <FormattedMessage id="secretCode" defaultMessage="Secret map" />,
+        description: (
+            <FormattedMessage id="secretCodeDescription" defaultMessage="" />
+        ),
         printTitle: <FormattedMessage id="secretCodeTitle" />,
         component: <SecretCode />,
         thumbnail: secret,
@@ -63,6 +70,9 @@ export const puzzles: PuzzleDescriptor[] = [
                 id="lockTheMonster"
                 defaultMessage="Lock the Monster"
             />
+        ),
+        description: (
+            <FormattedMessage id="lockMonsterDescription" defaultMessage="" />
         ),
         component: <LockMonster />,
         thumbnail: monster,

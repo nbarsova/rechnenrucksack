@@ -1,8 +1,6 @@
-import './Footer.css';
-
 const Footer = () => {
     return (
-        <div className="Footer">
+        <div className="bg-primary text-subheader absolute bottom-0 block h-(--footerHeight) w-full p-[1vh] font-bold">
             (c){' '}
             <a href="https://github.com/nbarsova/rechnenrucksack">
                 Natalia Barsova

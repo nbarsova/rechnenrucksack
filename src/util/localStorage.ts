@@ -21,4 +21,4 @@ export const getFromStorage = (parameterName: string): string | null => {
 
 export const removeFromStorage = (parameterName: string): void => {
     window.localStorage.removeItem(parameterName);
-}
+};

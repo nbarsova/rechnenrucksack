@@ -3,7 +3,6 @@ import PrintIcon from '../../svg/PrintIcon';
 import SolutionIcon from '../../svg/SolutionIcon';
 import RefreshIcon from '../../svg/RefreshIcon';
 import { useIntl } from 'react-intl';
-import './Buttons.css';
 
 const Buttons = (props: {
     puzzleKey: string;
@@ -19,11 +18,11 @@ const Buttons = (props: {
     } = props;
     const intl = useIntl();
     return (
-        <div className="buttons">
+        <div className="bg-primary-light absolute top-[calc(var(--headerHeight)+var(--subHeaderHeight)+var(--settingsHeight))] left-[1vh] z-2 flex opacity-80 xl:top-[calc(var(--headerHeight)+var(--subHeaderHeight))] xl:left-[calc(var(--settingsWidth)+1vh)]">
             <Link
                 target="_blank"
                 to={'/print?puzzle=' + puzzleKey}
-                className="button"
+                className="m-[1vh] h-[4vh] w-[4vh] cursor-pointer"
                 title={intl.formatMessage({ id: 'printStudent' })}
                 onClick={preparePrintParameters}
             >
@@ -32,14 +31,14 @@ const Buttons = (props: {
             <Link
                 target="_blank"
                 to={'/print?puzzle=' + puzzleKey + '&solution=true'}
-                className="button"
+                className="m-[1vh] h-[4vh] w-[4vh] cursor-pointer"
                 title={intl.formatMessage({ id: 'printTeacher' })}
                 onClick={prepareSolutionParameters}
             >
                 <SolutionIcon />
             </Link>
             <div
-                className="button"
+                className="m-[1vh] h-[4vh] w-[4vh] cursor-pointer"
                 title={intl.formatMessage({ id: 'refresh' })}
                 onClick={refresh}
             >

@@ -1,12 +1,11 @@
-export type MapCoordinate =
-    {
-        x: number;
-        y: number;
-    }
+export type MapCoordinate = {
+    x: number;
+    y: number;
+};
 
 export enum Axis {
-    Vertical = "vertical",
-    Horizontal = "horizontal"
+    Vertical = 'vertical',
+    Horizontal = 'horizontal',
 }
 
-export type Direction = "dirUp" | "dirDown" | "dirLeft" | "dirRight";
+export type Direction = 'dirUp' | 'dirDown' | 'dirLeft' | 'dirRight';

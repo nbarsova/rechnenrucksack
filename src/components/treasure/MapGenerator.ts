@@ -1,28 +1,29 @@
-import {isPrime, normalRandom} from "../../util/arithmetic";
-import {Axis, Direction, MapCoordinate} from "./types";
+import { isPrime, normalRandom } from '../../util/arithmetic';
+import { Axis, Direction, MapCoordinate } from './types';
 
 export type GenerationOptions = {
     noPrimes: boolean;
-}
+};
 
 export const initTargets = (fieldSize: number): Array<MapCoordinate> => {
     const targetObjects: MapCoordinate[] = [
         {
             x: fieldSize - Math.floor((Math.random() * fieldSize) / 3),
-            y: fieldSize - Math.floor((Math.random() * fieldSize) / 3)
+            y: fieldSize - Math.floor((Math.random() * fieldSize) / 3),
         },
         {
             x: fieldSize - Math.floor((Math.random() * fieldSize) / 3),
-            y: -fieldSize + Math.floor((Math.random() * fieldSize) / 3)
+            y: -fieldSize + Math.floor((Math.random() * fieldSize) / 3),
         },
         {
             x: -fieldSize + Math.floor((Math.random() * fieldSize) / 3),
-            y: fieldSize - Math.floor((Math.random() * fieldSize) / 3)
+            y: fieldSize - Math.floor((Math.random() * fieldSize) / 3),
         },
         {
             x: -fieldSize + Math.floor((Math.random() * fieldSize) / 3),
-            y: -fieldSize + Math.floor((Math.random() * fieldSize) / 3)
-        }];
+            y: -fieldSize + Math.floor((Math.random() * fieldSize) / 3),
+        },
+    ];
     return targetObjects;
 };
 
@@ -31,13 +32,14 @@ export const initTargets = (fieldSize: number): Array<MapCoordinate> => {
  * steps have sign: positive steps are up or right, negative steps are down or left
  *
  */
-export const createPathToGoalTarget
-    = (complexity: number,
-       equationsAmount: number,
-       fieldSize: number,
-       goalTarget: MapCoordinate,
-       options: GenerationOptions) => {
-    const pathObject: MapCoordinate = {x: 0, y: 0};
+export const createPathToGoalTarget = (
+    complexity: number,
+    equationsAmount: number,
+    fieldSize: number,
+    goalTarget: MapCoordinate,
+    options: GenerationOptions,
+) => {
+    const pathObject: MapCoordinate = { x: 0, y: 0 };
     let step = 0;
 
     const steps = [];
@@ -49,27 +51,55 @@ export const createPathToGoalTarget
         if (i % 2 == 0) // odd steps are horizontal
         {
             if (Number(complexity) > Number(fieldSize)) {
-                upperLimit = Math.max(Math.abs(fieldSize - pathObject.x) - 1, Math.abs(-fieldSize - pathObject.x) - 1);
+                upperLimit = Math.max(
+                    Math.abs(fieldSize - pathObject.x) - 1,
+                    Math.abs(-fieldSize - pathObject.x) - 1,
+                );
                 if (upperLimit > fieldSize) lowerLimit = fieldSize;
             }
 
             if (options.noPrimes) {
-                step = createNonPrimeStep(lowerLimit, upperLimit, pathObject.x, fieldSize);
+                step = createNonPrimeStep(
+                    lowerLimit,
+                    upperLimit,
+                    pathObject.x,
+                    fieldSize,
+                );
             } else {
-                step = createUniqueStep(lowerLimit, upperLimit, pathObject.x, fieldSize, steps);
+                step = createUniqueStep(
+                    lowerLimit,
+                    upperLimit,
+                    pathObject.x,
+                    fieldSize,
+                    steps,
+                );
             }
             steps.push(step);
             pathObject.x += step;
         } else // even steps are vertical
         {
             if (complexity > fieldSize) {
-                upperLimit = Math.max(Math.abs(fieldSize - pathObject.y) - 1, Math.abs(-fieldSize - pathObject.y) - 1);
+                upperLimit = Math.max(
+                    Math.abs(fieldSize - pathObject.y) - 1,
+                    Math.abs(-fieldSize - pathObject.y) - 1,
+                );
                 if (upperLimit > fieldSize) lowerLimit = fieldSize;
             }
             if (options.noPrimes) {
-                step = createNonPrimeStep(lowerLimit, upperLimit, pathObject.y, fieldSize);
+                step = createNonPrimeStep(
+                    lowerLimit,
+                    upperLimit,
+                    pathObject.y,
+                    fieldSize,
+                );
             } else {
-                step = createUniqueStep(lowerLimit, upperLimit, pathObject.y, fieldSize, steps);
+                step = createUniqueStep(
+                    lowerLimit,
+                    upperLimit,
+                    pathObject.y,
+                    fieldSize,
+                    steps,
+                );
             }
 
             steps.push(step);
@@ -84,7 +114,10 @@ export const createPathToGoalTarget
     if (Math.abs(deltaX) > 3) {
         step = Math.floor(deltaX / 2);
     } else {
-        step = normalRandom(fieldSize, Number(fieldSize) * 2 - 3) * Math.sign(goalTarget.x) * (-1);
+        step =
+            normalRandom(fieldSize, Number(fieldSize) * 2 - 3) *
+            Math.sign(goalTarget.x) *
+            -1;
     }
 
     pathObject.x += step;
@@ -96,7 +129,10 @@ export const createPathToGoalTarget
     if (Math.abs(deltaY) > 3) {
         step = Math.floor(deltaY / 2);
     } else {
-        step = normalRandom(fieldSize, Number(fieldSize) * 2 - 3) * Math.sign(goalTarget.y) * (-1);
+        step =
+            normalRandom(fieldSize, Number(fieldSize) * 2 - 3) *
+            Math.sign(goalTarget.y) *
+            -1;
     }
 
     pathObject.y += step;
@@ -113,7 +149,7 @@ export const createPathToGoalTarget
 
     pathObject.y += lastVertStep;
     return steps;
-}
+};
 
 const isUniqueNumberStep = (number: number, steps: Array<any>) => {
     const isUnique = true;
@@ -123,12 +159,15 @@ const isUniqueNumberStep = (number: number, steps: Array<any>) => {
         }
     }
     return isUnique;
-}
+};
 
-export const createUniqueStep = function (lowerLimit: number,
-                                          upperLimit: number,
-                                          coordinate: number, fieldSize: number,
-                                          steps: Array<number>) {
+export const createUniqueStep = function (
+    lowerLimit: number,
+    upperLimit: number,
+    coordinate: number,
+    fieldSize: number,
+    steps: Array<number>,
+) {
     let step = 0;
 
     do {
@@ -140,15 +179,16 @@ export const createUniqueStep = function (lowerLimit: number,
         if (Math.abs(coordinate + step) > fieldSize) {
             step = -step;
         }
-
     } while (!isUniqueNumberStep(step, steps));
     return step;
-}
+};
 
-const createNonPrimeStep = function (lowerLimit: number,
-                                     upperLimit: number,
-                                     coordinate: any,
-                                     fieldSize: number) {
+const createNonPrimeStep = function (
+    lowerLimit: number,
+    upperLimit: number,
+    coordinate: any,
+    fieldSize: number,
+) {
     let step = 0;
     do {
         step = normalRandom(lowerLimit, upperLimit);
@@ -161,9 +201,9 @@ const createNonPrimeStep = function (lowerLimit: number,
         }
     } while (isPrime(step));
     return step;
-}
+};
 
-export const createDirections = (steps: number[]): Direction [] => {
+export const createDirections = (steps: number[]): Direction[] => {
     const directions: Direction[] = [];
     steps.forEach((step, index) => {
         const axis = index % 2 == 0 ? Axis.Horizontal : Axis.Vertical;
@@ -177,7 +217,6 @@ export const createDirections = (steps: number[]): Direction [] => {
                 break;
         }
         directions.push(direction);
-    })
+    });
     return directions;
-}
-
+};

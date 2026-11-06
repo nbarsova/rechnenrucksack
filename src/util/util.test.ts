@@ -1,8 +1,7 @@
-import {describe, it, expect} from 'vitest';
-import {normalRandom} from './arithmetic';  // Adjust the path accordingly
+import { describe, it, expect } from 'vitest';
+import { normalRandom } from './arithmetic'; // Adjust the path accordingly
 
 describe('normalRandom function', () => {
-
     it('should return a number within the given range', () => {
         const min = 1;
         const max = 5;
@@ -15,7 +14,7 @@ describe('normalRandom function', () => {
         const min = 10;
         const max = 5;
         expect(() => normalRandom(min, max)).toThrowError(
-            "Incorrect input, first argument 10 should be greater than the second 5"
+            'Incorrect input, first argument 10 should be greater than the second 5',
         );
     });
 

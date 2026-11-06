@@ -1,6 +1,4 @@
 import MonsterCellComponent from './MonsterCellComponent';
-import '../LockMonster.css';
-import '../../../app/App.css';
 import { PrintPageProps } from '../../../types/components';
 // @ts-ignore
 import monster1 from '../../../img/monster/1.png';
@@ -14,7 +12,6 @@ import monster4 from '../../../img/monster/4.png';
 import monster5 from '../../../img/monster/5.png';
 // @ts-ignore
 import monster6 from '../../../img/monster/6.png';
-import '../LockMonster.css';
 import { normalRandom } from '../../../util/arithmetic';
 import { createMonsterEquationsArray } from '../MonsterEquationsGenerator';
 import { Equation } from '../../../types';
