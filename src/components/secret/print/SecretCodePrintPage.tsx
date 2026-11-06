@@ -1,4 +1,3 @@
-import '../../../app/App.css';
 import { PrintPageProps } from '../../../types/components';
 import { LetterCode } from '../../../types';
 import { isLetter, SECRET_CODE_MAX_LENGTH } from '../CodeGenerator';
@@ -87,14 +86,14 @@ const SecretCodePrintPage = (props: SecretCodePrintPageProps) => {
                 }
             }
             const rowElement = (
-                <div className={'flexRow'}>
+                <div className={'flex flex-row'}>
                     {currentRow.map((elem) => elem)}
                 </div>
             );
             equationRows.push(rowElement);
         }
 
-        return <div className="flexColumn">{equationRows}</div>;
+        return <div className="flex flex-col">{equationRows}</div>;
     }
 
     return (

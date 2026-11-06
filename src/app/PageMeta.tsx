@@ -63,9 +63,8 @@ const PageMeta = ({
 
         const alternatePathsByLocale: Record<string, string> =
             JSON.parse(alternates);
-        Object.entries(alternatePathsByLocale).forEach(
-            ([altLocale, altPath]) =>
-                upsertLink('alternate', SITE_ORIGIN + altPath, altLocale),
+        Object.entries(alternatePathsByLocale).forEach(([altLocale, altPath]) =>
+            upsertLink('alternate', SITE_ORIGIN + altPath, altLocale),
         );
         if (alternatePathsByLocale.en) {
             upsertLink(

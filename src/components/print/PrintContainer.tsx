@@ -17,7 +17,6 @@ import { FormattedMessage } from 'react-intl';
 import SecretCodePrintPage from '../secret/print/SecretCodePrintPage';
 import PrintTreasureSolutionPage from '../treasure/print/PrintTreasureSolutionPage';
 import MonsterPrintPage from '../monster/print/MonsterPrintPage';
-import './Print.css';
 import { puzzleKeys, puzzles } from '../../app/puzzles.tsx';
 
 const PrintContainer = () => {
@@ -132,18 +131,23 @@ const PrintContainer = () => {
     }, [currentPuzzle]);
 
     return (
-        <div className="printPreviewContainer" ref={printElementDiv}>
-            <div className="printHeader">
-                <div className="printTitle">{puzzleTitle}</div>
-                <div className="nameDate">
-                    <div className="nameDateLine">
-                        <span className="equationText">
+        <div
+            className="flex h-(--printHeight) w-(--printWidth) flex-col"
+            ref={printElementDiv}
+        >
+            <div className="flex h-[10vh] flex-row justify-between">
+                <div className="font-heading m-[2mm] text-(length:--printHeaderFontHeight) font-bold tracking-[2mm] uppercase">
+                    {puzzleTitle}
+                </div>
+                <div className="font-heading flex flex-col items-end text-(length:--printTextHeight)">
+                    <div className="m-[2mm]">
+                        <span className="mr-[5px]">
                             <FormattedMessage id="studentName" />
                         </span>
                         ______________
                     </div>
-                    <div className="nameDateLine">
-                        <span className="equationText">
+                    <div className="m-[2mm]">
+                        <span className="mr-[5px]">
                             <FormattedMessage id="workDate" />
                         </span>
                         ______________
@@ -153,7 +157,9 @@ const PrintContainer = () => {
 
             {puzzleComponent}
 
-            <div className="copyright">&#169; bagoftasks.app</div>
+            <div className="flex justify-end text-[darkgrey]">
+                &#169; bagoftasks.app
+            </div>
         </div>
     );
 };

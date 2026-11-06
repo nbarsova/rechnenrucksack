@@ -1,5 +1,4 @@
 import { FormattedMessage } from 'react-intl';
-import '../../../app/App.css';
 import PrintEquation from './PrintEquation';
 // @ts-ignore
 import Cross from '../../../img/cross.svg';
@@ -29,8 +28,6 @@ const PrintTreasurePage = (props: PrintTreasurePageProps) => {
         directions,
         printView,
     } = props;
-
-    console.log(numberRange, stones, equations, parentHeight, directions);
 
     const gridSrc = numberRange === 10 ? EasyGrid : HardGrid;
 
@@ -74,7 +71,7 @@ const PrintTreasurePage = (props: PrintTreasurePageProps) => {
 
     return (
         <div
-            className="flexRow"
+            className="flex flex-row"
             style={{ width: (3 * parentHeight) / 2 + 'px' }}
         >
             <img
@@ -96,14 +93,14 @@ const PrintTreasurePage = (props: PrintTreasurePageProps) => {
                 width={20}
             />
             {stones.map(renderTarget)}
-            <div className="printPageText">
-                <span className="printEquation">
+            <div className="float-none mx-[20px] inline-block text-[calc(0.8*var(--subHeaderFontSize))] xl:text-(length:--subHeaderFontSize)">
+                <span className="my-[4px] flex flex-row flex-nowrap">
                     <FormattedMessage id="worksheetDesc1" />
                 </span>
-                <span className="printEquation">
+                <span className="my-[4px] flex flex-row flex-nowrap">
                     <FormattedMessage id="worksheetDesc2" />
                 </span>
-                <span className="printEquation">
+                <span className="my-[4px] flex flex-row flex-nowrap">
                     <FormattedMessage id="worksheetDesc3" />
                 </span>
                 {equations.map(renderEquation)}

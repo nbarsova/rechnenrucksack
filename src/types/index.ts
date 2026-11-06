@@ -4,7 +4,12 @@ export class Equation {
     operation: string;
     result: number;
 
-    constructor(number1: number, number2: number, operation: string, result: number) {
+    constructor(
+        number1: number,
+        number2: number,
+        operation: string,
+        result: number,
+    ) {
         this.number1 = number1;
         this.number2 = number2;
         this.operation = operation;
@@ -16,7 +21,7 @@ export enum Operation {
     ADD = '+',
     SUB = '-',
     MULT = '\u00D7',
-    DIV = ':'
+    DIV = ':',
 }
 
-export type LetterCode = { letter: string; code: number; }
+export type LetterCode = { letter: string; code: number };

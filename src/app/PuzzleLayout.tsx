@@ -11,7 +11,11 @@ const PuzzleNavBarItem = ({ puzzle }: { puzzle: PuzzleDescriptor }) => {
     return (
         <Link
             to={puzzlePath(puzzle, locale)}
-            className={isSelected ? 'selectedPuzzleNameBar' : 'puzzleNameBar'}
+            className={
+                isSelected
+                    ? 'bg-primary-light flex items-center justify-center p-[5px] text-[calc(var(--subHeaderFontSize)+0.5vh)] font-bold text-black no-underline'
+                    : 'bg-primary-light flex items-center justify-center p-[5px] text-(length:--subHeaderFontSize) font-bold text-black no-underline'
+            }
         >
             {puzzle.name}
         </Link>
@@ -20,8 +24,8 @@ const PuzzleNavBarItem = ({ puzzle }: { puzzle: PuzzleDescriptor }) => {
 
 const PuzzleLayout = () => {
     return (
-        <div className="flexColumn">
-            <div className="puzzleBar">
+        <div className="flex flex-col">
+            <div className="bg-primary-light flex h-(--subHeaderHeight) flex-row justify-start">
                 {puzzles.map((puzzle) => (
                     <PuzzleNavBarItem key={puzzle.key} puzzle={puzzle} />
                 ))}

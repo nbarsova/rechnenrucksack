@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+
+@theme {
+    /* Colors */
+    --color-primary: #7cadef;
+    --color-primary-light: #a4c7f4;
+    --color-card-border: #e0e0e0;
+    --color-muted: #555555;
+
+    /* Fonts — overriding --font-sans makes PT Sans the preflight default */
+    --font-sans: 'PT Sans', sans-serif;
+    --font-heading: 'Neucha', sans-serif;
+    --font-answer: 'Courgette', cursive;
+
+    /* 768px == default md (keep). Override xl 1280 -> 1200 to match the
+     existing CSS media queries (App/Buttons/TreasureHunt css). JS no longer
+     uses 1200 after Part B, but CSS still does. */
+    --breakpoint-xl: 1200px;
+
+    /* generates `text-subheader` utility */
+    --text-subheader: 2vh;
+}
+
+/* Layout dims stay plain CSS vars — consumed ONLY by CSS (Part B removes the
+ JS mirror, so these are no longer duplicated in JS). */
+:root {
+    --headerHeight: 8vh;
+    --subHeaderHeight: 6vh;
+    --footerHeight: 6vh;
+    --settingsWidth: 20vw;
+    --settingsHeight: 30vh;
+    --puzzleAmount: 3;
+    --mainAreaHeight: calc(100vh - var(--headerHeight) - var(--footerHeight));
+    --subHeaderFontSize: 2vh;
+    --printHeight: 190mm;
+    --printWidth: 290mm;
+    --printHeaderFontHeight: 10mm;
+    --printTextHeight: 6mm;
+}
+
+/* Fonts: url() is relative to this file (src/) -> bundles src/fonts (hashed by
+ Vite). */
+@font-face {
+    font-family: 'PT Sans';
+    src: url('./fonts/PT_Sans/PT_Sans-Web-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Neucha';
+    src: url('./fonts/Neucha/Neucha.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Courgette';
+    src: url('./fonts/Courgette/Courgette-Regular.ttf') format('truetype');
+}
+
+/* Retained print CSS — not expressible as utilities */
+@media print {
+    @page {
+        size: landscape;
+    }
+}
+
+/* print-color-adjust must hit a REAL root. `.app` is dead (no element uses it);
+ today color-adjust works only via the inline style on the monster CornerCell.
+ Apply globally so every route — incl. the separate /print route — is covered. */
+@layer base {
+    html {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

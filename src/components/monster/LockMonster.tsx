@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 import { NumberComplexity } from '../settings/NumberComplexity';
-import '../settings/Complexity.css';
-import './LockMonster.css';
+import { useElementHeight } from '../../util/useElementHeight';
 
 import { createMonsterEquations } from './MonsterEquationsGenerator';
 import {
@@ -71,32 +70,11 @@ export function LockMonster() {
         setMonsterEquations(newEquations);
     };
 
-    const viewportHeight = Math.min(window.screen.height, window.innerHeight);
-    const viewportWidth = Math.min(window.innerWidth, window.innerWidth);
-
-    let mainAreaHeight;
-
-    // now we are actually imitating css media queries to get correct canvas height, please keep this in sync
-    if (viewportWidth < 1200) {
-        //                                   headerHeight             subHeaderHeight        footerHeight           settingsHeight
-        mainAreaHeight =
-            viewportHeight -
-            0.08 * viewportHeight -
-            0.06 * viewportHeight -
-            0.06 * viewportHeight -
-            0.3 * viewportHeight;
-    } else {
-        // same as printPreview height in css plus a padding, if you're changing this here, change CSS too!!!
-        mainAreaHeight =
-            viewportHeight -
-            0.08 * viewportHeight -
-            0.04 * viewportHeight -
-            0.06 * viewportHeight -
-            0.02 * viewportHeight;
-    }
+    const previewRef = useRef<HTMLDivElement>(null);
+    const parentHeight = useElementHeight(previewRef);
 
     return (
-        <div className="main">
+        <div className="xl:flex xl:h-[calc(var(--mainAreaHeight)-var(--subHeaderHeight))] xl:flex-row">
             <PageMeta
                 title={formatMessage({ id: 'lockTheMonster' })}
                 description={formatMessage({
@@ -106,19 +84,19 @@ export function LockMonster() {
                 path={puzzlePath(puzzle, locale)}
                 alternatePaths={puzzleAlternatePaths(puzzle)}
             />
-            <div className="settings">
-                <div className="treasureSettings">
+            <div className="h-(--settingsHeight) w-screen bg-white xl:flex xl:h-[calc(var(--mainAreaHeight)-var(--subHeaderHeight))] xl:w-(--settingsWidth) xl:flex-col">
+                <div className="flex h-full flex-col flex-wrap text-(length:--subHeaderFontSize)">
                     <NumberComplexity
                         numberRanges={numberRanges}
                         selectedRange={numberRange}
                         onRangeChange={(range: number) => setNumberRange(range)}
                     />
 
-                    <div className="numberComplexity">
+                    <div className="flex flex-col p-[1vh]">
                         <b>
                             <FormattedMessage id="operations" />
                         </b>
-                        <div className="clickableRadio">
+                        <div className="flex cursor-pointer flex-row">
                             <input
                                 type="radio"
                                 checked={selectedOps === addOps}
@@ -128,7 +106,7 @@ export function LockMonster() {
                             />
                             <FormattedMessage id="addAndSubscribe" />
                         </div>
-                        <div className="clickableRadio">
+                        <div className="flex cursor-pointer flex-row">
                             <input
                                 type="radio"
                                 checked={selectedOps === allOps}
@@ -140,17 +118,13 @@ export function LockMonster() {
                         </div>
                     </div>
 
-                    <div className="numberComplexity">
+                    <div className="flex flex-col p-[1vh]">
                         <b>
                             <FormattedMessage id="howManyMonsters" />
                         </b>
                         {monstersAmounts.map((amount: number) => (
                             <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    cursor: 'pointer',
-                                }}
+                                className="flex cursor-pointer flex-row"
                                 key={amount}
                             >
                                 <input
@@ -172,12 +146,15 @@ export function LockMonster() {
                     />
                 </div>
             </div>
-            <div className="printPreview">
+            <div
+                className="relative ml-[1vh] h-[calc(100vh-var(--headerHeight)-var(--subHeaderHeight)-var(--footerHeight)-var(--settingsHeight))] w-[90vw] max-w-[200vh] overflow-x-scroll overflow-y-hidden whitespace-nowrap xl:flex xl:h-[calc(100vh-var(--headerHeight)-var(--subHeaderHeight)-var(--footerHeight))] xl:w-[calc(100vw-var(--settingsWidth))] xl:flex-row xl:overflow-x-visible"
+                ref={previewRef}
+            >
                 <MonsterPrintPage
                     equations={monsterEquations}
                     monstersAmount={monstersAmount}
                     showAnswers={false}
-                    parentHeight={mainAreaHeight}
+                    parentHeight={parentHeight}
                 />
             </div>
         </div>

@@ -1,4 +1,4 @@
-import {Equation} from "./index";
+import { Equation } from './index';
 
 export interface PrintPageProps {
     equations: Equation[];
